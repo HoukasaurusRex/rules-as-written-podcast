@@ -1,0 +1,25 @@
+{
+  "name": "rules-as-written",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rules As Written",
+  "author": "HoukasaurusRex",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "license": "0BSD",
+  "dependencies": {
+    "gatsby": "^2.26.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "main": "gatsby-config.js",
+  "devDependencies": {}
+}
