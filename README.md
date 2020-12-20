@@ -115,13 +115,17 @@ See the [open issues][issues-url] for a list of proposed features (and known iss
 * [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
 * [Img Shields](https://shields.io)
 
+## Notes
+https://anchor.fm/s/44a4277c/podcast/rss
+<iframe src="https://anchor.fm/rules-as-written/embed" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [logo]: https://res.cloudinary.com/jthouk/image/upload/e_improve,w_30,h_30/v1582802259/Profiles/jt-2d.png
 [url]: https://[repo-name]
 [github-url]: https://github.com/HoukasaurusRex
-[netlify-shield]: https://api.netlify.com/api/v1/badges/db1500c5-d307-4fa7-acd0-60543ece4624/deploy-status
-[netlify-url]: https://app.netlify.com/sites/houkasaurus/deploys
+[netlify-shield]: https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status
+[netlify-url]: https://app.netlify.com/sites/rules-as-written/deploys
 [contributors-shield]: https://img.shields.io/github/contributors/HoukasaurusRex/[repo-name].svg?style=flat-square
 [contributors-url]: https://github.com/HoukasaurusRex/[repo-name]/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/HoukasaurusRex/[repo-name].svg?style=flat-square
