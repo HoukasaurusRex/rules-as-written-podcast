@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:anchor="https://anchor.fm/xmlns">
+	<channel>
+		<title><![CDATA[Rules As Written: A D&D Podcast]]></title>
+		<description><![CDATA[Here we talk about the rules in the Dungeons and Dragons Player's Handbook and as many 5E expansions we can afford to help you level up your player game.
+Learn more about us and sign up to the newsletter to get the latest episodes at https://rulesaswrittenshow.com
+New episodes weekly! Support this podcast: <a href="https://anchor.fm/rules-as-written/support" rel="payment">https://anchor.fm/rules-as-written/support</a>]]></description>
+		<link>rulesaswrittenshow.com</link>
+		<image>
+			<url>https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg</url>
+			<title>Rules As Written: A D&amp;D Podcast</title>
+			<link>rulesaswrittenshow.com</link>
+		</image>
+		<generator>Anchor Podcasts</generator>
+		<lastBuildDate>Tue, 22 Dec 2020 06:12:12 GMT</lastBuildDate>
+		<atom:link href="https://anchor.fm/s/44a4277c/podcast/rss" rel="self" type="application/rss+xml"/>
+		<author><![CDATA[JT & Toby]]></author>
+		<copyright><![CDATA[JT & Toby]]></copyright>
+		<language><![CDATA[en]]></language>
+		<atom:link rel="hub" href="https://pubsubhubbub.appspot.com/"/>
+		<anchor:support>https://anchor.fm/rules-as-written/support</anchor:support>
+		<anchor:station>44a4277c</anchor:station>
+		<itunes:author>JT &amp; Toby</itunes:author>
+		<itunes:summary>Here we talk about the rules in the Dungeons and Dragons Player&apos;s Handbook and as many 5E expansions we can afford to help you level up your player game.
+Learn more about us and sign up to the newsletter to get the latest episodes at https://rulesaswrittenshow.com
+New episodes weekly! Support this podcast: &lt;a href=&quot;https://anchor.fm/rules-as-written/support&quot; rel=&quot;payment&quot;&gt;https://anchor.fm/rules-as-written/support&lt;/a&gt;</itunes:summary>
+		<itunes:type>episodic</itunes:type>
+		<itunes:owner>
+			<itunes:name>JT &amp; Toby</itunes:name>
+			<itunes:email>podcasts60+44a4277c@anchor.fm</itunes:email>
+		</itunes:owner>
+		<itunes:explicit>Yes</itunes:explicit>
+		<itunes:category text="Leisure">
+			<itunes:category text="Hobbies"/>
+		</itunes:category>
+		<itunes:image href="https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg"/>
+		<item>
+			<title><![CDATA[RAW 1]]></title>
+			<description><![CDATA[<p>Learn stuff</p>
+
+--- 
+
+Support this podcast: <a href="https://anchor.fm/rules-as-written/support" rel="payment">https://anchor.fm/rules-as-written/support</a>]]></description>
+			<link>https://anchor.fm/rules-as-written/episodes/RAW-1-entvbq</link>
+			<guid isPermaLink="false">c4c724df-172b-4a6a-8bfa-3f7b693a8bf7</guid>
+			<dc:creator><![CDATA[JT & Toby]]></dc:creator>
+			<pubDate>Thu, 17 Dec 2020 12:26:14 GMT</pubDate>
+			<enclosure url="https://anchor.fm/s/44a4277c/podcast/play/24099642/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2020-11-17%2F8929bfd7-ea75-db58-b2f5-b475bac0760d.mp3" length="30223590" type="audio/mpeg"/>
+			<itunes:summary>&lt;p&gt;Learn stuff&lt;/p&gt;
+
+--- 
+
+Support this podcast: &lt;a href=&quot;https://anchor.fm/rules-as-written/support&quot; rel=&quot;payment&quot;&gt;https://anchor.fm/rules-as-written/support&lt;/a&gt;</itunes:summary>
+			<itunes:explicit>No</itunes:explicit>
+			<itunes:duration>1510</itunes:duration>
+			<itunes:image href="https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg"/>
+			<itunes:episodeType>full</itunes:episodeType>
+		</item>
+	</channel>
+</rss>

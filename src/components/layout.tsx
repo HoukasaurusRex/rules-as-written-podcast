@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useStaticQuery, graphql } from 'gatsby'
 import { Box, Link } from '@chakra-ui/react'
 
-import Navbar from "./navbar"
-import "./layout.css"
+import Navbar from './navbar'
+import './layout.css'
 
 const Layout = ({ children }) => {
   const data = useStaticQuery(graphql`
@@ -19,11 +19,10 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <Navbar siteTitle={data.site.siteMetadata?.title || `Title`} />
+      <Navbar />
       <Box>{children}</Box>
-      <Box as="footer" marginTop="2rem" fontSize="sm">
-        © {new Date().getFullYear()}, Built with
-        {` `}
+      <Box as="footer" marginTop="2rem" fontSize="sm" paddingLeft="5px">
+        © {new Date().getFullYear()}, Built with{' '}
         <Link
           isExternal
           textDecor="underline"
@@ -31,7 +30,15 @@ const Layout = ({ children }) => {
           href="https://www.gatsbyjs.com"
         >
           Gatsby
-        </Link>
+        </Link>,{' '}
+        <Link
+          isExternal
+          textDecor="underline"
+          color="purple.500"
+          href="https://www.chakra-ui.com"
+        >
+          Chakra UI
+        </Link>, and ❤️
       </Box>
     </>
   )

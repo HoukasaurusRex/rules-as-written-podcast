@@ -1,21 +1,19 @@
-import React from "react"
-import { Box, } from '@chakra-ui/react'
+import React from 'react'
+import { Box, Text, Image, useBreakpointValue } from '@chakra-ui/react'
 
-const AudioCard = () => {
-  const property = {
-    imageUrl: "https://bit.ly/2Z4KKcF",
-    imageAlt: "Rear view of modern home with pool",
-    beds: 3,
-    baths: 2,
-    title: "Modern home in city center in the heart of historic Los Angeles",
-    formattedPrice: "$1,900.00",
-    reviewCount: 34,
-    rating: 4,
-  }
-
+const AudioCard = ({ episodeData: { title, pubDate, contentSnippet, enclosure, itunes: { image } } }) => {
+  // console.log(episodeData)
+  // title
+  // pubDate
+  // contentSnippet
+  // enclosure [length, type, url]
+  // itunes [image]
+  // const { title, pubDate, contentSnippet, enclosure, itunes: { image } } = episodeData
+  console.log(image)
+  const variant = useBreakpointValue({})
   return (
-    <Box>
-
+    <Box d="flex" h="125px" minWidth="300px" w="100%" p="20px">
+      <Image src={image} alt="RAW shield icon" height="100%" />
     </Box>
   )
 

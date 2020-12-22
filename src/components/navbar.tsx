@@ -1,7 +1,7 @@
 import { Box, Link, Flex, Spacer } from '@chakra-ui/react'
 import { Link as GatsbyLink } from 'gatsby'
 import React from 'react'
-import ThemeToggle from './theme-toggle'
+import ThemeToggle from './theme-toggle.tsx'
 import Image from './image'
 
 const Navbar = () => (

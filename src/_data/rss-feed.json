@@ -1,0 +1,34 @@
+{
+    "status": "ok",
+    "feed": {
+        "url": "https://anchor.fm/s/44a4277c/podcast/rss",
+        "title": "Rules As Written: A D&amp;D Podcast",
+        "link": "rulesaswrittenshow.com",
+        "author": "JT &amp; Toby",
+        "description": "Here we talk about the rules in the Dungeons and Dragons Player's Handbook and as many 5E expansions we can afford to help you level up your player game.\nLearn more about us and sign up to the newsletter to get the latest episodes at https://rulesaswrittenshow.com\nNew episodes weekly! Support this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>\n",
+        "image": "https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg"
+    },
+    "items": [
+        {
+            "title": "RAW 1",
+            "pubDate": "2020-12-17 12:26:14",
+            "link": "https://anchor.fm/rules-as-written/episodes/RAW-1-entvbq",
+            "guid": "c4c724df-172b-4a6a-8bfa-3f7b693a8bf7",
+            "author": "JT &amp; Toby",
+            "thumbnail": "https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg",
+            "description": "\n<p>Learn stuff</p>\n\n--- \n\nSupport this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>\n",
+            "content": "\n<p>Learn stuff</p>\n\n--- \n\nSupport this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>\n",
+            "enclosure": {
+                "link": "https://anchor.fm/s/44a4277c/podcast/play/24099642/https://d3ctxlq1ktw2nl.cloudfront.net/staging/2020-11-17/8929bfd7-ea75-db58-b2f5-b475bac0760d.mp3",
+                "type": "audio/mpeg",
+                "length": 30223590,
+                "duration": 1510,
+                "rating": {
+                    "scheme": "urn:itunes",
+                    "value": "No"
+                }
+            },
+            "categories": []
+        }
+    ]
+}

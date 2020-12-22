@@ -1,0 +1,294 @@
+{
+  "_declaration": {
+    "_attributes": {
+      "version": "1.0",
+      "encoding": "UTF-8"
+    }
+  },
+  "rss": [
+    {
+      "_attributes": {
+        "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+        "xmlns:content": "http://purl.org/rss/1.0/modules/content/",
+        "xmlns:atom": "http://www.w3.org/2005/Atom",
+        "version": "2.0",
+        "xmlns:itunes": "http://www.itunes.com/dtds/podcast-1.0.dtd",
+        "xmlns:anchor": "https://anchor.fm/xmlns"
+      },
+      "channel": [
+        {
+          "title": [
+            {
+              "_cdata": [
+                "Rules As Written: A D&D Podcast"
+              ]
+            }
+          ],
+          "description": [
+            {
+              "_cdata": [
+                "Here we talk about the rules in the Dungeons and Dragons Player's Handbook and as many 5E expansions we can afford to help you level up your player game.\nLearn more about us and sign up to the newsletter to get the latest episodes at https://rulesaswrittenshow.com\nNew episodes weekly! Support this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>"
+              ]
+            }
+          ],
+          "link": [
+            {
+              "_text": [
+                "rulesaswrittenshow.com"
+              ]
+            }
+          ],
+          "image": [
+            {
+              "url": [
+                {
+                  "_text": [
+                    "https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg"
+                  ]
+                }
+              ],
+              "title": [
+                {
+                  "_text": [
+                    "Rules As Written: A D&D Podcast"
+                  ]
+                }
+              ],
+              "link": [
+                {
+                  "_text": [
+                    "rulesaswrittenshow.com"
+                  ]
+                }
+              ]
+            }
+          ],
+          "generator": [
+            {
+              "_text": [
+                "Anchor Podcasts"
+              ]
+            }
+          ],
+          "lastBuildDate": [
+            {
+              "_text": [
+                "Tue, 22 Dec 2020 06:12:12 GMT"
+              ]
+            }
+          ],
+          "atom:link": [
+            {
+              "_attributes": {
+                "href": "https://anchor.fm/s/44a4277c/podcast/rss",
+                "rel": "self",
+                "type": "application/rss+xml"
+              }
+            },
+            {
+              "_attributes": {
+                "rel": "hub",
+                "href": "https://pubsubhubbub.appspot.com/"
+              }
+            }
+          ],
+          "author": [
+            {
+              "_cdata": [
+                "JT & Toby"
+              ]
+            }
+          ],
+          "copyright": [
+            {
+              "_cdata": [
+                "JT & Toby"
+              ]
+            }
+          ],
+          "language": [
+            {
+              "_cdata": [
+                "en"
+              ]
+            }
+          ],
+          "anchor:support": [
+            {
+              "_text": [
+                "https://anchor.fm/rules-as-written/support"
+              ]
+            }
+          ],
+          "anchor:station": [
+            {
+              "_text": [
+                "44a4277c"
+              ]
+            }
+          ],
+          "itunes:author": [
+            {
+              "_text": [
+                "JT & Toby"
+              ]
+            }
+          ],
+          "itunes:summary": [
+            {
+              "_text": [
+                "Here we talk about the rules in the Dungeons and Dragons Player's Handbook and as many 5E expansions we can afford to help you level up your player game.\nLearn more about us and sign up to the newsletter to get the latest episodes at https://rulesaswrittenshow.com\nNew episodes weekly! Support this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>"
+              ]
+            }
+          ],
+          "itunes:type": [
+            {
+              "_text": [
+                "episodic"
+              ]
+            }
+          ],
+          "itunes:owner": [
+            {
+              "itunes:name": [
+                {
+                  "_text": [
+                    "JT & Toby"
+                  ]
+                }
+              ],
+              "itunes:email": [
+                {
+                  "_text": [
+                    "podcasts60+44a4277c@anchor.fm"
+                  ]
+                }
+              ]
+            }
+          ],
+          "itunes:explicit": [
+            {
+              "_text": [
+                "Yes"
+              ]
+            }
+          ],
+          "itunes:category": [
+            {
+              "_attributes": {
+                "text": "Leisure"
+              },
+              "itunes:category": [
+                {
+                  "_attributes": {
+                    "text": "Hobbies"
+                  }
+                }
+              ]
+            }
+          ],
+          "itunes:image": [
+            {
+              "_attributes": {
+                "href": "https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg"
+              }
+            }
+          ],
+          "item": [
+            {
+              "title": [
+                {
+                  "_cdata": [
+                    "RAW 1"
+                  ]
+                }
+              ],
+              "description": [
+                {
+                  "_cdata": [
+                    "<p>Learn stuff</p>\n\n--- \n\nSupport this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>"
+                  ]
+                }
+              ],
+              "link": [
+                {
+                  "_text": [
+                    "https://anchor.fm/rules-as-written/episodes/RAW-1-entvbq"
+                  ]
+                }
+              ],
+              "guid": [
+                {
+                  "_attributes": {
+                    "isPermaLink": "false"
+                  },
+                  "_text": [
+                    "c4c724df-172b-4a6a-8bfa-3f7b693a8bf7"
+                  ]
+                }
+              ],
+              "dc:creator": [
+                {
+                  "_cdata": [
+                    "JT & Toby"
+                  ]
+                }
+              ],
+              "pubDate": [
+                {
+                  "_text": [
+                    "Thu, 17 Dec 2020 12:26:14 GMT"
+                  ]
+                }
+              ],
+              "enclosure": [
+                {
+                  "_attributes": {
+                    "url": "https://anchor.fm/s/44a4277c/podcast/play/24099642/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2020-11-17%2F8929bfd7-ea75-db58-b2f5-b475bac0760d.mp3",
+                    "length": "30223590",
+                    "type": "audio/mpeg"
+                  }
+                }
+              ],
+              "itunes:summary": [
+                {
+                  "_text": [
+                    "<p>Learn stuff</p>\n\n--- \n\nSupport this podcast: <a href=\"https://anchor.fm/rules-as-written/support\" rel=\"payment\">https://anchor.fm/rules-as-written/support</a>"
+                  ]
+                }
+              ],
+              "itunes:explicit": [
+                {
+                  "_text": [
+                    "No"
+                  ]
+                }
+              ],
+              "itunes:duration": [
+                {
+                  "_text": [
+                    "1510"
+                  ]
+                }
+              ],
+              "itunes:image": [
+                {
+                  "_attributes": {
+                    "href": "https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/11416087/11416087-1608268890882-d52edffa36ed2.jpg"
+                  }
+                }
+              ],
+              "itunes:episodeType": [
+                {
+                  "_text": [
+                    "full"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
