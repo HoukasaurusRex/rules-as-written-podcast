@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Box, Heading, Text, Input, Button, useColorModeValue } from '@chakra-ui/react'
+import { Box, Heading, Text, Input, Button, useColorModeValue, transition } from '@chakra-ui/react'
 import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
 import dayjs from 'dayjs'
 import { feedItem } from '../types'
@@ -36,24 +36,27 @@ const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { durat
     setCurrentTime(seekedTime)
     audio.current.currentTime = seekedTime
   }
+  const selectedStyles={ boxShadow: useColorModeValue('lg', 'md')}
   return (
-    <Box w="100%" marginTop="35px" maxWidth="600px">
-      <Box p="5px 25px" d="flex" alignItems="flex-end" _hover={{bgColor: useColorModeValue('gray.100', 'gray.700')}} cursor="default" borderRadius="10px" onClick={!isPlaying ? play : pause}>
-        <Button p="5px" flex="1" m="auto" background="transparent" _hover={{ background: 'transparent' }}>
-          {!isPlaying && <FaPlayCircle size="35px"/>}
-          {isPlaying && <FaPauseCircle size="35px"/>}
-        </Button>
-        <Box p="5px" flex="3">
-          <Heading as="h3" fontSize="sm">{title}</Heading>
-          <Text fontSize="xs">{fPubDate}</Text>
+    <Box w="100%" marginTop="30px" maxWidth="600px" px="25px">
+      <Box _hover={selectedStyles} _focusWithin={selectedStyles} p="5px" rounded="md" bgColor={useColorModeValue('gray.200', 'gray.900')}  boxShadow={useColorModeValue('md', 'sm')} transition="box-shadow ease-in-out 0.2s">
+        <Box d="flex" alignItems="flex-end" cursor="default" onClick={!isPlaying ? play : pause}>
+          <Button p="5px" flex="1" m="auto" marginLeft="0" background="transparent" _hover={{ background: 'transparent' }}>
+            {!isPlaying && <FaPlayCircle size="35px"/>}
+            {isPlaying && <FaPauseCircle size="35px"/>}
+          </Button>
+          <Box p="5px" flex="3">
+            <Heading as="h3" fontSize="sm">{title}</Heading>
+            <Text fontSize="xs">{fPubDate}</Text>
+          </Box>
+          <Box p="5px" flex="5">
+            <Text fontSize="xs" textAlign="right">{currentTimestamp} / {durationTimestamp}</Text>
+          </Box>
         </Box>
-        <Box p="5px" flex="5">
-          <Text fontSize="xs" textAlign="right">{currentTimestamp} / {durationTimestamp}</Text>
+        <Box mx="5px">
+          <audio ref={audio} src={url} onTimeUpdate={updateTime}></audio>
+          <Input type="range" p="0" border="none" appearance="auto" value={currentTime} onChange={seek} max={duration}/>
         </Box>
-      </Box>
-      <Box w="85%" m="auto">
-        <audio ref={audio} src={url} onTimeUpdate={updateTime}></audio>
-        <Input type="range" p="0" border="none" appearance="auto" value={currentTime} onChange={seek} max={duration}/>
       </Box>
     </Box>
   )

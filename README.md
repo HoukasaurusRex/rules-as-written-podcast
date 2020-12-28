@@ -59,6 +59,7 @@ yarn dev
 
 ## 🗺 Roadmap
 
+[ ] Add external cast apps icons
 [ ] Add show notes dropdown
 [ ] Fix linting (ugh)
 [ ] Create Gatsby podcast theme

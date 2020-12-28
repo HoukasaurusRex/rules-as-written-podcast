@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Link, Button, Text } from '@chakra-ui/react'
+import { Box, Link, Button, Text, useColorModeValue } from '@chakra-ui/react'
 import { ErrorBoundary } from 'react-error-boundary'
 import Navbar from './navbar'
 
@@ -21,11 +21,10 @@ const Layout = ({ children }: { children: React.ReactChildren }) => {
       <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => { window.location.reload() }}>
         {children}
       </ErrorBoundary>
-      <Box as="footer" marginTop="2rem" fontSize="sm" paddingLeft="5px">
+      <Box as="footer" py="1rem" fontSize="xs" textAlign="center" color={useColorModeValue('gray.700', 'gray.400')}>
         © {new Date().getFullYear()}, Built with{' '}
         <Link
           isExternal
-          textDecor="underline"
           color="purple.500"
           href="https://www.gatsbyjs.com"
         >
@@ -33,7 +32,6 @@ const Layout = ({ children }: { children: React.ReactChildren }) => {
         </Link>,{' '}
         <Link
           isExternal
-          textDecor="underline"
           color="purple.500"
           href="https://www.chakra-ui.com"
         >
