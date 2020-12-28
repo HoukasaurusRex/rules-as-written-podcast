@@ -1,7 +1,6 @@
 {
   "name": "rules-as-written",
   "version": "1.0.0",
-  "private": true,
   "description": "Static site for the Rules As Written podcast built with Gatsby and Chakra UI",
   "author": "HoukasaurusRex",
   "keywords": [
@@ -24,6 +23,7 @@
     "@chakra-ui/react": "^1.0.4",
     "@emotion/react": "^11.1.2",
     "@emotion/styled": "^11.0.0",
+    "dayjs": "^1.9.7",
     "framer-motion": "^3.1.1",
     "gatsby": "^2.26.1",
     "gatsby-image": "^2.5.0",
@@ -37,6 +37,7 @@
     "react": "^16.12.0",
     "react-async": "^10.0.1",
     "react-dom": "^16.12.0",
+    "react-error-boundary": "^3.1.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.1.0",
     "rss-parser": "^3.10.0",

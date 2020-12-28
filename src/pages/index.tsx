@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { Box } from '@chakra-ui/react'
 import SEO from '../components/seo'
 import Hero from '../components/hero'
 import Episodes from '../components/episodes'
+import Parser from 'rss-parser'
+import { feedData, feedItem } from '../types'
+
+const data: feedData = {}
+
+const parser: Parser<feedData, feedItem> = new Parser()
+
+const fetchFeedData = async (setFeedData: React.Dispatch<React.SetStateAction<feedData>> ) => {
+  const feedData = await parser.parseURL('https://anchor.fm/s/44a4277c/podcast/rss')
+  setFeedData(feedData)
+}
 
 const IndexPage = () => {
   const { site } = useStaticQuery(
@@ -13,12 +24,15 @@ const IndexPage = () => {
           siteMetadata {
             title
             description
-            author
           }
         }
       }
     `
   )
+  const [feedData, setFeedData] = useState(data)
+  useEffect(() => {
+    fetchFeedData(setFeedData)
+  }, [])
   return (
     <>
       <SEO title="Home" />
@@ -27,7 +41,7 @@ const IndexPage = () => {
         description={site.siteMetadata.description}
       />
       <Box as="main">
-        <Episodes />
+        <Episodes feedData={feedData} />
       </Box>
     </>
   )

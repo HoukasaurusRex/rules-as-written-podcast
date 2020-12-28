@@ -13,7 +13,7 @@ import Img from 'gatsby-image'
  * - `useStaticQuery`: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-const Image = ({ src = 'icon.png' }) => {
+const Icon = ({ src = 'icon.png' }) => {
   const data = useStaticQuery(graphql`
     query {
       src: file(relativePath: { eq: "icon.png" }) {
@@ -33,4 +33,4 @@ const Image = ({ src = 'icon.png' }) => {
   return <Img fluid={data.src.childImageSharp.fluid} />
 }
 
-export default Image
+export default Icon

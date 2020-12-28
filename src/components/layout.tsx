@@ -1,28 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useStaticQuery, graphql } from 'gatsby'
-import { Box, Link } from '@chakra-ui/react'
-
+import { Box, Link, Button, Text } from '@chakra-ui/react'
+import { ErrorBoundary } from 'react-error-boundary'
 import Navbar from './navbar'
-import './layout.css'
 
-const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
-    query SiteTitleQuery {
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
+function ErrorFallback({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) {
+  return (
+    <Box role="alert" h="100vh" d="flex" flexDirection="column" maxW="600px" justifyContent="center" alignItems="center">
+      <Text>Something went wrong:</Text>
+      <Text as="pre">{error.message}</Text>
+      <Button maxW="200px" onClick={resetErrorBoundary}>Refresh</Button>
+    </Box>
+  )
+}
 
+const Layout = ({ children }: { children: React.ReactChildren }) => {
   return (
     <>
       <Navbar />
-      <Box>{children}</Box>
+      <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => { window.location.reload() }}>
+        {children}
+      </ErrorBoundary>
       <Box as="footer" marginTop="2rem" fontSize="sm" paddingLeft="5px">
-        © {new Date().getFullYear()}, Built with{' '}
+        © {new Date().getFullYear()}.
+        Built with{' '}
         <Link
           isExternal
           textDecor="underline"

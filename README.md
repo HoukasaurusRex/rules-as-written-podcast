@@ -59,7 +59,10 @@ yarn dev
 
 ## 🗺 Roadmap
 
-See the [open issues][issues-url] for a list of proposed features (and known issues)
+[ ] Add show notes dropdown
+[ ] Fix linting (ugh)
+[ ] Create Gatsby podcast theme
+[ ] Add D&D themed 404
 
 ## 🛠 Contributing
 
