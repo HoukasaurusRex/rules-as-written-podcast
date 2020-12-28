@@ -22,8 +22,7 @@ const Layout = ({ children }: { children: React.ReactChildren }) => {
         {children}
       </ErrorBoundary>
       <Box as="footer" marginTop="2rem" fontSize="sm" paddingLeft="5px">
-        © {new Date().getFullYear()}.
-        Built with{' '}
+        © {new Date().getFullYear()}, Built with{' '}
         <Link
           isExternal
           textDecor="underline"

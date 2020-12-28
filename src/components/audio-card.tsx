@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Box, Heading, Text, Input, Button } from '@chakra-ui/react'
+import { Box, Heading, Text, Input, Button, useColorModeValue } from '@chakra-ui/react'
 import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
 import dayjs from 'dayjs'
 import { feedItem } from '../types'
@@ -38,8 +38,8 @@ const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { durat
   }
   return (
     <Box w="100%" marginTop="35px" maxWidth="600px">
-      <Box p="5px 25px" d="flex" alignItems="flex-end" _hover={{bgColor: 'grey'}} cursor="default" borderRadius="10px" onClick={!isPlaying ? play : pause}>
-        <Button p="5px" flex="1" m="auto" background="transparent">
+      <Box p="5px 25px" d="flex" alignItems="flex-end" _hover={{bgColor: useColorModeValue('gray.100', 'gray.700')}} cursor="default" borderRadius="10px" onClick={!isPlaying ? play : pause}>
+        <Button p="5px" flex="1" m="auto" background="transparent" _hover={{ background: 'transparent' }}>
           {!isPlaying && <FaPlayCircle size="35px"/>}
           {isPlaying && <FaPauseCircle size="35px"/>}
         </Button>
