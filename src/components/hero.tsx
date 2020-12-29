@@ -49,6 +49,7 @@ export default function Hero({
       background="#fff"
       height="100vh"
       width="100%"
+      maxWidth="100vw"
       textAlign="center"
       d="flex"
       alignContent="center"
