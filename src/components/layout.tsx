@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: React.ReactChildren }) => {
       <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => { window.location.reload() }}>
         {children}
       </ErrorBoundary>
-      <Box as="footer" py="1rem" fontSize="xs" textAlign="center" color={useColorModeValue('gray.700', 'gray.400')}>
+      <Box as="footer" py="1rem" fontSize="xs" textAlign="center" color={useColorModeValue('gray.700', 'gray.400')} bgColor={useColorModeValue('white', 'gray.800')} position="relative">
         © {new Date().getFullYear()}, Built with{' '}
         <Link
           isExternal

@@ -5,7 +5,7 @@ import ThemeToggle from './theme-toggle'
 import Icon from './icon'
 
 const Navbar = () => (
-  <Box as="nav" position="fixed" width="100%" height="70px" p="5px 10px">
+  <Box as="nav" position="fixed" width="100%" height="70px" p="5px 10px" zIndex="1">
     <Flex>
       <Link as={GatsbyLink} to="/">
         <Box width="50px">

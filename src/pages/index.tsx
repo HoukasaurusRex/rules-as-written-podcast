@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import { Box } from '@chakra-ui/react'
+import { Box, useColorModeValue } from '@chakra-ui/react'
 import SEO from '../components/seo'
 import Hero from '../components/hero'
 import Episodes from '../components/episodes'
@@ -40,7 +40,7 @@ const IndexPage = () => {
         title={site.siteMetadata.title}
         description={site.siteMetadata.description}
       />
-      <Box as="main">
+      <Box as="main" position="relative" bgColor={useColorModeValue('white', 'gray.800')}>
         <Episodes feedData={feedData} />
       </Box>
     </>
