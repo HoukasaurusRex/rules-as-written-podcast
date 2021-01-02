@@ -16,6 +16,7 @@ const secondsToTimestamp = (s: number) => {
 const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { duration } } }: { item: feedItem }) => {
   let [isPlaying, setIsPlaying] = useState(false)
   let [currentTime, setCurrentTime] = useState(0)
+  let [isLoading, setIsLoading] = useState(false)
   const fPubDate = dayjs(pubDate).format('MMM D, YYYY')
   const audio = useRef(new Audio())
   const currentTimestamp = secondsToTimestamp(currentTime)
@@ -36,12 +37,18 @@ const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { durat
     setCurrentTime(seekedTime)
     audio.current.currentTime = seekedTime
   }
+  const canplay = () => {
+    setIsLoading(false)
+  }
+  const loading = () => {
+    setIsLoading(true)
+  }
   const selectedStyles={ boxShadow: useColorModeValue('lg', 'md')}
   return (
     <Box w="100%" marginTop="30px" maxWidth="600px" px="25px">
       <Box _hover={selectedStyles} _focusWithin={selectedStyles} p="5px" rounded="md" bgColor={useColorModeValue('gray.200', 'gray.900')}  boxShadow={useColorModeValue('md', 'sm')} transition="box-shadow ease-in-out 0.2s">
         <Box d="flex" alignItems="flex-end" cursor="default" onClick={!isPlaying ? play : pause}>
-          <Button p="5px" flex="1" m="auto" marginLeft="0" background="transparent" _hover={{ background: 'transparent' }}>
+          <Button p="5px" flex="1" m="auto" marginLeft="0" background="transparent" _hover={{ background: 'transparent' }} isLoading={isLoading}>
             {!isPlaying && <FaPlayCircle size="35px"/>}
             {isPlaying && <FaPauseCircle size="35px"/>}
           </Button>
@@ -54,7 +61,7 @@ const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { durat
           </Box>
         </Box>
         <Box mx="5px">
-          <audio ref={audio} src={url} onTimeUpdate={updateTime}></audio>
+          <audio ref={audio} src={url} onTimeUpdate={updateTime} onWaiting={loading} onCanPlay={canplay}></audio>
           <Input type="range" p="0" border="none" appearance="auto" value={currentTime} onChange={seek} max={duration}/>
         </Box>
       </Box>
