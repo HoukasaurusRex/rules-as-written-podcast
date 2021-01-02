@@ -43,7 +43,7 @@ export default function Hero({
         backgroundImage: variant,
         backgroundPosition: 'center center',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 125%',
+        backgroundSize: '105% 125%',
         content: `""`,
         height: '100%',
         width: '100%',
