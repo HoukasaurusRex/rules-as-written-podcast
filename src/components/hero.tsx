@@ -35,21 +35,18 @@ const redSlant =  {
  */
 
 // background="#BDBDBD"
-const bgWide = `url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='1080' height='750' viewBox='0 0 1080 750' xml:space='preserve'%3E%3Cdesc%3ECreated with Fabric.js 4.2.0%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='transparent'%3E%3C/rect%3E%3Cg transform='matrix(0 0 0 0 0 0)' id='dd60ccc4-f30f-44fe-a10a-543cedb84eb8' %3E%3C/g%3E%3Cg transform='matrix(1 0 0 1 540 375)' id='a8430af2-d138-47ba-ad95-075ded119f52' %3E%3Crect style='stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;' vector-effect='non-scaling-stroke' x='-540' y='-375' rx='0' ry='0' width='1080' height='750' /%3E%3C/g%3E%3Cg transform='matrix(15.94 5.72 -2.62 7.31 465.39 692.24)' id='51e7d258-1b88-4f14-9afd-7da2a335fa2d' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(187,68,48); fill-rule: nonzero; opacity: 1;' vector-effect='non-scaling-stroke' x='-37.165' y='-37.165' rx='0' ry='0' width='74.33' height='74.33' /%3E%3C/g%3E%3Cg transform='matrix(-18.82 15.95 -7.6 -8.97 259.31 186.65)' id='bfb453be-890c-4473-8b8c-10570b322c51' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(189,189,189); fill-rule: nonzero; opacity: 1;' vector-effect='non-scaling-stroke' x='-33.085' y='-33.085' rx='0' ry='0' width='66.17' height='66.17' /%3E%3C/g%3E%3C/svg%3E")`
-const bgTall = `url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='500' height='1000' viewBox='0 0 500 1000' xml:space='preserve'%3E%3Cdesc%3ECreated with Fabric.js 4.2.0%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='transparent'%3E%3C/rect%3E%3Cg transform='matrix(1 0 0 1 250 500)' id='a8430af2-d138-47ba-ad95-075ded119f52' %3E%3Crect style='stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;' vector-effect='non-scaling-stroke' x='-250' y='-500' rx='0' ry='0' width='500' height='1000' /%3E%3C/g%3E%3Cg transform='matrix(Infinity NaN NaN Infinity 0 0)' id='dd60ccc4-f30f-44fe-a10a-543cedb84eb8' %3E%3C/g%3E%3Cg transform='matrix(9.33 3.35 -2.8 7.81 177.19 898.63)' id='51e7d258-1b88-4f14-9afd-7da2a335fa2d' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(187,68,48); fill-rule: nonzero; opacity: 1;' vector-effect='non-scaling-stroke' x='-37.167' y='-37.167' rx='0' ry='0' width='74.334' height='74.334' /%3E%3C/g%3E%3Cg transform='matrix(-12.13 10.28 -6.92 -8.17 39.93 163.91)' id='bfb453be-890c-4473-8b8c-10570b322c51' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(189,189,189); fill-rule: nonzero; opacity: 1;' vector-effect='non-scaling-stroke' x='-33.0835' y='-33.0835' rx='0' ry='0' width='66.167' height='66.167' /%3E%3C/g%3E%3C/svg%3E")`
+const bgLaptop = `url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='1024' height='868' viewBox='0 0 1024 868' xml:space='preserve'%3E%3Cdesc%3ECreated with Fabric.js 4.2.0%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Cg transform='matrix(0 0 0 0 0 0)' id='6ee49dfe-e207-47a1-93c5-864b574ca985' %3E%3C/g%3E%3Cg transform='matrix(1 0 0 1 512 434)' id='c620494b-8a07-40ef-b279-c91250c79185' %3E%3Crect style='stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 0.8;' vector-effect='non-scaling-stroke' x='-512' y='-434' rx='0' ry='0' width='1024' height='868' /%3E%3C/g%3E%3Cg transform='matrix(16.73 5.89 -2.72 7.73 434.27 809.62)' id='229c97a8-eff8-4a39-a58b-560f3a894ce3' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(187,68,48); fill-rule: nonzero; opacity: 0.8;' vector-effect='non-scaling-stroke' x='-33.085' y='-33.085' rx='0' ry='0' width='66.17' height='66.17' /%3E%3C/g%3E%3Cg transform='matrix(-16.94 7.22 -3.41 -8.01 415.06 118.14)' id='fea73506-c041-4661-bc6b-89ed00beb47b' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(189,189,189); fill-rule: nonzero; opacity: 0.8;' vector-effect='non-scaling-stroke' x='-33.085' y='-33.085' rx='0' ry='0' width='66.17' height='66.17' /%3E%3C/g%3E%3C/svg%3E")`
+const bgMobile = `url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no' %3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' width='320' height='650' viewBox='0 0 320 650' xml:space='preserve'%3E%3Cdesc%3ECreated with Fabric.js 4.2.0%3C/desc%3E%3Cdefs%3E%3C/defs%3E%3Cg transform='matrix(0 0 0 0 0 0)' id='6a400e39-a632-4717-a801-784fb3ff21fb' %3E%3C/g%3E%3Cg transform='matrix(1 0 0 1 160 325)' id='facbd99a-c982-4819-9ee0-4f369fd58414' %3E%3Crect style='stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-opacity: 0; fill-rule: nonzero; opacity: 0.8;' vector-effect='non-scaling-stroke' x='-160' y='-325' rx='0' ry='0' width='320' height='650' /%3E%3C/g%3E%3Cg transform='matrix(6.32 4.02 -2.97 4.67 100.62 551)' id='4d646a53-10e8-4f25-a6de-c0364e0b871d' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(187,68,48); fill-rule: nonzero; opacity: 0.8;' vector-effect='non-scaling-stroke' x='-33.085' y='-33.085' rx='0' ry='0' width='66.17' height='66.17' /%3E%3C/g%3E%3Cg transform='matrix(-6.26 3.21 -2.2 -4.29 123.79 101.52)' id='8234c781-7234-4eb9-8201-c5cff0dfa546' %3E%3Crect style='stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(189,189,189); fill-rule: nonzero; opacity: 0.8;' vector-effect='non-scaling-stroke' x='-33.085' y='-33.085' rx='0' ry='0' width='66.17' height='66.17' /%3E%3C/g%3E%3C/svg%3E")`
 
 export default function Hero({
   title = 'Title',
   description = 'Description of site',
 }) {
-  const variant = useBreakpointValue({ base: bgTall, sm: bgWide })
+  const variant = useBreakpointValue({ base: bgMobile, sm: bgLaptop })
   return (
     <Box
       as="header"
-      background="#fff"
       height="100vh"
-      width="100%"
-      maxWidth="100vw"
       textAlign="center"
       d="flex"
       alignContent="center"
@@ -59,18 +56,17 @@ export default function Hero({
         backgroundRepeat: 'no-repeat',
         backgroundSize: '100% 100%',
         content: `""`,
-        height: '125vh',
-        width: '135vw',
-        position: 'absolute',
-        top: '-25vh',
-        left: '-25vw'
+        height: '100%',
+        width: '100%',
+        top: '-12%',
+        position: 'absolute'
       }}
     >
-      <Box maxW="600px" m="auto" position="relative">
-        <Heading color="black">{title}</Heading>
-        <Text padding="50px" color="black">{description}</Text>
-        <Box maxW="200px" m="auto"><RawImage /></Box>
-        <Button marginTop="50px" onClick={scrollDown}>
+      <Box mx="auto" maxW="600px" position="relative" w="100%" d="flex" justifyContent="space-around" flexDir="column" alignItems="center">
+        <Heading>{title}</Heading>
+        <Box maxW="200px" w="100%"><RawImage /></Box>
+        {/* <Text padding="50px" color="black">{description}</Text> */}
+        <Button w="fit-content" onClick={scrollDown}>
           Latest <CgMouse /> Episodes
         </Button>
       </Box>
