@@ -64,11 +64,13 @@ export default function Hero({
         position: 'absolute'
       }}
     >
-      <Box mx="auto" maxW="600px" position="relative" w="100%" d="flex" justifyContent="space-around" flexDir="column" alignItems="center">
-        <Heading>{title}</Heading>
+      <Box mx="auto" maxW="600px" position="relative" w="100%" d="flex" justifyContent="space-between" flexDir="column" alignItems="center">
+        <Box>
+          <Heading marginTop="70px">{title}</Heading>
+          <Text py="20px" px="30px" fontSize="xs">{description}</Text>
+        </Box>
         <Box maxW="200px" w="100%"><RawImage /></Box>
-        {/* <Text padding="50px" color="black">{description}</Text> */}
-        <Button w="fit-content" onClick={scrollDown}>
+        <Button my="70px" w="fit-content" onClick={scrollDown}>
           Latest <CgMouse /> Episodes
         </Button>
       </Box>
