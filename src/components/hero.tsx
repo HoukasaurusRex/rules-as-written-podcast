@@ -7,18 +7,6 @@ const scrollDown = () => {
   window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
 }
 
-const redSlant =  {
-  content: `""`,
-  position: 'absolute',
-  top: 'calc(50% - 1000px)',
-  left: 0,
-  width: '500px',
-  height: '2000px',
-  background: '#bb4430',
-  transform: 'skew(-30deg)',
-  transformOrigin: 'top'
-}
-
 /**
  * 
  * {

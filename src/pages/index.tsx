@@ -7,6 +7,19 @@ import Episodes from '../components/episodes'
 import Parser from 'rss-parser'
 import { feedData, feedItem } from '../types'
 
+const redSlant =  {
+  content: `""`,
+  position: 'absolute',
+  // top: 'calc(50% - 1000px)',
+  top: 0,
+  left: 0,
+  width: '500px',
+  height: '2000px',
+  background: '#bb4430',
+  transform: 'skew(-30deg)',
+  transformOrigin: 'top'
+}
+
 const data: feedData = {}
 
 const parser: Parser<feedData, feedItem> = new Parser()
@@ -40,7 +53,16 @@ const IndexPage = () => {
         title={site.siteMetadata.title}
         description={site.siteMetadata.description}
       />
-      <Box as="main" position="relative" bgColor={useColorModeValue('white', 'gray.800')}>
+      <Box as="main" position="relative" bgColor={useColorModeValue('white', 'gray.800')} paddingBottom="30px" _before={{
+        content: `""`,
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        background: '#bb4430',
+        opacity: '0.8',
+        transform: 'skew(-70deg)',
+        transformOrigin: 'top'
+      }}>
         <Episodes feedData={feedData} />
       </Box>
     </>
