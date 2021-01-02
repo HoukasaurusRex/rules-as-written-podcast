@@ -58,9 +58,8 @@ export default function Hero({
         backgroundSize: '100% 125%',
         content: `""`,
         height: '100%',
-        width: '150%',
+        width: '100%',
         top: '-12%',
-        left: '-25%',
         position: 'absolute'
       }}
     >
