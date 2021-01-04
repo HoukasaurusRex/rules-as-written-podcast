@@ -3,9 +3,16 @@ import { Text, Heading, Box } from '@chakra-ui/react'
 
 import SEO from '../components/seo'
 
-const NotFoundPage = () => (
+const NotFoundPage: () => JSX.Element = () => (
   <>
-    <Box role="alert" h="100vh" d="flex" alignItems="center" justifyContent="center" flexDirection="column">
+    <Box
+      role="alert"
+      h="100vh"
+      d="flex"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+    >
       <SEO title="404: Not found" />
       <Heading>404: Not Found</Heading>
       <Text fontSize="xl" my={5}>

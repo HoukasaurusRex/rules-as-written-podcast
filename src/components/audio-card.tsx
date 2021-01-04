@@ -10,22 +10,31 @@ const secondsToTimestamp = (s: number) => {
   const hours = Math.floor(s / h)
   const mins = Math.floor(s / m)
   const secs = Math.floor(s % m)
-  return `${hours ? hours + ':': ''}${mins + ':'}${secs < 10 ? '0' + secs : secs}`
+  return `${hours ? `${hours}:` : ''}${`${mins}:`}${secs < 10 ? `0${secs}` : secs}`
 }
 
-const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { duration } } }: { item: feedItem }) => {
-  let [isPlaying, setIsPlaying] = useState(false)
-  let [currentTime, setCurrentTime] = useState(0)
-  let [isLoading, setIsLoading] = useState(false)
+const AudioCard = ({
+  item: {
+    title,
+    pubDate,
+    enclosure: { url },
+    itunes: { duration }
+  }
+}: {
+  item: feedItem
+}): JSX.Element => {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const fPubDate = dayjs(pubDate).format('MMM D, YYYY')
   const audio = useRef(new Audio())
   const currentTimestamp = secondsToTimestamp(currentTime)
   const durationTimestamp = secondsToTimestamp(duration)
-  const play = async() => {
+  const play = async () => {
     setIsPlaying(true)
     await audio.current.play()
   }
-  const pause = async() => {
+  const pause = async () => {
     setIsPlaying(false)
     await audio.current.pause()
   }
@@ -43,26 +52,61 @@ const AudioCard = ({ item: { title, pubDate, enclosure: { url }, itunes: { durat
   const loading = () => {
     setIsLoading(true)
   }
-  const selectedStyles={ boxShadow: useColorModeValue('lg', 'md')}
+  const selectedStyles = { boxShadow: useColorModeValue('lg', 'md') }
   return (
     <Box w="100%" marginTop="30px" maxWidth="600px" px="25px">
-      <Box _hover={selectedStyles} _focusWithin={selectedStyles} p="5px" rounded="md" bgColor={useColorModeValue('gray.200', 'gray.900')}  boxShadow={useColorModeValue('md', 'sm')} transition="box-shadow ease-in-out 0.2s">
+      <Box
+        _hover={selectedStyles}
+        _focusWithin={selectedStyles}
+        p="5px"
+        rounded="md"
+        bgColor={useColorModeValue('gray.200', 'gray.900')}
+        boxShadow={useColorModeValue('md', 'sm')}
+        transition="box-shadow ease-in-out 0.2s"
+      >
         <Box d="flex" alignItems="flex-end" cursor="default" onClick={!isPlaying ? play : pause}>
-          <Button p="5px" flex="1" m="auto" marginLeft="0" background="transparent" _hover={{ background: 'transparent' }} isLoading={isLoading}>
-            {!isPlaying && <FaPlayCircle size="35px"/>}
-            {isPlaying && <FaPauseCircle size="35px"/>}
+          <Button
+            p="5px"
+            flex="1"
+            m="auto"
+            marginLeft="0"
+            background="transparent"
+            _hover={{ background: 'transparent' }}
+            isLoading={isLoading}
+          >
+            {!isPlaying && <FaPlayCircle size="35px" />}
+            {isPlaying && <FaPauseCircle size="35px" />}
           </Button>
           <Box p="5px" flex="3">
-            <Heading as="h3" fontSize="sm">{title}</Heading>
+            <Heading as="h3" fontSize="sm">
+              {title}
+            </Heading>
             <Text fontSize="xs">{fPubDate}</Text>
           </Box>
           <Box p="5px" flex="5">
-            <Text fontSize="xs" textAlign="right">{currentTimestamp} / {durationTimestamp}</Text>
+            <Text fontSize="xs" textAlign="right">
+              {currentTimestamp} / {durationTimestamp}
+            </Text>
           </Box>
         </Box>
         <Box mx="5px">
-          <audio ref={audio} src={url} onTimeUpdate={updateTime} onWaiting={loading} onCanPlay={canplay}></audio>
-          <Input type="range" p="0" border="none" appearance="auto" value={currentTime} onChange={seek} max={duration}/>
+          {/* eslint-disable jsx-a11y/media-has-caption */}
+          <audio
+            ref={audio}
+            src={url}
+            onTimeUpdate={updateTime}
+            onWaiting={loading}
+            onCanPlay={canplay}
+          />
+          <Input
+            type="range"
+            p="0"
+            border="none"
+            appearance="auto"
+            value={currentTime}
+            onChange={seek}
+            max={duration}
+          />
         </Box>
       </Box>
     </Box>

@@ -13,7 +13,7 @@ import Img from 'gatsby-image'
  * - `useStaticQuery`: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-const Icon = ({ src = 'icon.png' }) => {
+const Icon = (): JSX.Element => {
   const data = useStaticQuery(graphql`
     query {
       src: file(relativePath: { eq: "icon.png" }) {
