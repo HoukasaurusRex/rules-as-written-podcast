@@ -22,7 +22,9 @@ function ErrorFallback({
       alignItems="center"
     >
       <Text>Something went wrong:</Text>
-      <Text as="pre">{error.message}</Text>
+      <Text as="pre" overflowWrap="break-word">
+        {error.message}
+      </Text>
       <Button maxW="200px" onClick={resetErrorBoundary}>
         Refresh
       </Button>
