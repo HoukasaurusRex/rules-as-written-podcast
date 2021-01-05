@@ -20,15 +20,55 @@ export default {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'gatsby-starter-default',
-        short_name: 'starter',
+        name: 'Rules As Written',
+        short_name: 'RAW',
         start_url: '/',
-        background_color: '#bb4430',
+        background_color: '#1A202C',
         theme_color: '#bb4430',
         display: 'minimal-ui',
         icon: 'src/images/icon.png'
       }
     },
-    'gatsby-plugin-offline'
+    {
+      resolve: 'gatsby-plugin-offline',
+      options: {
+        runtimeCaching: [
+          {
+            urlPattern: /\/$/,
+            handler: 'StaleWhileRevalidate'
+          },
+          {
+            urlPattern: /\.mp3$/,
+            handler: 'StaleWhileRevalidate'
+          },
+          {
+            // Use cacheFirst since these don't need to be revalidated (same RegExp
+            // and same reason as above)
+            urlPattern: /(\.js$|\.css$|static\/)/,
+            handler: 'CacheFirst'
+          },
+          {
+            // page-data.json files, static query results and app-data.json
+            // are not content hashed
+            urlPattern: /^https?:.*\/page-data\/.*\.json/,
+            handler: 'StaleWhileRevalidate'
+          },
+          {
+            // Add runtime caching of various other page resources
+            urlPattern: /^https?:.*\.(png|jpg|jpeg|webp|svg|gif|tiff|js|woff|woff2|json|css)$/,
+            handler: 'StaleWhileRevalidate'
+          },
+          {
+            // Google Fonts CSS (doesn't end in .css so we need to specify it)
+            urlPattern: /^https?:\/\/fonts\.googleapis\.com\/css/,
+            handler: 'StaleWhileRevalidate'
+          },
+          {
+            urlPattern: /^https?:\/\/api\.houk\.space\/feed-to-json.*/,
+            handler: 'CacheFirst'
+          }
+        ]
+      }
+    }
   ]
 }

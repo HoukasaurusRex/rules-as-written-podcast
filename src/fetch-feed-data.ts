@@ -1,9 +1,23 @@
-import Parser from 'rss-parser'
-import { feedData, feedItem } from './types'
+import type nodeFetch from 'node-fetch'
+import { feedData, feedAPIResponseBody } from './types'
 
-const parser: Parser<feedData, feedItem> = new Parser()
-
-const fetchFeedData: () => Promise<feedData & Parser.Output<feedItem>> = () =>
-  parser.parseURL('https://anchor.fm/s/44a4277c/podcast/rss')
+type fetchFeedDataConfig = {
+  feedURL?: string
+  request?: typeof fetch | typeof nodeFetch
+  requestConfig?: RequestInit & import('node-fetch').RequestInit
+}
+const fetchFeedData = async (config: fetchFeedDataConfig = {}): Promise<feedData> => {
+  const {
+    request = fetch,
+    feedURL = 'https://anchor.fm/s/44a4277c/podcast/rss',
+    requestConfig
+  } = config
+  const res = await request(
+    `https://api.houk.space/feed-to-json?url=${encodeURIComponent(feedURL)}`,
+    requestConfig
+  )
+  const body: feedAPIResponseBody = await res.json()
+  return body.data
+}
 
 export default fetchFeedData

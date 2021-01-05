@@ -61,7 +61,7 @@ yarn dev
 
 [ ] Add external cast apps icons
 [ ] Add show notes dropdown
-[ ] Fix linting (ugh)
+[x] Fix linting (ugh)
 [ ] Create Gatsby podcast theme
 [ ] Add D&D themed 404
 [ ] Fetch metadata on build

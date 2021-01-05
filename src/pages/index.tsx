@@ -1,25 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
 import { Box, useColorModeValue } from '@chakra-ui/react'
 import fetchFeedData from '../fetch-feed-data'
 import SEO from '../components/seo'
 import Hero from '../components/hero'
 import Episodes from '../components/episodes'
 import { feedData } from '../types'
+import metadata from '../data/rss.json'
 
 const IndexPage: () => JSX.Element = () => {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-          }
-        }
-      }
-    `
-  )
   const data: feedData = {}
   const [fd, setFeedData] = useState(data)
   useEffect(() => {
@@ -28,7 +16,7 @@ const IndexPage: () => JSX.Element = () => {
   return (
     <>
       <SEO title="Home" />
-      <Hero title={site.siteMetadata.title} description={site.siteMetadata.description} />
+      <Hero title={metadata.title} description={metadata.description} />
       <Box
         as="main"
         position="relative"
