@@ -39,7 +39,7 @@ export default {
           },
           {
             urlPattern: /\.mp3$/,
-            handler: 'StaleWhileRevalidate'
+            handler: 'CacheFirst'
           },
           {
             // Use cacheFirst since these don't need to be revalidated (same RegExp
