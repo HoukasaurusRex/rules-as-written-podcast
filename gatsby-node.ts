@@ -18,7 +18,7 @@ const downloadRSSFeedData = async ({ reporter }: { reporter: Reporter }): Promis
   return data
 }
 
-const downloadLatestEpisode = async ({
+const downloadLatestEpisode = ({
   url,
   reporter,
   fileName
@@ -26,24 +26,24 @@ const downloadLatestEpisode = async ({
   url: string
   reporter: Reporter
   fileName: string
-}) => {
-  const fetchLatestEpisodeTimer = reporter.activityTimer('Retrieving latest episode file')
-  const writeDataTimer = reporter.activityTimer(`Writing episode data to src/data/${fileName}`)
-  fetchLatestEpisodeTimer.start()
-  const res = await fetch(url)
-  fetchLatestEpisodeTimer.end()
-  const latestEpisodeFilePath = path.join(__dirname, `/src/data/${fileName}`)
-  writeDataTimer.start()
-  const fileStream = fileSystem.createWriteStream(latestEpisodeFilePath)
-  res.body.pipe(fileStream)
-  res.body.on('error', Promise.reject)
-  const { resolve } = Promise
-  fileStream.on('finish', () => {
-    writeDataTimer.end()
-    resolve(fileStream)
+}) =>
+  new Promise((resolve, reject) => {
+    const fetchLatestEpisodeTimer = reporter.activityTimer('Retrieving latest episode file')
+    const writeDataTimer = reporter.activityTimer(`Writing episode data to src/data/${fileName}`)
+    fetchLatestEpisodeTimer.start()
+    fetch(url).then(res => {
+      fetchLatestEpisodeTimer.end()
+      const latestEpisodeFilePath = path.join(__dirname, `/src/data/${fileName}`)
+      writeDataTimer.start()
+      const fileStream = fileSystem.createWriteStream(latestEpisodeFilePath)
+      res.body.pipe(fileStream)
+      res.body.on('error', reject)
+      fileStream.on('finish', () => {
+        writeDataTimer.end()
+        resolve(fileStream)
+      })
+    })
   })
-  return resolve
-}
 
 export const onPreBuild: GatsbyNode['onPreBuild'] = async ({ reporter }) => {
   const data = await downloadRSSFeedData({ reporter })
