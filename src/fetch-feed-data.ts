@@ -1,12 +1,25 @@
-import type nodeFetch from 'node-fetch'
+import type nodeFetch from 'node-fetch' // eslint-disable-line import/no-duplicates
+import type {
+  BodyInit as NodeBodyInit,
+  HeadersInit as NodeHeadersInit,
+  RequestInit as NodeRequestInit
+} from 'node-fetch' // eslint-disable-line import/no-duplicates
+import type { AbortSignal as NodeAbortSignal } from 'node-fetch/externals' // eslint-disable-line import/no-unresolved
 import { feedData, feedAPIResponseBody } from './types'
 
-type fetchFeedDataConfig = {
+interface RequestConfig extends RequestInit, NodeRequestInit {
+  body: BodyInit & NodeBodyInit
+  headers: HeadersInit & NodeHeadersInit
+  signal: AbortSignal & NodeAbortSignal
+}
+
+interface FetchFeedDataConfig {
   feedURL?: string
   request?: typeof fetch | typeof nodeFetch
-  requestConfig?: RequestInit & import('node-fetch').RequestInit
+  requestConfig?: RequestConfig
 }
-const fetchFeedData = async (config: fetchFeedDataConfig = {}): Promise<feedData> => {
+
+const fetchFeedData = async (config: FetchFeedDataConfig = {}): Promise<feedData> => {
   const {
     request = fetch,
     feedURL = 'https://anchor.fm/s/44a4277c/podcast/rss',

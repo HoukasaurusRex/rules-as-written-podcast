@@ -60,11 +60,12 @@ yarn dev
 ## 🗺 Roadmap
 
 [ ] Add external cast apps icons
-[ ] Add show notes dropdown
+[ ] Add Newsletter
+[ ] Add commenting
 [x] Fix linting (ugh)
 [ ] Create Gatsby podcast theme
 [ ] Add D&D themed 404
-[ ] Fetch metadata on build
+[x] Fetch metadata on build
 [ ] Mark Played
 [ ] Display Show Notes
 
