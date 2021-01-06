@@ -1,8 +1,6 @@
 import fileSystem, { promises as fs } from 'fs'
-import progress from 'progress-stream'
 import path from 'path'
 import type { GatsbyNode, Reporter } from 'gatsby'
-import type { IProgressReporter } from 'gatsby-cli/lib/reporter/reporter-progress'
 import fetch from 'node-fetch'
 import { feedData } from './src/types'
 import fetchFeedData from './src/fetch-feed-data'
@@ -40,25 +38,7 @@ const downloadLatestEpisode = async ({
   res.body.pipe(fileStream)
   res.body.on('error', Promise.reject)
   const { resolve } = Promise
-  const stat = fileSystem.statSync(latestEpisodeFilePath)
-  const stream = progress({
-    length: stat.size,
-    time: 100 /* ms */
-  })
-  let prevTransferred = 0
-  let progressReport: IProgressReporter
-
-  stream.on('progress', ({ length, transferred, eta, percentage }) => {
-    const increment = transferred - prevTransferred
-    reporter.info(`ETA: ${eta}, ${percentage}%`)
-    progressReport = reporter.createProgress('Downloading episode ', length)
-    progressReport.start()
-    progressReport.tick(transferred)
-    prevTransferred = transferred
-  })
-  res.body.pipe(stream)
   fileStream.on('finish', () => {
-    progressReport.done()
     writeDataTimer.end()
     resolve(fileStream)
   })

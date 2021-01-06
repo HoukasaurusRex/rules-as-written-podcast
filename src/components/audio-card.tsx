@@ -32,7 +32,7 @@ const AudioCard = ({
   const [isLoading, setIsLoading] = useState(false)
   const importURL = () => import(`../data/${selfHostedFile}`)
   const fPubDate = dayjs(pubDate).format('MMM D, YYYY')
-  const audio = useRef(new Audio(audioURL || url))
+  const audio = useRef(new Audio())
   const currentTimestamp = secondsToTimestamp(currentTime)
   const durationTimestamp = secondsToTimestamp(duration)
   const play = async () => {
