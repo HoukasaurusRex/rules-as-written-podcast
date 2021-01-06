@@ -20,15 +20,21 @@ const downloadRSSFeedData = async ({ reporter }: { reporter: Reporter }): Promis
   return data
 }
 
-const downloadLatestEpisode = async ({ url, reporter }: { url: string; reporter: Reporter }) => {
+const downloadLatestEpisode = async ({
+  url,
+  reporter,
+  fileName
+}: {
+  url: string
+  reporter: Reporter
+  fileName: string
+}) => {
   const fetchLatestEpisodeTimer = reporter.activityTimer('Retrieving latest episode file')
-  const writeDataTimer = reporter.activityTimer(
-    'Writing episode data to src/data/latest-episode.mp3'
-  )
+  const writeDataTimer = reporter.activityTimer(`Writing episode data to src/data/${fileName}`)
   fetchLatestEpisodeTimer.start()
   const res = await fetch(url)
   fetchLatestEpisodeTimer.end()
-  const latestEpisodeFilePath = path.join(__dirname, '/src/data/latest-episode.mp3')
+  const latestEpisodeFilePath = path.join(__dirname, `/src/data/${fileName}`)
   writeDataTimer.start()
   const fileStream = fileSystem.createWriteStream(latestEpisodeFilePath)
   res.body.pipe(fileStream)
@@ -61,8 +67,9 @@ const downloadLatestEpisode = async ({ url, reporter }: { url: string; reporter:
 
 export const onPreBuild: GatsbyNode['onPreBuild'] = async ({ reporter }) => {
   const data = await downloadRSSFeedData({ reporter })
-  const latestEpisodeURL = data?.items?.pop()?.enclosure?.url
-  if (latestEpisodeURL) {
-    await downloadLatestEpisode({ url: latestEpisodeURL, reporter })
+  const latestEpisode = data?.items?.pop()
+  const url = latestEpisode?.enclosure?.url
+  if (url) {
+    await downloadLatestEpisode({ url, reporter, fileName: `${latestEpisode?.guid}.mp3` })
   }
 }

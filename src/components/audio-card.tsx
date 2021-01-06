@@ -19,15 +19,20 @@ const AudioCard = ({
     pubDate,
     enclosure: { url },
     itunes: { duration }
-  }
+  },
+  selfHostedFile
 }: {
   item: feedItem
+  selfHostedFile: string
 }): JSX.Element => {
+  const [audioURL, setAudioURL] = useState(url)
+  const [selfHostedFileFailed, setSelfHostedFileFailed] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const importURL = () => import(`../data/${selfHostedFile}`)
   const fPubDate = dayjs(pubDate).format('MMM D, YYYY')
-  const audio = useRef(new Audio())
+  const audio = useRef(new Audio(audioURL || url))
   const currentTimestamp = secondsToTimestamp(currentTime)
   const durationTimestamp = secondsToTimestamp(duration)
   const play = async () => {
@@ -53,6 +58,16 @@ const AudioCard = ({
     setIsLoading(true)
   }
   const selectedStyles = { boxShadow: useColorModeValue('lg', 'md') }
+  if (selfHostedFile && !selfHostedFileFailed) {
+    importURL()
+      .then(importedURL => {
+        setAudioURL(importedURL.default)
+      })
+      .catch(() => {
+        setSelfHostedFileFailed(true)
+        console.warn('Cannot import from self hosted audio file. It may be out of date.')
+      })
+  }
   return (
     <Box w="100%" marginTop="30px" maxWidth="600px" px="25px">
       <Box
@@ -93,7 +108,7 @@ const AudioCard = ({
           {/* eslint-disable jsx-a11y/media-has-caption */}
           <audio
             ref={audio}
-            src={url}
+            src={audioURL}
             onTimeUpdate={updateTime}
             onWaiting={loading}
             onCanPlay={canplay}
