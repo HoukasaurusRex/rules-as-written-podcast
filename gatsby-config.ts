@@ -3,11 +3,15 @@ export default {
     title: 'Rules As Written',
     description:
       'A weekly podcast where we talk about the rules in as many D&D 5E books we can afford to help you level up your player game.',
-    author: '@HoukasaurusRex'
+    author: '@HoukasaurusRex',
+    siteUrl: 'https://rulesaswrittenshow.com'
   },
   plugins: [
     '@chakra-ui/gatsby-plugin',
+    'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
+    'gatsby-transformer-remark',
+    'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -22,8 +26,13 @@ export default {
         path: `${__dirname}/src/data/`
       }
     },
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'markdown-pages',
+        path: `${__dirname}/src/markdown-pages`
+      }
+    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

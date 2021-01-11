@@ -57,6 +57,13 @@ yarn install
 yarn dev
 ```
 
+### YouTube Pipeline
+
+* Playlist ID: UUpqh72Jl2K09HvKBiqMixAA
+* GET https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=UUpqh72Jl2K09HvKBiqMixAA&key=[YOUR_API_KEY]
+  Authorization: Bearer [YOUR_ACCESS_TOKEN]
+  Accept: application/json
+
 ## 🗺 Roadmap
 
 [ ] Add external cast apps icons
