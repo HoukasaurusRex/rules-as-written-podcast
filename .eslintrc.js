@@ -9,7 +9,10 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/react'
+    'prettier',
+    'prettier/prettier',
+    'prettier/react',
+    'prettier/@typescript-eslint'
   ],
   plugins: ['react-hooks', '@typescript-eslint'],
   rules: {
@@ -33,14 +36,6 @@ module.exports = {
         jsx: 'never',
         ts: 'never',
         tsx: 'never'
-      }
-    ],
-    indent: [
-      'error',
-      2,
-      {
-        SwitchCase: 1,
-        ignoredNodes: ['TemplateLiteral']
       }
     ],
     'template-curly-spacing': 0

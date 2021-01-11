@@ -69,14 +69,21 @@ const downloadCaptionsToMD = async ({
   const captions =
     playlistVideos &&
     (await Promise.all(
-      playlistVideos.filter(video => video?.id && listCaptions({ apiKey, videoId: video.id }))
+      playlistVideos.map(
+        async video =>
+          video?.contentDetails?.videoId &&
+          listCaptions({ apiKey, videoId: video?.contentDetails?.videoId })
+      )
     ))
   listCaptionsTimer.end()
   dlCaptionsTimer.start()
   const downloads =
     captions &&
     (await Promise.all(
-      captions.filter(caption => caption?.id && downloadCaptions({ apiKey, id: caption.id }))
+      captions.map(
+        async caption =>
+          caption && caption[0]?.id && downloadCaptions({ apiKey, id: caption[0].id })
+      )
     ))
   dlCaptionsTimer.end()
   downloads?.forEach(dl => {

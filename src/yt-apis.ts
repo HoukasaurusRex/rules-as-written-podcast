@@ -14,7 +14,7 @@ export const listPlaylistVideos = async ({
     auth: apiKey
   })
   const res = await youtube.playlistItems.list({
-    part: ['snippet'],
+    part: ['snippet', 'contentDetails'],
     playlistId
   })
   return res.data.items
