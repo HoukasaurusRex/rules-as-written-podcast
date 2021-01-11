@@ -102,7 +102,7 @@ export const onPreBootstrap: GatsbyNode['onPreBootstrap'] = async ({ reporter })
   const latestEpisode = data?.items?.pop()
   const url = latestEpisode?.enclosure?.url
   if (url) {
-    await downloadLatestEpisode({ url, reporter, fileName: `${latestEpisode?.guid}.mp3` })
+    // await downloadLatestEpisode({ url, reporter, fileName: `${latestEpisode?.guid}.mp3` })
   }
   const { YT_DATA_API_KEY: apiKey, YT_PLAYLIST_ID: playlistId } = process.env
   if (apiKey && playlistId) {
