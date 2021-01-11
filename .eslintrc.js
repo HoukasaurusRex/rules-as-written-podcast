@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error'],
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
+    'react/prop-types': 'off',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
     'no-var': 'error',

@@ -1,9 +1,14 @@
 import fileSystem, { promises as fs } from 'fs'
 import path from 'path'
 import type { GatsbyNode, Reporter } from 'gatsby'
+import { createFilePath } from 'gatsby-source-filesystem'
 import fetch from 'node-fetch'
+import dotenv from 'dotenv'
 import { feedData } from './src/types'
 import fetchFeedData from './src/fetch-feed-data'
+import { listPlaylistVideos, listCaptions, downloadCaptions } from './src/yt-apis'
+
+dotenv.config()
 
 const downloadRSSFeedData = async ({ reporter }: { reporter: Reporter }): Promise<feedData> => {
   const fetchFeedDataTimer = reporter.activityTimer('Retrieving RSS feed data')
@@ -45,11 +50,79 @@ const downloadLatestEpisode = ({
     })
   })
 
-export const onPreBuild: GatsbyNode['onPreBuild'] = async ({ reporter }) => {
+const downloadCaptionsToMD = async ({
+  reporter,
+  apiKey,
+  playlistId
+}: {
+  reporter: Reporter
+  apiKey: string
+  playlistId: string
+}) => {
+  const listPlaylistVideosTimer = reporter.activityTimer('listPlaylistVideos')
+  const listCaptionsTimer = reporter.activityTimer('listCaptions')
+  const dlCaptionsTimer = reporter.activityTimer('dlCaptions')
+  listPlaylistVideosTimer.start()
+  const playlistVideos = await listPlaylistVideos({ apiKey, playlistId })
+  listPlaylistVideosTimer.end()
+  listCaptionsTimer.start()
+  const captions =
+    playlistVideos &&
+    (await Promise.all(
+      playlistVideos.filter(video => video?.id && listCaptions({ apiKey, videoId: video.id }))
+    ))
+  listCaptionsTimer.end()
+  dlCaptionsTimer.start()
+  const downloads =
+    captions &&
+    (await Promise.all(
+      captions.filter(caption => caption?.id && downloadCaptions({ apiKey, id: caption.id }))
+    ))
+  dlCaptionsTimer.end()
+  downloads?.forEach(dl => {
+    reporter.info(JSON.stringify(dl, undefined, 2))
+  })
+  // map downloads to playlistVideos snippets
+  // write to files
+  // return map
+}
+
+export const onPreBootstrap: GatsbyNode['onPreBootstrap'] = async ({ reporter }) => {
   const data = await downloadRSSFeedData({ reporter })
   const latestEpisode = data?.items?.pop()
   const url = latestEpisode?.enclosure?.url
   if (url) {
     await downloadLatestEpisode({ url, reporter, fileName: `${latestEpisode?.guid}.mp3` })
   }
+  const { YT_DATA_API_KEY: apiKey, YT_PLAYLIST_ID: playlistId } = process.env
+  if (apiKey && playlistId) {
+    await downloadCaptionsToMD({ reporter, apiKey, playlistId })
+  }
+}
+
+export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, getNode, reporter }) => {
+  if (node.internal.type === 'MarkdownRemark' && node.parent) {
+    const filePath = createFilePath({ node, getNode, basePath: 'pages' })
+    reporter.info(`Node created of type "${node.internal.type}"`)
+  }
+}
+
+export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
+  const { createPage } = actions
+  const episodePostTemplate = path.resolve('src/templates/episode.tsx')
+  const rssFeedData = await import('./src/data/rss.json')
+
+  rssFeedData.items.forEach(item => {
+    const slug = item.title
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '')
+    createPage({
+      path: slug,
+      component: episodePostTemplate,
+      context: {
+        title: item.title
+      }
+    })
+  })
 }
