@@ -56,5 +56,5 @@ export const downloadCaptions = async ({
     tfmt: 'srt'
   })
   console.log({ res })
-  return res.data
+  return res
 }
