@@ -84,7 +84,10 @@ const downloadCaptionsToMD = async ({
         async caption =>
           caption && caption[0]?.id && downloadCaptions({ apiKey, id: caption[0].id })
       )
-    ))
+    ).catch((err: Error) => {
+      reporter.error(err)
+      throw err
+    }))
   dlCaptionsTimer.end()
   downloads?.forEach(dl => {
     reporter.info(JSON.stringify(dl, undefined, 2))
