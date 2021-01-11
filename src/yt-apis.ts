@@ -46,15 +46,19 @@ export const downloadCaptions = async ({
   id: string
   apiKey: string
   // eslint-disable-next-line camelcase
-}) => {
+}): Promise<GaxiosResponse<NodeJS.ReadableStream>> => {
   const youtube = google.youtube({
     version: 'v3',
     auth: apiKey
   })
-  const res = await youtube.captions.download({
-    id,
-    tfmt: 'srt'
-  })
-  console.log({ res })
+  const res = await youtube.captions.download(
+    {
+      id,
+      tfmt: 'srt'
+    },
+    {
+      responseType: 'stream'
+    }
+  )
   return res
 }
