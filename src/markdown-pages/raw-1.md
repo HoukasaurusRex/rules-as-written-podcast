@@ -1,3 +1,12 @@
+---
+{
+  "date": "Thu, 17 Dec 2020 12:26:14 GMT",
+  "videoId": "8dzQSNtYLbY",
+  "guid": "c4c724df-172b-4a6a-8bfa-3f7b693a8bf7",
+  "title": "RAW 1",
+  "slug": "raw-1"
+}
+---
 
 [Laughter]
 hello everyone and welcome to
