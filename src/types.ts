@@ -60,4 +60,20 @@ type feedAPIResponseBody = {
   data: feedData
 }
 
-export { feedData, feedItem, feedAPIResponseBody }
+interface Videos {
+  [title: string]: {
+    videoId?: string | null | undefined
+    videoPublishedAt?: string | null | undefined
+  }
+}
+
+interface Episode {
+  guid: string
+  videoId?: string | null
+  title: string
+  slug: string
+  captions?: Array<{ text: string; start: number; duration: number }>
+  date: string
+}
+
+export { feedData, feedItem, feedAPIResponseBody, Videos, Episode }

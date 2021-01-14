@@ -13,6 +13,18 @@ export default {
     'gatsby-transformer-remark',
     'gatsby-transformer-sharp',
     {
+      resolve: 'gatsby-plugin-ts',
+      options: {
+        forkTsCheckerPlugin: {
+          eslint: true
+        },
+        fileName: 'types/graphql-types.ts',
+        codegen: true,
+        codegenDelay: 250,
+        typeCheck: false
+      }
+    },
+    {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
