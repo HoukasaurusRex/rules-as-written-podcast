@@ -1,7 +1,6 @@
 import fileSystem, { promises as fs } from 'fs'
 import path from 'path'
 import type { GatsbyNode, Reporter } from 'gatsby'
-import { createFilePath } from 'gatsby-source-filesystem'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
 import type { feedData, Videos, Episode } from './src/types'
@@ -171,6 +170,7 @@ const writeTranscripts = async (episodeDataMap: Array<Episode> | null) => {
 }
 
 export const onPreBootstrap: GatsbyNode['onPreBootstrap'] = async ({ reporter }) => {
+  if (process.env.NODE_ENV === 'development') return
   const feed = await downloadRSSFeedData({ reporter })
   const latestEpisode = feed.items?.pop()
   const url = latestEpisode?.enclosure?.url

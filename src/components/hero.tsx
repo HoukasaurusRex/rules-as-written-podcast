@@ -1,7 +1,19 @@
 import React from 'react'
-import { Box, useBreakpointValue, Heading, Text, Button } from '@chakra-ui/react'
+import {
+  Box,
+  useBreakpointValue,
+  Heading,
+  Text,
+  Button,
+  Link,
+  Icon,
+  List,
+  ListItem
+} from '@chakra-ui/react'
 import { CgMouse } from 'react-icons/cg'
+import { SiApplepodcasts, SiGooglepodcasts, SiSpotify } from 'react-icons/si'
 import ReactHtmlParser from 'react-html-parser'
+import { LinkIcon } from '@chakra-ui/icons'
 import RawImage from './raw-image'
 
 const scrollDown = () => {
@@ -48,7 +60,7 @@ export default function Hero({ title = 'Title', description = 'Description of si
         alignItems="center"
       >
         <Box>
-          <Heading marginTop="70px">{title}</Heading>
+          <Heading as="h1" marginTop="70px">{title}</Heading>
           <Text py="20px" px="30px" fontSize="xs">
             {ReactHtmlParser(description)}
           </Text>
@@ -56,9 +68,29 @@ export default function Hero({ title = 'Title', description = 'Description of si
         <Box maxW="200px" w="100%">
           <RawImage />
         </Box>
-        <Button my="70px" w="fit-content" minH="30px" onClick={scrollDown}>
-          Latest <CgMouse /> Episodes
-        </Button>
+        <Box my="70px" minH="30px">
+          <Button w="fit-content" onClick={scrollDown}>
+            Latest <CgMouse /> Episodes
+          </Button>
+
+          <List display="flex" justifyContent="space-evenly" pt="2rem" h="auto">
+            <ListItem>
+              <Link href="https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ" target="_blank" rel="noreferrer noopener">
+                <Icon as={SiSpotify} boxSize={6}/>
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href="https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ" target="_blank" rel="noreferrer noopener">
+                <Icon as={SiApplepodcasts} boxSize={6}/>
+              </Link>
+            </ListItem>
+            <ListItem>
+              <Link href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw==" target="_blank" rel="noreferrer noopener">
+                <Icon as={SiGooglepodcasts} boxSize={6}/>
+              </Link>
+            </ListItem>
+          </List>
+        </Box>
       </Box>
     </Box>
   )
