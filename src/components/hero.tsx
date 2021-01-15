@@ -13,7 +13,6 @@ import {
 import { CgMouse } from 'react-icons/cg'
 import { SiApplepodcasts, SiGooglepodcasts, SiSpotify } from 'react-icons/si'
 import ReactHtmlParser from 'react-html-parser'
-import { LinkIcon } from '@chakra-ui/icons'
 import RawImage from './raw-image'
 
 const scrollDown = () => {

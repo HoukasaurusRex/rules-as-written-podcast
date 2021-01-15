@@ -3,7 +3,7 @@ import path from 'path'
 import type { GatsbyNode, Reporter } from 'gatsby'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
-import type { feedData, Videos, Episode } from './src/types'
+import type { feedData, Videos, Episode } from './types/media-types'
 import fetchFeedData from './src/fetch-feed-data'
 import { listPlaylistVideos } from './src/yt-apis'
 

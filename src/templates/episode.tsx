@@ -1,7 +1,7 @@
 import React from 'react'
 import { graphql } from 'gatsby'
 import ReactHtmlParser from 'react-html-parser'
-import { feedItem } from '../types'
+import { feedItem } from '../../types/media-types'
 
 const Episode: React.FunctionComponent<{
   data: {
