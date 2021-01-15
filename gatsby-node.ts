@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 import type { feedData, Videos, Episode } from './types/media-types'
 import fetchFeedData from './src/fetch-feed-data'
 import { listPlaylistVideos } from './src/yt-apis'
+import { toSlug } from './src/utils/slug'
 
 dotenv.config()
 
@@ -130,10 +131,7 @@ const writeEpisodeDataMap = async (
         date: podcastData.pubDate,
         guid: podcastData.guid,
         title: podcastData.title,
-        slug: podcastData.title
-          .toLowerCase()
-          .replace(/[^\w ]+/g, '')
-          .replace(/ +/g, '-'),
+        slug: toSlug(podcastData.title),
         videoId: videos[podcastData.title]?.videoId,
         captions: json.body.data
       }
