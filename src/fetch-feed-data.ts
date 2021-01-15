@@ -5,7 +5,7 @@ import type {
   RequestInit as NodeRequestInit
 } from 'node-fetch' // eslint-disable-line import/no-duplicates
 import type { AbortSignal as NodeAbortSignal } from 'node-fetch/externals' // eslint-disable-line import/no-unresolved
-import { feedData, feedAPIResponseBody } from './types'
+import { feedData, feedAPIResponseBody } from '../types/media-types'
 
 interface RequestConfig extends RequestInit, NodeRequestInit {
   body: BodyInit & NodeBodyInit

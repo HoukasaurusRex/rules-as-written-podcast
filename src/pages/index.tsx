@@ -4,7 +4,7 @@ import fetchFeedData from '../fetch-feed-data'
 import SEO from '../components/seo'
 import Hero from '../components/hero'
 import Episodes from '../components/episodes'
-import { feedData } from '../types'
+import { feedData } from '../../types/media-types'
 import metadata from '../data/rss.json'
 
 const IndexPage: () => JSX.Element = () => {

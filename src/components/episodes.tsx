@@ -1,7 +1,7 @@
 import React from 'react'
 import { VStack, Text } from '@chakra-ui/react'
 import AudioCard from './audio-card'
-import { feedData as fd } from '../types'
+import { feedData as fd } from '../../types/media-types'
 
 import './loading-ellipses.css'
 

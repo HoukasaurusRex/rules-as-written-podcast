@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Box, Heading, Text, Input, Button, useColorModeValue, transition } from '@chakra-ui/react'
 import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
 import dayjs from 'dayjs'
-import { feedItem } from '../types'
+import { feedItem } from '../../types/media-types'
 
 const secondsToTimestamp = (s: number) => {
   const m = 60
