@@ -1,4 +1,5 @@
 export default {
+  flags: { PRESERVE_WEBPACK_CACHE: true },
   siteMetadata: {
     title: 'Rules As Written',
     description:

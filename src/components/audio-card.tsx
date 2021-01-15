@@ -1,8 +1,19 @@
 import React, { useRef, useState } from 'react'
-import { Box, Heading, Text, Input, Button, useColorModeValue, transition } from '@chakra-ui/react'
+import {
+  Box,
+  Heading,
+  Text,
+  Input,
+  Button,
+  useColorModeValue,
+  transition,
+  Link
+} from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
 import dayjs from 'dayjs'
 import { feedItem } from '../../types/media-types'
+import { toSlug } from '../utils/slug'
 
 const secondsToTimestamp = (s: number) => {
   const m = 60
@@ -79,7 +90,7 @@ const AudioCard = ({
         boxShadow={useColorModeValue('md', 'sm')}
         transition="box-shadow ease-in-out 0.2s"
       >
-        <Box d="flex" alignItems="flex-end" cursor="default" onClick={!isPlaying ? play : pause}>
+        <Box d="flex" alignItems="flex-end" cursor="default">
           <Button
             p="5px"
             flex="1"
@@ -88,6 +99,7 @@ const AudioCard = ({
             background="transparent"
             _hover={{ background: 'transparent' }}
             isLoading={isLoading}
+            onClick={!isPlaying ? play : pause}
           >
             {!isPlaying && <FaPlayCircle size="35px" />}
             {isPlaying && <FaPauseCircle size="35px" />}
@@ -98,8 +110,11 @@ const AudioCard = ({
             </Heading>
             <Text fontSize="xs">{fPubDate}</Text>
           </Box>
-          <Box p="5px" flex="5">
-            <Text fontSize="xs" textAlign="right">
+          <Box p="5px" flex="5" textAlign="right">
+            <Link href={toSlug(title)}>
+              <ExternalLinkIcon />
+            </Link>
+            <Text fontSize="xs">
               {currentTimestamp} / {durationTimestamp}
             </Text>
           </Box>
