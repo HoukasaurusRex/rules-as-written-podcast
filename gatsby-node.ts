@@ -133,7 +133,7 @@ const writeEpisodeDataMap = async (
         title: podcastData.title,
         slug: toSlug(podcastData.title),
         videoId: videos[podcastData.title]?.videoId,
-        captions: json.body.data
+        captions: json.body?.data
       }
       await fs.writeFile(
         path.join(__dirname, `/src/data/episode-data/${episodeData.slug}.json`),
