@@ -136,7 +136,7 @@ const writeEpisodeDataMap = async (
         captions: json.body?.data
       }
       await fs.writeFile(
-        path.join(__dirname, `/src/data/episode-data/${episodeData.slug}.json`),
+        path.join(__dirname, `/src/episode-data/${episodeData.slug}.json`),
         JSON.stringify(episodeData, null, 2)
       )
       return episodeData
