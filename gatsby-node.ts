@@ -167,7 +167,7 @@ const writeTranscripts = async (episodeDataMap: Array<Episode> | null) => {
   )
 }
 
-export const onPreInit: GatsbyNode['onPreInit'] = async ({ reporter }) => {
+export const onPreExtractQueries: GatsbyNode['onPreExtractQueries'] = async ({ reporter }) => {
   if (process.env.NODE_ENV === 'development') return
   const feed = await downloadRSSFeedData({ reporter })
   const latestEpisode = feed.items?.pop()
