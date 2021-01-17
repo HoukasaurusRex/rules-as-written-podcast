@@ -152,9 +152,9 @@ const writeTranscripts = async (episodeDataMap: Array<Episode> | null) => {
   }
   await Promise.all(
     episodeDataMap.map(async episode => {
-      const { title, slug, videoId, captions, guid } = episode
+      const { title, slug, videoId, captions, guid, date } = episode
       const text = captions?.map(caption => caption.text).join(' ')
-      const frontmatter = { title, slug, videoId, guid }
+      const frontmatter = { title, slug, videoId, guid, date }
       const md = `
     ---
     ${JSON.stringify(frontmatter, null, 2)}
