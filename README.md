@@ -66,7 +66,7 @@ yarn dev
 
 ## 🗺 Roadmap
 
-[ ] Add external cast apps icons
+[x] Add external cast apps icons
 [ ] Episode page w/ transcript and playback card
 [ ] Add commenting
 [ ] Paginate episodes list on home
