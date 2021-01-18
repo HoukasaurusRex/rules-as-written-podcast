@@ -13,6 +13,7 @@
   "scripts": {
     "dev": "gatsby develop",
     "start": "gatsby develop",
+    "prebuild": "node prebuild.js",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
@@ -30,6 +31,7 @@
     "dotenv": "^8.2.0",
     "framer-motion": "^3.1.1",
     "gatsby": "^2.29.3",
+    "gatsby-cli": "^2.17.1",
     "gatsby-image": "^2.5.0",
     "gatsby-plugin-manifest": "^2.6.1",
     "gatsby-plugin-offline": "^3.7.1",
@@ -39,6 +41,7 @@
     "gatsby-transformer-remark": "^2.14.0",
     "gatsby-transformer-sharp": "^2.6.0",
     "googleapis": "^67.0.0",
+    "log4js": "^6.3.0",
     "node-fetch": "^2.6.1",
     "progress-stream": "^2.0.0",
     "prop-types": "^15.7.2",
