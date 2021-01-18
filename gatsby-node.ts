@@ -3,6 +3,7 @@ import path from 'path'
 import type { GatsbyNode, Reporter } from 'gatsby'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import YAML from 'yamljs'
 import type { feedData, Videos, Episode } from './types/media-types'
 import fetchFeedData from './src/fetch-feed-data'
 import { listPlaylistVideos } from './src/yt-apis'
@@ -157,7 +158,7 @@ const writeTranscripts = async (episodeDataMap: Array<Episode> | null) => {
       const frontmatter = { title, slug, videoId, guid, date }
       const md = `
     ---
-    ${JSON.stringify(frontmatter, null, 2)}
+    ${YAML.stringify(frontmatter)}
     ---
 
     ${text}
@@ -166,13 +167,8 @@ const writeTranscripts = async (episodeDataMap: Array<Episode> | null) => {
     })
   )
 }
-export const onPreExtractQueries: GatsbyNode['onPreExtractQueries'] = async ({ reporter }) => {
-  reporter.info('HIT onPreExtractQueries')
-}
 
 export const onPreInit: GatsbyNode['onPreInit'] = async ({ reporter }) => {
-  reporter.info('HIT onPreInit')
-  reporter.info(process.env.NODE_ENV)
   if (process.env.NODE_ENV === 'development') return
   const feed = await downloadRSSFeedData({ reporter })
   const latestEpisode = feed.items?.pop()
@@ -235,6 +231,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
   }
   result.data?.allMarkdownRemark.edges.forEach(({ node }) => {
     if (!node.frontmatter.slug) return
+    reporter.info(JSON.stringify(node, undefined, 2))
     createPage({
       path: node.frontmatter.slug,
       component: episodePostTemplate,
