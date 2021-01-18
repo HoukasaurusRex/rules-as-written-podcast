@@ -158,7 +158,7 @@ const writeTranscripts = async (episodeDataMap: Array<Episode> | null) => {
       const frontmatter = { title, slug, videoId, guid, date }
       const md = `
     ---
-    ${YAML.stringify(frontmatter)}
+    ${JSON.stringify(frontmatter, null, 2)}
     ---
 
     ${text}
