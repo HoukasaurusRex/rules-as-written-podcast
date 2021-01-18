@@ -50,11 +50,13 @@
     "react-html-parser": "^2.0.2",
     "react-icons": "^4.1.0",
     "ts-node": "^9.1.1",
-    "xml-js": "^1.6.11"
+    "xml-js": "^1.6.11",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@types/progress-stream": "^2.0.1",
     "@types/react-html-parser": "^2.0.1",
+    "@types/yamljs": "^0.2.31",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
     "eslint": "^7.17.0",
