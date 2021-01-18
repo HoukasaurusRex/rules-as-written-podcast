@@ -11,7 +11,6 @@ export default {
     '@chakra-ui/gatsby-plugin',
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
-    'gatsby-transformer-remark',
     'gatsby-transformer-sharp',
     {
       resolve: 'gatsby-plugin-ts',
@@ -46,6 +45,7 @@ export default {
         path: `${__dirname}/src/markdown-pages`
       }
     },
+    'gatsby-transformer-remark',
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
