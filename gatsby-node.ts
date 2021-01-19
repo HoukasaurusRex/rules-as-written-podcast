@@ -4,20 +4,6 @@ import type { GatsbyNode } from 'gatsby'
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
   const episodePostTemplate = path.resolve('src/templates/episode.tsx')
-  const debug = await graphql(`
-    {
-      allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___title] }, limit: 1000) {
-        edges {
-          node {
-            frontmatter {
-              title
-            }
-          }
-        }
-      }
-    }
-  `)
-  reporter.info(JSON.stringify(debug, null, 2))
   const result: {
     errors?: any
     data?: {
@@ -29,6 +15,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
               title: string
               guid: string
               date: string
+              videoId: string
             }
           }
         }>
@@ -44,6 +31,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
               slug
               title
               guid
+              videoId
             }
           }
         }
@@ -56,7 +44,6 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
   }
   result.data?.allMarkdownRemark.edges.forEach(({ node }) => {
     if (!node.frontmatter.slug) return
-    reporter.info(JSON.stringify(node, undefined, 2))
     createPage({
       path: node.frontmatter.slug,
       component: episodePostTemplate,
