@@ -150,7 +150,7 @@ export const writeTranscripts = async ({
     episodeDataMap.map(async episode => {
       const { title, slug, videoId, captions, guid, date } = episode
       const text = captions?.map(caption => caption.text).join(' ')
-      const frontmatter = { title, slug, videoId, guid, date }
+      const frontmatter = { title, slug, videoId: videoId || '', guid, date }
       const md = `---\n${YAML.stringify(frontmatter, 2)}\n---\n${text}`
       await fs.writeFile(path.join(__dirname, `/markdown-pages/${episode.slug}.md`), md)
       reporter.info(`Writing page to ${path.join(__dirname, `/markdown-pages/${episode.slug}.md`)}`)
