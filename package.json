@@ -13,7 +13,6 @@
   "scripts": {
     "dev": "gatsby develop",
     "start": "gatsby develop",
-    "prebuild": "node prebuild.js",
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
@@ -43,6 +42,7 @@
     "googleapis": "^67.0.0",
     "log4js": "^6.3.0",
     "node-fetch": "^2.6.1",
+    "node-global-proxy": "^1.0.1",
     "progress-stream": "^2.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
