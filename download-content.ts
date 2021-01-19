@@ -27,6 +27,8 @@ const { TRANSCRIPTS_API, YT_DATA_API_KEY, YT_PLAYLIST_ID } = process.env
           playlistId: YT_PLAYLIST_ID
         })
       : {}
-  const episodeDataMap = TRANSCRIPTS_API ? await writeEpisodeDataMap(feed, videos) : null
-  await writeTranscripts(episodeDataMap)
+  const episodeDataMap = TRANSCRIPTS_API
+    ? await writeEpisodeDataMap({ feed, videos, reporter })
+    : null
+  await writeTranscripts({ episodeDataMap, reporter })
 })()
