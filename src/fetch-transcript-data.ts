@@ -3,6 +3,7 @@ import path from 'path'
 import type { Reporter } from 'gatsby'
 import fetch from 'node-fetch'
 import dotenv from 'dotenv'
+import YAML from 'yamljs'
 import type { feedData, Videos, Episode } from '../types/media-types'
 import fetchFeedData from './fetch-feed-data'
 import { listPlaylistVideos } from './yt-apis'
@@ -151,13 +152,14 @@ export const writeTranscripts = async ({
       const frontmatter = { title, slug, videoId, guid, date }
       const md = `
     ---
-    ${JSON.stringify(frontmatter, null, 2)}
+    ${YAML.stringify(frontmatter, 2)}
     ---
 
     ${text}
     `
       await fs.writeFile(path.join(__dirname, `/markdown-pages/${episode.slug}.md`), md)
       reporter.info(`Writing page to ${path.join(__dirname, `/markdown-pages/${episode.slug}.md`)}`)
+      reporter.info(JSON.stringify(frontmatter, null, 2))
       return md
     })
   )
