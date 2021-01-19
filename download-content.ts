@@ -1,3 +1,5 @@
+import path from 'path'
+import { promises as fs } from 'fs'
 import reporter from 'gatsby-cli/lib/reporter'
 import dotenv from 'dotenv'
 import {
@@ -13,6 +15,7 @@ dotenv.config()
 const { TRANSCRIPTS_API, YT_DATA_API_KEY, YT_PLAYLIST_ID } = process.env
 
 ;(async () => {
+  reporter.info(__dirname)
   const feed = await downloadRSSFeedData({ reporter })
   const latestEpisode = feed.items?.pop()
   const url = latestEpisode?.enclosure?.url
@@ -31,4 +34,6 @@ const { TRANSCRIPTS_API, YT_DATA_API_KEY, YT_PLAYLIST_ID } = process.env
     ? await writeEpisodeDataMap({ feed, videos, reporter })
     : null
   await writeTranscripts({ episodeDataMap, reporter })
+  const files = await fs.readdir(path.join(__dirname, '/src/markdown-pages/'))
+  reporter.info(JSON.stringify(files, undefined, 2))
 })()
