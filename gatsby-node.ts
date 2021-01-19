@@ -44,6 +44,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
   }
   result.data?.allMarkdownRemark.edges.forEach(({ node }) => {
     if (!node.frontmatter.slug) return
+    reporter.info(JSON.stringify(node.frontmatter, null, 2))
     createPage({
       path: node.frontmatter.slug,
       component: episodePostTemplate,
