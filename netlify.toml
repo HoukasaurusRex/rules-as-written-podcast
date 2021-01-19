@@ -1,5 +1,3 @@
-[build]
-  command = "yarn prebuild && yarn build"
 [[headers]]
   for = "*.js" # cache immutable js files for up to 1 year
   [headers.values]
