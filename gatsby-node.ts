@@ -51,7 +51,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
         slug: node.frontmatter.slug,
         date: node.frontmatter.date,
         title: node.frontmatter.title,
-        guid: node.frontmatter.guid
+        guid: node.frontmatter.guid,
+        videoId: node.frontmatter.videoId
       }
     })
   })
