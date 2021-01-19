@@ -86,13 +86,20 @@ export const downloadPlaylistVideos = async ({
   return videosDataMap
 }
 
-export const writeEpisodeDataMap = async (
-  feed: feedData,
+export const writeEpisodeDataMap = async ({
+  feed,
+  videos,
+  reporter
+}: {
+  feed: feedData
   videos: Videos
-): Promise<Array<Episode> | null> => {
+  reporter: Reporter
+}): Promise<Array<Episode> | null> => {
   if (!feed.items) {
     return null
   }
+  const dlTranscriptTimer = reporter.activityTimer('Downloading transcripts')
+  dlTranscriptTimer.start()
   const episodeDataMap = await Promise.all(
     feed.items.map(async podcastData => {
       const res = await fetch(
@@ -114,18 +121,30 @@ export const writeEpisodeDataMap = async (
         path.join(__dirname, `/episode-data/${episodeData.slug}.json`),
         JSON.stringify(episodeData, null, 2)
       )
+      reporter.info(
+        `Created data: ${path.join(__dirname, `/episode-data/${episodeData.slug}.json`)}`
+      )
       return episodeData
     })
   )
+  dlTranscriptTimer.end()
 
   return episodeDataMap
 }
 
-export const writeTranscripts = async (episodeDataMap: Array<Episode> | null): Promise<void> => {
+export const writeTranscripts = async ({
+  episodeDataMap,
+  reporter
+}: {
+  episodeDataMap: Array<Episode> | null
+  reporter: Reporter
+}): Promise<Array<string>> => {
   if (!episodeDataMap) {
-    return
+    throw new Error(`Expecting episodeDataMap but received ${episodeDataMap}`)
   }
-  await Promise.all(
+  const writeTranscriptTimer = reporter.activityTimer('Writing episode pages')
+  writeTranscriptTimer.start()
+  const pages = await Promise.all(
     episodeDataMap.map(async episode => {
       const { title, slug, videoId, captions, guid, date } = episode
       const text = captions?.map(caption => caption.text).join(' ')
@@ -138,6 +157,10 @@ export const writeTranscripts = async (episodeDataMap: Array<Episode> | null): P
     ${text}
     `
       await fs.writeFile(path.join(__dirname, `/markdown-pages/${episode.slug}.md`), md)
+      reporter.info(`Writing page to ${path.join(__dirname, `/markdown-pages/${episode.slug}.md`)}`)
+      return md
     })
   )
+  writeTranscriptTimer.end()
+  return pages
 }
