@@ -152,9 +152,9 @@ export const writeTranscripts = async ({
       const text = captions?.map(caption => caption.text).join(' ')
       const frontmatter = { title, slug, videoId, guid, date }
       const md = `
-    ---
-    ${YAML.stringify(frontmatter, 2)}
-    ---
+---
+${YAML.stringify(frontmatter, 2)}
+---
 
     ${text}
     `
