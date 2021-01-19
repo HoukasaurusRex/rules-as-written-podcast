@@ -103,6 +103,7 @@ export const writeEpisodeDataMap = async ({
   dlTranscriptTimer.start()
   const episodeDataMap = await Promise.all(
     feed.items.map(async podcastData => {
+      reporter.info(videos[podcastData.title]?.videoId || `No videoId for ${podcastData.title}`)
       const res = await fetch(
         `https://${TRANSCRIPTS_API}?videoId=${videos[podcastData.title]?.videoId}`
       )
@@ -159,7 +160,7 @@ export const writeTranscripts = async ({
     `
       await fs.writeFile(path.join(__dirname, `/markdown-pages/${episode.slug}.md`), md)
       reporter.info(`Writing page to ${path.join(__dirname, `/markdown-pages/${episode.slug}.md`)}`)
-      reporter.info(JSON.stringify(frontmatter, null, 2))
+      reporter.info(JSON.stringify(episode, null, 2))
       return md
     })
   )
