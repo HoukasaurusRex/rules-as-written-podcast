@@ -2,31 +2,23 @@ import fileSystem, { promises as fs } from 'fs'
 import path from 'path'
 import type { Reporter } from 'gatsby'
 import fetch from 'node-fetch'
-import dotenv from 'dotenv'
 import YAML from 'yamljs'
 import type { feedData, Videos, Episode } from '../types/media-types'
 import fetchFeedData from './fetch-feed-data'
 import { listPlaylistVideos } from './yt-apis'
 import { toSlug } from './utils/slug'
 
-dotenv.config()
-
-const { TRANSCRIPTS_API } = process.env
-
 export const downloadRSSFeedData = async ({
   reporter
 }: {
   reporter: Reporter
 }): Promise<feedData> => {
-  const fetchFeedDataTimer = reporter.activityTimer('Retrieving RSS feed data')
-  const writeDataTimer = reporter.activityTimer('Writing feed data to data/rss.json')
+  const fetchFeedDataTimer = reporter.activityTimer('Downloading RSS feed data')
   fetchFeedDataTimer.start()
   const data = await fetchFeedData({ request: fetch })
-  fetchFeedDataTimer.end()
   const rssFilePath = path.join(__dirname, '/data/rss.json')
-  writeDataTimer.start()
-  await fs.writeFile(rssFilePath, JSON.stringify(data, undefined, 2))
-  writeDataTimer.end()
+  await fs.writeFile(rssFilePath, JSON.stringify(data, null, 2))
+  fetchFeedDataTimer.end()
   return data
 }
 
@@ -40,24 +32,23 @@ export const downloadLatestEpisode = ({
   fileName: string
 }): Promise<fileSystem.WriteStream> =>
   new Promise((resolve, reject) => {
-    const fetchLatestEpisodeTimer = reporter.activityTimer('Retrieving latest episode file')
-    const writeDataTimer = reporter.activityTimer(`Writing episode data to data/${fileName}`)
-    fetchLatestEpisodeTimer.start()
+    const dlLatestEpisodeTimer = reporter.activityTimer(
+      `Downloading latest episode audio file for cache to  data/${fileName}`
+    )
+    dlLatestEpisodeTimer.start()
     return fetch(url).then(res => {
-      fetchLatestEpisodeTimer.end()
       const latestEpisodeFilePath = path.join(__dirname, `/data/${fileName}`)
-      writeDataTimer.start()
       const fileStream = fileSystem.createWriteStream(latestEpisodeFilePath)
       res.body.pipe(fileStream)
       res.body.on('error', reject)
       fileStream.on('finish', () => {
-        writeDataTimer.end()
+        dlLatestEpisodeTimer.end()
         return resolve(fileStream)
       })
     })
   })
 
-export const downloadPlaylistVideos = async ({
+export const getPlaylistVideos = async ({
   reporter,
   apiKey,
   playlistId
@@ -66,7 +57,7 @@ export const downloadPlaylistVideos = async ({
   apiKey: string
   playlistId: string
 }): Promise<Videos> => {
-  const listPlaylistVideosTimer = reporter.activityTimer('listPlaylistVideos')
+  const listPlaylistVideosTimer = reporter.activityTimer('Fetching playlist data from YouTube')
   listPlaylistVideosTimer.start()
   const playlistVideos = await listPlaylistVideos({ apiKey, playlistId })
   listPlaylistVideosTimer.end()
@@ -87,14 +78,16 @@ export const downloadPlaylistVideos = async ({
   return videosDataMap
 }
 
-export const writeEpisodeDataMap = async ({
+export const downloadEpisodeData = async ({
   feed,
   videos,
-  reporter
+  reporter,
+  transcriptsAPI
 }: {
   feed: feedData
   videos: Videos
   reporter: Reporter
+  transcriptsAPI: string
 }): Promise<Array<Episode> | null> => {
   if (!feed.items) {
     return null
@@ -103,9 +96,8 @@ export const writeEpisodeDataMap = async ({
   dlTranscriptTimer.start()
   const episodeDataMap = await Promise.all(
     feed.items.map(async podcastData => {
-      reporter.info(videos[podcastData.title]?.videoId || `No videoId for ${podcastData.title}`)
       const res = await fetch(
-        `https://${TRANSCRIPTS_API}?videoId=${videos[podcastData.title]?.videoId}`
+        `https://${transcriptsAPI}?videoId=${videos[podcastData.title]?.videoId}`
       )
       const json: {
         statusCode: number
@@ -123,9 +115,6 @@ export const writeEpisodeDataMap = async ({
         path.join(__dirname, `/episode-data/${episodeData.slug}.json`),
         JSON.stringify(episodeData, null, 2)
       )
-      reporter.info(
-        `Created data: ${path.join(__dirname, `/episode-data/${episodeData.slug}.json`)}`
-      )
       return episodeData
     })
   )
@@ -134,18 +123,18 @@ export const writeEpisodeDataMap = async ({
   return episodeDataMap
 }
 
-export const writeTranscripts = async ({
+export const createMD = async ({
   episodeDataMap,
   reporter
 }: {
   episodeDataMap: Array<Episode> | null
   reporter: Reporter
-}): Promise<Array<string>> => {
+}): Promise<Array<{ frontmatter: Episode; md: string }>> => {
   if (!episodeDataMap) {
     throw new Error(`Expecting episodeDataMap but received ${episodeDataMap}`)
   }
-  const writeTranscriptTimer = reporter.activityTimer('Writing episode pages')
-  writeTranscriptTimer.start()
+  const createPagesTimer = reporter.activityTimer('Creating markdown pages')
+  createPagesTimer.start()
   const pages = await Promise.all(
     episodeDataMap.map(async episode => {
       const { title, slug, videoId, captions, guid, date } = episode
@@ -153,11 +142,9 @@ export const writeTranscripts = async ({
       const frontmatter = { title, slug, videoId: videoId || '', guid, date }
       const md = `---\n${YAML.stringify(frontmatter, 2)}\n---\n${text}`
       await fs.writeFile(path.join(__dirname, `/markdown-pages/${episode.slug}.md`), md)
-      reporter.info(`Writing page to ${path.join(__dirname, `/markdown-pages/${episode.slug}.md`)}`)
-      reporter.info(JSON.stringify(episode, null, 2))
-      return md
+      return { frontmatter, md }
     })
   )
-  writeTranscriptTimer.end()
+  createPagesTimer.end()
   return pages
 }

@@ -68,3 +68,7 @@ yarn-error.log
 
 # Yarn Integrity file
 .yarn-integrity
+
+src/data
+src/episode-data
+src/markdown-pages
