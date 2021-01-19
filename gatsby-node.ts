@@ -27,7 +27,7 @@ export const onPreInit: GatsbyNode['onPreInit'] = async ({ reporter }) => {
   const feed = await downloadRSSFeedData({ reporter })
   const latestEpisode = feed.items && feed.items[0]
   const url = latestEpisode?.enclosure?.url
-  if (url && process.env.NODE_URL !== 'development') {
+  if (url && process.env.NODE_ENV !== 'development') {
     await downloadLatestEpisode({ url, reporter, fileName: `${latestEpisode?.guid}.mp3` })
   }
   const videos =
