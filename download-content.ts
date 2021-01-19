@@ -33,7 +33,8 @@ const { TRANSCRIPTS_API, YT_DATA_API_KEY, YT_PLAYLIST_ID } = process.env
   const episodeDataMap = TRANSCRIPTS_API
     ? await writeEpisodeDataMap({ feed, videos, reporter })
     : null
-  await writeTranscripts({ episodeDataMap, reporter })
+  const transcripts = await writeTranscripts({ episodeDataMap, reporter })
   const files = await fs.readdir(path.join(__dirname, '/src/markdown-pages/'))
   reporter.info(JSON.stringify(files, undefined, 2))
+  reporter.info(transcripts[0])
 })()
