@@ -12,7 +12,7 @@ import {
   Tooltip
 } from '@chakra-ui/react'
 import { CgMouse } from 'react-icons/cg'
-import { SiApplepodcasts, SiGooglepodcasts, SiSpotify } from 'react-icons/si'
+import { SiApplepodcasts, SiSpotify, SiYoutube } from 'react-icons/si'
 import ReactHtmlParser from 'react-html-parser'
 import RawImage from './raw-image'
 
@@ -89,9 +89,9 @@ export default function Hero({ title = 'Title', description = 'Description of si
               </Tooltip>
             </ListItem>
             <ListItem>
-              <Tooltip shouldWrapChildren label="Listen on Google Podcasts" hasArrow fontSize="xs" offset={[0, 15]}>
-                <Link href="https://www.google.com/podcasts?feed=aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw==" target="_blank" rel="noreferrer noopener">
-                  <Icon as={SiGooglepodcasts} boxSize={6}/>
+              <Tooltip shouldWrapChildren label="Watch on YouTube" hasArrow fontSize="xs" offset={[0, 15]}>
+                <Link href="https://www.youtube.com/channel/UCpqh72Jl2K09HvKBiqMixAA" target="_blank" rel="noreferrer noopener">
+                  <Icon as={SiYoutube} boxSize={6}/>
                 </Link>
               </Tooltip>
             </ListItem>

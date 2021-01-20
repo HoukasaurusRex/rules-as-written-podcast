@@ -1,7 +1,12 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/ssr-apis/
- */
+import React from 'react'
+import { ColorModeScript } from '@chakra-ui/react'
 
+export const onRenderBody = ({ setPreBodyComponents }) => {
+  setPreBodyComponents([
+    <ColorModeScript
+      initialColorMode={new Date().getHours() >= 18 ? 'dark' : 'light'}
+      key="chakra-ui-no-flash"
+    />
+  ])
+}
 export * from './src/theme-provider'
