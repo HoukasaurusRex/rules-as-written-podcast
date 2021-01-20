@@ -15,7 +15,7 @@ const IndexPage: () => JSX.Element = () => {
   }, [])
   return (
     <>
-      <SEO title="Home" />
+      <SEO title="Home" pathname="/" />
       <Hero title={metadata.title} description={metadata.description} />
       <Box
         as="main"
