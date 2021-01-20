@@ -16,8 +16,11 @@ export const downloadRSSFeedData = async ({
   const fetchFeedDataTimer = reporter.activityTimer('Downloading RSS feed data')
   fetchFeedDataTimer.start()
   const data = await fetchFeedData({ request: fetch })
-  const rssFilePath = path.join(__dirname, '/data/rss.json')
-  await fs.writeFile(rssFilePath, JSON.stringify(data, null, 2))
+  const dataFolder = path.join(__dirname, '/data')
+  if (!(await fs.stat(dataFolder).catch(() => false))) {
+    await fs.mkdir(dataFolder)
+  }
+  await fs.writeFile(`${dataFolder}/rss.json`, JSON.stringify(data, null, 2))
   fetchFeedDataTimer.end()
   return data
 }
@@ -111,8 +114,12 @@ export const downloadEpisodeData = async ({
         videoId: videos[podcastData.title]?.videoId,
         captions: json.body?.data
       }
+      const episodeDataFolder = path.join(__dirname, `/episode-data`)
+      if (!(await fs.stat(episodeDataFolder).catch(() => false))) {
+        await fs.mkdir(episodeDataFolder)
+      }
       await fs.writeFile(
-        path.join(__dirname, `/episode-data/${episodeData.slug}.json`),
+        `${episodeDataFolder}/${episodeData.slug}.json`,
         JSON.stringify(episodeData, null, 2)
       )
       return episodeData
@@ -135,13 +142,17 @@ export const createMD = async ({
   }
   const createPagesTimer = reporter.activityTimer('Creating markdown pages')
   createPagesTimer.start()
+  const mdPagesFolder = path.join(__dirname, `/markdown-pages`)
+  if (!(await fs.stat(mdPagesFolder).catch(() => false))) {
+    await fs.mkdir(mdPagesFolder)
+  }
   const pages = await Promise.all(
     episodeDataMap.map(async episode => {
       const { title, slug, videoId, captions, guid, date } = episode
       const text = captions?.map(caption => caption.text).join(' ')
       const frontmatter = { title, slug, videoId: videoId || '', guid, date }
       const md = `---\n${YAML.stringify(frontmatter, 2)}\n---\n${text}`
-      await fs.writeFile(path.join(__dirname, `/markdown-pages/${episode.slug}.md`), md)
+      await fs.writeFile(`${mdPagesFolder}/${episode.slug}.md`, md)
       return { frontmatter, md }
     })
   )
