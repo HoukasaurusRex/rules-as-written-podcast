@@ -2205,9 +2205,13 @@ export type SiteFieldsEnum =
   | 'siteMetadata___description'
   | 'siteMetadata___author'
   | 'siteMetadata___siteUrl'
+  | 'siteMetadata___lang'
+  | 'siteMetadata___keywords'
+  | 'siteMetadata___image'
   | 'port'
   | 'host'
   | 'flags___PRESERVE_WEBPACK_CACHE'
+  | 'flags___FAST_DEV'
   | 'polyfill'
   | 'pathPrefix'
   | 'id'
@@ -2313,10 +2317,12 @@ export type SiteFilterInput = {
 
 export type SiteFlags = {
   PRESERVE_WEBPACK_CACHE?: Maybe<Scalars['Boolean']>;
+  FAST_DEV?: Maybe<Scalars['Boolean']>;
 };
 
 export type SiteFlagsFilterInput = {
   PRESERVE_WEBPACK_CACHE?: Maybe<BooleanQueryOperatorInput>;
+  FAST_DEV?: Maybe<BooleanQueryOperatorInput>;
 };
 
 export type SiteGroupConnection = {
@@ -2985,6 +2991,9 @@ export type SiteSiteMetadata = {
   description?: Maybe<Scalars['String']>;
   author?: Maybe<Scalars['String']>;
   siteUrl?: Maybe<Scalars['String']>;
+  lang?: Maybe<Scalars['String']>;
+  keywords?: Maybe<Array<Maybe<Scalars['String']>>>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type SiteSiteMetadataFilterInput = {
@@ -2992,6 +3001,9 @@ export type SiteSiteMetadataFilterInput = {
   description?: Maybe<StringQueryOperatorInput>;
   author?: Maybe<StringQueryOperatorInput>;
   siteUrl?: Maybe<StringQueryOperatorInput>;
+  lang?: Maybe<StringQueryOperatorInput>;
+  keywords?: Maybe<StringQueryOperatorInput>;
+  image?: Maybe<StringQueryOperatorInput>;
 };
 
 export type SiteSortInput = {
@@ -3038,7 +3050,7 @@ export type Unnamed_2_Query = { src?: Maybe<{ childImageSharp?: Maybe<{ fluid?: 
 export type Unnamed_3_QueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Unnamed_3_Query = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author'>> }> };
+export type Unnamed_3_Query = { site?: Maybe<{ siteMetadata?: Maybe<Pick<SiteSiteMetadata, 'title' | 'description' | 'author' | 'keywords' | 'siteUrl' | 'image' | 'lang'>> }> };
 
 export type Unnamed_4_QueryVariables = Exact<{
   slug: Scalars['String'];

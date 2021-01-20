@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@types/progress-stream": "^2.0.1",
+    "@types/react-helmet": "^6.1.0",
     "@types/react-html-parser": "^2.0.1",
     "@types/yamljs": "^0.2.31",
     "@typescript-eslint/eslint-plugin": "^4.11.1",

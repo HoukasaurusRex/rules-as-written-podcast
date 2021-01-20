@@ -1,11 +1,14 @@
 export default {
-  flags: { PRESERVE_WEBPACK_CACHE: true, FAST_DEV: true },
+  flags: { PRESERVE_WEBPACK_CACHE: true, FAST_DEV: true, FAST_REFRESH: true },
   siteMetadata: {
     title: 'Rules As Written',
     description:
       'A weekly podcast where we talk about the rules in as many D&D 5E books we can afford to help you level up your player game.',
     author: '@HoukasaurusRex',
-    siteUrl: 'https://rulesaswrittenshow.com'
+    siteUrl: 'https://rulesaswrittenshow.com',
+    lang: 'en',
+    keywords: ['D&D', "Player's Handbook", 'Dungeons and Dragons', 'Tabletop RPG', 'Podcast'],
+    image: '/raw-banner.jpg'
   },
   plugins: [
     '@chakra-ui/gatsby-plugin',

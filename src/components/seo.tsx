@@ -1,16 +1,16 @@
-/**
- * SEO component that queries for data with
- *  Gatsby's useStaticQuery React hook
- *
- * See: https://www.gatsbyjs.com/docs/use-static-query/
- */
-
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { FC } from 'react'
 import { Helmet } from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 
-function SEO({ description, lang, meta, title }) {
+interface componentSEOProps {
+  title: string
+  pathname: string
+  description?: string
+  meta?: Array<React.DetailedHTMLProps<React.MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement>>
+  image?: HTMLImageElement
+}
+
+const SEO: FC<componentSEOProps> = ({ description, meta, image: metaImage, title, pathname }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -19,71 +19,109 @@ function SEO({ description, lang, meta, title }) {
             title
             description
             author
+            keywords
+            siteUrl
+            image
+            lang
           }
         }
       }
     `
   )
-
+  const lang = site.siteMetadata.lang || 'en'
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
-
+  const image =
+    metaImage && metaImage.src
+      ? `${site.siteMetadata.siteUrl}${metaImage.src}`
+      : site.siteMetadata.image
+  const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
   return (
     <Helmet
       htmlAttributes={{
-        lang,
+        lang
       }}
       title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : undefined}
+      link={
+        canonical
+          ? [
+              {
+                rel: 'canonical',
+                href: canonical
+              }
+            ]
+          : []
+      }
       meta={[
         {
           name: 'description',
-          content: metaDescription,
+          content: metaDescription
+        },
+        {
+          name: 'keywords',
+          content: site.siteMetadata.keywords.join(',')
         },
         {
           property: 'og:title',
-          content: title,
+          content: title
         },
         {
           property: 'og:description',
-          content: metaDescription,
+          content: metaDescription
         },
         {
           property: 'og:type',
-          content: 'website',
+          content: 'website'
         },
         {
           name: 'twitter:card',
-          content: 'summary',
+          content: 'summary'
         },
         {
           name: 'twitter:creator',
-          content: site.siteMetadata?.author || '',
+          content: site.siteMetadata?.author || ''
         },
         {
           name: 'twitter:title',
-          content: title,
+          content: title
         },
         {
           name: 'twitter:description',
-          content: metaDescription,
-        },
-      ].concat(meta)}
+          content: metaDescription
+        }
+      ]
+        .concat(
+          image
+            ? [
+                {
+                  property: 'og:image',
+                  content: image
+                },
+                {
+                  property: 'og:image:width',
+                  content: 2560
+                },
+                {
+                  property: 'og:image:height',
+                  content: 1440
+                },
+                {
+                  name: 'twitter:card',
+                  content: 'summary_large_image'
+                }
+              ]
+            : [
+                {
+                  name: 'twitter:card',
+                  content: 'summary'
+                }
+              ]
+        )
+        // @ts-ignore
+        .concat(meta || [])}
     />
   )
-}
-
-SEO.defaultProps = {
-  lang: 'en',
-  meta: [],
-  description: '',
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
 }
 
 export default SEO
