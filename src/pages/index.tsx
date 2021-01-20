@@ -20,7 +20,6 @@ const IndexPage: () => JSX.Element = () => {
       <Box
         as="main"
         position="relative"
-        bgColor={useColorModeValue('white', 'gray.800')}
         minHeight="50vh"
         paddingBottom="30px"
         _before={{
