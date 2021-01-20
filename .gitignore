@@ -72,3 +72,5 @@ yarn-error.log
 src/data
 src/episode-data
 src/markdown-pages
+
+!.gitkeep

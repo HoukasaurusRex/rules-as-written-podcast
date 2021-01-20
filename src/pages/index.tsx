@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Box, useColorModeValue } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import fetchFeedData from '../fetch-feed-data'
 import SEO from '../components/seo'
 import Hero from '../components/hero'
