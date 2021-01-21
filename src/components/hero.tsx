@@ -75,21 +75,21 @@ export default function Hero({ title = 'Title', description = 'Description of si
 
           <List display="flex" justifyContent="space-evenly" alignItems="center" pt="2rem" h="auto">
             <ListItem>
-              <Tooltip shouldWrapChildren label="Listen on Spotify" hasArrow fontSize="xs" offset={[0, 15]}>
+              <Tooltip shouldWrapChildren label="Listen on Spotify" hasArrow placement="bottom" fontSize="xs" offset={[0, 15]}>
                 <Link href="https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ" target="_blank" rel="noreferrer noopener">
                   <Icon as={SiSpotify} boxSize={6}/>
                 </Link>
               </Tooltip>
             </ListItem>
             <ListItem>
-              <Tooltip shouldWrapChildren label="Coming soon to Apple Podcasts!" hasArrow fontSize="xs" offset={[0, 15]}>
+              <Tooltip shouldWrapChildren label="Coming soon to Apple Podcasts!" hasArrow placement="bottom" fontSize="xs" offset={[0, 15]}>
                 <Button disabled bg="none" _hover={{ bg: 'none' }}>
                   <Icon as={SiApplepodcasts} boxSize={6}/>
                 </Button>
               </Tooltip>
             </ListItem>
             <ListItem>
-              <Tooltip shouldWrapChildren label="Watch on YouTube" hasArrow fontSize="xs" offset={[0, 15]}>
+              <Tooltip shouldWrapChildren label="Watch on YouTube" hasArrow placement="bottom" fontSize="xs" offset={[0, 15]}>
                 <Link href="https://www.youtube.com/channel/UCpqh72Jl2K09HvKBiqMixAA" target="_blank" rel="noreferrer noopener">
                   <Icon as={SiYoutube} boxSize={6}/>
                 </Link>

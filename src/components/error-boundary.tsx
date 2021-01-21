@@ -14,6 +14,7 @@ const ErrorFallback: React.FunctionComponent<{
     maxW="600px"
     justifyContent="center"
     alignItems="center"
+    margin="auto"
   >
     <Text>Something went wrong:</Text>
     <Text as="pre" overflowWrap="break-word">

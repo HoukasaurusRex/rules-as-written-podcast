@@ -66,26 +66,27 @@ yarn dev
 
 ## 🗺 Roadmap
 
-[x] Add external cast apps icons
-[ ] Fix nightmode ssr in main bg
-[ ] Episode page w/ transcript and playback card
-[ ] Add commenting
-[ ] Paginate episodes list on home
-[ ] Mark Played
-[ ] Save playback state
-[ ] Debounce updateTime events
-[ ] Show notes expand
-[ ] Queue episodes
-[ ] About page
-[ ] Sticky playback to nav on episode page
-[ ] Highlight transcript section as it plays
-[ ] Add D&D themed 404
-[ ] Fun playback animation
-[ ] Add Newsletter
-[ ] Future episodes page
-[ ] Create Gatsby podcast theme
-[x] Fetch metadata on build
-[x] Fix linting (ugh)
+* [x] Add external cast apps icons
+* [x] Fix nightmode ssr in main bg
+* [ ] Episode page w/ transcript and playback card
+* [ ] All episodes page
+* [ ] Add commenting
+* [ ] Paginate episodes list on home
+* [ ] Mark Played
+* [ ] Save playback state
+* [ ] Debounce updateTime events
+* [ ] Show notes expand
+* [ ] Queue episodes
+* [ ] About page
+* [ ] Sticky playback to nav on episode page
+* [ ] Highlight transcript section as it plays
+* [ ] Add D&D themed 404
+* [ ] Fun playback animation
+* [ ] Add Newsletter
+* [ ] Future episodes page
+* [ ] Create Gatsby podcast theme
+* [x] Fetch metadata on build
+* [x] Fix linting (ugh)
 
 ## 🛠 Contributing
 
