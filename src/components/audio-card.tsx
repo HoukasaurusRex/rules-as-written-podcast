@@ -6,8 +6,8 @@ import {
   Input,
   Button,
   useColorModeValue,
-  transition,
-  Link
+  Link,
+  Tooltip
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
@@ -68,7 +68,10 @@ const AudioCard = ({
   const loading = () => {
     setIsLoading(true)
   }
-  const selectedStyles = { boxShadow: useColorModeValue('lg', 'md') }
+  const selectedStyles = {
+    boxShadow: useColorModeValue('md', 'lg'),
+    transform: 'translateY(-1px)'
+  }
   if (selfHostedFile && !selfHostedFileFailed) {
     importURL()
       .then(importedURL => {
@@ -80,15 +83,16 @@ const AudioCard = ({
       })
   }
   return (
-    <Box w="100%" marginTop="30px" maxWidth="600px" px="25px">
+    <Box w="100%" marginTop="30px" maxWidth="600px" px="15">
       <Box
         _hover={selectedStyles}
         _focusWithin={selectedStyles}
         p="5px"
+        marginTop="15px"
         rounded="md"
         bgColor={useColorModeValue('gray.200', 'gray.900')}
-        boxShadow={useColorModeValue('md', 'sm')}
-        transition="box-shadow ease-in-out 0.2s"
+        boxShadow={useColorModeValue('sm', 'md')}
+        transition="all ease-in-out 0.2s"
       >
         <Box d="flex" alignItems="flex-end" cursor="default">
           <Button
@@ -104,16 +108,25 @@ const AudioCard = ({
             {!isPlaying && <FaPlayCircle size="35px" />}
             {isPlaying && <FaPauseCircle size="35px" />}
           </Button>
-          <Box p="5px" flex="3">
+          <Box p="5px" flex="8">
             <Heading as="h3" fontSize="sm">
               {title}
             </Heading>
             <Text fontSize="xs">{fPubDate}</Text>
           </Box>
           <Box p="5px" flex="5" textAlign="right">
-            <Link href={toSlug(title)}>
-              <ExternalLinkIcon />
-            </Link>
+            <Tooltip
+              shouldWrapChildren
+              label="Open Episode Page"
+              hasArrow
+              placement="top"
+              fontSize="xs"
+              offset={[0, 15]}
+            >
+              <Link target="_blank" href={toSlug(title)}>
+                <ExternalLinkIcon />
+              </Link>
+            </Tooltip>
             <Text fontSize="xs">
               {currentTimestamp} / {durationTimestamp}
             </Text>
