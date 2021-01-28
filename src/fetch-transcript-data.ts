@@ -71,7 +71,7 @@ export const getPlaylistVideos = async ({
   } = {}
   playlistVideos?.forEach(video => {
     if (video.snippet?.title) {
-      videosDataMap[video.snippet.title] = {
+      videosDataMap[toSlug(video.snippet.title)] = {
         videoId: video.contentDetails?.videoId,
         videoPublishedAt: video.contentDetails?.videoPublishedAt
       }
@@ -96,6 +96,9 @@ export const downloadEpisodeData = async ({
   }
   const dlTranscriptTimer = reporter.activityTimer('Downloading transcripts')
   dlTranscriptTimer.start()
+  const episodeDataFolder = path.join(__dirname, `/episode-data`)
+  await fs.rmdir(episodeDataFolder, { recursive: true })
+  await fs.mkdir(episodeDataFolder)
   const episodeDataMap = await Promise.all(
     feed.items.map(async podcastData => {
       const episodeData: Episode = {
@@ -107,20 +110,18 @@ export const downloadEpisodeData = async ({
         enclosure: podcastData.enclosure,
         itunes: podcastData.itunes
       }
-      if (!videos[podcastData.title]?.videoId) {
+      if (!videos[episodeData.slug]?.videoId) {
+        reporter.info(`Could not find ${episodeData.slug} in videos`)
         return episodeData
       }
       const res = await fetch(
-        `https://${transcriptsAPI}?videoId=${videos[podcastData.title]?.videoId}`
+        `https://${transcriptsAPI}?videoId=${videos[episodeData.slug]?.videoId}`
       )
       const json: {
         message: string
         data: Array<{ text: string; start: number; duration: number }>
       } = await res.json()
       episodeData.captions = json.data
-      const episodeDataFolder = path.join(__dirname, `/episode-data`)
-      await fs.rmdir(episodeDataFolder, { recursive: true })
-      await fs.mkdir(episodeDataFolder)
       await fs.writeFile(
         `${episodeDataFolder}/${episodeData.slug}.json`,
         JSON.stringify(episodeData, null, 2)

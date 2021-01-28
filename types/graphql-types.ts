@@ -732,7 +732,6 @@ export type EpisodeDataJson = Node & {
   guid?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
-  videoId?: Maybe<Scalars['String']>;
   enclosure?: Maybe<EpisodeDataJsonEnclosure>;
   itunes?: Maybe<EpisodeDataJsonItunes>;
   captions?: Maybe<Array<Maybe<EpisodeDataJsonCaptions>>>;
@@ -884,7 +883,6 @@ export type EpisodeDataJsonFieldsEnum =
   | 'guid'
   | 'title'
   | 'slug'
-  | 'videoId'
   | 'enclosure___url'
   | 'enclosure___length'
   | 'enclosure___type'
@@ -908,7 +906,6 @@ export type EpisodeDataJsonFilterInput = {
   guid?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   slug?: Maybe<StringQueryOperatorInput>;
-  videoId?: Maybe<StringQueryOperatorInput>;
   enclosure?: Maybe<EpisodeDataJsonEnclosureFilterInput>;
   itunes?: Maybe<EpisodeDataJsonItunesFilterInput>;
   captions?: Maybe<EpisodeDataJsonCaptionsFilterListInput>;
@@ -930,24 +927,16 @@ export type EpisodeDataJsonGroupConnection = {
 export type EpisodeDataJsonItunes = {
   summary?: Maybe<Scalars['String']>;
   explicit?: Maybe<Scalars['String']>;
-  duration?: Maybe<Scalars['Date']>;
+  duration?: Maybe<Scalars['String']>;
   image?: Maybe<Scalars['String']>;
   episode?: Maybe<Scalars['String']>;
   season?: Maybe<Scalars['String']>;
 };
 
-
-export type EpisodeDataJsonItunesDurationArgs = {
-  formatString?: Maybe<Scalars['String']>;
-  fromNow?: Maybe<Scalars['Boolean']>;
-  difference?: Maybe<Scalars['String']>;
-  locale?: Maybe<Scalars['String']>;
-};
-
 export type EpisodeDataJsonItunesFilterInput = {
   summary?: Maybe<StringQueryOperatorInput>;
   explicit?: Maybe<StringQueryOperatorInput>;
-  duration?: Maybe<DateQueryOperatorInput>;
+  duration?: Maybe<StringQueryOperatorInput>;
   image?: Maybe<StringQueryOperatorInput>;
   episode?: Maybe<StringQueryOperatorInput>;
   season?: Maybe<StringQueryOperatorInput>;
@@ -1660,7 +1649,6 @@ export type FileFieldsEnum =
   | 'childrenEpisodeDataJson___guid'
   | 'childrenEpisodeDataJson___title'
   | 'childrenEpisodeDataJson___slug'
-  | 'childrenEpisodeDataJson___videoId'
   | 'childrenEpisodeDataJson___enclosure___url'
   | 'childrenEpisodeDataJson___enclosure___length'
   | 'childrenEpisodeDataJson___enclosure___type'
@@ -1716,7 +1704,6 @@ export type FileFieldsEnum =
   | 'childEpisodeDataJson___guid'
   | 'childEpisodeDataJson___title'
   | 'childEpisodeDataJson___slug'
-  | 'childEpisodeDataJson___videoId'
   | 'childEpisodeDataJson___enclosure___url'
   | 'childEpisodeDataJson___enclosure___length'
   | 'childEpisodeDataJson___enclosure___type'
@@ -2981,8 +2968,6 @@ export type QueryAllDirectoryArgs = {
 export type QuerySiteArgs = {
   buildTime?: Maybe<DateQueryOperatorInput>;
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>;
-  port?: Maybe<IntQueryOperatorInput>;
-  host?: Maybe<StringQueryOperatorInput>;
   flags?: Maybe<SiteFlagsFilterInput>;
   polyfill?: Maybe<BooleanQueryOperatorInput>;
   pathPrefix?: Maybe<StringQueryOperatorInput>;
@@ -3115,7 +3100,6 @@ export type QueryEpisodeDataJsonArgs = {
   guid?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   slug?: Maybe<StringQueryOperatorInput>;
-  videoId?: Maybe<StringQueryOperatorInput>;
   enclosure?: Maybe<EpisodeDataJsonEnclosureFilterInput>;
   itunes?: Maybe<EpisodeDataJsonItunesFilterInput>;
   captions?: Maybe<EpisodeDataJsonCaptionsFilterListInput>;
@@ -3174,8 +3158,6 @@ export type QueryAllSitePluginArgs = {
 export type Site = Node & {
   buildTime?: Maybe<Scalars['Date']>;
   siteMetadata?: Maybe<SiteSiteMetadata>;
-  port?: Maybe<Scalars['Int']>;
-  host?: Maybe<Scalars['String']>;
   flags?: Maybe<SiteFlags>;
   polyfill?: Maybe<Scalars['Boolean']>;
   pathPrefix?: Maybe<Scalars['String']>;
@@ -3383,8 +3365,6 @@ export type SiteFieldsEnum =
   | 'siteMetadata___lang'
   | 'siteMetadata___keywords'
   | 'siteMetadata___image'
-  | 'port'
-  | 'host'
   | 'flags___PRESERVE_WEBPACK_CACHE'
   | 'flags___FAST_DEV'
   | 'flags___FAST_REFRESH'
@@ -3480,8 +3460,6 @@ export type SiteFieldsEnum =
 export type SiteFilterInput = {
   buildTime?: Maybe<DateQueryOperatorInput>;
   siteMetadata?: Maybe<SiteSiteMetadataFilterInput>;
-  port?: Maybe<IntQueryOperatorInput>;
-  host?: Maybe<StringQueryOperatorInput>;
   flags?: Maybe<SiteFlagsFilterInput>;
   polyfill?: Maybe<BooleanQueryOperatorInput>;
   pathPrefix?: Maybe<StringQueryOperatorInput>;
