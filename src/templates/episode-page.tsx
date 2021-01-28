@@ -15,7 +15,8 @@ import {
   PopoverCloseButton,
   PopoverHeader,
   PopoverBody,
-  useColorModeValue
+  useColorModeValue,
+  useBreakpointValue
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import SEO from '../components/seo'
@@ -57,7 +58,7 @@ const EpisodePage: React.FunctionComponent<{
     </Text>
   )
   return (
-    <Box>
+    <Box position="relative">
       <SEO title={frontmatter.title} pathname={frontmatter.slug} />
       <Center flexDir="column">
         <Heading paddingTop="70px" paddingBottom="30px" textAlign="center">
@@ -70,7 +71,11 @@ const EpisodePage: React.FunctionComponent<{
           cardBG={false}
           cardTitle={false}
         />
-        <Flex justifyContent="space-around">
+        <Flex
+          justifyContent="space-around"
+          alignItems="center"
+          flexDir={useBreakpointValue({ base: 'column', sm: 'row' })}
+        >
           <Popover>
             <PopoverTrigger>
               <Button m="1rem">Wonky Transcription?</Button>
@@ -124,12 +129,14 @@ const EpisodePage: React.FunctionComponent<{
           position="relative"
           minHeight="50vh"
           w="550px"
-          p="3rem"
+          maxW="100%"
+          px={useBreakpointValue({ base: '0.5rem', sm: '2rem' })}
+          py="2rem"
           my="2rem"
           borderRadius="md"
           bgColor={useColorModeValue('gray.200', 'gray.900')}
           boxShadow={useColorModeValue('sm', 'md')}
-          m="auto"
+          mx="auto"
         >
           {lines}
         </Box>
