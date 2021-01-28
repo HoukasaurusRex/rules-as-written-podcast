@@ -17,9 +17,8 @@ export const downloadRSSFeedData = async ({
   fetchFeedDataTimer.start()
   const data = await fetchFeedData({ request: fetch })
   const dataFolder = path.join(__dirname, '/data')
-  if (!(await fs.stat(dataFolder).catch(() => false))) {
-    await fs.mkdir(dataFolder)
-  }
+  await fs.rmdir(dataFolder, { recursive: true })
+  await fs.mkdir(dataFolder)
   await fs.writeFile(`${dataFolder}/rss.json`, JSON.stringify(data, null, 2))
   fetchFeedDataTimer.end()
   return data
@@ -120,9 +119,8 @@ export const downloadEpisodeData = async ({
       } = await res.json()
       episodeData.captions = json.data
       const episodeDataFolder = path.join(__dirname, `/episode-data`)
-      if (!(await fs.stat(episodeDataFolder).catch(() => false))) {
-        await fs.mkdir(episodeDataFolder)
-      }
+      await fs.rmdir(episodeDataFolder, { recursive: true })
+      await fs.mkdir(episodeDataFolder)
       await fs.writeFile(
         `${episodeDataFolder}/${episodeData.slug}.json`,
         JSON.stringify(episodeData, null, 2)
@@ -148,9 +146,8 @@ export const createMD = async ({
   const createPagesTimer = reporter.activityTimer('Creating markdown pages')
   createPagesTimer.start()
   const mdPagesFolder = path.join(__dirname, `/markdown-pages`)
-  if (!(await fs.stat(mdPagesFolder).catch(() => false))) {
-    await fs.mkdir(mdPagesFolder)
-  }
+  await fs.rmdir(mdPagesFolder, { recursive: true })
+  await fs.mkdir(mdPagesFolder)
   const pages = await Promise.all(
     episodeDataMap.map(async episode => {
       const { title, slug, videoId, captions, guid, pubDate, enclosure, itunes } = episode

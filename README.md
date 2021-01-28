@@ -72,6 +72,8 @@ yarn dev
 * [ ] Upcoming features page
 * [ ] Add commenting
 * [ ] About page
+* [ ] Parse description from rss
+* [ ] Send a voice message https://anchor.fm/rules-as-written/message
 * [ ] All episodes page
 * [ ] Paginate episodes list on home
 * [ ] Mark Played

@@ -82,7 +82,7 @@ const AudioCard = ({
       })
   }
   return (
-    <Box w="100%" marginTop="30px" maxWidth="600px" px="15">
+    <Box w="100%" marginTop="30px" maxWidth="600px" px="0.5rem">
       <Box
         _hover={cardBG ? selectedStyles : undefined}
         _focusWithin={cardBG ? selectedStyles : undefined}
