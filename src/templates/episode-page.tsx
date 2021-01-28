@@ -78,7 +78,7 @@ const EpisodePage: React.FunctionComponent<{
             <PopoverContent>
               <PopoverArrow />
               <PopoverCloseButton />
-              <PopoverHeader>Blame the Robots</PopoverHeader>
+              <PopoverHeader>Blame the Constructs</PopoverHeader>
               <PopoverBody>
                 <Text mb="1rem">
                   Toby and I would love to improve the transcriptions, but we&apos;re currently
