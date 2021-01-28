@@ -60,6 +60,12 @@ type feedAPIResponseBody = {
   data: feedData
 }
 
+type Captions = Array<{
+  text: string
+  start: number
+  duration: number
+}>
+
 interface Videos {
   [title: string]: {
     videoId?: string | null | undefined
@@ -72,8 +78,14 @@ interface Episode {
   videoId?: string | null
   title: string
   slug: string
-  captions?: Array<{ text: string; start: number; duration: number }>
-  date: string
+  captions?: Captions
+  pubDate: string
+  enclosure: {
+    url: string
+  }
+  itunes: {
+    duration: number
+  }
 }
 
-export { feedData, feedItem, feedAPIResponseBody, Videos, Episode }
+export { feedData, feedItem, feedAPIResponseBody, Videos, Episode, Captions }

@@ -3,7 +3,7 @@ import { Box } from '@chakra-ui/react'
 import fetchFeedData from '../fetch-feed-data'
 import SEO from '../components/seo'
 import Hero from '../components/hero'
-import Episodes from '../components/episodes'
+import Episodes from '../components/audio-cards'
 import { feedData } from '../../types/media-types'
 import metadata from '../data/rss.json'
 

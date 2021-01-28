@@ -12,17 +12,9 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
 import dayjs from 'dayjs'
-import { feedItem } from '../../types/media-types'
+import { feedItem, Episode } from '../../types/media-types'
 import { toSlug } from '../utils/slug'
-
-const secondsToTimestamp = (s: number) => {
-  const m = 60
-  const h = 60 * 60
-  const hours = Math.floor(s / h)
-  const mins = Math.floor(s / m)
-  const secs = Math.floor(s % m)
-  return `${hours ? `${hours}:` : ''}${`${mins}:`}${secs < 10 ? `0${secs}` : secs}`
-}
+import { secondsToTimestamp } from '../utils/time'
 
 const AudioCard = ({
   item: {
@@ -31,10 +23,16 @@ const AudioCard = ({
     enclosure: { url },
     itunes: { duration }
   },
+  linkToPage = true,
+  cardTitle = true,
+  cardBG = true,
   selfHostedFile
 }: {
-  item: feedItem
+  item: feedItem | Episode
   selfHostedFile: string
+  linkToPage?: boolean
+  cardTitle?: boolean
+  cardBG?: boolean
 }): JSX.Element => {
   const [audioURL, setAudioURL] = useState(url)
   const [selfHostedFileFailed, setSelfHostedFileFailed] = useState(false)
@@ -43,21 +41,22 @@ const AudioCard = ({
   const [isLoading, setIsLoading] = useState(false)
   const importURL = () => import(`../data/${selfHostedFile}`)
   const fPubDate = dayjs(pubDate).format('MMM D, YYYY')
-  const audio = useRef(new Audio())
+  const audio = useRef(global.window && new Audio())
   const currentTimestamp = secondsToTimestamp(currentTime)
   const durationTimestamp = secondsToTimestamp(duration)
   const play = async () => {
     setIsPlaying(true)
-    await audio.current.play()
+    await audio?.current?.play()
   }
   const pause = async () => {
     setIsPlaying(false)
-    await audio.current.pause()
+    await audio?.current?.pause()
   }
   const updateTime = () => {
-    setCurrentTime(audio.current.currentTime)
+    setCurrentTime(audio?.current?.currentTime || 0)
   }
   const seek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!audio?.current?.currentTime) return
     const seekedTime = Number(e.target.value)
     setCurrentTime(seekedTime)
     audio.current.currentTime = seekedTime
@@ -85,13 +84,13 @@ const AudioCard = ({
   return (
     <Box w="100%" marginTop="30px" maxWidth="600px" px="15">
       <Box
-        _hover={selectedStyles}
-        _focusWithin={selectedStyles}
+        _hover={cardBG ? selectedStyles : undefined}
+        _focusWithin={cardBG ? selectedStyles : undefined}
         p="5px"
         marginTop="15px"
         rounded="md"
-        bgColor={useColorModeValue('gray.200', 'gray.900')}
-        boxShadow={useColorModeValue('sm', 'md')}
+        bgColor={cardBG ? useColorModeValue('gray.200', 'gray.900') : undefined}
+        boxShadow={cardBG ? useColorModeValue('sm', 'md') : undefined}
         transition="all ease-in-out 0.2s"
       >
         <Box d="flex" alignItems="flex-end" cursor="default">
@@ -109,24 +108,28 @@ const AudioCard = ({
             {isPlaying && <FaPauseCircle size="35px" />}
           </Button>
           <Box p="5px" flex="8">
-            <Heading as="h3" fontSize="sm">
-              {title}
-            </Heading>
+            {cardTitle && (
+              <Heading as="h3" fontSize="sm">
+                {title}
+              </Heading>
+            )}
             <Text fontSize="xs">{fPubDate}</Text>
           </Box>
           <Box p="5px" flex="5" textAlign="right">
-            <Tooltip
-              shouldWrapChildren
-              label="Open Episode Page"
-              hasArrow
-              placement="top"
-              fontSize="xs"
-              offset={[0, 15]}
-            >
-              <Link target="_blank" href={toSlug(title)}>
-                <ExternalLinkIcon />
-              </Link>
-            </Tooltip>
+            {linkToPage && (
+              <Tooltip
+                shouldWrapChildren
+                label="Open Episode Page"
+                hasArrow
+                placement="top"
+                fontSize="xs"
+                offset={[0, 15]}
+              >
+                <Link isExternal href={toSlug(title)} color="#bb4430">
+                  <ExternalLinkIcon />
+                </Link>
+              </Tooltip>
+            )}
             <Text fontSize="xs">
               {currentTimestamp} / {durationTimestamp}
             </Text>
@@ -134,6 +137,7 @@ const AudioCard = ({
         </Box>
         <Box mx="5px">
           {/* eslint-disable jsx-a11y/media-has-caption */}
+          {/* TODO: use video element with track for subtitles */}
           <audio
             ref={audio}
             src={audioURL}

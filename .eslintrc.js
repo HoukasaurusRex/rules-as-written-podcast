@@ -21,6 +21,7 @@ module.exports = {
     'prettier/prettier': ['error'],
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.jsx'] }],
     'react/prop-types': 'off',
+    'react/require-default-props': 'off',
     'no-use-before-define': 'off',
     'no-var': 'error',
     'prefer-const': 'error',
