@@ -51,6 +51,360 @@ export type BooleanQueryOperatorInput = {
   nin?: Maybe<Array<Maybe<Scalars['Boolean']>>>;
 };
 
+export type DataJson = Node & {
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+  items?: Maybe<Array<Maybe<DataJsonItems>>>;
+  feedUrl?: Maybe<Scalars['String']>;
+  image?: Maybe<DataJsonImage>;
+  creator?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  generator?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  language?: Maybe<Scalars['String']>;
+  copyright?: Maybe<Scalars['String']>;
+  lastBuildDate?: Maybe<Scalars['String']>;
+  itunes?: Maybe<DataJsonItunes>;
+};
+
+export type DataJsonConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<DataJsonEdge>;
+  nodes: Array<DataJson>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  group: Array<DataJsonGroupConnection>;
+};
+
+
+export type DataJsonConnectionDistinctArgs = {
+  field: DataJsonFieldsEnum;
+};
+
+
+export type DataJsonConnectionGroupArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  field: DataJsonFieldsEnum;
+};
+
+export type DataJsonEdge = {
+  next?: Maybe<DataJson>;
+  node: DataJson;
+  previous?: Maybe<DataJson>;
+};
+
+export type DataJsonFieldsEnum = 
+  | 'id'
+  | 'parent___id'
+  | 'parent___parent___id'
+  | 'parent___parent___parent___id'
+  | 'parent___parent___parent___children'
+  | 'parent___parent___children'
+  | 'parent___parent___children___id'
+  | 'parent___parent___children___children'
+  | 'parent___parent___internal___content'
+  | 'parent___parent___internal___contentDigest'
+  | 'parent___parent___internal___description'
+  | 'parent___parent___internal___fieldOwners'
+  | 'parent___parent___internal___ignoreType'
+  | 'parent___parent___internal___mediaType'
+  | 'parent___parent___internal___owner'
+  | 'parent___parent___internal___type'
+  | 'parent___children'
+  | 'parent___children___id'
+  | 'parent___children___parent___id'
+  | 'parent___children___parent___children'
+  | 'parent___children___children'
+  | 'parent___children___children___id'
+  | 'parent___children___children___children'
+  | 'parent___children___internal___content'
+  | 'parent___children___internal___contentDigest'
+  | 'parent___children___internal___description'
+  | 'parent___children___internal___fieldOwners'
+  | 'parent___children___internal___ignoreType'
+  | 'parent___children___internal___mediaType'
+  | 'parent___children___internal___owner'
+  | 'parent___children___internal___type'
+  | 'parent___internal___content'
+  | 'parent___internal___contentDigest'
+  | 'parent___internal___description'
+  | 'parent___internal___fieldOwners'
+  | 'parent___internal___ignoreType'
+  | 'parent___internal___mediaType'
+  | 'parent___internal___owner'
+  | 'parent___internal___type'
+  | 'children'
+  | 'children___id'
+  | 'children___parent___id'
+  | 'children___parent___parent___id'
+  | 'children___parent___parent___children'
+  | 'children___parent___children'
+  | 'children___parent___children___id'
+  | 'children___parent___children___children'
+  | 'children___parent___internal___content'
+  | 'children___parent___internal___contentDigest'
+  | 'children___parent___internal___description'
+  | 'children___parent___internal___fieldOwners'
+  | 'children___parent___internal___ignoreType'
+  | 'children___parent___internal___mediaType'
+  | 'children___parent___internal___owner'
+  | 'children___parent___internal___type'
+  | 'children___children'
+  | 'children___children___id'
+  | 'children___children___parent___id'
+  | 'children___children___parent___children'
+  | 'children___children___children'
+  | 'children___children___children___id'
+  | 'children___children___children___children'
+  | 'children___children___internal___content'
+  | 'children___children___internal___contentDigest'
+  | 'children___children___internal___description'
+  | 'children___children___internal___fieldOwners'
+  | 'children___children___internal___ignoreType'
+  | 'children___children___internal___mediaType'
+  | 'children___children___internal___owner'
+  | 'children___children___internal___type'
+  | 'children___internal___content'
+  | 'children___internal___contentDigest'
+  | 'children___internal___description'
+  | 'children___internal___fieldOwners'
+  | 'children___internal___ignoreType'
+  | 'children___internal___mediaType'
+  | 'children___internal___owner'
+  | 'children___internal___type'
+  | 'internal___content'
+  | 'internal___contentDigest'
+  | 'internal___description'
+  | 'internal___fieldOwners'
+  | 'internal___ignoreType'
+  | 'internal___mediaType'
+  | 'internal___owner'
+  | 'internal___type'
+  | 'items'
+  | 'items___creator'
+  | 'items___title'
+  | 'items___link'
+  | 'items___pubDate'
+  | 'items___enclosure___url'
+  | 'items___enclosure___length'
+  | 'items___enclosure___type'
+  | 'items___dc_creator'
+  | 'items___content'
+  | 'items___contentSnippet'
+  | 'items___guid'
+  | 'items___isoDate'
+  | 'items___itunes___summary'
+  | 'items___itunes___explicit'
+  | 'items___itunes___duration'
+  | 'items___itunes___image'
+  | 'items___itunes___episode'
+  | 'items___itunes___season'
+  | 'feedUrl'
+  | 'image___link'
+  | 'image___url'
+  | 'image___title'
+  | 'creator'
+  | 'title'
+  | 'description'
+  | 'author'
+  | 'generator'
+  | 'link'
+  | 'language'
+  | 'copyright'
+  | 'lastBuildDate'
+  | 'itunes___owner___name'
+  | 'itunes___owner___email'
+  | 'itunes___image'
+  | 'itunes___categories'
+  | 'itunes___categoriesWithSubs'
+  | 'itunes___categoriesWithSubs___name'
+  | 'itunes___categoriesWithSubs___subs'
+  | 'itunes___categoriesWithSubs___subs___name'
+  | 'itunes___author'
+  | 'itunes___summary'
+  | 'itunes___explicit';
+
+export type DataJsonFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  items?: Maybe<DataJsonItemsFilterListInput>;
+  feedUrl?: Maybe<StringQueryOperatorInput>;
+  image?: Maybe<DataJsonImageFilterInput>;
+  creator?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  description?: Maybe<StringQueryOperatorInput>;
+  author?: Maybe<StringQueryOperatorInput>;
+  generator?: Maybe<StringQueryOperatorInput>;
+  link?: Maybe<StringQueryOperatorInput>;
+  language?: Maybe<StringQueryOperatorInput>;
+  copyright?: Maybe<StringQueryOperatorInput>;
+  lastBuildDate?: Maybe<StringQueryOperatorInput>;
+  itunes?: Maybe<DataJsonItunesFilterInput>;
+};
+
+export type DataJsonFilterListInput = {
+  elemMatch?: Maybe<DataJsonFilterInput>;
+};
+
+export type DataJsonGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<DataJsonEdge>;
+  nodes: Array<DataJson>;
+  pageInfo: PageInfo;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonImage = {
+  link?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonImageFilterInput = {
+  link?: Maybe<StringQueryOperatorInput>;
+  url?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonItems = {
+  creator?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  pubDate?: Maybe<Scalars['String']>;
+  enclosure?: Maybe<DataJsonItemsEnclosure>;
+  dc_creator?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  contentSnippet?: Maybe<Scalars['String']>;
+  guid?: Maybe<Scalars['String']>;
+  isoDate?: Maybe<Scalars['Date']>;
+  itunes?: Maybe<DataJsonItemsItunes>;
+};
+
+
+export type DataJsonItemsIsoDateArgs = {
+  formatString?: Maybe<Scalars['String']>;
+  fromNow?: Maybe<Scalars['Boolean']>;
+  difference?: Maybe<Scalars['String']>;
+  locale?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonItemsEnclosure = {
+  url?: Maybe<Scalars['String']>;
+  length?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonItemsEnclosureFilterInput = {
+  url?: Maybe<StringQueryOperatorInput>;
+  length?: Maybe<StringQueryOperatorInput>;
+  type?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonItemsFilterInput = {
+  creator?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  link?: Maybe<StringQueryOperatorInput>;
+  pubDate?: Maybe<StringQueryOperatorInput>;
+  enclosure?: Maybe<DataJsonItemsEnclosureFilterInput>;
+  dc_creator?: Maybe<StringQueryOperatorInput>;
+  content?: Maybe<StringQueryOperatorInput>;
+  contentSnippet?: Maybe<StringQueryOperatorInput>;
+  guid?: Maybe<StringQueryOperatorInput>;
+  isoDate?: Maybe<DateQueryOperatorInput>;
+  itunes?: Maybe<DataJsonItemsItunesFilterInput>;
+};
+
+export type DataJsonItemsFilterListInput = {
+  elemMatch?: Maybe<DataJsonItemsFilterInput>;
+};
+
+export type DataJsonItemsItunes = {
+  summary?: Maybe<Scalars['String']>;
+  explicit?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  episode?: Maybe<Scalars['String']>;
+  season?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonItemsItunesFilterInput = {
+  summary?: Maybe<StringQueryOperatorInput>;
+  explicit?: Maybe<StringQueryOperatorInput>;
+  duration?: Maybe<StringQueryOperatorInput>;
+  image?: Maybe<StringQueryOperatorInput>;
+  episode?: Maybe<StringQueryOperatorInput>;
+  season?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonItunes = {
+  owner?: Maybe<DataJsonItunesOwner>;
+  image?: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<Maybe<Scalars['String']>>>;
+  categoriesWithSubs?: Maybe<Array<Maybe<DataJsonItunesCategoriesWithSubs>>>;
+  author?: Maybe<Scalars['String']>;
+  summary?: Maybe<Scalars['String']>;
+  explicit?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonItunesCategoriesWithSubs = {
+  name?: Maybe<Scalars['String']>;
+  subs?: Maybe<Array<Maybe<DataJsonItunesCategoriesWithSubsSubs>>>;
+};
+
+export type DataJsonItunesCategoriesWithSubsFilterInput = {
+  name?: Maybe<StringQueryOperatorInput>;
+  subs?: Maybe<DataJsonItunesCategoriesWithSubsSubsFilterListInput>;
+};
+
+export type DataJsonItunesCategoriesWithSubsFilterListInput = {
+  elemMatch?: Maybe<DataJsonItunesCategoriesWithSubsFilterInput>;
+};
+
+export type DataJsonItunesCategoriesWithSubsSubs = {
+  name?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonItunesCategoriesWithSubsSubsFilterInput = {
+  name?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonItunesCategoriesWithSubsSubsFilterListInput = {
+  elemMatch?: Maybe<DataJsonItunesCategoriesWithSubsSubsFilterInput>;
+};
+
+export type DataJsonItunesFilterInput = {
+  owner?: Maybe<DataJsonItunesOwnerFilterInput>;
+  image?: Maybe<StringQueryOperatorInput>;
+  categories?: Maybe<StringQueryOperatorInput>;
+  categoriesWithSubs?: Maybe<DataJsonItunesCategoriesWithSubsFilterListInput>;
+  author?: Maybe<StringQueryOperatorInput>;
+  summary?: Maybe<StringQueryOperatorInput>;
+  explicit?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonItunesOwner = {
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonItunesOwnerFilterInput = {
+  name?: Maybe<StringQueryOperatorInput>;
+  email?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonSortInput = {
+  fields?: Maybe<Array<Maybe<DataJsonFieldsEnum>>>;
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>;
+};
+
 
 export type DateQueryOperatorInput = {
   eq?: Maybe<Scalars['Date']>;
@@ -369,6 +723,233 @@ export type DuotoneGradient = {
   opacity?: Maybe<Scalars['Int']>;
 };
 
+export type EpisodeDataJson = Node & {
+  id: Scalars['ID'];
+  parent?: Maybe<Node>;
+  children: Array<Node>;
+  internal: Internal;
+  pubDate?: Maybe<Scalars['String']>;
+  guid?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  slug?: Maybe<Scalars['String']>;
+  videoId?: Maybe<Scalars['String']>;
+  enclosure?: Maybe<EpisodeDataJsonEnclosure>;
+  itunes?: Maybe<EpisodeDataJsonItunes>;
+  captions?: Maybe<Array<Maybe<EpisodeDataJsonCaptions>>>;
+};
+
+export type EpisodeDataJsonCaptions = {
+  text?: Maybe<Scalars['String']>;
+  start?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Scalars['Float']>;
+};
+
+export type EpisodeDataJsonCaptionsFilterInput = {
+  text?: Maybe<StringQueryOperatorInput>;
+  start?: Maybe<FloatQueryOperatorInput>;
+  duration?: Maybe<FloatQueryOperatorInput>;
+};
+
+export type EpisodeDataJsonCaptionsFilterListInput = {
+  elemMatch?: Maybe<EpisodeDataJsonCaptionsFilterInput>;
+};
+
+export type EpisodeDataJsonConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<EpisodeDataJsonEdge>;
+  nodes: Array<EpisodeDataJson>;
+  pageInfo: PageInfo;
+  distinct: Array<Scalars['String']>;
+  group: Array<EpisodeDataJsonGroupConnection>;
+};
+
+
+export type EpisodeDataJsonConnectionDistinctArgs = {
+  field: EpisodeDataJsonFieldsEnum;
+};
+
+
+export type EpisodeDataJsonConnectionGroupArgs = {
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+  field: EpisodeDataJsonFieldsEnum;
+};
+
+export type EpisodeDataJsonEdge = {
+  next?: Maybe<EpisodeDataJson>;
+  node: EpisodeDataJson;
+  previous?: Maybe<EpisodeDataJson>;
+};
+
+export type EpisodeDataJsonEnclosure = {
+  url?: Maybe<Scalars['String']>;
+  length?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type EpisodeDataJsonEnclosureFilterInput = {
+  url?: Maybe<StringQueryOperatorInput>;
+  length?: Maybe<StringQueryOperatorInput>;
+  type?: Maybe<StringQueryOperatorInput>;
+};
+
+export type EpisodeDataJsonFieldsEnum = 
+  | 'id'
+  | 'parent___id'
+  | 'parent___parent___id'
+  | 'parent___parent___parent___id'
+  | 'parent___parent___parent___children'
+  | 'parent___parent___children'
+  | 'parent___parent___children___id'
+  | 'parent___parent___children___children'
+  | 'parent___parent___internal___content'
+  | 'parent___parent___internal___contentDigest'
+  | 'parent___parent___internal___description'
+  | 'parent___parent___internal___fieldOwners'
+  | 'parent___parent___internal___ignoreType'
+  | 'parent___parent___internal___mediaType'
+  | 'parent___parent___internal___owner'
+  | 'parent___parent___internal___type'
+  | 'parent___children'
+  | 'parent___children___id'
+  | 'parent___children___parent___id'
+  | 'parent___children___parent___children'
+  | 'parent___children___children'
+  | 'parent___children___children___id'
+  | 'parent___children___children___children'
+  | 'parent___children___internal___content'
+  | 'parent___children___internal___contentDigest'
+  | 'parent___children___internal___description'
+  | 'parent___children___internal___fieldOwners'
+  | 'parent___children___internal___ignoreType'
+  | 'parent___children___internal___mediaType'
+  | 'parent___children___internal___owner'
+  | 'parent___children___internal___type'
+  | 'parent___internal___content'
+  | 'parent___internal___contentDigest'
+  | 'parent___internal___description'
+  | 'parent___internal___fieldOwners'
+  | 'parent___internal___ignoreType'
+  | 'parent___internal___mediaType'
+  | 'parent___internal___owner'
+  | 'parent___internal___type'
+  | 'children'
+  | 'children___id'
+  | 'children___parent___id'
+  | 'children___parent___parent___id'
+  | 'children___parent___parent___children'
+  | 'children___parent___children'
+  | 'children___parent___children___id'
+  | 'children___parent___children___children'
+  | 'children___parent___internal___content'
+  | 'children___parent___internal___contentDigest'
+  | 'children___parent___internal___description'
+  | 'children___parent___internal___fieldOwners'
+  | 'children___parent___internal___ignoreType'
+  | 'children___parent___internal___mediaType'
+  | 'children___parent___internal___owner'
+  | 'children___parent___internal___type'
+  | 'children___children'
+  | 'children___children___id'
+  | 'children___children___parent___id'
+  | 'children___children___parent___children'
+  | 'children___children___children'
+  | 'children___children___children___id'
+  | 'children___children___children___children'
+  | 'children___children___internal___content'
+  | 'children___children___internal___contentDigest'
+  | 'children___children___internal___description'
+  | 'children___children___internal___fieldOwners'
+  | 'children___children___internal___ignoreType'
+  | 'children___children___internal___mediaType'
+  | 'children___children___internal___owner'
+  | 'children___children___internal___type'
+  | 'children___internal___content'
+  | 'children___internal___contentDigest'
+  | 'children___internal___description'
+  | 'children___internal___fieldOwners'
+  | 'children___internal___ignoreType'
+  | 'children___internal___mediaType'
+  | 'children___internal___owner'
+  | 'children___internal___type'
+  | 'internal___content'
+  | 'internal___contentDigest'
+  | 'internal___description'
+  | 'internal___fieldOwners'
+  | 'internal___ignoreType'
+  | 'internal___mediaType'
+  | 'internal___owner'
+  | 'internal___type'
+  | 'pubDate'
+  | 'guid'
+  | 'title'
+  | 'slug'
+  | 'videoId'
+  | 'enclosure___url'
+  | 'enclosure___length'
+  | 'enclosure___type'
+  | 'itunes___summary'
+  | 'itunes___explicit'
+  | 'itunes___duration'
+  | 'itunes___image'
+  | 'itunes___episode'
+  | 'itunes___season'
+  | 'captions'
+  | 'captions___text'
+  | 'captions___start'
+  | 'captions___duration';
+
+export type EpisodeDataJsonFilterInput = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  pubDate?: Maybe<StringQueryOperatorInput>;
+  guid?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  slug?: Maybe<StringQueryOperatorInput>;
+  videoId?: Maybe<StringQueryOperatorInput>;
+  enclosure?: Maybe<EpisodeDataJsonEnclosureFilterInput>;
+  itunes?: Maybe<EpisodeDataJsonItunesFilterInput>;
+  captions?: Maybe<EpisodeDataJsonCaptionsFilterListInput>;
+};
+
+export type EpisodeDataJsonFilterListInput = {
+  elemMatch?: Maybe<EpisodeDataJsonFilterInput>;
+};
+
+export type EpisodeDataJsonGroupConnection = {
+  totalCount: Scalars['Int'];
+  edges: Array<EpisodeDataJsonEdge>;
+  nodes: Array<EpisodeDataJson>;
+  pageInfo: PageInfo;
+  field: Scalars['String'];
+  fieldValue?: Maybe<Scalars['String']>;
+};
+
+export type EpisodeDataJsonItunes = {
+  summary?: Maybe<Scalars['String']>;
+  explicit?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  episode?: Maybe<Scalars['String']>;
+  season?: Maybe<Scalars['String']>;
+};
+
+export type EpisodeDataJsonItunesFilterInput = {
+  summary?: Maybe<StringQueryOperatorInput>;
+  explicit?: Maybe<StringQueryOperatorInput>;
+  duration?: Maybe<StringQueryOperatorInput>;
+  image?: Maybe<StringQueryOperatorInput>;
+  episode?: Maybe<StringQueryOperatorInput>;
+  season?: Maybe<StringQueryOperatorInput>;
+};
+
+export type EpisodeDataJsonSortInput = {
+  fields?: Maybe<Array<Maybe<EpisodeDataJsonFieldsEnum>>>;
+  order?: Maybe<Array<Maybe<SortOrderEnum>>>;
+};
+
 export type File = Node & {
   sourceInstanceName: Scalars['String'];
   absolutePath: Scalars['String'];
@@ -415,6 +996,14 @@ export type File = Node & {
   childrenMarkdownRemark?: Maybe<Array<Maybe<MarkdownRemark>>>;
   /** Returns the first child node of type MarkdownRemark or null if there are no children of given type on this node */
   childMarkdownRemark?: Maybe<MarkdownRemark>;
+  /** Returns all children nodes filtered by type EpisodeDataJson */
+  childrenEpisodeDataJson?: Maybe<Array<Maybe<EpisodeDataJson>>>;
+  /** Returns the first child node of type EpisodeDataJson or null if there are no children of given type on this node */
+  childEpisodeDataJson?: Maybe<EpisodeDataJson>;
+  /** Returns all children nodes filtered by type DataJson */
+  childrenDataJson?: Maybe<Array<Maybe<DataJson>>>;
+  /** Returns the first child node of type DataJson or null if there are no children of given type on this node */
+  childDataJson?: Maybe<DataJson>;
   id: Scalars['ID'];
   parent?: Maybe<Node>;
   children: Array<Node>;
@@ -730,7 +1319,16 @@ export type FileFieldsEnum =
   | 'childrenMarkdownRemark___frontmatter___slug'
   | 'childrenMarkdownRemark___frontmatter___videoId'
   | 'childrenMarkdownRemark___frontmatter___guid'
-  | 'childrenMarkdownRemark___frontmatter___date'
+  | 'childrenMarkdownRemark___frontmatter___pubDate'
+  | 'childrenMarkdownRemark___frontmatter___enclosure___url'
+  | 'childrenMarkdownRemark___frontmatter___enclosure___length'
+  | 'childrenMarkdownRemark___frontmatter___enclosure___type'
+  | 'childrenMarkdownRemark___frontmatter___itunes___summary'
+  | 'childrenMarkdownRemark___frontmatter___itunes___explicit'
+  | 'childrenMarkdownRemark___frontmatter___itunes___duration'
+  | 'childrenMarkdownRemark___frontmatter___itunes___image'
+  | 'childrenMarkdownRemark___frontmatter___itunes___episode'
+  | 'childrenMarkdownRemark___frontmatter___itunes___season'
   | 'childrenMarkdownRemark___excerpt'
   | 'childrenMarkdownRemark___rawMarkdownBody'
   | 'childrenMarkdownRemark___fileAbsolutePath'
@@ -788,7 +1386,16 @@ export type FileFieldsEnum =
   | 'childMarkdownRemark___frontmatter___slug'
   | 'childMarkdownRemark___frontmatter___videoId'
   | 'childMarkdownRemark___frontmatter___guid'
-  | 'childMarkdownRemark___frontmatter___date'
+  | 'childMarkdownRemark___frontmatter___pubDate'
+  | 'childMarkdownRemark___frontmatter___enclosure___url'
+  | 'childMarkdownRemark___frontmatter___enclosure___length'
+  | 'childMarkdownRemark___frontmatter___enclosure___type'
+  | 'childMarkdownRemark___frontmatter___itunes___summary'
+  | 'childMarkdownRemark___frontmatter___itunes___explicit'
+  | 'childMarkdownRemark___frontmatter___itunes___duration'
+  | 'childMarkdownRemark___frontmatter___itunes___image'
+  | 'childMarkdownRemark___frontmatter___itunes___episode'
+  | 'childMarkdownRemark___frontmatter___itunes___season'
   | 'childMarkdownRemark___excerpt'
   | 'childMarkdownRemark___rawMarkdownBody'
   | 'childMarkdownRemark___fileAbsolutePath'
@@ -841,6 +1448,280 @@ export type FileFieldsEnum =
   | 'childMarkdownRemark___internal___mediaType'
   | 'childMarkdownRemark___internal___owner'
   | 'childMarkdownRemark___internal___type'
+  | 'childrenEpisodeDataJson'
+  | 'childrenEpisodeDataJson___id'
+  | 'childrenEpisodeDataJson___parent___id'
+  | 'childrenEpisodeDataJson___parent___parent___id'
+  | 'childrenEpisodeDataJson___parent___parent___children'
+  | 'childrenEpisodeDataJson___parent___children'
+  | 'childrenEpisodeDataJson___parent___children___id'
+  | 'childrenEpisodeDataJson___parent___children___children'
+  | 'childrenEpisodeDataJson___parent___internal___content'
+  | 'childrenEpisodeDataJson___parent___internal___contentDigest'
+  | 'childrenEpisodeDataJson___parent___internal___description'
+  | 'childrenEpisodeDataJson___parent___internal___fieldOwners'
+  | 'childrenEpisodeDataJson___parent___internal___ignoreType'
+  | 'childrenEpisodeDataJson___parent___internal___mediaType'
+  | 'childrenEpisodeDataJson___parent___internal___owner'
+  | 'childrenEpisodeDataJson___parent___internal___type'
+  | 'childrenEpisodeDataJson___children'
+  | 'childrenEpisodeDataJson___children___id'
+  | 'childrenEpisodeDataJson___children___parent___id'
+  | 'childrenEpisodeDataJson___children___parent___children'
+  | 'childrenEpisodeDataJson___children___children'
+  | 'childrenEpisodeDataJson___children___children___id'
+  | 'childrenEpisodeDataJson___children___children___children'
+  | 'childrenEpisodeDataJson___children___internal___content'
+  | 'childrenEpisodeDataJson___children___internal___contentDigest'
+  | 'childrenEpisodeDataJson___children___internal___description'
+  | 'childrenEpisodeDataJson___children___internal___fieldOwners'
+  | 'childrenEpisodeDataJson___children___internal___ignoreType'
+  | 'childrenEpisodeDataJson___children___internal___mediaType'
+  | 'childrenEpisodeDataJson___children___internal___owner'
+  | 'childrenEpisodeDataJson___children___internal___type'
+  | 'childrenEpisodeDataJson___internal___content'
+  | 'childrenEpisodeDataJson___internal___contentDigest'
+  | 'childrenEpisodeDataJson___internal___description'
+  | 'childrenEpisodeDataJson___internal___fieldOwners'
+  | 'childrenEpisodeDataJson___internal___ignoreType'
+  | 'childrenEpisodeDataJson___internal___mediaType'
+  | 'childrenEpisodeDataJson___internal___owner'
+  | 'childrenEpisodeDataJson___internal___type'
+  | 'childrenEpisodeDataJson___pubDate'
+  | 'childrenEpisodeDataJson___guid'
+  | 'childrenEpisodeDataJson___title'
+  | 'childrenEpisodeDataJson___slug'
+  | 'childrenEpisodeDataJson___videoId'
+  | 'childrenEpisodeDataJson___enclosure___url'
+  | 'childrenEpisodeDataJson___enclosure___length'
+  | 'childrenEpisodeDataJson___enclosure___type'
+  | 'childrenEpisodeDataJson___itunes___summary'
+  | 'childrenEpisodeDataJson___itunes___explicit'
+  | 'childrenEpisodeDataJson___itunes___duration'
+  | 'childrenEpisodeDataJson___itunes___image'
+  | 'childrenEpisodeDataJson___itunes___episode'
+  | 'childrenEpisodeDataJson___itunes___season'
+  | 'childrenEpisodeDataJson___captions'
+  | 'childrenEpisodeDataJson___captions___text'
+  | 'childrenEpisodeDataJson___captions___start'
+  | 'childrenEpisodeDataJson___captions___duration'
+  | 'childEpisodeDataJson___id'
+  | 'childEpisodeDataJson___parent___id'
+  | 'childEpisodeDataJson___parent___parent___id'
+  | 'childEpisodeDataJson___parent___parent___children'
+  | 'childEpisodeDataJson___parent___children'
+  | 'childEpisodeDataJson___parent___children___id'
+  | 'childEpisodeDataJson___parent___children___children'
+  | 'childEpisodeDataJson___parent___internal___content'
+  | 'childEpisodeDataJson___parent___internal___contentDigest'
+  | 'childEpisodeDataJson___parent___internal___description'
+  | 'childEpisodeDataJson___parent___internal___fieldOwners'
+  | 'childEpisodeDataJson___parent___internal___ignoreType'
+  | 'childEpisodeDataJson___parent___internal___mediaType'
+  | 'childEpisodeDataJson___parent___internal___owner'
+  | 'childEpisodeDataJson___parent___internal___type'
+  | 'childEpisodeDataJson___children'
+  | 'childEpisodeDataJson___children___id'
+  | 'childEpisodeDataJson___children___parent___id'
+  | 'childEpisodeDataJson___children___parent___children'
+  | 'childEpisodeDataJson___children___children'
+  | 'childEpisodeDataJson___children___children___id'
+  | 'childEpisodeDataJson___children___children___children'
+  | 'childEpisodeDataJson___children___internal___content'
+  | 'childEpisodeDataJson___children___internal___contentDigest'
+  | 'childEpisodeDataJson___children___internal___description'
+  | 'childEpisodeDataJson___children___internal___fieldOwners'
+  | 'childEpisodeDataJson___children___internal___ignoreType'
+  | 'childEpisodeDataJson___children___internal___mediaType'
+  | 'childEpisodeDataJson___children___internal___owner'
+  | 'childEpisodeDataJson___children___internal___type'
+  | 'childEpisodeDataJson___internal___content'
+  | 'childEpisodeDataJson___internal___contentDigest'
+  | 'childEpisodeDataJson___internal___description'
+  | 'childEpisodeDataJson___internal___fieldOwners'
+  | 'childEpisodeDataJson___internal___ignoreType'
+  | 'childEpisodeDataJson___internal___mediaType'
+  | 'childEpisodeDataJson___internal___owner'
+  | 'childEpisodeDataJson___internal___type'
+  | 'childEpisodeDataJson___pubDate'
+  | 'childEpisodeDataJson___guid'
+  | 'childEpisodeDataJson___title'
+  | 'childEpisodeDataJson___slug'
+  | 'childEpisodeDataJson___videoId'
+  | 'childEpisodeDataJson___enclosure___url'
+  | 'childEpisodeDataJson___enclosure___length'
+  | 'childEpisodeDataJson___enclosure___type'
+  | 'childEpisodeDataJson___itunes___summary'
+  | 'childEpisodeDataJson___itunes___explicit'
+  | 'childEpisodeDataJson___itunes___duration'
+  | 'childEpisodeDataJson___itunes___image'
+  | 'childEpisodeDataJson___itunes___episode'
+  | 'childEpisodeDataJson___itunes___season'
+  | 'childEpisodeDataJson___captions'
+  | 'childEpisodeDataJson___captions___text'
+  | 'childEpisodeDataJson___captions___start'
+  | 'childEpisodeDataJson___captions___duration'
+  | 'childrenDataJson'
+  | 'childrenDataJson___id'
+  | 'childrenDataJson___parent___id'
+  | 'childrenDataJson___parent___parent___id'
+  | 'childrenDataJson___parent___parent___children'
+  | 'childrenDataJson___parent___children'
+  | 'childrenDataJson___parent___children___id'
+  | 'childrenDataJson___parent___children___children'
+  | 'childrenDataJson___parent___internal___content'
+  | 'childrenDataJson___parent___internal___contentDigest'
+  | 'childrenDataJson___parent___internal___description'
+  | 'childrenDataJson___parent___internal___fieldOwners'
+  | 'childrenDataJson___parent___internal___ignoreType'
+  | 'childrenDataJson___parent___internal___mediaType'
+  | 'childrenDataJson___parent___internal___owner'
+  | 'childrenDataJson___parent___internal___type'
+  | 'childrenDataJson___children'
+  | 'childrenDataJson___children___id'
+  | 'childrenDataJson___children___parent___id'
+  | 'childrenDataJson___children___parent___children'
+  | 'childrenDataJson___children___children'
+  | 'childrenDataJson___children___children___id'
+  | 'childrenDataJson___children___children___children'
+  | 'childrenDataJson___children___internal___content'
+  | 'childrenDataJson___children___internal___contentDigest'
+  | 'childrenDataJson___children___internal___description'
+  | 'childrenDataJson___children___internal___fieldOwners'
+  | 'childrenDataJson___children___internal___ignoreType'
+  | 'childrenDataJson___children___internal___mediaType'
+  | 'childrenDataJson___children___internal___owner'
+  | 'childrenDataJson___children___internal___type'
+  | 'childrenDataJson___internal___content'
+  | 'childrenDataJson___internal___contentDigest'
+  | 'childrenDataJson___internal___description'
+  | 'childrenDataJson___internal___fieldOwners'
+  | 'childrenDataJson___internal___ignoreType'
+  | 'childrenDataJson___internal___mediaType'
+  | 'childrenDataJson___internal___owner'
+  | 'childrenDataJson___internal___type'
+  | 'childrenDataJson___items'
+  | 'childrenDataJson___items___creator'
+  | 'childrenDataJson___items___title'
+  | 'childrenDataJson___items___link'
+  | 'childrenDataJson___items___pubDate'
+  | 'childrenDataJson___items___enclosure___url'
+  | 'childrenDataJson___items___enclosure___length'
+  | 'childrenDataJson___items___enclosure___type'
+  | 'childrenDataJson___items___dc_creator'
+  | 'childrenDataJson___items___content'
+  | 'childrenDataJson___items___contentSnippet'
+  | 'childrenDataJson___items___guid'
+  | 'childrenDataJson___items___isoDate'
+  | 'childrenDataJson___items___itunes___summary'
+  | 'childrenDataJson___items___itunes___explicit'
+  | 'childrenDataJson___items___itunes___duration'
+  | 'childrenDataJson___items___itunes___image'
+  | 'childrenDataJson___items___itunes___episode'
+  | 'childrenDataJson___items___itunes___season'
+  | 'childrenDataJson___feedUrl'
+  | 'childrenDataJson___image___link'
+  | 'childrenDataJson___image___url'
+  | 'childrenDataJson___image___title'
+  | 'childrenDataJson___creator'
+  | 'childrenDataJson___title'
+  | 'childrenDataJson___description'
+  | 'childrenDataJson___author'
+  | 'childrenDataJson___generator'
+  | 'childrenDataJson___link'
+  | 'childrenDataJson___language'
+  | 'childrenDataJson___copyright'
+  | 'childrenDataJson___lastBuildDate'
+  | 'childrenDataJson___itunes___owner___name'
+  | 'childrenDataJson___itunes___owner___email'
+  | 'childrenDataJson___itunes___image'
+  | 'childrenDataJson___itunes___categories'
+  | 'childrenDataJson___itunes___categoriesWithSubs'
+  | 'childrenDataJson___itunes___categoriesWithSubs___name'
+  | 'childrenDataJson___itunes___categoriesWithSubs___subs'
+  | 'childrenDataJson___itunes___author'
+  | 'childrenDataJson___itunes___summary'
+  | 'childrenDataJson___itunes___explicit'
+  | 'childDataJson___id'
+  | 'childDataJson___parent___id'
+  | 'childDataJson___parent___parent___id'
+  | 'childDataJson___parent___parent___children'
+  | 'childDataJson___parent___children'
+  | 'childDataJson___parent___children___id'
+  | 'childDataJson___parent___children___children'
+  | 'childDataJson___parent___internal___content'
+  | 'childDataJson___parent___internal___contentDigest'
+  | 'childDataJson___parent___internal___description'
+  | 'childDataJson___parent___internal___fieldOwners'
+  | 'childDataJson___parent___internal___ignoreType'
+  | 'childDataJson___parent___internal___mediaType'
+  | 'childDataJson___parent___internal___owner'
+  | 'childDataJson___parent___internal___type'
+  | 'childDataJson___children'
+  | 'childDataJson___children___id'
+  | 'childDataJson___children___parent___id'
+  | 'childDataJson___children___parent___children'
+  | 'childDataJson___children___children'
+  | 'childDataJson___children___children___id'
+  | 'childDataJson___children___children___children'
+  | 'childDataJson___children___internal___content'
+  | 'childDataJson___children___internal___contentDigest'
+  | 'childDataJson___children___internal___description'
+  | 'childDataJson___children___internal___fieldOwners'
+  | 'childDataJson___children___internal___ignoreType'
+  | 'childDataJson___children___internal___mediaType'
+  | 'childDataJson___children___internal___owner'
+  | 'childDataJson___children___internal___type'
+  | 'childDataJson___internal___content'
+  | 'childDataJson___internal___contentDigest'
+  | 'childDataJson___internal___description'
+  | 'childDataJson___internal___fieldOwners'
+  | 'childDataJson___internal___ignoreType'
+  | 'childDataJson___internal___mediaType'
+  | 'childDataJson___internal___owner'
+  | 'childDataJson___internal___type'
+  | 'childDataJson___items'
+  | 'childDataJson___items___creator'
+  | 'childDataJson___items___title'
+  | 'childDataJson___items___link'
+  | 'childDataJson___items___pubDate'
+  | 'childDataJson___items___enclosure___url'
+  | 'childDataJson___items___enclosure___length'
+  | 'childDataJson___items___enclosure___type'
+  | 'childDataJson___items___dc_creator'
+  | 'childDataJson___items___content'
+  | 'childDataJson___items___contentSnippet'
+  | 'childDataJson___items___guid'
+  | 'childDataJson___items___isoDate'
+  | 'childDataJson___items___itunes___summary'
+  | 'childDataJson___items___itunes___explicit'
+  | 'childDataJson___items___itunes___duration'
+  | 'childDataJson___items___itunes___image'
+  | 'childDataJson___items___itunes___episode'
+  | 'childDataJson___items___itunes___season'
+  | 'childDataJson___feedUrl'
+  | 'childDataJson___image___link'
+  | 'childDataJson___image___url'
+  | 'childDataJson___image___title'
+  | 'childDataJson___creator'
+  | 'childDataJson___title'
+  | 'childDataJson___description'
+  | 'childDataJson___author'
+  | 'childDataJson___generator'
+  | 'childDataJson___link'
+  | 'childDataJson___language'
+  | 'childDataJson___copyright'
+  | 'childDataJson___lastBuildDate'
+  | 'childDataJson___itunes___owner___name'
+  | 'childDataJson___itunes___owner___email'
+  | 'childDataJson___itunes___image'
+  | 'childDataJson___itunes___categories'
+  | 'childDataJson___itunes___categoriesWithSubs'
+  | 'childDataJson___itunes___categoriesWithSubs___name'
+  | 'childDataJson___itunes___categoriesWithSubs___subs'
+  | 'childDataJson___itunes___author'
+  | 'childDataJson___itunes___summary'
+  | 'childDataJson___itunes___explicit'
   | 'id'
   | 'parent___id'
   | 'parent___parent___id'
@@ -967,6 +1848,10 @@ export type FileFilterInput = {
   childImageSharp?: Maybe<ImageSharpFilterInput>;
   childrenMarkdownRemark?: Maybe<MarkdownRemarkFilterListInput>;
   childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>;
+  childrenEpisodeDataJson?: Maybe<EpisodeDataJsonFilterListInput>;
+  childEpisodeDataJson?: Maybe<EpisodeDataJsonFilterInput>;
+  childrenDataJson?: Maybe<DataJsonFilterListInput>;
+  childDataJson?: Maybe<DataJsonFilterInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
@@ -1691,7 +2576,16 @@ export type MarkdownRemarkFieldsEnum =
   | 'frontmatter___slug'
   | 'frontmatter___videoId'
   | 'frontmatter___guid'
-  | 'frontmatter___date'
+  | 'frontmatter___pubDate'
+  | 'frontmatter___enclosure___url'
+  | 'frontmatter___enclosure___length'
+  | 'frontmatter___enclosure___type'
+  | 'frontmatter___itunes___summary'
+  | 'frontmatter___itunes___explicit'
+  | 'frontmatter___itunes___duration'
+  | 'frontmatter___itunes___image'
+  | 'frontmatter___itunes___episode'
+  | 'frontmatter___itunes___season'
   | 'excerpt'
   | 'rawMarkdownBody'
   | 'fileAbsolutePath'
@@ -1820,7 +2714,21 @@ export type MarkdownRemarkFrontmatter = {
   slug?: Maybe<Scalars['String']>;
   videoId?: Maybe<Scalars['String']>;
   guid?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
+  pubDate?: Maybe<Scalars['String']>;
+  enclosure?: Maybe<MarkdownRemarkFrontmatterEnclosure>;
+  itunes?: Maybe<MarkdownRemarkFrontmatterItunes>;
+};
+
+export type MarkdownRemarkFrontmatterEnclosure = {
+  url?: Maybe<Scalars['String']>;
+  length?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type MarkdownRemarkFrontmatterEnclosureFilterInput = {
+  url?: Maybe<StringQueryOperatorInput>;
+  length?: Maybe<StringQueryOperatorInput>;
+  type?: Maybe<StringQueryOperatorInput>;
 };
 
 export type MarkdownRemarkFrontmatterFilterInput = {
@@ -1828,7 +2736,27 @@ export type MarkdownRemarkFrontmatterFilterInput = {
   slug?: Maybe<StringQueryOperatorInput>;
   videoId?: Maybe<StringQueryOperatorInput>;
   guid?: Maybe<StringQueryOperatorInput>;
-  date?: Maybe<StringQueryOperatorInput>;
+  pubDate?: Maybe<StringQueryOperatorInput>;
+  enclosure?: Maybe<MarkdownRemarkFrontmatterEnclosureFilterInput>;
+  itunes?: Maybe<MarkdownRemarkFrontmatterItunesFilterInput>;
+};
+
+export type MarkdownRemarkFrontmatterItunes = {
+  summary?: Maybe<Scalars['String']>;
+  explicit?: Maybe<Scalars['String']>;
+  duration?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  episode?: Maybe<Scalars['String']>;
+  season?: Maybe<Scalars['String']>;
+};
+
+export type MarkdownRemarkFrontmatterItunesFilterInput = {
+  summary?: Maybe<StringQueryOperatorInput>;
+  explicit?: Maybe<StringQueryOperatorInput>;
+  duration?: Maybe<StringQueryOperatorInput>;
+  image?: Maybe<StringQueryOperatorInput>;
+  episode?: Maybe<StringQueryOperatorInput>;
+  season?: Maybe<StringQueryOperatorInput>;
 };
 
 export type MarkdownRemarkGroupConnection = {
@@ -1924,6 +2852,10 @@ export type Query = {
   allImageSharp: ImageSharpConnection;
   markdownRemark?: Maybe<MarkdownRemark>;
   allMarkdownRemark: MarkdownRemarkConnection;
+  episodeDataJson?: Maybe<EpisodeDataJson>;
+  allEpisodeDataJson: EpisodeDataJsonConnection;
+  dataJson?: Maybe<DataJson>;
+  allDataJson: DataJsonConnection;
   siteBuildMetadata?: Maybe<SiteBuildMetadata>;
   allSiteBuildMetadata: SiteBuildMetadataConnection;
   sitePlugin?: Maybe<SitePlugin>;
@@ -1970,6 +2902,10 @@ export type QueryFileArgs = {
   childImageSharp?: Maybe<ImageSharpFilterInput>;
   childrenMarkdownRemark?: Maybe<MarkdownRemarkFilterListInput>;
   childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>;
+  childrenEpisodeDataJson?: Maybe<EpisodeDataJsonFilterListInput>;
+  childEpisodeDataJson?: Maybe<EpisodeDataJsonFilterInput>;
+  childrenDataJson?: Maybe<DataJsonFilterListInput>;
+  childDataJson?: Maybe<DataJsonFilterInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
@@ -2128,6 +3064,59 @@ export type QueryMarkdownRemarkArgs = {
 export type QueryAllMarkdownRemarkArgs = {
   filter?: Maybe<MarkdownRemarkFilterInput>;
   sort?: Maybe<MarkdownRemarkSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryEpisodeDataJsonArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  pubDate?: Maybe<StringQueryOperatorInput>;
+  guid?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  slug?: Maybe<StringQueryOperatorInput>;
+  videoId?: Maybe<StringQueryOperatorInput>;
+  enclosure?: Maybe<EpisodeDataJsonEnclosureFilterInput>;
+  itunes?: Maybe<EpisodeDataJsonItunesFilterInput>;
+  captions?: Maybe<EpisodeDataJsonCaptionsFilterListInput>;
+};
+
+
+export type QueryAllEpisodeDataJsonArgs = {
+  filter?: Maybe<EpisodeDataJsonFilterInput>;
+  sort?: Maybe<EpisodeDataJsonSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryDataJsonArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  items?: Maybe<DataJsonItemsFilterListInput>;
+  feedUrl?: Maybe<StringQueryOperatorInput>;
+  image?: Maybe<DataJsonImageFilterInput>;
+  creator?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  description?: Maybe<StringQueryOperatorInput>;
+  author?: Maybe<StringQueryOperatorInput>;
+  generator?: Maybe<StringQueryOperatorInput>;
+  link?: Maybe<StringQueryOperatorInput>;
+  language?: Maybe<StringQueryOperatorInput>;
+  copyright?: Maybe<StringQueryOperatorInput>;
+  lastBuildDate?: Maybe<StringQueryOperatorInput>;
+  itunes?: Maybe<DataJsonItunesFilterInput>;
+};
+
+
+export type QueryAllDataJsonArgs = {
+  filter?: Maybe<DataJsonFilterInput>;
+  sort?: Maybe<DataJsonSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
@@ -2554,19 +3543,39 @@ export type SitePageConnectionGroupArgs = {
 };
 
 export type SitePageContext = {
+  pubDate?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   guid?: Maybe<Scalars['String']>;
   videoId?: Maybe<Scalars['String']>;
+  enclosure?: Maybe<SitePageContextEnclosure>;
+  itunes?: Maybe<SitePageContextItunes>;
+};
+
+export type SitePageContextEnclosure = {
+  url?: Maybe<Scalars['String']>;
+};
+
+export type SitePageContextEnclosureFilterInput = {
+  url?: Maybe<StringQueryOperatorInput>;
 };
 
 export type SitePageContextFilterInput = {
+  pubDate?: Maybe<StringQueryOperatorInput>;
   slug?: Maybe<StringQueryOperatorInput>;
-  date?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   guid?: Maybe<StringQueryOperatorInput>;
   videoId?: Maybe<StringQueryOperatorInput>;
+  enclosure?: Maybe<SitePageContextEnclosureFilterInput>;
+  itunes?: Maybe<SitePageContextItunesFilterInput>;
+};
+
+export type SitePageContextItunes = {
+  duration?: Maybe<Scalars['String']>;
+};
+
+export type SitePageContextItunesFilterInput = {
+  duration?: Maybe<StringQueryOperatorInput>;
 };
 
 export type SitePageEdge = {
@@ -2668,11 +3677,13 @@ export type SitePageFieldsEnum =
   | 'internal___owner'
   | 'internal___type'
   | 'isCreatedByStatefulCreatePages'
+  | 'context___pubDate'
   | 'context___slug'
-  | 'context___date'
   | 'context___title'
   | 'context___guid'
   | 'context___videoId'
+  | 'context___enclosure___url'
+  | 'context___itunes___duration'
   | 'pluginCreator___id'
   | 'pluginCreator___parent___id'
   | 'pluginCreator___parent___parent___id'
@@ -3238,10 +4249,10 @@ export type Unnamed_4_QueryVariables = Exact<{
 }>;
 
 
-export type Unnamed_4_Query = { markdownRemark?: Maybe<(
-    Pick<MarkdownRemark, 'html'>
-    & { frontmatter?: Maybe<Pick<MarkdownRemarkFrontmatter, 'date' | 'guid' | 'title' | 'videoId'>> }
-  )> };
+export type Unnamed_4_Query = { markdownRemark?: Maybe<{ frontmatter?: Maybe<(
+      Pick<MarkdownRemarkFrontmatter, 'pubDate' | 'guid' | 'title' | 'videoId' | 'slug'>
+      & { enclosure?: Maybe<Pick<MarkdownRemarkFrontmatterEnclosure, 'url'>>, itunes?: Maybe<Pick<MarkdownRemarkFrontmatterItunes, 'duration'>> }
+    )> }>, episodeDataJson?: Maybe<{ captions?: Maybe<Array<Maybe<Pick<EpisodeDataJsonCaptions, 'start' | 'duration' | 'text'>>>> }> };
 
 export type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 

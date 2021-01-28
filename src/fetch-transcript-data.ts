@@ -99,21 +99,26 @@ export const downloadEpisodeData = async ({
   dlTranscriptTimer.start()
   const episodeDataMap = await Promise.all(
     feed.items.map(async podcastData => {
-      const res = await fetch(
-        `https://${transcriptsAPI}?videoId=${videos[podcastData.title]?.videoId}`
-      )
-      const json: {
-        statusCode: number
-        body: { message: string; data: Array<{ text: string; start: number; duration: number }> }
-      } = await res.json()
-      const episodeData = {
-        date: podcastData.pubDate,
+      const episodeData: Episode = {
+        pubDate: podcastData.pubDate,
         guid: podcastData.guid,
         title: podcastData.title,
         slug: toSlug(podcastData.title),
         videoId: videos[podcastData.title]?.videoId,
-        captions: json.body?.data
+        enclosure: podcastData.enclosure,
+        itunes: podcastData.itunes
       }
+      if (!videos[podcastData.title]?.videoId) {
+        return episodeData
+      }
+      const res = await fetch(
+        `https://${transcriptsAPI}?videoId=${videos[podcastData.title]?.videoId}`
+      )
+      const json: {
+        message: string
+        data: Array<{ text: string; start: number; duration: number }>
+      } = await res.json()
+      episodeData.captions = json.data
       const episodeDataFolder = path.join(__dirname, `/episode-data`)
       if (!(await fs.stat(episodeDataFolder).catch(() => false))) {
         await fs.mkdir(episodeDataFolder)
@@ -148,10 +153,10 @@ export const createMD = async ({
   }
   const pages = await Promise.all(
     episodeDataMap.map(async episode => {
-      const { title, slug, videoId, captions, guid, date } = episode
-      const text = captions?.map(caption => caption.text).join(' ')
-      const frontmatter = { title, slug, videoId: videoId || '', guid, date }
-      const md = `---\n${YAML.stringify(frontmatter, 2)}\n---\n${text}`
+      const { title, slug, videoId, captions, guid, pubDate, enclosure, itunes } = episode
+      const text = captions?.map(caption => caption.text).join(' ') || ''
+      const frontmatter = { title, slug, videoId: videoId || '', guid, pubDate, enclosure, itunes }
+      const md = `---\n${YAML.stringify(frontmatter, 2)}\n---\n`
       await fs.writeFile(`${mdPagesFolder}/${episode.slug}.md`, md)
       return { frontmatter, md }
     })

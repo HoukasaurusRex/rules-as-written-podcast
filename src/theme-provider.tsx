@@ -8,6 +8,13 @@ export const wrapPageElement = ({ element }) => {
     config: {
       useSystemColorMode: true,
       initialColorMode
+    },
+    styles: {
+      global: {
+        a: {
+          color: '#bb4430'
+        }
+      }
     }
   })
   return (

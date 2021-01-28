@@ -27,6 +27,10 @@ const Layout = ({ children }: { children: React.ReactChildren }): JSX.Element =>
       <Link isExternal color="purple.500" href="https://jt.houk.space/about">
         JT
       </Link>
+      . If you want us to keep going, please support us on{' '}
+      <Link isExternal color="purple.500" href="https://anchor.fm/rules-as-written/support">
+        anchor
+      </Link>
     </Box>
   </>
 )

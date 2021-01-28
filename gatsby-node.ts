@@ -9,6 +9,7 @@ import {
   getPlaylistVideos,
   downloadLatestEpisode
 } from './src/fetch-transcript-data'
+import { Episode } from './types/media-types'
 
 dotenv.config()
 
@@ -56,35 +57,35 @@ export const onPreInit: GatsbyNode['onPreInit'] = async ({ reporter }) => {
 
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
-  const episodePostTemplate = path.resolve('src/templates/episode.tsx')
+  const episodePostTemplate = path.resolve('src/templates/episode-page.tsx')
   const result: {
     errors?: any
     data?: {
       allMarkdownRemark: {
         edges: Array<{
           node: {
-            frontmatter: {
-              slug: string
-              title: string
-              guid: string
-              date: string
-              videoId: string
-            }
+            frontmatter: Episode
           }
         }>
       }
     }
   } = await graphql(`
     {
-      allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }, limit: 1000) {
+      allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___pubDate] }, limit: 1000) {
         edges {
           node {
             frontmatter {
-              date
+              pubDate
               slug
               title
               guid
               videoId
+              enclosure {
+                url
+              }
+              itunes {
+                duration
+              }
             }
           }
         }
@@ -100,13 +101,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
     createPage({
       path: node.frontmatter.slug,
       component: episodePostTemplate,
-      context: {
-        slug: node.frontmatter.slug,
-        date: node.frontmatter.date,
-        title: node.frontmatter.title,
-        guid: node.frontmatter.guid,
-        videoId: node.frontmatter.videoId
-      }
+      context: node.frontmatter
     })
   })
 }

@@ -4,7 +4,7 @@ import { useStaticQuery, graphql } from 'gatsby'
 
 interface componentSEOProps {
   title: string
-  pathname: string
+  pathname?: string
   description?: string
   meta?: Array<React.DetailedHTMLProps<React.MetaHTMLAttributes<HTMLMetaElement>, HTMLMetaElement>>
   image?: HTMLImageElement
