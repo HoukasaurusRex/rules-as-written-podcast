@@ -30,6 +30,7 @@ const bgLaptop =
 
 export default function Hero({ title = 'Title', description = 'Description of site' }: { title: string, description: string}): JSX.Element {
   const variant = useBreakpointValue({ base: bgMobile, sm: bgTablet, lg: bgLaptop })
+  const parsedDescription = ReactHtmlParser(description)
   return (
     <Box
       as="header"
@@ -61,8 +62,8 @@ export default function Hero({ title = 'Title', description = 'Description of si
       >
         <Box>
           <Heading as="h1" marginTop="70px">{title}</Heading>
-          <Text py="20px" px="30px" fontSize="xs">
-            {ReactHtmlParser(description)}
+          <Text py="2rem" mx="auto" textAlign="left" fontSize="xs" maxW="80%">
+            {parsedDescription}
           </Text>
         </Box>
         <Box maxW="200px" w="100%">

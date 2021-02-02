@@ -56,6 +56,12 @@ export default {
         path: `${__dirname}/src/episode-data`
       }
     },
+    {
+      resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
+      options: {
+        devMode: true
+      }
+    },
     'gatsby-transformer-remark',
     {
       resolve: 'gatsby-plugin-manifest',
