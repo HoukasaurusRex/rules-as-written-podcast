@@ -11,9 +11,10 @@ import {
   ListItem,
   Tooltip
 } from '@chakra-ui/react'
-import { CgMouse } from 'react-icons/cg'
-import { SiApplepodcasts, SiSpotify, SiYoutube } from 'react-icons/si'
-import ReactHtmlParser from 'react-html-parser'
+import { CgMouse } from '@react-icons/all-files/cg/CgMouse'
+import { SiApplepodcasts } from '@react-icons/all-files/si/SiApplepodcasts'
+import { SiSpotify } from '@react-icons/all-files/si/SiSpotify'
+import { SiYoutube } from '@react-icons/all-files/si/SiYoutube'
 import RawImage from './raw-image'
 
 const scrollDown = () => {
@@ -30,7 +31,10 @@ const bgLaptop =
 
 export default function Hero({ title = 'Title', description = 'Description of site' }: { title: string, description: string}): JSX.Element {
   const variant = useBreakpointValue({ base: bgMobile, sm: bgTablet, lg: bgLaptop })
-  const parsedDescription = ReactHtmlParser(description)
+  
+  const parsedDescription = description
+    .replace(/(\n|\r)/g, '<br />')
+    // .replace(/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g, '')
   return (
     <Box
       as="header"
@@ -62,14 +66,13 @@ export default function Hero({ title = 'Title', description = 'Description of si
       >
         <Box>
           <Heading as="h1" marginTop="70px">{title}</Heading>
-          <Text py="2rem" mx="auto" textAlign="left" fontSize="xs" maxW="80%">
-            {parsedDescription}
+          <Text py="1rem" mx="auto" textAlign="left" fontSize="xs" maxW="80%" dangerouslySetInnerHTML={{ __html: parsedDescription }}>
           </Text>
         </Box>
         <Box maxW="200px" w="100%">
           <RawImage />
         </Box>
-        <Box my="70px" minH="30px">
+        <Box marginTop="1.5rem" minH="30px">
           <Button w="fit-content" onClick={scrollDown}>
             Latest <CgMouse /> Episodes
           </Button>

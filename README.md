@@ -69,6 +69,7 @@ yarn dev
 * [x] Add external cast apps icons
 * [x] Fix nightmode ssr in main bg
 * [x] Episode page w/ transcript and playback card
+* [x] Performance update
 * [ ] Upcoming features page
 * [ ] Add commenting
 * [ ] About page
