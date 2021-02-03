@@ -10,7 +10,8 @@ import {
   Tooltip
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { FaPlayCircle, FaPauseCircle } from 'react-icons/fa'
+import { FaPlayCircle } from '@react-icons/all-files/fa/FaPlayCircle'
+import { FaPauseCircle } from '@react-icons/all-files/fa/FaPauseCircle'
 import dayjs from 'dayjs'
 import { feedItem, Episode } from '../../types/media-types'
 import { toSlug } from '../utils/slug'

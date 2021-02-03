@@ -59,7 +59,6 @@ export default {
     {
       resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
       options: {
-        devMode: true,
         disable: process.env.NODE_ENV !== 'development'
       }
     },
