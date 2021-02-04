@@ -110,7 +110,7 @@ export const downloadEpisodeData = async ({
         enclosure: podcastData.enclosure,
         itunes: podcastData.itunes
       }
-      if (!videos[episodeData.slug]?.videoId) {
+      if (!episodeData.slug || !videos[episodeData.slug]?.videoId) {
         reporter.info(`Could not find ${episodeData.slug} in videos`)
         return episodeData
       }

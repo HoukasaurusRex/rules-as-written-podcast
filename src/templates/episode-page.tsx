@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentType } from 'react'
 import { graphql } from 'gatsby'
 import {
   Box,
@@ -19,25 +19,46 @@ import {
   useBreakpointValue
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { FixedSizeList as List, ListChildComponentProps } from 'react-window'
 import SEO from '../components/seo'
 import AudioCard from '../components/audio-card'
 import { secondsToTimestamp } from '../utils/time'
-import { EpisodePageQuery } from '../../types/graphql-types'
+import { EpisodePageQuery, Maybe, EpisodeDataJsonCaptions } from '../../types/graphql-types'
+
+interface CaptionLineComponent extends ListChildComponentProps {
+  data: Maybe<Pick<EpisodeDataJsonCaptions, "text" | "start" | "duration">>[]
+}
 
 const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
   const { markdownRemark, episodeDataJson } = data
   const frontmatter = markdownRemark?.frontmatter
   const selfHostedFile = `${frontmatter?.guid}.mp3`
-  const lines = episodeDataJson?.captions?.map(caption => (
-    <Flex key={caption?.start} justifyContent="start">
+
+  const Line: ComponentType<CaptionLineComponent> = ({ index, data, style  } ) => (
+    <Flex key={data[index]?.start} justifyContent="start" style={style}>
       <Box as="aside" flex="1" opacity="0.5">
-        {secondsToTimestamp(caption?.start)}
+        {secondsToTimestamp(data[index]?.start)}
       </Box>
       <Text flex="10" px="1rem">
-        {caption?.text}
+        {data[index]?.text}
       </Text>
     </Flex>
-  )) || (
+  )
+
+  const Lines = episodeDataJson?.captions
+    ? (
+      <List
+        itemData={episodeDataJson.captions}
+        height={300}
+        width="100%"
+        itemCount={episodeDataJson.captions.length}
+        itemSize={50}
+        style={{ position: 'relative', borderRadius: '0.375rem' }}
+      >
+        {Line}
+      </List>
+    )
+    : (
     <Text>
       <span role="img" aria-label="wrench">
         🔧
@@ -115,18 +136,17 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
         <Box
           as="main"
           position="relative"
-          minHeight="50vh"
+          minHeight="330px"
           w="550px"
           maxW="100%"
-          px={useBreakpointValue({ base: '0.5rem', sm: '2rem' })}
-          py="2rem"
+          paddingLeft={useBreakpointValue({ base: '0.5rem', sm: '2rem' })}
           my="2rem"
           borderRadius="md"
           bgColor={useColorModeValue('gray.200', 'gray.900')}
           boxShadow={useColorModeValue('sm', 'md')}
           mx="auto"
         >
-          {lines}
+          {Lines}
         </Box>
       </Center>
     </Box>
