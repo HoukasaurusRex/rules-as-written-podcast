@@ -21,32 +21,20 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import SEO from '../components/seo'
 import AudioCard from '../components/audio-card'
-import { Episode, Captions } from '../../types/media-types'
 import { secondsToTimestamp } from '../utils/time'
+import { EpisodePageQuery } from '../../types/graphql-types'
 
-const EpisodePage: React.FunctionComponent<{
-  data: {
-    markdownRemark: {
-      html: string
-      frontmatter: Episode
-    }
-    episodeDataJson: {
-      captions: Captions
-    }
-  }
-}> = ({ data }) => {
-  const {
-    markdownRemark: { frontmatter },
-    episodeDataJson
-  } = data
-  const selfHostedFile = `${frontmatter.guid}.mp3`
-  const lines = episodeDataJson?.captions.map(caption => (
-    <Flex key={caption.start} justifyContent="start">
+const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
+  const { markdownRemark, episodeDataJson } = data
+  const frontmatter = markdownRemark?.frontmatter
+  const selfHostedFile = `${frontmatter?.guid}.mp3`
+  const lines = episodeDataJson?.captions?.map(caption => (
+    <Flex key={caption?.start} justifyContent="start">
       <Box as="aside" flex="1" opacity="0.5">
-        {secondsToTimestamp(caption.start)}
+        {secondsToTimestamp(caption?.start)}
       </Box>
       <Text flex="10" px="1rem">
-        {caption.text}
+        {caption?.text}
       </Text>
     </Flex>
   )) || (
@@ -59,18 +47,18 @@ const EpisodePage: React.FunctionComponent<{
   )
   return (
     <Box position="relative">
-      <SEO title={frontmatter.title} pathname={frontmatter.slug} />
+      <SEO title={frontmatter?.title || ''} pathname={frontmatter?.slug} />
       <Center flexDir="column">
         <Heading paddingTop="70px" paddingBottom="30px" textAlign="center">
-          {frontmatter.title}
+          {frontmatter?.title}
         </Heading>
-        <AudioCard
+        {frontmatter && <AudioCard
           item={frontmatter}
           selfHostedFile={selfHostedFile}
           linkToPage={false}
           cardBG={false}
           cardTitle={false}
-        />
+        />}
         <Flex
           justifyContent="space-around"
           alignItems="center"
@@ -148,7 +136,7 @@ const EpisodePage: React.FunctionComponent<{
 export default EpisodePage
 
 export const pageQuery = graphql`
-  query($slug: String!) {
+  query EpisodePage ($slug: String!) {
     markdownRemark(frontmatter: { slug: { eq: $slug } }) {
       frontmatter {
         pubDate

@@ -60,12 +60,11 @@ export default function Hero({ title = 'Title', description = 'Description of si
         position="relative"
         w="100%"
         d="flex"
-        justifyContent="space-between"
         flexDir="column"
         alignItems="center"
       >
         <Box>
-          <Heading as="h1" marginTop="70px">{title}</Heading>
+          <Heading as="h1" marginTop="3rem" mx="auto" w={useBreakpointValue({ base: '15rem', md: '18rem'})}>{title}</Heading>
           <Text py="1rem" mx="auto" textAlign="left" fontSize="xs" maxW="80%" dangerouslySetInnerHTML={{ __html: parsedDescription }}>
           </Text>
         </Box>
