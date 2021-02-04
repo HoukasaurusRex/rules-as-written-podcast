@@ -1,4 +1,6 @@
-export const secondsToTimestamp = (s: number): string => {
+export const secondsToTimestamp = (seconds?: number | string): string => {
+  const s = Number(seconds)
+  if (!s) return '00:00' 
   const m = 60
   const h = 60 * 60
   const hours = Math.floor(s / h)

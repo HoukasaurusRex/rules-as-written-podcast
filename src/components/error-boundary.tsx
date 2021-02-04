@@ -17,7 +17,7 @@ const ErrorFallback: React.FunctionComponent<{
     margin="auto"
   >
     <Text>Something went wrong:</Text>
-    <Text as="pre" overflowWrap="break-word">
+    <Text p="1rem">
       {error.message}
     </Text>
     <Button maxW="200px" onClick={resetErrorBoundary}>

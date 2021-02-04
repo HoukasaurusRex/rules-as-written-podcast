@@ -21,21 +21,25 @@ const AudioCard = ({
   item: {
     title,
     pubDate,
-    enclosure: { url },
-    itunes: { duration }
+    enclosure,
+    itunes
   },
   linkToPage = true,
   cardTitle = true,
   cardBG = true,
-  selfHostedFile
+  selfHostedFile,
+  preload = 'auto'
 }: {
   item: feedItem | Episode
   selfHostedFile: string
   linkToPage?: boolean
   cardTitle?: boolean
   cardBG?: boolean
+  preload?: string
 }): JSX.Element => {
-  const [audioURL, setAudioURL] = useState(url)
+  const url = enclosure?.url || ''
+  const duration = itunes?.duration
+  const [audioURL, setAudioURL] = useState('')
   const [selfHostedFileFailed, setSelfHostedFileFailed] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -72,15 +76,20 @@ const AudioCard = ({
     boxShadow: useColorModeValue('md', 'lg'),
     transform: 'translateY(-1px)'
   }
-  if (selfHostedFile && !selfHostedFileFailed) {
-    importURL()
-      .then(importedURL => {
-        setAudioURL(importedURL.default)
-      })
-      .catch(() => {
-        setSelfHostedFileFailed(true)
-        console.warn('Cannot import from self hosted audio file. It may be out of date.')
-      })
+  const setBackupAudioURL = () => {
+    setSelfHostedFileFailed(true)
+    setAudioURL(url)
+    console.warn('Cannot import from self hosted audio file. It may be out of date.')
+  }
+  const importSelfHostedFile = async() => {
+    const importedURL = await importURL()
+    setAudioURL(importedURL.default)
+  }
+  if (selfHostedFile && !selfHostedFileFailed && !audioURL) {
+    importSelfHostedFile()
+      .catch(setBackupAudioURL)
+  } else if (!audioURL && !selfHostedFile) {
+    setAudioURL(url)
   }
   return (
     <Box w="100%" marginTop="30px" maxWidth="600px" px="0.5rem">
@@ -105,8 +114,8 @@ const AudioCard = ({
             isLoading={isLoading}
             onClick={!isPlaying ? play : pause}
           >
-            {!isPlaying && <FaPlayCircle size="35px" />}
-            {isPlaying && <FaPauseCircle size="35px" />}
+            <FaPlayCircle size="35px" style={{ display: !isPlaying ? 'block' : 'none' }}/>
+            <FaPauseCircle size="35px" style={{ display: isPlaying ? 'block' : 'none' }}/>
           </Button>
           <Box p="5px" flex="8">
             {cardTitle && (
@@ -126,7 +135,7 @@ const AudioCard = ({
                 fontSize="xs"
                 offset={[0, 15]}
               >
-                <Link isExternal href={toSlug(title)} color="#bb4430">
+                <Link isExternal href={toSlug(title || '')} color="#bb4430">
                   <ExternalLinkIcon />
                 </Link>
               </Tooltip>
@@ -145,6 +154,7 @@ const AudioCard = ({
             onTimeUpdate={updateTime}
             onWaiting={loading}
             onCanPlay={canplay}
+            preload={preload}
           />
           <Input
             type="range"

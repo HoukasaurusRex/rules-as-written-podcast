@@ -74,17 +74,17 @@ interface Videos {
 }
 
 interface Episode {
-  guid: string
+  guid?: string
   videoId?: string | null
-  title: string
-  slug: string
+  title?: string
+  slug?: string
   captions?: Captions
-  pubDate: string
-  enclosure: {
-    url: string
+  pubDate?: string
+  enclosure?: {
+    url?: string
   }
-  itunes: {
-    duration: number
+  itunes?: {
+    duration?: number | string
   }
 }
 
