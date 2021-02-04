@@ -25,7 +25,8 @@ export default {
         fileName: 'types/graphql-types.ts',
         codegen: true,
         codegenDelay: 250,
-        typeCheck: false
+        typeCheck: false,
+        codegenConfig: { maybeValue: 'T | undefined' }
       }
     },
     {

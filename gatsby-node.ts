@@ -9,7 +9,7 @@ import {
   getPlaylistVideos,
   downloadLatestEpisode
 } from './src/fetch-transcript-data'
-import { Episode } from './types/media-types'
+import { Query } from './types/graphql-types'
 
 dotenv.config()
 
@@ -28,9 +28,9 @@ export const onPreInit: GatsbyNode['onPreInit'] = async ({ reporter }) => {
   const feed = await downloadRSSFeedData({ reporter })
   const latestEpisode = feed.items && feed.items[0]
   const url = latestEpisode?.enclosure?.url
-  if (url && process.env.NODE_ENV !== 'development') {
+  if (url) {
     await downloadLatestEpisode({ url, reporter, fileName: `${latestEpisode?.guid}.mp3` })
-    .catch(reporter.error)
+      .catch(reporter.error)
   }
   const videos =
     YT_DATA_API_KEY && YT_PLAYLIST_ID
@@ -59,18 +59,7 @@ export const onPreInit: GatsbyNode['onPreInit'] = async ({ reporter }) => {
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
   const episodePostTemplate = path.resolve('src/templates/episode-page.tsx')
-  const result: {
-    errors?: any
-    data?: {
-      allMarkdownRemark: {
-        edges: Array<{
-          node: {
-            frontmatter: Episode
-          }
-        }>
-      }
-    }
-  } = await graphql(`
+  const result: { errors?: any; data?: Query } = await graphql(`
     {
       allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___pubDate] }, limit: 1000) {
         edges {
@@ -98,7 +87,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
     return
   }
   result.data?.allMarkdownRemark.edges.forEach(({ node }) => {
-    if (!node.frontmatter.slug) return
+    if (!node?.frontmatter?.slug) return
     createPage({
       path: node.frontmatter.slug,
       component: episodePostTemplate,
