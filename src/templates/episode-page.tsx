@@ -136,7 +136,7 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
         <Box
           as="main"
           position="relative"
-          minHeight="330px"
+          minHeight="300px"
           w="550px"
           maxW="100%"
           paddingLeft={useBreakpointValue({ base: '0.5rem', sm: '2rem' })}
