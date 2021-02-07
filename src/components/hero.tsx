@@ -65,8 +65,7 @@ export default function Hero({ title = 'Title', description = 'Description of si
       >
         <Box>
           <Heading as="h1" marginTop="3rem" mx="auto" w={useBreakpointValue({ base: '15rem', md: '18rem'})}>{title}</Heading>
-          <Text py="1rem" mx="auto" textAlign="left" fontSize="xs" maxW="80%" dangerouslySetInnerHTML={{ __html: parsedDescription }}>
-          </Text>
+          <Text py="1rem" mx="auto" textAlign="left" fontSize="xs" maxW="80%" dangerouslySetInnerHTML={{ __html: parsedDescription }} />
         </Box>
         <Box maxW="200px" w="100%">
           <RawImage />
@@ -85,10 +84,10 @@ export default function Hero({ title = 'Title', description = 'Description of si
               </Tooltip>
             </ListItem>
             <ListItem>
-              <Tooltip shouldWrapChildren label="Coming soon to Apple Podcasts!" hasArrow placement="bottom" fontSize="xs" offset={[0, 15]}>
-                <Button disabled bg="none" _hover={{ bg: 'none' }}>
+              <Tooltip shouldWrapChildren label="Listen on Apple Podcasts" hasArrow placement="bottom" fontSize="xs" offset={[0, 15]}>
+                <Link href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455" target="_blank" rel="noreferrer noopener">
                   <Icon as={SiApplepodcasts} boxSize={6}/>
-                </Button>
+                </Link>
               </Tooltip>
             </ListItem>
             <ListItem>
