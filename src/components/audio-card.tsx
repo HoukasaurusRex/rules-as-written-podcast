@@ -131,7 +131,7 @@ const AudioCard = ({
                 fontSize="xs"
                 offset={[0, 15]}
               >
-                <TransitionLink paintDrip to={toSlug(title || '')}>
+                <TransitionLink paintDrip to={toSlug(title || '')} color="#bb4430" duration={0.6}>
                   <ExternalLinkIcon />
                 </TransitionLink>
               </Tooltip>
