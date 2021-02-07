@@ -12,18 +12,14 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { FaPlayCircle } from '@react-icons/all-files/fa/FaPlayCircle'
 import { FaPauseCircle } from '@react-icons/all-files/fa/FaPauseCircle'
+import { FaCommentMedical } from '@react-icons/all-files/fa/FaCommentMedical'
 import dayjs from 'dayjs'
 import { feedItem, Episode } from '../../types/media-types'
 import { toSlug } from '../utils/slug'
 import { secondsToTimestamp } from '../utils/time'
 
 const AudioCard = ({
-  item: {
-    title,
-    pubDate,
-    enclosure,
-    itunes
-  },
+  item: { title, pubDate, enclosure, itunes },
   linkToPage = true,
   cardTitle = true,
   cardBG = true,
@@ -81,13 +77,12 @@ const AudioCard = ({
     setAudioURL(url)
     console.warn('Cannot import from self hosted audio file. It may be out of date.')
   }
-  const importSelfHostedFile = async() => {
+  const importSelfHostedFile = async () => {
     const importedURL = await importURL()
     setAudioURL(importedURL.default)
   }
   if (selfHostedFile && !selfHostedFileFailed && !audioURL) {
-    importSelfHostedFile()
-      .catch(setBackupAudioURL)
+    importSelfHostedFile().catch(setBackupAudioURL)
   } else if (!audioURL && !selfHostedFile) {
     setAudioURL(url)
   }
@@ -114,8 +109,8 @@ const AudioCard = ({
             isLoading={isLoading}
             onClick={!isPlaying ? play : pause}
           >
-            <FaPlayCircle size="35px" style={{ display: !isPlaying ? 'block' : 'none' }}/>
-            <FaPauseCircle size="35px" style={{ display: isPlaying ? 'block' : 'none' }}/>
+            <FaPlayCircle size="35px" style={{ display: !isPlaying ? 'block' : 'none' }} />
+            <FaPauseCircle size="35px" style={{ display: isPlaying ? 'block' : 'none' }} />
           </Button>
           <Box p="5px" flex="8">
             {cardTitle && (
@@ -126,7 +121,7 @@ const AudioCard = ({
             <Text fontSize="xs">{fPubDate}</Text>
           </Box>
           <Box p="5px" flex="5" textAlign="right">
-            {linkToPage && (
+            {linkToPage ? (
               <Tooltip
                 shouldWrapChildren
                 label="Open Episode Page"
@@ -137,6 +132,24 @@ const AudioCard = ({
               >
                 <Link isExternal href={toSlug(title || '')} color="#bb4430">
                   <ExternalLinkIcon />
+                </Link>
+              </Tooltip>
+            ) : (
+              <Tooltip
+                shouldWrapChildren
+                label="Make us an audio comment on Anchor an we'll feature it on the show!"
+                hasArrow
+                fontSize="xs"
+                placement="top"
+                offset={[0, 15]}
+              >
+                <Link
+                  href="https://anchor.fm/rules-as-written/message"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  _hover={{ textDecor: 'none' }}
+                >
+                  <FaCommentMedical style={{ marginLeft: 'auto' }} />
                 </Link>
               </Tooltip>
             )}
