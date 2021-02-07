@@ -18,7 +18,6 @@ import TransitionLink from 'gatsby-plugin-transition-link/AniLink'
 import React from 'react'
 import { CgMenu } from '@react-icons/all-files/cg/CgMenu'
 import { FaCommentMedical } from '@react-icons/all-files/fa/FaCommentMedical'
-import LinkFade from './link-fade'
 import Icon from './icon'
 
 const Navbar: React.FC = () => {
@@ -64,12 +63,12 @@ const Navbar: React.FC = () => {
             </Link>
             <MenuDivider />
             <MenuGroup title="Pages">
-              <LinkFade to="/">
-                <MenuItem color="black">Home</MenuItem>
-              </LinkFade>
-              <LinkFade to="/about">
-                <MenuItem color="black">About</MenuItem>
-              </LinkFade>
+              <TransitionLink paintDrip to="/">
+                <MenuItem>Home</MenuItem>
+              </TransitionLink>
+              <TransitionLink paintDrip to="/about">
+                <MenuItem>About</MenuItem>
+              </TransitionLink>
             </MenuGroup>
           </MenuList>
         </Menu>
