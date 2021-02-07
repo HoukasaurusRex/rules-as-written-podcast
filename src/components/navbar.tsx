@@ -63,10 +63,10 @@ const Navbar: React.FC = () => {
             </Link>
             <MenuDivider />
             <MenuGroup title="Pages">
-              <TransitionLink paintDrip to="/">
+              <TransitionLink paintDrip to="/" color="#bb4430" duration={0.6}>
                 <MenuItem>Home</MenuItem>
               </TransitionLink>
-              <TransitionLink paintDrip to="/about">
+              <TransitionLink paintDrip to="/about" color="#bb4430" duration={0.6}>
                 <MenuItem>About</MenuItem>
               </TransitionLink>
             </MenuGroup>
