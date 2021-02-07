@@ -74,7 +74,12 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
     <Box position="relative">
       <SEO title={frontmatter?.title || ''} pathname={frontmatter?.slug} />
       <Center flexDir="column">
-        <Heading paddingTop="70px" paddingBottom="30px" textAlign="center">
+        <Heading
+          paddingTop="70px"
+          paddingBottom="30px"
+          textAlign="center"
+          w={useBreakpointValue({ base: '15rem', md: '18rem', lg: '100%' })}
+        >
           {frontmatter?.title}
         </Heading>
         {frontmatter && (

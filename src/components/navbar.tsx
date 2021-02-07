@@ -8,16 +8,17 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  MenuGroup,
+  MenuDivider,
   useColorMode,
   useColorModeValue
 } from '@chakra-ui/react'
-
 import { MoonIcon, SunIcon, ExternalLinkIcon } from '@chakra-ui/icons'
-
-import { Link as GatsbyLink } from 'gatsby'
+import TransitionLink from 'gatsby-plugin-transition-link/AniLink'
 import React from 'react'
 import { CgMenu } from '@react-icons/all-files/cg/CgMenu'
 import { FaCommentMedical } from '@react-icons/all-files/fa/FaCommentMedical'
+import LinkFade from './link-fade'
 import Icon from './icon'
 
 const Navbar: React.FC = () => {
@@ -30,15 +31,15 @@ const Navbar: React.FC = () => {
       width="100%"
       height="70px"
       p="5px 10px"
-      zIndex="1"
+      zIndex="2"
       maxWidth="100vw"
     >
       <Flex>
-        <Link as={GatsbyLink} to="/">
+        <TransitionLink paintDrip to="/" color="#bb4430" duration={0.6}>
           <Box width="50px">
             <Icon />
           </Box>
-        </Link>
+        </TransitionLink>
 
         <Spacer />
         <Menu>
@@ -46,20 +47,30 @@ const Navbar: React.FC = () => {
             <CgMenu />
           </MenuButton>
           <MenuList>
+            <MenuItem icon={<ToggleIcon />} onClick={toggleMode}>
+              Toggle Theme
+            </MenuItem>
             <Link
               href="https://anchor.fm/rules-as-written/message"
               target="_blank"
               rel="noreferrer noopener"
               width="100%"
+              _hover={{ textDecor: 'none' }}
             >
               <MenuItem icon={<FaCommentMedical />}>
-                Make Audio Comment
+                Audio Comment
                 <ExternalLinkIcon style={{ position: 'relative', float: 'right' }} />
               </MenuItem>
             </Link>
-            <MenuItem icon={<ToggleIcon />} onClick={toggleMode}>
-              Toggle Theme
-            </MenuItem>
+            <MenuDivider />
+            <MenuGroup title="Pages">
+              <LinkFade to="/">
+                <MenuItem color="black">Home</MenuItem>
+              </LinkFade>
+              <LinkFade to="/about">
+                <MenuItem color="black">About</MenuItem>
+              </LinkFade>
+            </MenuGroup>
           </MenuList>
         </Menu>
       </Flex>

@@ -14,6 +14,9 @@ export default {
     '@chakra-ui/gatsby-plugin',
     'gatsby-plugin-sharp',
     'gatsby-plugin-react-helmet',
+    {
+      resolve: 'gatsby-plugin-transition-link'
+    },
     'gatsby-transformer-sharp',
     'gatsby-transformer-json',
     {

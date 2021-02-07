@@ -14,6 +14,7 @@ import { FaPlayCircle } from '@react-icons/all-files/fa/FaPlayCircle'
 import { FaPauseCircle } from '@react-icons/all-files/fa/FaPauseCircle'
 import { FaCommentMedical } from '@react-icons/all-files/fa/FaCommentMedical'
 import dayjs from 'dayjs'
+import LinkFade from './link-fade'
 import { feedItem, Episode } from '../../types/media-types'
 import { toSlug } from '../utils/slug'
 import { secondsToTimestamp } from '../utils/time'
@@ -130,14 +131,14 @@ const AudioCard = ({
                 fontSize="xs"
                 offset={[0, 15]}
               >
-                <Link isExternal href={toSlug(title || '')} color="#bb4430">
+                <LinkFade to={toSlug(title || '')}>
                   <ExternalLinkIcon />
-                </Link>
+                </LinkFade>
               </Tooltip>
             ) : (
               <Tooltip
                 shouldWrapChildren
-                label="Make us an audio comment on Anchor an we'll feature it on the show!"
+                label="Make us an audio comment on Anchor and we'll feature it on the show!"
                 hasArrow
                 fontSize="xs"
                 placement="top"
