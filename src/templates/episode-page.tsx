@@ -26,46 +26,50 @@ import { secondsToTimestamp } from '../utils/time'
 import { EpisodePageQuery, Maybe, EpisodeDataJsonCaptions } from '../../types/graphql-types'
 
 interface CaptionLineComponent extends ListChildComponentProps {
-  data: Maybe<Pick<EpisodeDataJsonCaptions, "text" | "start" | "duration">>[]
+  data: Maybe<Pick<EpisodeDataJsonCaptions, 'text' | 'start' | 'duration'>>[]
 }
 
-const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
-  const { markdownRemark, episodeDataJson } = data
-  const frontmatter = markdownRemark?.frontmatter
-  const selfHostedFile = `${frontmatter?.guid}.mp3`
+const Line: ComponentType<CaptionLineComponent> = ({ index, data, style }) => (
+  <Flex key={data[index]?.start} justifyContent="start" style={style}>
+    <Box as="aside" flex="1" opacity="0.5">
+      {secondsToTimestamp(data[index]?.start)}
+    </Box>
+    <Text flex="10" px="1rem">
+      {data[index]?.text}
+    </Text>
+  </Flex>
+)
 
-  const Line: ComponentType<CaptionLineComponent> = ({ index, data, style  } ) => (
-    <Flex key={data[index]?.start} justifyContent="start" style={style}>
-      <Box as="aside" flex="1" opacity="0.5">
-        {secondsToTimestamp(data[index]?.start)}
-      </Box>
-      <Text flex="10" px="1rem">
-        {data[index]?.text}
-      </Text>
-    </Flex>
-  )
-
-  const Lines = episodeDataJson?.captions
-    ? (
-      <List
-        itemData={episodeDataJson.captions}
-        height={300}
-        width="100%"
-        itemCount={episodeDataJson.captions.length}
-        itemSize={50}
-        style={{ position: 'relative', borderRadius: '0.375rem' }}
-      >
-        {Line}
-      </List>
-    )
-    : (
-    <Text>
+const Lines = (
+  episodeDataJson: Maybe<{
+    captions?: Maybe<Maybe<Pick<EpisodeDataJsonCaptions, 'text' | 'start' | 'duration'>>[]>
+  }>
+) =>
+  episodeDataJson?.captions ? (
+    <List
+      itemData={episodeDataJson.captions}
+      height={300}
+      width="100%"
+      itemCount={episodeDataJson.captions.length}
+      itemSize={50}
+      style={{ position: 'relative', borderRadius: '0.375rem' }}
+    >
+      {Line}
+    </List>
+  ) : (
+    <Text paddingTop="2rem">
       <span role="img" aria-label="wrench">
         🔧
       </span>{' '}
       Our constructs are working hard on making a transcript for this episode, come back later!
     </Text>
   )
+
+const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
+  const { markdownRemark, episodeDataJson } = data
+  const frontmatter = markdownRemark?.frontmatter
+  const selfHostedFile = `${frontmatter?.guid}.mp3`
+
   return (
     <Box position="relative">
       <SEO title={frontmatter?.title || ''} pathname={frontmatter?.slug} />
@@ -73,13 +77,15 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
         <Heading paddingTop="70px" paddingBottom="30px" textAlign="center">
           {frontmatter?.title}
         </Heading>
-        {frontmatter && <AudioCard
-          item={frontmatter}
-          selfHostedFile={selfHostedFile}
-          linkToPage={false}
-          cardBG={false}
-          cardTitle={false}
-        />}
+        {frontmatter && (
+          <AudioCard
+            item={frontmatter}
+            selfHostedFile={selfHostedFile}
+            linkToPage={false}
+            cardBG={false}
+            cardTitle={false}
+          />
+        )}
         <Flex
           justifyContent="space-around"
           alignItems="center"
@@ -146,7 +152,7 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
           boxShadow={useColorModeValue('sm', 'md')}
           mx="auto"
         >
-          {Lines}
+          {Lines(episodeDataJson)}
         </Box>
       </Center>
     </Box>
@@ -156,7 +162,7 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
 export default EpisodePage
 
 export const pageQuery = graphql`
-  query EpisodePage ($slug: String!) {
+  query EpisodePage($slug: String!) {
     markdownRemark(frontmatter: { slug: { eq: $slug } }) {
       frontmatter {
         pubDate
