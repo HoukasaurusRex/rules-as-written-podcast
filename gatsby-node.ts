@@ -71,6 +71,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
               title
               guid
               videoId
+              contentSnippet
               enclosure {
                 url
               }

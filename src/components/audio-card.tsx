@@ -20,7 +20,7 @@ import { toSlug } from '../utils/slug'
 import { secondsToTimestamp } from '../utils/time'
 
 const AudioCard = ({
-  item: { title, pubDate, enclosure, itunes },
+  item: { title, pubDate, enclosure, contentSnippet, itunes },
   linkToPage = true,
   cardTitle = true,
   cardBG = true,

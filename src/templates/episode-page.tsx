@@ -75,7 +75,11 @@ const EpisodePage: React.FC<{ data: EpisodePageQuery }> = ({ data }) => {
     <>
       <Box bg={`center / cover no-repeat url(${bannerURL})`} width="100vw" height="300px" />
       <Box position="relative" minH="100vh">
-        <SEO title={frontmatter?.title || ''} pathname={frontmatter?.slug} />
+        <SEO
+          title={frontmatter?.title || ''}
+          pathname={frontmatter?.slug}
+          description={frontmatter?.contentSnippet}
+        />
         <Center flexDir="column">
           <Heading
             paddingTop="70px"
@@ -182,6 +186,7 @@ export const pageQuery = graphql`
         pubDate
         guid
         title
+        contentSnippet
         videoId
         slug
         enclosure {
