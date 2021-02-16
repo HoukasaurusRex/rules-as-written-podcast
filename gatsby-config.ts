@@ -8,7 +8,7 @@ export default {
     siteUrl: 'https://rulesaswrittenshow.com',
     lang: 'en',
     keywords: ['D&D', "Player's Handbook", 'Dungeons and Dragons', 'Tabletop RPG', 'Podcast'],
-    image: '/raw-banner.jpg'
+    image: 'https://rulesaswrittenshow.com/raw-banner.jpg'
   },
   plugins: [
     '@chakra-ui/gatsby-plugin',
