@@ -76,7 +76,11 @@ const SEO: FC<componentSEOProps> = ({ description, meta, image: metaImage, title
         },
         {
           name: 'twitter:card',
-          content: 'summary'
+          content: 'summary_large_image'
+        },
+        {
+          name: 'twitter:image',
+          content: image
         },
         {
           name: 'twitter:creator',

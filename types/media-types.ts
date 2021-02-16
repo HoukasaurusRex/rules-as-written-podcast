@@ -77,6 +77,7 @@ interface Episode {
   guid?: string
   videoId?: string | null
   title?: string
+  contentSnippet?: string
   slug?: string
   captions?: Captions
   pubDate?: string

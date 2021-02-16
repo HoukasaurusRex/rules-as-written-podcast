@@ -102,6 +102,7 @@ export const downloadEpisodeData = async ({
   const episodeDataMap = await Promise.all(
     feed.items.map(async podcastData => {
       const episodeData: Episode = {
+        contentSnippet: podcastData.contentSnippet,
         pubDate: podcastData.pubDate,
         guid: podcastData.guid,
         title: podcastData.title,
@@ -151,9 +152,28 @@ export const createMD = async ({
   await fs.mkdir(mdPagesFolder)
   const pages = await Promise.all(
     episodeDataMap.map(async episode => {
-      const { title, slug, videoId, captions, guid, pubDate, enclosure, itunes } = episode
+      const {
+        title,
+        slug,
+        videoId,
+        captions,
+        guid,
+        pubDate,
+        enclosure,
+        contentSnippet,
+        itunes
+      } = episode
       const text = captions?.map(caption => caption.text).join(' ') || ''
-      const frontmatter = { title, slug, videoId: videoId || '', guid, pubDate, enclosure, itunes }
+      const frontmatter = {
+        title,
+        slug,
+        videoId: videoId || '',
+        guid,
+        pubDate,
+        contentSnippet,
+        enclosure,
+        itunes
+      }
       const md = `---\n${YAML.stringify(frontmatter, 2)}\n---\n`
       await fs.writeFile(`${mdPagesFolder}/${episode.slug}.md`, md)
       return { frontmatter, md }
