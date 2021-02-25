@@ -66,44 +66,7 @@ yarn dev
 
 ## 🗺 Roadmap
 
-* [x] Add external cast apps icons
-* [x] Fix nightmode ssr in main bg
-* [x] Episode page w/ transcript and playback card
-* [x] Performance update
-* [ ] Upcoming features page
-* [ ] Add commenting
-* [ ] About page
-* [ ] Parse description from rss
-* [ ] Send a voice message https://anchor.fm/rules-as-written/message
-* [ ] All episodes page
-* [ ] Paginate episodes list on home
-* [ ] Mark Played
-* [ ] Save playback state
-* [ ] Debounce updateTime events
-* [ ] Show notes expand
-* [ ] Queue episodes
-* [ ] Sticky playback to nav on episode page
-* [ ] Highlight transcript section as it plays
-* [ ] Click transcript section to jump audio
-* [ ] Add D&D themed 404
-* [ ] Fun playback animation
-* [ ] Add Newsletter
-* [ ] Future episodes page
-* [ ] Create Gatsby podcast theme
-* [x] Fetch metadata on build
-* [x] Fix linting (ugh)
-
-## 🛠 Contributing
-
-Want to make a change? Any contributions you make are **greatly appreciated**.
-
-Check out the [issues page][issues-url]
-
-1. Clone the repo
-2. Create your Feature Branch (`gco -b release/my-project`)
-3. Commit your Changes (`git commit -m add: small addition`)
-4. Push to the Branch (`git push origin release/my-project`)
-5. Open a Pull Request
+View project roadmap on the Github [Project](https://github.com/users/HoukasaurusRex/projects/3) page.
 
 ## ✏️ Contact
 
