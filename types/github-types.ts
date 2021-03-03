@@ -30,7 +30,7 @@ export interface Issue {
     type: string
     site_admin: boolean
   }
-  labels: Array<string>
+  labels: Array<Label>
   state: string
   locked: boolean
   assignee: string
@@ -44,4 +44,14 @@ export interface Issue {
   active_lock_reason: string
   body: string
   performed_via_github_app: string
+}
+
+export interface Label {
+  color: string
+  default: boolean
+  description: string
+  id: number
+  name: string
+  node_id: string
+  url: string
 }
