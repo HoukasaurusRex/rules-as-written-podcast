@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       maxWidth="100vw"
     >
       <Flex>
-        <TransitionLink paintDrip to="/" color="#bb4430" duration={0.6}>
+        <TransitionLink paintDrip to="/" color="unset" duration={0.6}>
           <Box width="50px">
             <Icon />
           </Box>
@@ -63,11 +63,14 @@ const Navbar: React.FC = () => {
             </Link>
             <MenuDivider />
             <MenuGroup title="Pages">
-              <TransitionLink paintDrip to="/" color="#bb4430" duration={0.6}>
+              <TransitionLink paintDrip to="/" color="unset" duration={0.6}>
                 <MenuItem>Home</MenuItem>
               </TransitionLink>
-              <TransitionLink paintDrip to="/about" color="#bb4430" duration={0.6}>
+              <TransitionLink paintDrip to="/about" color="unset" duration={0.6}>
                 <MenuItem>About</MenuItem>
+              </TransitionLink>
+              <TransitionLink paintDrip to="/roadmap" color="unset" duration={0.6}>
+                <MenuItem>Roadmap</MenuItem>
               </TransitionLink>
             </MenuGroup>
           </MenuList>

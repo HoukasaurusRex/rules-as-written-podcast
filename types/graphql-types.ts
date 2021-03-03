@@ -996,14 +996,14 @@ export type File = Node & {
   childrenMarkdownRemark?: Maybe<Array<Maybe<MarkdownRemark>>>;
   /** Returns the first child node of type MarkdownRemark or null if there are no children of given type on this node */
   childMarkdownRemark?: Maybe<MarkdownRemark>;
-  /** Returns all children nodes filtered by type EpisodeDataJson */
-  childrenEpisodeDataJson?: Maybe<Array<Maybe<EpisodeDataJson>>>;
-  /** Returns the first child node of type EpisodeDataJson or null if there are no children of given type on this node */
-  childEpisodeDataJson?: Maybe<EpisodeDataJson>;
   /** Returns all children nodes filtered by type DataJson */
   childrenDataJson?: Maybe<Array<Maybe<DataJson>>>;
   /** Returns the first child node of type DataJson or null if there are no children of given type on this node */
   childDataJson?: Maybe<DataJson>;
+  /** Returns all children nodes filtered by type EpisodeDataJson */
+  childrenEpisodeDataJson?: Maybe<Array<Maybe<EpisodeDataJson>>>;
+  /** Returns the first child node of type EpisodeDataJson or null if there are no children of given type on this node */
+  childEpisodeDataJson?: Maybe<EpisodeDataJson>;
   id: Scalars['ID'];
   parent?: Maybe<Node>;
   children: Array<Node>;
@@ -1450,119 +1450,6 @@ export type FileFieldsEnum =
   | 'childMarkdownRemark___internal___mediaType'
   | 'childMarkdownRemark___internal___owner'
   | 'childMarkdownRemark___internal___type'
-  | 'childrenEpisodeDataJson'
-  | 'childrenEpisodeDataJson___id'
-  | 'childrenEpisodeDataJson___parent___id'
-  | 'childrenEpisodeDataJson___parent___parent___id'
-  | 'childrenEpisodeDataJson___parent___parent___children'
-  | 'childrenEpisodeDataJson___parent___children'
-  | 'childrenEpisodeDataJson___parent___children___id'
-  | 'childrenEpisodeDataJson___parent___children___children'
-  | 'childrenEpisodeDataJson___parent___internal___content'
-  | 'childrenEpisodeDataJson___parent___internal___contentDigest'
-  | 'childrenEpisodeDataJson___parent___internal___description'
-  | 'childrenEpisodeDataJson___parent___internal___fieldOwners'
-  | 'childrenEpisodeDataJson___parent___internal___ignoreType'
-  | 'childrenEpisodeDataJson___parent___internal___mediaType'
-  | 'childrenEpisodeDataJson___parent___internal___owner'
-  | 'childrenEpisodeDataJson___parent___internal___type'
-  | 'childrenEpisodeDataJson___children'
-  | 'childrenEpisodeDataJson___children___id'
-  | 'childrenEpisodeDataJson___children___parent___id'
-  | 'childrenEpisodeDataJson___children___parent___children'
-  | 'childrenEpisodeDataJson___children___children'
-  | 'childrenEpisodeDataJson___children___children___id'
-  | 'childrenEpisodeDataJson___children___children___children'
-  | 'childrenEpisodeDataJson___children___internal___content'
-  | 'childrenEpisodeDataJson___children___internal___contentDigest'
-  | 'childrenEpisodeDataJson___children___internal___description'
-  | 'childrenEpisodeDataJson___children___internal___fieldOwners'
-  | 'childrenEpisodeDataJson___children___internal___ignoreType'
-  | 'childrenEpisodeDataJson___children___internal___mediaType'
-  | 'childrenEpisodeDataJson___children___internal___owner'
-  | 'childrenEpisodeDataJson___children___internal___type'
-  | 'childrenEpisodeDataJson___internal___content'
-  | 'childrenEpisodeDataJson___internal___contentDigest'
-  | 'childrenEpisodeDataJson___internal___description'
-  | 'childrenEpisodeDataJson___internal___fieldOwners'
-  | 'childrenEpisodeDataJson___internal___ignoreType'
-  | 'childrenEpisodeDataJson___internal___mediaType'
-  | 'childrenEpisodeDataJson___internal___owner'
-  | 'childrenEpisodeDataJson___internal___type'
-  | 'childrenEpisodeDataJson___contentSnippet'
-  | 'childrenEpisodeDataJson___pubDate'
-  | 'childrenEpisodeDataJson___guid'
-  | 'childrenEpisodeDataJson___title'
-  | 'childrenEpisodeDataJson___slug'
-  | 'childrenEpisodeDataJson___enclosure___url'
-  | 'childrenEpisodeDataJson___enclosure___length'
-  | 'childrenEpisodeDataJson___enclosure___type'
-  | 'childrenEpisodeDataJson___itunes___summary'
-  | 'childrenEpisodeDataJson___itunes___explicit'
-  | 'childrenEpisodeDataJson___itunes___duration'
-  | 'childrenEpisodeDataJson___itunes___image'
-  | 'childrenEpisodeDataJson___itunes___episode'
-  | 'childrenEpisodeDataJson___itunes___season'
-  | 'childrenEpisodeDataJson___captions'
-  | 'childrenEpisodeDataJson___captions___text'
-  | 'childrenEpisodeDataJson___captions___start'
-  | 'childrenEpisodeDataJson___captions___duration'
-  | 'childEpisodeDataJson___id'
-  | 'childEpisodeDataJson___parent___id'
-  | 'childEpisodeDataJson___parent___parent___id'
-  | 'childEpisodeDataJson___parent___parent___children'
-  | 'childEpisodeDataJson___parent___children'
-  | 'childEpisodeDataJson___parent___children___id'
-  | 'childEpisodeDataJson___parent___children___children'
-  | 'childEpisodeDataJson___parent___internal___content'
-  | 'childEpisodeDataJson___parent___internal___contentDigest'
-  | 'childEpisodeDataJson___parent___internal___description'
-  | 'childEpisodeDataJson___parent___internal___fieldOwners'
-  | 'childEpisodeDataJson___parent___internal___ignoreType'
-  | 'childEpisodeDataJson___parent___internal___mediaType'
-  | 'childEpisodeDataJson___parent___internal___owner'
-  | 'childEpisodeDataJson___parent___internal___type'
-  | 'childEpisodeDataJson___children'
-  | 'childEpisodeDataJson___children___id'
-  | 'childEpisodeDataJson___children___parent___id'
-  | 'childEpisodeDataJson___children___parent___children'
-  | 'childEpisodeDataJson___children___children'
-  | 'childEpisodeDataJson___children___children___id'
-  | 'childEpisodeDataJson___children___children___children'
-  | 'childEpisodeDataJson___children___internal___content'
-  | 'childEpisodeDataJson___children___internal___contentDigest'
-  | 'childEpisodeDataJson___children___internal___description'
-  | 'childEpisodeDataJson___children___internal___fieldOwners'
-  | 'childEpisodeDataJson___children___internal___ignoreType'
-  | 'childEpisodeDataJson___children___internal___mediaType'
-  | 'childEpisodeDataJson___children___internal___owner'
-  | 'childEpisodeDataJson___children___internal___type'
-  | 'childEpisodeDataJson___internal___content'
-  | 'childEpisodeDataJson___internal___contentDigest'
-  | 'childEpisodeDataJson___internal___description'
-  | 'childEpisodeDataJson___internal___fieldOwners'
-  | 'childEpisodeDataJson___internal___ignoreType'
-  | 'childEpisodeDataJson___internal___mediaType'
-  | 'childEpisodeDataJson___internal___owner'
-  | 'childEpisodeDataJson___internal___type'
-  | 'childEpisodeDataJson___contentSnippet'
-  | 'childEpisodeDataJson___pubDate'
-  | 'childEpisodeDataJson___guid'
-  | 'childEpisodeDataJson___title'
-  | 'childEpisodeDataJson___slug'
-  | 'childEpisodeDataJson___enclosure___url'
-  | 'childEpisodeDataJson___enclosure___length'
-  | 'childEpisodeDataJson___enclosure___type'
-  | 'childEpisodeDataJson___itunes___summary'
-  | 'childEpisodeDataJson___itunes___explicit'
-  | 'childEpisodeDataJson___itunes___duration'
-  | 'childEpisodeDataJson___itunes___image'
-  | 'childEpisodeDataJson___itunes___episode'
-  | 'childEpisodeDataJson___itunes___season'
-  | 'childEpisodeDataJson___captions'
-  | 'childEpisodeDataJson___captions___text'
-  | 'childEpisodeDataJson___captions___start'
-  | 'childEpisodeDataJson___captions___duration'
   | 'childrenDataJson'
   | 'childrenDataJson___id'
   | 'childrenDataJson___parent___id'
@@ -1724,6 +1611,119 @@ export type FileFieldsEnum =
   | 'childDataJson___itunes___author'
   | 'childDataJson___itunes___summary'
   | 'childDataJson___itunes___explicit'
+  | 'childrenEpisodeDataJson'
+  | 'childrenEpisodeDataJson___id'
+  | 'childrenEpisodeDataJson___parent___id'
+  | 'childrenEpisodeDataJson___parent___parent___id'
+  | 'childrenEpisodeDataJson___parent___parent___children'
+  | 'childrenEpisodeDataJson___parent___children'
+  | 'childrenEpisodeDataJson___parent___children___id'
+  | 'childrenEpisodeDataJson___parent___children___children'
+  | 'childrenEpisodeDataJson___parent___internal___content'
+  | 'childrenEpisodeDataJson___parent___internal___contentDigest'
+  | 'childrenEpisodeDataJson___parent___internal___description'
+  | 'childrenEpisodeDataJson___parent___internal___fieldOwners'
+  | 'childrenEpisodeDataJson___parent___internal___ignoreType'
+  | 'childrenEpisodeDataJson___parent___internal___mediaType'
+  | 'childrenEpisodeDataJson___parent___internal___owner'
+  | 'childrenEpisodeDataJson___parent___internal___type'
+  | 'childrenEpisodeDataJson___children'
+  | 'childrenEpisodeDataJson___children___id'
+  | 'childrenEpisodeDataJson___children___parent___id'
+  | 'childrenEpisodeDataJson___children___parent___children'
+  | 'childrenEpisodeDataJson___children___children'
+  | 'childrenEpisodeDataJson___children___children___id'
+  | 'childrenEpisodeDataJson___children___children___children'
+  | 'childrenEpisodeDataJson___children___internal___content'
+  | 'childrenEpisodeDataJson___children___internal___contentDigest'
+  | 'childrenEpisodeDataJson___children___internal___description'
+  | 'childrenEpisodeDataJson___children___internal___fieldOwners'
+  | 'childrenEpisodeDataJson___children___internal___ignoreType'
+  | 'childrenEpisodeDataJson___children___internal___mediaType'
+  | 'childrenEpisodeDataJson___children___internal___owner'
+  | 'childrenEpisodeDataJson___children___internal___type'
+  | 'childrenEpisodeDataJson___internal___content'
+  | 'childrenEpisodeDataJson___internal___contentDigest'
+  | 'childrenEpisodeDataJson___internal___description'
+  | 'childrenEpisodeDataJson___internal___fieldOwners'
+  | 'childrenEpisodeDataJson___internal___ignoreType'
+  | 'childrenEpisodeDataJson___internal___mediaType'
+  | 'childrenEpisodeDataJson___internal___owner'
+  | 'childrenEpisodeDataJson___internal___type'
+  | 'childrenEpisodeDataJson___contentSnippet'
+  | 'childrenEpisodeDataJson___pubDate'
+  | 'childrenEpisodeDataJson___guid'
+  | 'childrenEpisodeDataJson___title'
+  | 'childrenEpisodeDataJson___slug'
+  | 'childrenEpisodeDataJson___enclosure___url'
+  | 'childrenEpisodeDataJson___enclosure___length'
+  | 'childrenEpisodeDataJson___enclosure___type'
+  | 'childrenEpisodeDataJson___itunes___summary'
+  | 'childrenEpisodeDataJson___itunes___explicit'
+  | 'childrenEpisodeDataJson___itunes___duration'
+  | 'childrenEpisodeDataJson___itunes___image'
+  | 'childrenEpisodeDataJson___itunes___episode'
+  | 'childrenEpisodeDataJson___itunes___season'
+  | 'childrenEpisodeDataJson___captions'
+  | 'childrenEpisodeDataJson___captions___text'
+  | 'childrenEpisodeDataJson___captions___start'
+  | 'childrenEpisodeDataJson___captions___duration'
+  | 'childEpisodeDataJson___id'
+  | 'childEpisodeDataJson___parent___id'
+  | 'childEpisodeDataJson___parent___parent___id'
+  | 'childEpisodeDataJson___parent___parent___children'
+  | 'childEpisodeDataJson___parent___children'
+  | 'childEpisodeDataJson___parent___children___id'
+  | 'childEpisodeDataJson___parent___children___children'
+  | 'childEpisodeDataJson___parent___internal___content'
+  | 'childEpisodeDataJson___parent___internal___contentDigest'
+  | 'childEpisodeDataJson___parent___internal___description'
+  | 'childEpisodeDataJson___parent___internal___fieldOwners'
+  | 'childEpisodeDataJson___parent___internal___ignoreType'
+  | 'childEpisodeDataJson___parent___internal___mediaType'
+  | 'childEpisodeDataJson___parent___internal___owner'
+  | 'childEpisodeDataJson___parent___internal___type'
+  | 'childEpisodeDataJson___children'
+  | 'childEpisodeDataJson___children___id'
+  | 'childEpisodeDataJson___children___parent___id'
+  | 'childEpisodeDataJson___children___parent___children'
+  | 'childEpisodeDataJson___children___children'
+  | 'childEpisodeDataJson___children___children___id'
+  | 'childEpisodeDataJson___children___children___children'
+  | 'childEpisodeDataJson___children___internal___content'
+  | 'childEpisodeDataJson___children___internal___contentDigest'
+  | 'childEpisodeDataJson___children___internal___description'
+  | 'childEpisodeDataJson___children___internal___fieldOwners'
+  | 'childEpisodeDataJson___children___internal___ignoreType'
+  | 'childEpisodeDataJson___children___internal___mediaType'
+  | 'childEpisodeDataJson___children___internal___owner'
+  | 'childEpisodeDataJson___children___internal___type'
+  | 'childEpisodeDataJson___internal___content'
+  | 'childEpisodeDataJson___internal___contentDigest'
+  | 'childEpisodeDataJson___internal___description'
+  | 'childEpisodeDataJson___internal___fieldOwners'
+  | 'childEpisodeDataJson___internal___ignoreType'
+  | 'childEpisodeDataJson___internal___mediaType'
+  | 'childEpisodeDataJson___internal___owner'
+  | 'childEpisodeDataJson___internal___type'
+  | 'childEpisodeDataJson___contentSnippet'
+  | 'childEpisodeDataJson___pubDate'
+  | 'childEpisodeDataJson___guid'
+  | 'childEpisodeDataJson___title'
+  | 'childEpisodeDataJson___slug'
+  | 'childEpisodeDataJson___enclosure___url'
+  | 'childEpisodeDataJson___enclosure___length'
+  | 'childEpisodeDataJson___enclosure___type'
+  | 'childEpisodeDataJson___itunes___summary'
+  | 'childEpisodeDataJson___itunes___explicit'
+  | 'childEpisodeDataJson___itunes___duration'
+  | 'childEpisodeDataJson___itunes___image'
+  | 'childEpisodeDataJson___itunes___episode'
+  | 'childEpisodeDataJson___itunes___season'
+  | 'childEpisodeDataJson___captions'
+  | 'childEpisodeDataJson___captions___text'
+  | 'childEpisodeDataJson___captions___start'
+  | 'childEpisodeDataJson___captions___duration'
   | 'id'
   | 'parent___id'
   | 'parent___parent___id'
@@ -1850,10 +1850,10 @@ export type FileFilterInput = {
   childImageSharp?: Maybe<ImageSharpFilterInput>;
   childrenMarkdownRemark?: Maybe<MarkdownRemarkFilterListInput>;
   childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>;
-  childrenEpisodeDataJson?: Maybe<EpisodeDataJsonFilterListInput>;
-  childEpisodeDataJson?: Maybe<EpisodeDataJsonFilterInput>;
   childrenDataJson?: Maybe<DataJsonFilterListInput>;
   childDataJson?: Maybe<DataJsonFilterInput>;
+  childrenEpisodeDataJson?: Maybe<EpisodeDataJsonFilterListInput>;
+  childEpisodeDataJson?: Maybe<EpisodeDataJsonFilterInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
@@ -2857,10 +2857,10 @@ export type Query = {
   allImageSharp: ImageSharpConnection;
   markdownRemark?: Maybe<MarkdownRemark>;
   allMarkdownRemark: MarkdownRemarkConnection;
-  episodeDataJson?: Maybe<EpisodeDataJson>;
-  allEpisodeDataJson: EpisodeDataJsonConnection;
   dataJson?: Maybe<DataJson>;
   allDataJson: DataJsonConnection;
+  episodeDataJson?: Maybe<EpisodeDataJson>;
+  allEpisodeDataJson: EpisodeDataJsonConnection;
   siteBuildMetadata?: Maybe<SiteBuildMetadata>;
   allSiteBuildMetadata: SiteBuildMetadataConnection;
   sitePlugin?: Maybe<SitePlugin>;
@@ -2907,10 +2907,10 @@ export type QueryFileArgs = {
   childImageSharp?: Maybe<ImageSharpFilterInput>;
   childrenMarkdownRemark?: Maybe<MarkdownRemarkFilterListInput>;
   childMarkdownRemark?: Maybe<MarkdownRemarkFilterInput>;
-  childrenEpisodeDataJson?: Maybe<EpisodeDataJsonFilterListInput>;
-  childEpisodeDataJson?: Maybe<EpisodeDataJsonFilterInput>;
   childrenDataJson?: Maybe<DataJsonFilterListInput>;
   childDataJson?: Maybe<DataJsonFilterInput>;
+  childrenEpisodeDataJson?: Maybe<EpisodeDataJsonFilterListInput>;
+  childEpisodeDataJson?: Maybe<EpisodeDataJsonFilterInput>;
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
@@ -3074,30 +3074,6 @@ export type QueryAllMarkdownRemarkArgs = {
 };
 
 
-export type QueryEpisodeDataJsonArgs = {
-  id?: Maybe<StringQueryOperatorInput>;
-  parent?: Maybe<NodeFilterInput>;
-  children?: Maybe<NodeFilterListInput>;
-  internal?: Maybe<InternalFilterInput>;
-  contentSnippet?: Maybe<StringQueryOperatorInput>;
-  pubDate?: Maybe<StringQueryOperatorInput>;
-  guid?: Maybe<StringQueryOperatorInput>;
-  title?: Maybe<StringQueryOperatorInput>;
-  slug?: Maybe<StringQueryOperatorInput>;
-  enclosure?: Maybe<EpisodeDataJsonEnclosureFilterInput>;
-  itunes?: Maybe<EpisodeDataJsonItunesFilterInput>;
-  captions?: Maybe<EpisodeDataJsonCaptionsFilterListInput>;
-};
-
-
-export type QueryAllEpisodeDataJsonArgs = {
-  filter?: Maybe<EpisodeDataJsonFilterInput>;
-  sort?: Maybe<EpisodeDataJsonSortInput>;
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryDataJsonArgs = {
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
@@ -3122,6 +3098,30 @@ export type QueryDataJsonArgs = {
 export type QueryAllDataJsonArgs = {
   filter?: Maybe<DataJsonFilterInput>;
   sort?: Maybe<DataJsonSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryEpisodeDataJsonArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  contentSnippet?: Maybe<StringQueryOperatorInput>;
+  pubDate?: Maybe<StringQueryOperatorInput>;
+  guid?: Maybe<StringQueryOperatorInput>;
+  title?: Maybe<StringQueryOperatorInput>;
+  slug?: Maybe<StringQueryOperatorInput>;
+  enclosure?: Maybe<EpisodeDataJsonEnclosureFilterInput>;
+  itunes?: Maybe<EpisodeDataJsonItunesFilterInput>;
+  captions?: Maybe<EpisodeDataJsonCaptionsFilterListInput>;
+};
+
+
+export type QueryAllEpisodeDataJsonArgs = {
+  filter?: Maybe<EpisodeDataJsonFilterInput>;
+  sort?: Maybe<EpisodeDataJsonSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
