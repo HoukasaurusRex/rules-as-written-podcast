@@ -10,6 +10,7 @@ const Layout = ({ children }: { children: React.ReactChildren }): JSX.Element =>
     <Box
       as="footer"
       py="1rem"
+      height="60px"
       fontSize="xs"
       textAlign="center"
       color={useColorModeValue('gray.700', 'gray.400')}
