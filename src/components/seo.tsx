@@ -124,8 +124,31 @@ const SEO: FC<componentSEOProps> = ({ description, meta, image: metaImage, title
         )
         // @ts-ignore
         .concat(meta || [])}
-    />
+    >
+      <script
+        data-host="https://microanalytics.io"
+        data-dnt="false"
+        src="https://microanalytics.io/js/script.js"
+        id="ZwSg9rf6GA"
+        async
+        defer
+      />
+    </Helmet>
   )
 }
+/**
+ * 
+      script={[
+        {
+          'data-host': 'https://microanalytics.io',
+          'data-dnt': 'false',
+          src: 'https://microanalytics.io/js/script.js',
+          id: 'ZwSg9rf6GA',
+          async: true,
+          defer: true
+        }
+      ]}
+ */
+// <script data-host="https://microanalytics.io" data-dnt="false" src="https://microanalytics.io/js/script.js" id="ZwSg9rf6GA" async defer></script>
 
 export default SEO
