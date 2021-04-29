@@ -59,6 +59,7 @@ export type DataJson = Node & {
   items?: Maybe<Array<Maybe<DataJsonItems>>>;
   feedUrl?: Maybe<Scalars['String']>;
   image?: Maybe<DataJsonImage>;
+  paginationLinks?: Maybe<DataJsonPaginationLinks>;
   creator?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -208,6 +209,7 @@ export type DataJsonFieldsEnum =
   | 'image___link'
   | 'image___url'
   | 'image___title'
+  | 'paginationLinks___self'
   | 'creator'
   | 'title'
   | 'description'
@@ -237,6 +239,7 @@ export type DataJsonFilterInput = {
   items?: Maybe<DataJsonItemsFilterListInput>;
   feedUrl?: Maybe<StringQueryOperatorInput>;
   image?: Maybe<DataJsonImageFilterInput>;
+  paginationLinks?: Maybe<DataJsonPaginationLinksFilterInput>;
   creator?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   description?: Maybe<StringQueryOperatorInput>;
@@ -398,6 +401,14 @@ export type DataJsonItunesOwner = {
 export type DataJsonItunesOwnerFilterInput = {
   name?: Maybe<StringQueryOperatorInput>;
   email?: Maybe<StringQueryOperatorInput>;
+};
+
+export type DataJsonPaginationLinks = {
+  self?: Maybe<Scalars['String']>;
+};
+
+export type DataJsonPaginationLinksFilterInput = {
+  self?: Maybe<StringQueryOperatorInput>;
 };
 
 export type DataJsonSortInput = {
@@ -1512,6 +1523,7 @@ export type FileFieldsEnum =
   | 'childrenDataJson___image___link'
   | 'childrenDataJson___image___url'
   | 'childrenDataJson___image___title'
+  | 'childrenDataJson___paginationLinks___self'
   | 'childrenDataJson___creator'
   | 'childrenDataJson___title'
   | 'childrenDataJson___description'
@@ -1592,6 +1604,7 @@ export type FileFieldsEnum =
   | 'childDataJson___image___link'
   | 'childDataJson___image___url'
   | 'childDataJson___image___title'
+  | 'childDataJson___paginationLinks___self'
   | 'childDataJson___creator'
   | 'childDataJson___title'
   | 'childDataJson___description'
@@ -3082,6 +3095,7 @@ export type QueryDataJsonArgs = {
   items?: Maybe<DataJsonItemsFilterListInput>;
   feedUrl?: Maybe<StringQueryOperatorInput>;
   image?: Maybe<DataJsonImageFilterInput>;
+  paginationLinks?: Maybe<DataJsonPaginationLinksFilterInput>;
   creator?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   description?: Maybe<StringQueryOperatorInput>;
