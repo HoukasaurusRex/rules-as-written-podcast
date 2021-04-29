@@ -1,6 +1,6 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import Img from 'gatsby-image'
+import { GatsbyImage } from 'gatsby-plugin-image'
 import { IconQuery } from '../../types/graphql-types'
 
 const Icon = (): JSX.Element => {
@@ -8,19 +8,17 @@ const Icon = (): JSX.Element => {
     query Icon {
       src: file(relativePath: { eq: "icon.png" }) {
         childImageSharp {
-          fluid(maxWidth: 50) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
+          gatsbyImageData(layout: CONSTRAINED, width: 50)
         }
       }
     }
   `)
 
-  if (!img.src?.childImageSharp?.fluid) {
+  if (!img.src?.childImageSharp?.gatsbyImageData) {
     return <div>Picture not found</div>
   }
 
-  return <Img fluid={img.src.childImageSharp.fluid} />
+  return <GatsbyImage image={img.src.childImageSharp.gatsbyImageData} alt="" />
 }
 
 export default Icon

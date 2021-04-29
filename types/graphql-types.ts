@@ -288,7 +288,6 @@ export type SiteBuildTimeArgs = {
 export type SiteFlags = {
   PRESERVE_WEBPACK_CACHE?: Maybe<Scalars['Boolean']>;
   FAST_DEV?: Maybe<Scalars['Boolean']>;
-  FAST_REFRESH?: Maybe<Scalars['Boolean']>;
 };
 
 export type SiteSiteMetadata = {
@@ -2655,7 +2654,6 @@ export type SiteSiteMetadataFilterInput = {
 export type SiteFlagsFilterInput = {
   PRESERVE_WEBPACK_CACHE?: Maybe<BooleanQueryOperatorInput>;
   FAST_DEV?: Maybe<BooleanQueryOperatorInput>;
-  FAST_REFRESH?: Maybe<BooleanQueryOperatorInput>;
 };
 
 export type SiteConnection = {
@@ -2716,7 +2714,6 @@ export type SiteFieldsEnum =
   | 'host'
   | 'flags___PRESERVE_WEBPACK_CACHE'
   | 'flags___FAST_DEV'
-  | 'flags___FAST_REFRESH'
   | 'polyfill'
   | 'pathPrefix'
   | 'id'
@@ -4469,12 +4466,12 @@ export type SitePluginSortInput = {
 export type IconQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IconQuery = { src?: Maybe<{ childImageSharp?: Maybe<{ fluid?: Maybe<GatsbyImageSharpFluid_WithWebpFragment> }> }> };
+export type IconQuery = { src?: Maybe<{ childImageSharp?: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> };
 
 export type IconTitleQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type IconTitleQuery = { src?: Maybe<{ childImageSharp?: Maybe<{ fluid?: Maybe<GatsbyImageSharpFluid_WithWebpFragment> }> }> };
+export type IconTitleQuery = { src?: Maybe<{ childImageSharp?: Maybe<Pick<ImageSharp, 'gatsbyImageData'>> }> };
 
 export type Unnamed_1_QueryVariables = Exact<{ [key: string]: never; }>;
 
