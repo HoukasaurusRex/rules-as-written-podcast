@@ -48,6 +48,8 @@ const AudioCard = ({
   const durationTimestamp = secondsToTimestamp(duration)
   const play = async () => {
     setIsPlaying(true)
+    // @ts-ignore next-line
+    pa.track({ name: 'Play Episode', value: title })
     await audio?.current?.play()
   }
   const pause = async () => {
