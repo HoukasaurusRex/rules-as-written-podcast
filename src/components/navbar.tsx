@@ -72,6 +72,9 @@ const Navbar: React.FC = () => {
               <TransitionLink paintDrip to="/roadmap" color="unset" duration={0.6}>
                 <MenuItem>Roadmap</MenuItem>
               </TransitionLink>
+              <TransitionLink paintDrip to="/privacy" color="unset" duration={0.6}>
+                <MenuItem>Privacy Policy</MenuItem>
+              </TransitionLink>
             </MenuGroup>
           </MenuList>
         </Menu>
