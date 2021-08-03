@@ -1,6 +1,6 @@
 [build]
   base = 'site'
-  publish = 'site/public'
+  publish = 'public'
   command = 'yarn build'
 [[headers]]
   for = "*.js" # cache immutable js files for up to 1 year
