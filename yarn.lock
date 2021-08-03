@@ -6324,11 +6324,6 @@ gatsby-telemetry@^2.10.0:
     node-fetch "^2.6.1"
     uuid "3.4.0"
 
-gatsby-theme-ui@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/gatsby-theme-ui/-/gatsby-theme-ui-0.2.0.tgz#057de6b07160e218300f7914f07b036ee7c960bd"
-  integrity sha512-TS5ykhCpcb7/IRJbjDBw0uRytpsh/inJvbpiyrm8IrOGdtdev+3G1qpwJgZ/Qs7mkMYAyFxZ7IwJWIPOqfWqRg==
-
 gatsby-transformer-json@^3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/gatsby-transformer-json/-/gatsby-transformer-json-3.10.0.tgz#f952cf0bf4a04a1975c27a4a1fa7f3116fccd8ac"
