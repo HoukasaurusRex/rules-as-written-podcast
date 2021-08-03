@@ -2,6 +2,8 @@
   base = 'site'
   publish = 'public'
   command = 'yarn build'
+[build.environment]
+  NETLIFY_USE_YARN = true
 [[headers]]
   for = "*.js" # cache immutable js files for up to 1 year
   [headers.values]
