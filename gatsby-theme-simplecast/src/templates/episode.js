@@ -7,14 +7,21 @@ import Header from "../components/header"
 import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
 
+const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
+    ? new DOMParser()
+      .parseFromString(html, "text/html")
+      .querySelector('p')
+      .textContent
+    : html
+      .match(/<p>(.*?)<\/p>/)[0]
+      .replace(/(<p>|<\/p>)/g, '')
+
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const image = markdownRemark?.frontmatter?.image?.childImageSharp?.original?.src || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
   const markdown = markdownRemark && markdownRemark
   const { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url } = episode
   const pathname = typeof window !== 'undefined' && new URL(window.location.href).pathname
-  const rawHTMLDescription = episode.description
-  const doc = typeof DOMParser !== 'undefined' && new DOMParser().parseFromString(rawHTMLDescription, "text/html");
-  const description = doc ? doc.querySelector('p').textContent : rawHTMLDescription
+  const description = getDescriptionFromHTML(episode.description)
   return (
     <EpisodeConsumer>
       {context => (
