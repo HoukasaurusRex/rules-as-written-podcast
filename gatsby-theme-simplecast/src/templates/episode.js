@@ -6,6 +6,7 @@ import SEO from "../components/seo"
 import Header from "../components/header"
 import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
+// import { Disqus } from 'gatsby-plugin-disqus'
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
     ? new DOMParser()
@@ -20,7 +21,8 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const image = markdownRemark?.frontmatter?.image?.childImageSharp?.original?.src || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
   const markdown = markdownRemark && markdownRemark
   const { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url } = episode
-  const pathname = typeof window !== 'undefined' && new URL(window.location.href).pathname
+  const url =  typeof window !== 'undefined' && new URL(window.location.href)
+  const pathname = url && url.pathname
   const description = getDescriptionFromHTML(episode.description)
   return (
     <EpisodeConsumer>
@@ -29,8 +31,8 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
           <SEO
             title={episode.title && episode.title}
             image={image}
-            description={description}
-            pathname={pathname}
+            description={description && description}
+            pathname={pathname && pathname}
           />
           <div
             sx={{
@@ -50,12 +52,13 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
               </article>
             </SkipNavContent>
             <Aside markdown={markdown} spotify_url={spotify_url} apple_podcasts_url={apple_podcasts_url} google_podcasts_url={google_podcasts_url} patreon_url={patreon_url} />
-          </div>
-        </div>
-      )}
-    </EpisodeConsumer>
-  )
-}
+            </div>
+            </div>
+            )}
+            </EpisodeConsumer>
+            )
+          }
+          // <Disqus config={{ url, identifier: episode.id, title: episode.title }}/>
 
 export default EpisodeTemplate
 
