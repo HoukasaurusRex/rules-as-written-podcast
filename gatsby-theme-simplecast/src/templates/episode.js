@@ -8,10 +8,13 @@ import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
 
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
-  const image = (markdownRemark && markdownRemark?.frontmatter?.image?.childImageSharp?.original?.src) || site?.siteMetadata?.image
-  console.log({site})
+  const image = markdownRemark?.frontmatter?.image?.childImageSharp?.original?.src || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
   const markdown = markdownRemark && markdownRemark
   const { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url } = episode
+  const pathname = typeof window !== undefined && new URL(window.location.href).pathname
+  const rawHTMLDescription = episode.description
+  const doc = typeof DOMParser !== undefined && new DOMParser().parseFromString(rawHTMLDescription, "text/html");
+  const description = doc ? doc.querySelector('p').textContent : rawHTMLDescription
   return (
     <EpisodeConsumer>
       {context => (
@@ -19,7 +22,8 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
           <SEO
             title={episode.title && episode.title}
             image={image}
-            description={episode.description && episode.description}
+            description={description}
+            pathname={pathname}
           />
           <div
             sx={{
@@ -30,8 +34,8 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
             <SkipNavContent sx={{ maxWidth: ["100%", 710] }}>
               <Header context={context} episode={episode} image={image} />
               <article>
-                {episode.description &&
-                    <Text sx={{ fontSize: 12 }} dangerouslySetInnerHTML={{ __html: episode.description }}></Text>
+                {description &&
+                    <Text>{description}</Text>
                 }
                 {markdown && (
                   <div dangerouslySetInnerHTML={{ __html: markdown.html }} />
@@ -53,6 +57,7 @@ export const episodeQuery = graphql`
     site {
       siteMetadata {
         image
+        episodeImage
       }
     }
     episode(id: { eq: $id }) {

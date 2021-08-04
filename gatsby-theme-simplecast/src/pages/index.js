@@ -13,6 +13,7 @@ export default function Index({ data: { allEpisode, allMarkdownRemark } }) {
       site {
         siteMetadata {
           image
+          episodeImage
         }
       }
       allEpisode {
