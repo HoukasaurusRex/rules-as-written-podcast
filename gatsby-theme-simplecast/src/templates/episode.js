@@ -1,12 +1,12 @@
 /** @jsx jsx */
-import { jsx, Text } from "theme-ui"
+import { jsx, Text, Box } from "theme-ui"
 import { graphql } from "gatsby"
 import { EpisodeConsumer } from "../components/context"
 import SEO from "../components/seo"
 import Header from "../components/header"
 import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
-// import { Disqus } from 'gatsby-plugin-disqus'
+import { Disqus } from 'gatsby-plugin-disqus'
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
     ? new DOMParser()
@@ -49,6 +49,9 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                 {markdown && (
                   <div dangerouslySetInnerHTML={{ __html: markdown.html }} />
                 )}
+                <Box sx={{ py: 30 }}>
+                  <Disqus config={{ url, identifier: episode.id, title: episode.title }}/>
+                </Box>
               </article>
             </SkipNavContent>
             <Aside markdown={markdown} spotify_url={spotify_url} apple_podcasts_url={apple_podcasts_url} google_podcasts_url={google_podcasts_url} patreon_url={patreon_url} />
@@ -58,7 +61,6 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
             </EpisodeConsumer>
             )
           }
-          // <Disqus config={{ url, identifier: episode.id, title: episode.title }}/>
 
 export default EpisodeTemplate
 
