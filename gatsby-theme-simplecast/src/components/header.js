@@ -1,6 +1,5 @@
 /** @jsx jsx */
 import { jsx, useThemeUI, Box, Flex, Image } from "theme-ui"
-import Img from "gatsby-image"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import VisuallyHidden from "@reach/visually-hidden"
 import config from "../lib/config"
