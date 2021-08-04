@@ -11,9 +11,9 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const image = markdownRemark?.frontmatter?.image?.childImageSharp?.original?.src || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
   const markdown = markdownRemark && markdownRemark
   const { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url } = episode
-  const pathname = typeof window !== undefined && new URL(window.location.href).pathname
+  const pathname = typeof window !== 'undefined' && new URL(window.location.href).pathname
   const rawHTMLDescription = episode.description
-  const doc = typeof DOMParser !== undefined && new DOMParser().parseFromString(rawHTMLDescription, "text/html");
+  const doc = typeof DOMParser !== 'undefined' && new DOMParser().parseFromString(rawHTMLDescription, "text/html");
   const description = doc ? doc.querySelector('p').textContent : rawHTMLDescription
   return (
     <EpisodeConsumer>
