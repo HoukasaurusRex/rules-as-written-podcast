@@ -1,16 +1,8 @@
-/**
- * SEO component that queries for data with
- *  Gatsby's useStaticQuery React hook
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
+import React from 'react'
+import { Helmet } from 'react-helmet'
+import { useStaticQuery, graphql } from 'gatsby'
 
-import React from "react"
-import PropTypes from "prop-types"
-import Helmet from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
-
-function SEO({ description, lang, meta, title, image }) {
+const SEO = ({ description, meta, image: metaImage, title, pathname }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -19,74 +11,121 @@ function SEO({ description, lang, meta, title, image }) {
             title
             description
             author
+            keywords
+            siteUrl
+            image
+            lang
           }
         }
       }
     `
   )
-
+  const lang = site.siteMetadata.lang || 'en'
   const metaDescription = description || site.siteMetadata.description
-
+  const defaultTitle = site.siteMetadata && site.siteMetadata.title
+  const image =
+    metaImage && metaImage.src
+      ? `${site.siteMetadata.siteUrl}${metaImage.src}`
+      : site.siteMetadata.image
+  const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
   return (
     <Helmet
       htmlAttributes={{
-        lang,
+        lang
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
+      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : undefined}
+      link={
+        canonical
+          ? [
+              {
+                rel: 'canonical',
+                href: canonical
+              }
+            ]
+          : []
+      }
       meta={[
         {
-          name: `description`,
-          content: metaDescription,
+          name: 'description',
+          content: metaDescription
         },
         {
-          property: `og:title`,
-          content: title,
+          name: 'keywords',
+          content: site.siteMetadata.keywords.join(',')
         },
         {
-          property: `og:description`,
-          content: metaDescription,
+          property: 'og:title',
+          content: title
         },
         {
-          property: `og:type`,
-          content: `website`,
+          property: 'og:description',
+          content: metaDescription
         },
         {
-          name: `twitter:card`,
-          content: `summary`,
+          property: 'og:type',
+          content: 'website'
         },
         {
-          name: `twitter:creator`,
-          content: site.siteMetadata.author,
+          name: 'twitter:card',
+          content: 'summary_large_image'
         },
         {
-          name: `twitter:title`,
-          content: title,
+          name: 'twitter:image',
+          content: image
         },
         {
-          name: `twitter:description`,
-          content: metaDescription,
+          name: 'twitter:creator',
+          content: site.siteMetadata?.author || ''
         },
         {
-          name: `og:image`,
-          content: image,
+          name: 'twitter:title',
+          content: title
         },
-      ].concat(meta)}
-    />
+        {
+          name: 'twitter:description',
+          content: metaDescription
+        }
+      ]
+        .concat(
+          image
+            ? [
+                {
+                  property: 'og:image',
+                  content: image
+                },
+                {
+                  property: 'og:image:width',
+                  content: 2560
+                },
+                {
+                  property: 'og:image:height',
+                  content: 1440
+                },
+                {
+                  name: 'twitter:card',
+                  content: 'summary_large_image'
+                }
+              ]
+            : [
+                {
+                  name: 'twitter:card',
+                  content: 'summary'
+                }
+              ]
+        )
+        .concat(meta || [])}
+    >
+      <script
+        data-host="https://microanalytics.io"
+        data-dnt="false"
+        src="https://microanalytics.io/js/script.js"
+        id="ZwSg9rf6GA"
+        async
+        defer
+      />
+    </Helmet>
   )
-}
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string.isRequired,
 }
 
 export default SEO

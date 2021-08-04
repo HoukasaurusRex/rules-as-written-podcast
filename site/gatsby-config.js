@@ -5,8 +5,13 @@ require('dotenv').config({
 module.exports = {
   siteMetadata: {
     title: 'Rules as Written',
-    author: 'JT Houk',
-    image: 'https://res.cloudinary.com/jthouk/image/upload/v1627979106/Rules%20as%20Written/lazy-bard_esoxs7.gif'
+    description: 'A weekly podcast where we talk about the rules in as many D&D 5E books we can afford to help you level up your player game.',
+    author: '@HoukasaurusRex',
+    siteUrl: 'https://rulesaswrittenshow.com',
+    lang: 'en',
+    keywords: ['D&D', "Player's Handbook", 'Dungeons and Dragons', 'Tabletop RPG', 'Podcast'],
+    episodeImage: 'https://res.cloudinary.com/jthouk/image/upload/v1627979106/Rules%20as%20Written/lazy-bard_esoxs7.gif',
+    image: 'https://rulesaswrittenshow.com/raw-banner.jpg'
   },
   plugins: [
     {
