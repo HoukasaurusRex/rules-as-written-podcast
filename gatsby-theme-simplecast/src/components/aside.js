@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { jsx } from "theme-ui"
-import Img from "gatsby-image"
+import { jsx, Image, Box, Heading } from "theme-ui"
+import { graphql, useStaticQuery } from "gatsby"
 import { FaExternalLinkAlt as ExternalLinkIcon } from "react-icons/fa"
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
@@ -21,6 +21,15 @@ const PodcastProvider = styled(Link)(
 )
 
 function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }) {
+  const { site: { siteMetadata: { patrons }}} = useStaticQuery(graphql`
+    {
+      site {
+        siteMetadata {
+          patrons
+        }
+      }
+    }
+  `)
   return (
     <aside className="sidebar">
       <div
@@ -33,7 +42,7 @@ function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url,
         <Link/>
         {spotify_url && (
           <PodcastProvider to={spotify_url} isExternal >
-            <img src={spotifyImage} alt="Spotify logo" width="90" />
+            <img src={spotifyImage} alt="Spotify" width="90" />
           </PodcastProvider>
         )}
         {apple_podcasts_url && (
@@ -48,7 +57,7 @@ function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url,
         )}
         {patreon_url && (
           <PodcastProvider to={patreon_url} isExternal >
-            <img src={patreonImage} alt="Support on Patreon" height={25} />
+            <img src={patreonImage} alt="Support us on Patreon" height={25} />
           </PodcastProvider>
         )}
       </div>
@@ -63,13 +72,14 @@ function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url,
             >
               <h5 className="guest">Guest</h5>
               {markdown.frontmatter.guestPhoto && (
-                <Img
+                <Image
                   sx={{
                     borderRadius: 0,
                     width: "100%",
                     maxWidth: 100,
+                    objectFit: 'cover'
                   }}
-                  fluid={markdown.frontmatter.guestPhoto.childImageSharp.fluid}
+                  src={markdown.frontmatter.guestPhoto}
                   alt={markdown.frontmatter.guestName}
                 />
               )}
@@ -91,6 +101,16 @@ function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url,
             ))}
           </ul>
         </div>
+      )}
+      {patrons && patrons.length && (
+        <Box>
+          <Heading as="h5">Special Thanks to our Top Patrons</Heading>
+          <ul>
+          {patrons.map(patron => (
+            <li>{patron}</li>
+          ))}
+          </ul>
+        </Box>
       )}
     </aside>
   )

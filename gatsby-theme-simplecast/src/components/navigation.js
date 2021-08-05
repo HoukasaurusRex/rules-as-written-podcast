@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import { jsx, Flex, Box } from "theme-ui"
+import { jsx, Flex, Box, Text } from "theme-ui"
 import { EpisodeConsumer } from "./context"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import { MdMenu as MenuIcon, MdClose as CloseMenuIcon } from "react-icons/md"
@@ -19,17 +19,16 @@ function Navigation() {
   const Logo = () => (
     <Box>
       <Link to="/">
-        <h1 sx={{ fontSize: 6, color: "primary", mb: 0 }}>
+        <Text sx={{ fontSize: 6, color: "primary", mb: 0 }}>
           {data.site.siteMetadata.title
             ? data.site.siteMetadata.title
             : "Podcast Name"}
-        </h1>
+        </Text>
       </Link>
       {config.podcastSeason && (
         <h5
           sx={{
             textTransform: "uppercase",
-            mt: 2,
             mb: 0,
             fontWeight: 400,
             fontSize: 0,

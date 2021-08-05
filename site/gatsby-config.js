@@ -1,6 +1,5 @@
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
+const path = require('path')
+require('dotenv').config()
 
 module.exports = {
   siteMetadata: {
@@ -11,7 +10,14 @@ module.exports = {
     lang: 'en',
     keywords: ['D&D', "Player's Handbook", 'Dungeons and Dragons', 'Tabletop RPG', 'Podcast'],
     episodeImage: 'https://res.cloudinary.com/jthouk/image/upload/v1627979106/Rules%20as%20Written/lazy-bard_esoxs7.gif',
-    image: 'https://rulesaswrittenshow.com/raw-banner.jpg'
+    image: 'https://rulesaswrittenshow.com/raw-banner.jpg',
+    spotify_url: "https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ",
+    apple_podcasts_url: "https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455",
+    google_podcasts_url: "https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw",
+    patreon_url: 'https://www.patreon.com/RulesAsWritten',
+    patrons: [
+      'Kaitlyn Houk Witman'
+    ]
   },
   plugins: [
     {
@@ -19,14 +25,16 @@ module.exports = {
       options: {
         simplecastApiSecret: process.env.SIMPLECAST_API_SECRET,
         //podcastId: process.env.PODCAST_ID,
-        markdownPath: 'content/episodes',
+        markdownPath: path.join(__dirname, 'content/episodes'),
         episodeSlug: 'show',
         rssFeedURL: 'https://anchor.fm/s/44a4277c/podcast/rss',
-        headerImageHeight: [300, 400],
+        headerImageHeight: [300, 400], // maybe should go in a style config
         spotify_url: "https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ",
         apple_podcasts_url: "https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455",
         google_podcasts_url: "https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw",
-        patreon_url: 'https://www.patreon.com/RulesAsWritten'
+        patreon_url: 'https://www.patreon.com/RulesAsWritten',
+        notion_token: process.env.NOTION_TOKEN,
+        notion_pages_database_id: process.env.NOTION_DB_ID
       },
     },
     `gatsby-plugin-theme-ui`,

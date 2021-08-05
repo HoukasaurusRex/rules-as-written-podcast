@@ -123,11 +123,9 @@ export default {
           justifyContent: "flex-start",
           alignItems: "center",
           ".summary": {
-            fontSize: 2,
-            lineHeight: 1.4,
+            fontSize: '14px',
             fontWeight: 300,
-            opacity: 0.7,
-            mt: 3,
+            opacity: 0.7
           },
           ".active": {
             borderLeft: "3px solid",

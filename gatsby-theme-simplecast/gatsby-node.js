@@ -1,17 +1,87 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
 const crypto = require("crypto")
 const { slugify } = require("./src/utils/utils")
 const { fetchFeedData, createCollection } = require("./src/feed")
 const mockupEpisodes = require("./data/mockupEpisodes.json")
-const { config } = require("dotenv")
+const { Client, LogLevel } = require("@notionhq/client")
+const YAML = require('yaml')
+const fs = require('fs').promises
+
+const blockToMD = (block) => {
+  const { type } = block
+  const text = block[type].text.map(val => val.text.content).join('\n')
+  switch (type) {
+    case 'paragraph':
+      return `${text}`
+    case 'heading_1':
+      return `# ${text}`
+    case 'heading_2':
+      return `## ${text}`
+    case 'heading_3':
+      return `### ${text}`
+    case 'numbered_list_item':
+      return `- ${text}`
+    case 'bulleted_list_item':
+      return `${text}`
+    default:
+      return `${text}`
+  }
+}
+
+const shapeMetadata = (meta) => ({
+  createdTime: meta.created_time,
+  lastEditedTime: meta.last_edited_time,
+  page_id: meta.id,
+  id: meta.properties['id'].rich_text[0]?.plain_text,
+  show: meta.properties['Show'].select?.name,
+  summary: meta.properties['Summary'].rich_text[0]?.plain_text,
+  image: meta.properties['Image']?.url,
+  resources: meta.properties['Resources'].rich_text[0]?.plain_text.split(',').map(link => `[${link}](${link})`),
+  guestName: meta.properties['Guest Name'].rich_text[0]?.plain_text,
+  guestPhoto: meta.properties['Guest Photo']?.url,
+  guestSummary: meta.properties['Guest Summary'].rich_text[0]?.plain_text,
+  status: meta.properties['Status'].select.name
+})
+
+const getPagesMeta = async(notion, { notionPagesDatabaseId }) => {
+  const pagesMeta = await notion.databases.query({
+    database_id: notionPagesDatabaseId,
+    filter: {
+      property: "Status",
+      select: {
+        does_not_equal: "Ideas",
+      },
+    }
+  })
+  return pagesMeta.results.map(meta => shapeMetadata(meta))
+}
+
+const getPageContent = async(notion, { pageId }) => {
+  const pageContent = await notion.blocks.children.list({
+    block_id: pageId
+  })
+  return pageContent
+}
+
+exports.onPreInit = async({ actions }, options ) => {
+  const notion = new Client({
+    auth: options.notion_token,
+    logLevel: LogLevel[process.env.LOG_LEVEL] || LogLevel.WARN
+  })
+  const pagesMeta = await getPagesMeta(notion, { notionPagesDatabaseId: options.notion_pages_database_id })
+  await Promise.all(pagesMeta.map(async(meta) => {
+    const pageContent = await getPageContent(notion, { pageId: meta.page_id })
+    const md = pageContent.results.map(block => blockToMD(block)).join('\n\n')
+    const pageDir = `${options.markdownPath}/${meta.id}`
+    await fs.mkdir(pageDir, { recursive: true })
+    await fs.writeFile(`${pageDir}/index.md`, `---\n${YAML.stringify(meta)}---\n\n${md}\n`)
+  }))
+
+}
 
 exports.sourceNodes = async (
   { actions: { createNode, createNodeField }, plugins },
   options
   ) => {
-
   let data = options.rssFeedURL
     ? await fetchFeedData({ rssFeedURL: options.rssFeedURL })
     : mockupEpisodes

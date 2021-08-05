@@ -36,23 +36,8 @@ export default function Index({ data: { allEpisode, allMarkdownRemark } }) {
               resources
               guestSummary
               guestName
-              guestPhoto {
-                childImageSharp {
-                  fluid(maxWidth: 200) {
-                    ...GatsbyImageSharpFluid_noBase64
-                  }
-                }
-              }
-              image {
-                childImageSharp {
-                  original {
-                    src
-                  }
-                  fluid(maxWidth: 700) {
-                    ...GatsbyImageSharpFluid_noBase64
-                  }
-                }
-              }
+              guestPhoto
+              image
             }
           }
         }

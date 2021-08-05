@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import PropTypes from "prop-types"
 import Navigation from "./navigation"
-import "./layout.css"
 import { jsx, Container, Box } from "theme-ui"
+import "@reach/skip-nav/styles.css"
+import "./layout.css"
 
 function Layout({ children }) {
   return (
