@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import { useStaticQuery, graphql } from 'gatsby'
 
 const SEO = ({ description, meta, image: metaImage, title, pathname }) => {
-  const { site } = useStaticQuery(
+  const { site: { siteMetadata } } = useStaticQuery(
     graphql`
       query {
         site {
@@ -14,20 +14,21 @@ const SEO = ({ description, meta, image: metaImage, title, pathname }) => {
             keywords
             siteUrl
             image
-            lang
+            lang,
+            microanalyticsId
           }
         }
       }
     `
   )
-  const lang = site.siteMetadata.lang || 'en'
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata && site.siteMetadata.title
+  const lang = siteMetadata.lang || 'en'
+  const metaDescription = description || siteMetadata.description
+  const defaultTitle = siteMetadata && siteMetadata.title
   const image =
     metaImage && metaImage.src
-      ? `${site.siteMetadata.siteUrl}${metaImage.src}`
-      : site.siteMetadata.image
-  const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null
+      ? `${siteMetadata.siteUrl}${metaImage.src}`
+      : siteMetadata.image
+  const canonical = pathname ? `${siteMetadata.siteUrl}${pathname}` : null
   return (
     <Helmet
       htmlAttributes={{
@@ -52,7 +53,7 @@ const SEO = ({ description, meta, image: metaImage, title, pathname }) => {
         },
         {
           name: 'keywords',
-          content: site.siteMetadata.keywords.join(',')
+          content: siteMetadata.keywords.join(',')
         },
         {
           property: 'og:title',
@@ -76,7 +77,7 @@ const SEO = ({ description, meta, image: metaImage, title, pathname }) => {
         },
         {
           name: 'twitter:creator',
-          content: site.siteMetadata?.author || ''
+          content: siteMetadata.author || ''
         },
         {
           name: 'twitter:title',
@@ -120,7 +121,7 @@ const SEO = ({ description, meta, image: metaImage, title, pathname }) => {
         data-host="https://microanalytics.io"
         data-dnt="false"
         src="https://microanalytics.io/js/script.js"
-        id="ZwSg9rf6GA"
+        id={siteMetadata.microanalyticsId}
         async
         defer
       />

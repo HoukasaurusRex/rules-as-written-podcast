@@ -24,10 +24,6 @@ export default function Index({ data: { allEpisode, allMarkdownRemark } }) {
           description
           number
           enclosure_url
-          spotify_url
-          apple_podcasts_url
-          google_podcasts_url
-          patreon_url
           fields {
             slug
           }

@@ -22,7 +22,7 @@ const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const image = markdownRemark?.frontmatter?.image || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
   const markdown = markdownRemark
-  const { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url } = episode
+  const { patreon_url } = site?.siteMetadata
   const url =  typeof window !== 'undefined' && new URL(window.location.href)
   const pathname = url && url.pathname
   const description = getDescriptionFromHTML(episode.description)
@@ -70,7 +70,7 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                 <Disqus config={{ url: url.href, identifier: episode.id, title: episode.title }}/>
               </Box>
             </SkipNavContent>
-            <Aside markdown={markdown} spotify_url={spotify_url} apple_podcasts_url={apple_podcasts_url} google_podcasts_url={google_podcasts_url} patreon_url={patreon_url} />
+            <Aside markdown={markdown} />
           </div>
         </div>
         )}
@@ -86,6 +86,7 @@ export const episodeQuery = graphql`
       siteMetadata {
         image
         episodeImage
+        patreon_url
       }
     }
     episode(id: { eq: $id }) {
@@ -94,10 +95,6 @@ export const episodeQuery = graphql`
       description
       number
       enclosure_url
-      spotify_url
-      apple_podcasts_url
-      google_podcasts_url
-      patreon_url
       fields {
         slug
       }

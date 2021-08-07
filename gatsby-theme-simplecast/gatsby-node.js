@@ -1,82 +1,7 @@
 const crypto = require("crypto")
 const { slugify } = require("./src/utils/utils")
-const { fetchFeedData, createCollection } = require("./src/feed")
+const { fetchFeedData, createCollection } = require("./src/utils/feed")
 const mockupEpisodes = require("./data/mockupEpisodes.json")
-const { Client, LogLevel } = require("@notionhq/client")
-const YAML = require('yaml')
-const fs = require('fs').promises
-
-const blockToMD = (block) => {
-  const { type } = block
-  const text = block[type].text.map(val => val.text.content).join('\n')
-  switch (type) {
-    case 'paragraph':
-      return `${text}`
-    case 'heading_1':
-      return `# ${text}`
-    case 'heading_2':
-      return `## ${text}`
-    case 'heading_3':
-      return `### ${text}`
-    case 'numbered_list_item':
-      return `- ${text}`
-    case 'bulleted_list_item':
-      return `${text}`
-    default:
-      return `${text}`
-  }
-}
-
-const shapeMetadata = (meta) => ({
-  createdTime: meta.created_time,
-  lastEditedTime: meta.last_edited_time,
-  page_id: meta.id,
-  id: meta.properties['id'].rich_text[0]?.plain_text,
-  show: meta.properties['Show'].select?.name,
-  summary: meta.properties['Summary'].rich_text[0]?.plain_text,
-  image: meta.properties['Image']?.url,
-  resources: meta.properties['Resources'].rich_text[0]?.plain_text.split(',').map(link => `[${link}](${link})`),
-  guestName: meta.properties['Guest Name'].rich_text[0]?.plain_text,
-  guestPhoto: meta.properties['Guest Photo']?.url,
-  guestSummary: meta.properties['Guest Summary'].rich_text[0]?.plain_text,
-  status: meta.properties['Status'].select.name
-})
-
-const getPagesMeta = async(notion, { notionPagesDatabaseId }) => {
-  const pagesMeta = await notion.databases.query({
-    database_id: notionPagesDatabaseId,
-    filter: {
-      property: "Status",
-      select: {
-        does_not_equal: "Ideas",
-      },
-    }
-  })
-  return pagesMeta.results.map(meta => shapeMetadata(meta))
-}
-
-const getPageContent = async(notion, { pageId }) => {
-  const pageContent = await notion.blocks.children.list({
-    block_id: pageId
-  })
-  return pageContent
-}
-
-exports.onPreInit = async({ actions }, options ) => {
-  const notion = new Client({
-    auth: options.notion_token,
-    logLevel: LogLevel[process.env.LOG_LEVEL] || LogLevel.WARN
-  })
-  const pagesMeta = await getPagesMeta(notion, { notionPagesDatabaseId: options.notion_pages_database_id })
-  await Promise.all(pagesMeta.map(async(meta) => {
-    const pageContent = await getPageContent(notion, { pageId: meta.page_id })
-    const md = pageContent.results.map(block => blockToMD(block)).join('\n\n')
-    const pageDir = `${options.markdownPath}/${meta.id}`
-    await fs.mkdir(pageDir, { recursive: true })
-    await fs.writeFile(`${pageDir}/index.md`, `---\n${YAML.stringify(meta)}---\n\n${md}\n`)
-  }))
-
-}
 
 exports.sourceNodes = async (
   { actions: { createNode, createNodeField }, plugins },
@@ -87,10 +12,6 @@ exports.sourceNodes = async (
     : mockupEpisodes
 
   const packagePodcast = p => {
-    p.spotify_url = p.spotify_url || options.spotify_url
-    p.apple_podcasts_url = p.apple_podcasts_url || options.apple_podcasts_url
-    p.google_podcasts_url = p.google_podcasts_url || options.google_podcasts_url
-    p.patreon_url = p.patreon_url || options.patreon_url
     const nodeContent = JSON.stringify(p)
     const nodeContentDigest = crypto
       .createHash("md5")
@@ -144,9 +65,7 @@ exports.createPages = async ({ actions, graphql }, options) => {
 
   data.allEpisode.edges.forEach(({ node }, options) => {
     actions.createPage({
-      path: `${options.episodeSlug ? options.episodeSlug : "show"}/${
-        node.number
-      }/${slugify(node.title)}`,
+      path: `${options.episodeSlug || "show"}/${node.number}/${slugify(node.title)}`,
       component: require.resolve(`./src/templates/episode.js`),
       context: {
         slug: slugify(node.title),
@@ -159,7 +78,7 @@ exports.createPages = async ({ actions, graphql }, options) => {
 
 exports.onCreateNode = ({ node, getNode, actions }, options) => {
   const { createNodeField } = actions
-  const showsSlug = options.episodeSlug ? options.episodeSlug : "show"
+  const showsSlug = options.episodeSlug || "show"
   createNodeField({
     name: "slug",
     node,

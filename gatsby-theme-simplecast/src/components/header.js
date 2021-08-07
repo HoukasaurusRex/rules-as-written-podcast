@@ -2,7 +2,6 @@
 import { jsx, useThemeUI, Box, Flex, Image } from "theme-ui"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import VisuallyHidden from "@reach/visually-hidden"
-import config from "../lib/config"
 
 function Header({ context, episode, image }) {
   const themeContext = useThemeUI()
@@ -21,7 +20,7 @@ function Header({ context, episode, image }) {
         <Image
           alt={episode.title}
           src={image}
-          sx={{ height: config.headerImageHeight, objectFit: 'cover' }}
+          sx={{ objectFit: 'cover' }}
         />
       )}
       <Box className="header_content">
