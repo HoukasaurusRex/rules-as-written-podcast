@@ -12,7 +12,13 @@ const config = {
     primaryLighten50: 'hsl(9, 59%, 65%)',
     primaryLighten70: 'hsl(9, 59%, 75%)',
     secondary: 'hsl(223, 76%, 39%)',
+    gradient: 'linear-gradient(224deg, hsl(9, 59%, 75%) 0%, hsl(9, 59%, 35%) 100%)'
   },
+  styles: {
+    spinner: {
+      color: 'white',
+    },
+  }
 }
 
-export default config
+module.exports = config

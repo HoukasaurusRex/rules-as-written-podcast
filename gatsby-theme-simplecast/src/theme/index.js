@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   useCustomProperties: true,
   initialColorMode: "dark",
   breakpoints: ["992px", "1200px", "1920px"],
@@ -55,6 +55,9 @@ export default {
 
   styles: {
     color: "primary",
+    spinner: {
+      color: 'white'
+    },
     Header: {
       position: "relative",
       display: "flex",

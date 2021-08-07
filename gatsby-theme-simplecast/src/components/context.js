@@ -4,7 +4,7 @@ import { graphql, useStaticQuery } from "gatsby"
 const EpisodeContext = React.createContext()
 
 export function EpisodeProvider(props) {
-  const data = useStaticQuery(graphql`
+  const { allEpisode } = useStaticQuery(graphql`
     {
       allEpisode {
         totalCount
@@ -14,9 +14,6 @@ export function EpisodeProvider(props) {
           description
           number
           enclosure_url
-          spotify_url
-          apple_podcasts_url
-          google_podcasts_url
           fields {
             slug
           }
@@ -25,9 +22,7 @@ export function EpisodeProvider(props) {
     }
   `)
 
-  const [currentPlaying, setCurrentPlaying] = React.useState(
-    data.allEpisode.nodes[0]
-  )
+  const [currentPlaying, setCurrentPlaying] = React.useState(allEpisode.nodes[0])
 
   return (
     <EpisodeContext.Provider

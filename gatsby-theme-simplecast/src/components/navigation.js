@@ -6,7 +6,6 @@ import { EpisodeConsumer } from "./context"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import { MdMenu as MenuIcon, MdClose as CloseMenuIcon } from "react-icons/md"
 import onClickOutside from "react-onclickoutside"
-import config from "../lib/config"
 import Link from "./link"
 import Bars from "./bars"
 
@@ -15,31 +14,6 @@ function Navigation() {
   const toggleMenu = () => setIsOpen(!isOpen)
   Navigation.handleClickOutside = () => setIsOpen(false)
   const twoDigits = n => (n.toString().length < 2 ? `0${n}` : n)
-
-  const Logo = () => (
-    <Box>
-      <Link to="/">
-        <Text sx={{ fontSize: 6, color: "primary", mb: 0 }}>
-          {data.site.siteMetadata.title
-            ? data.site.siteMetadata.title
-            : "Podcast Name"}
-        </Text>
-      </Link>
-      {config.podcastSeason && (
-        <h5
-          sx={{
-            textTransform: "uppercase",
-            mb: 0,
-            fontWeight: 400,
-            fontSize: 0,
-            opacity: 0.6,
-          }}
-        >
-          season {twoDigits(config.podcastSeason)}
-        </h5>
-      )}
-    </Box>
-  )
 
   const data = useStaticQuery(graphql`
     query navQuery {
@@ -56,6 +30,7 @@ function Navigation() {
           description
           number
           enclosure_url
+          season
           fields {
             slug
           }
@@ -74,6 +49,31 @@ function Navigation() {
       }
     }
   `)
+  const Logo = () => (
+    <Box>
+      <Link to="/">
+        <Text sx={{ fontSize: 6, color: "primary", mb: 0 }}>
+          {data.site.siteMetadata.title
+            ? data.site.siteMetadata.title
+            : "Podcast Name"}
+        </Text>
+      </Link>
+      {data.allEpisode.nodes[0].season && (
+        <h5
+          sx={{
+            textTransform: "uppercase",
+            mb: 0,
+            fontWeight: 400,
+            fontSize: 0,
+            opacity: 0.6,
+          }}
+        >
+          season {twoDigits(data.allEpisode.nodes[0].season)}
+        </h5>
+      )}
+    </Box>
+  )
+
   return (
     <EpisodeConsumer>
       {context => (

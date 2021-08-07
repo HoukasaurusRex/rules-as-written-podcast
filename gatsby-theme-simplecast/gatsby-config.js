@@ -1,4 +1,4 @@
-module.exports = ({ markdownPath = `${__dirname}/content/episodes` }) => ({
+module.exports = ({ markdownPath = `${__dirname}/content/episodes`, disqusShortname }) => ({
   siteMetadata: {
     title: `Podcast Name`,
     description: `Podcast description.`,
@@ -9,7 +9,12 @@ module.exports = ({ markdownPath = `${__dirname}/content/episodes` }) => ({
     `gatsby-plugin-sharp`,
     `gatsby-transformer-remark`,
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-theme-ui`,
+    {
+      resolve: 'gatsby-plugin-theme-ui',
+      options: {
+        preset: require('./src/theme'),
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -39,7 +44,7 @@ module.exports = ({ markdownPath = `${__dirname}/content/episodes` }) => ({
     {
       resolve: `gatsby-plugin-disqus`,
       options: {
-          shortname: `rulesaswrittenshow`
+          shortname: disqusShortname
       }
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality

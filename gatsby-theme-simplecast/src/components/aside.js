@@ -20,12 +20,16 @@ const PodcastProvider = styled(Link)(
   })
 )
 
-function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }) {
-  const { site: { siteMetadata: { patrons }}} = useStaticQuery(graphql`
+function Aside({ markdown }) {
+  const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }}} = useStaticQuery(graphql`
     {
       site {
         siteMetadata {
           patrons
+          spotify_url
+          apple_podcasts_url
+          google_podcasts_url
+          patreon_url
         }
       }
     }
@@ -106,8 +110,8 @@ function Aside({ markdown, spotify_url, apple_podcasts_url, google_podcasts_url,
         <Box>
           <Heading as="h5">Special Thanks to our Top Patrons</Heading>
           <ul>
-          {patrons.map(patron => (
-            <li>{patron}</li>
+          {patrons.map((patron, i) => (
+            <li key={i}>{patron}</li>
           ))}
           </ul>
         </Box>

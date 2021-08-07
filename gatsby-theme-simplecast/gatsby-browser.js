@@ -3,7 +3,7 @@ import Layout from "./src/components/layout"
 import Player from "./src/components/player"
 import { EpisodeProvider, EpisodeConsumer } from "./src/components/context"
 import { ThemeProvider, Themed } from "theme-ui"
-import theme from "./src/gatsby-plugin-theme-ui/index"
+import theme from './src/theme'
 import { SkipNavLink } from "@reach/skip-nav"
 
 export const wrapPageElement = ({ element, props }, options) => {

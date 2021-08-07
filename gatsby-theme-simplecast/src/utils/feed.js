@@ -18,7 +18,8 @@ const createCollection = (feed) => feed.items?.map((item, idx) => ({
     title: item.title,
     number: feed.items?.length ? feed.items?.length - idx : 0,
     description: item.itunes.summary,
-    enclosure_url: item.enclosure.url
+    enclosure_url: item.enclosure.url,
+    season: item.season || 1
   }))
 
 
