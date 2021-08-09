@@ -7,6 +7,7 @@ import { jsx, Container, useThemeUI, Spinner } from "theme-ui"
 import { keyframes } from "@emotion/react"
 import formatTime from "../utils/formatTime"
 import VisuallyHidden from "@reach/visually-hidden"
+import { trackEvent } from '../utils'
 // import VolumeBars from "./volumeBars"
 
 const bounce = keyframes`
@@ -77,6 +78,7 @@ const Player = ({ episode }) => {
     setPlaying(false)
     const method = audio.current.paused ? "play" : "pause"
     await audio.current[method]()
+    if (method === 'play') trackEvent('play', { value: episode.title })
   }
   
   const scrubTime = e => (e.nativeEvent.offsetX / progress.current.offsetWidth) * audio.current.duration
@@ -105,7 +107,7 @@ const Player = ({ episode }) => {
   }
 
   if (!loading && playing && audio.current.paused) {
-    audio.current.play()
+    togglePlay()
   }
 
   return (

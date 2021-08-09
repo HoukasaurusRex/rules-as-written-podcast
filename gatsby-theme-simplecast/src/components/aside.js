@@ -10,6 +10,7 @@ import itunesIcon from "../images/apple.svg"
 import spotifyImage from "../images/spotify.png"
 import googleImage from "../images/google.svg"
 import patreonImage from "../images/patreon.png"
+import { trackEvent } from '../utils'
 
 const PodcastProvider = styled(Link)(
   css({
@@ -46,22 +47,22 @@ function Aside({ markdown }) {
         <Link/>
         {spotify_url && (
           <PodcastProvider to={spotify_url} isExternal >
-            <img src={spotifyImage} alt="Spotify" width="90" />
+            <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyImage} alt="Spotify" width="90" />
           </PodcastProvider>
         )}
         {apple_podcasts_url && (
           <PodcastProvider to={apple_podcasts_url} isExternal >
-            <img src={itunesIcon} alt="Apple Podcasts" />
+            <img onClick={() => trackEvent('provider', { value: 'apple' })} src={itunesIcon} alt="Apple Podcasts" />
           </PodcastProvider>
         )}
         {google_podcasts_url && (
           <PodcastProvider to={google_podcasts_url} isExternal >
-            <img src={googleImage} alt="Google Podcasts" />
+            <img onClick={() => trackEvent('provider', { value: 'google' })} src={googleImage} alt="Google Podcasts" />
           </PodcastProvider>
         )}
         {patreon_url && (
           <PodcastProvider to={patreon_url} isExternal >
-            <img src={patreonImage} alt="Support us on Patreon" height={25} />
+            <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonImage} alt="Support us on Patreon" height={25} />
           </PodcastProvider>
         )}
       </div>

@@ -1,5 +1,5 @@
 const crypto = require("crypto")
-const { slugify } = require("./src/utils/utils")
+const { slugify } = require("./src/utils")
 const { fetchFeedData, createCollection } = require("./src/utils/feed")
 const mockupEpisodes = require("./data/mockupEpisodes.json")
 

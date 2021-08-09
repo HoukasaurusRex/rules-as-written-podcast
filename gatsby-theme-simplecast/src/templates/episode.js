@@ -9,6 +9,7 @@ import { SkipNavContent } from "@reach/skip-nav"
 import { Disqus } from 'gatsby-plugin-disqus'
 import patreonImage from "../images/patreon.png"
 import Link from "../components/link"
+import { trackEvent } from '../utils'
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
     ? new DOMParser()
@@ -18,6 +19,8 @@ const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
     : html
       .match(/<p>(.*?)<\/p>/)[0]
       .replace(/(<p>|<\/p>)/g, '')
+
+
 
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const image = markdownRemark?.frontmatter?.image || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
@@ -61,8 +64,8 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                   get access to exclusive merch and tons of other good stuff by becoming our patron!
                 </Text>
                 {patreon_url && (
-                  <Link to={patreon_url} isExternal >
-                    <Image src={patreonImage} alt="Support us on Patreon" sx={{ height: 80, py: '20px', px: '15px', borderRadius: 0, backgroundColor: 'black' }} />
+                  <Link to={patreon_url} isExternal>
+                    <Image onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonImage} alt="Support us on Patreon" sx={{ height: 80, py: '20px', px: '15px', borderRadius: 0, backgroundColor: 'black' }} />
                   </Link>
                 )}
               </Box>
