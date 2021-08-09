@@ -13,7 +13,8 @@ const fetchFeedData = async ({
   return body.data
 }
 
-const createCollection = (feed) => feed.items?.map((item, idx) => ({
+const createCollection = (feed) => feed.items
+  ?.map((item, idx) => ({
     id: item.guid,
     title: item.title,
     number: feed.items?.length ? feed.items?.length - idx : 0,
@@ -21,6 +22,7 @@ const createCollection = (feed) => feed.items?.map((item, idx) => ({
     enclosure_url: item.enclosure.url,
     season: item.season || 1
   }))
+  ?.sort((a, b) => b.number - a.number)
 
 
 const downloadRSSFeedData = async ({ feed, dataFolder = path.join(__dirname, '/data') }) => {

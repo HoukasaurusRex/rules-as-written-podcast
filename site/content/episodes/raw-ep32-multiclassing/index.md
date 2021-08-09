@@ -1,6 +1,6 @@
 ---
 createdTime: 2021-08-07T06:20:00.000Z
-lastEditedTime: 2021-08-07T06:49:00.000Z
+lastEditedTime: 2021-08-07T10:16:00.000Z
 page_id: b3f4ca29-fcfb-4a62-b8c7-f4cef0c0aec2
 id: 2ec316d1-e3d9-4ae1-8868-d61a323aa4b0
 title: "RaW Ep32: Multiclassing"
@@ -26,7 +26,3 @@ class
 While the difference between character level and class level might take some getting used to, as we say in greater detail in the show it's not so much if you take it in level by level.
 
 For additional reference on multiclassing, check out the Player's Handbook: Chapter 6 pg. 163-165.
-
-
-
-
