@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import { jsx, Flex, Box, Text } from "theme-ui"
+import { jsx, Flex, Box, Text, useThemeUI } from "theme-ui"
 import { EpisodeConsumer } from "./context"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import { MdMenu as MenuIcon, MdClose as CloseMenuIcon } from "react-icons/md"
@@ -14,8 +14,9 @@ function Navigation() {
   const toggleMenu = () => setIsOpen(!isOpen)
   Navigation.handleClickOutside = () => setIsOpen(false)
   const twoDigits = n => (n.toString().length < 2 ? `0${n}` : n)
+  const { theme } = useThemeUI()
 
-  const data = useStaticQuery(graphql`
+  const { site, allEpisode, allMarkdownRemark } = useStaticQuery(graphql`
     query navQuery {
       site {
         siteMetadata {
@@ -49,16 +50,17 @@ function Navigation() {
       }
     }
   `)
+  allEpisode.nodes = allEpisode.nodes.sort((a, b) => b.number - a.number)
   const Logo = () => (
     <Box>
       <Link to="/">
         <Text sx={{ fontSize: 6, color: "primary", mb: 0 }}>
-          {data.site.siteMetadata.title
-            ? data.site.siteMetadata.title
+          {site.siteMetadata.title
+            ? site.siteMetadata.title
             : "Podcast Name"}
         </Text>
       </Link>
-      {data.allEpisode.nodes[0].season && (
+      {allEpisode.nodes[0].season && (
         <h5
           sx={{
             textTransform: "uppercase",
@@ -68,7 +70,7 @@ function Navigation() {
             opacity: 0.6,
           }}
         >
-          season {twoDigits(data.allEpisode.nodes[0].season)}
+          season {twoDigits(allEpisode.nodes[0].season)}
         </h5>
       )}
     </Box>
@@ -115,22 +117,42 @@ function Navigation() {
               variant: "navigation.episodes",
               transform: [`translateX(${isOpen ? "0" : "-100%"})`, "none"],
               transition: "300ms cubic-bezier(1, 0, 0, 1)",
+              boxShadow: ['none', '5px 0 10px rgb(0 0 0 / 70%)'],
+              '::-webkit-scrollbar': {
+                width: '6px'
+              },
+              
+              /* Track */
+              '::-webkit-scrollbar-track': {
+                boxShadow: 'inset 0 0 5px grey',
+                borderRadius: '10px'
+              },
+              
+              /* Handle */
+              '::-webkit-scrollbar-thumb': {
+                backgroundColor: theme.colors.primary,
+                borderRadius: '10px',
+                ':hover': {
+                  backgroundColor: theme.colors.primaryDarken,
+                }
+              },
             }}
           >
             <div sx={{ ml: 6, pb: 4 }}>
               <Logo />
             </div>
             <ul id="menu" role="menu" sx={{ pb: 14 }}>
-              {data.allEpisode.nodes.map(episode => (
+              {allEpisode.nodes.map(episode => (
                 <li role="none" key={episode.id}>
                   {episode.id === context.state.id && <Bars />}
                   <Link
                     role="menuitem"
                     activeClassName="active"
                     to={episode.fields.slug}
+                    onClick={toggleMenu}
                   >
                     <h4 sx={{ fontSize: 16 }}>{episode.title}</h4>
-                    {data.allMarkdownRemark.edges.map(({ node: markdown }) => {
+                    {allMarkdownRemark.edges.map(({ node: markdown }) => {
                       if (markdown.frontmatter.id === episode.id)
                         return (
                           markdown.frontmatter.summary && (

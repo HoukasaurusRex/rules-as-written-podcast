@@ -3,17 +3,14 @@ import { jsx } from "theme-ui"
 import { graphql, useStaticQuery } from "gatsby"
 import Episode from "../templates/episode"
 
-export default function Index({ data: { allEpisode, allMarkdownRemark } }) {
-  const MarkdownForLatestEpisode = allMarkdownRemark.edges.filter(
-    Markdown => Markdown.node.frontmatter.id === allEpisode.nodes[0].id
-  )
-
-  const data = useStaticQuery(graphql`
-    {
+export default function Index() {
+  const { site, allEpisode, allMarkdownRemark } = useStaticQuery(graphql`
+    query {
       site {
         siteMetadata {
           image
           episodeImage
+          patreon_url
         }
       }
       allEpisode {
@@ -47,12 +44,16 @@ export default function Index({ data: { allEpisode, allMarkdownRemark } }) {
       }
     }
   `)
+  allEpisode.nodes = allEpisode.nodes.sort((a, b) => b.number - a.number)
+  const MarkdownForLatestEpisode = allMarkdownRemark.edges.filter(
+    Markdown => Markdown.node.frontmatter.id === allEpisode.nodes[0].id
+  )
   return (
     <Episode
       data={{
-        episode: data.allEpisode.nodes[0],
+        episode: allEpisode.nodes[0],
         markdownRemark: MarkdownForLatestEpisode[0] && MarkdownForLatestEpisode[0].node,
-        site: data.site
+        site
       }}
     />
   )

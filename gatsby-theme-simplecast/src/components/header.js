@@ -20,7 +20,7 @@ function Header({ context, episode, image }) {
         <Image
           alt={episode.title}
           src={image}
-          sx={{ objectFit: 'cover' }}
+          sx={{ objectFit: 'cover', borderRadius: ['none', '0 0 10px 0'], maxHeight: '100%' }}
         />
       )}
       <Box className="header_content">

@@ -42,7 +42,7 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
               flexDirection: ["column", "row"],
             }}
           >
-            <SkipNavContent sx={{ maxWidth: ["100%", 710] }}>
+            <SkipNavContent sx={{ maxWidth: ["100%", 650] }}>
               <Header context={context} episode={episode} image={image} />
               <article>
                 <Heading>Show Notes</Heading>
