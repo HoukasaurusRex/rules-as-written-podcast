@@ -741,3 +741,17 @@ pre tt:after {
   top: 57px;
   animation-duration: 425ms;
 }
+
+html::-webkit-scrollbar {
+  width: 7px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: darkgray;
+  border-radius: 10px;
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: gray;
+  border-radius: 10px;
+}
+

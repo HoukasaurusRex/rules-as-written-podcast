@@ -102,10 +102,6 @@ module.exports = {
       },
     },
     root: {
-      nav: {
-        borderRight: "2px solid",
-        borderColor: "backgroundLighten10",
-      },
       ".episodes_list": {
         backgroundColor: "background",
         position: ["absolute", "fixed"],
