@@ -39,7 +39,7 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
           <div
             sx={{
               display: "flex",
-              flexDirection: ["column", "row"],
+              flexDirection: ["column", "row"]
             }}
           >
             <SkipNavContent sx={{ maxWidth: ["100%", 650] }}>

@@ -121,13 +121,6 @@ function Navigation() {
               '::-webkit-scrollbar': {
                 width: '6px'
               },
-              
-              /* Track */
-              '::-webkit-scrollbar-track': {
-                boxShadow: 'inset 0 0 5px grey',
-                borderRadius: '10px'
-              },
-              
               /* Handle */
               '::-webkit-scrollbar-thumb': {
                 backgroundColor: theme.colors.primary,
