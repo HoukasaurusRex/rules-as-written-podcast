@@ -15,7 +15,6 @@ function Navigation() {
   Navigation.handleClickOutside = () => setIsOpen(false)
   const twoDigits = n => (n.toString().length < 2 ? `0${n}` : n)
   const { theme } = useThemeUI()
-
   const { site, allEpisode, allMarkdownRemark } = useStaticQuery(graphql`
     query navQuery {
       site {

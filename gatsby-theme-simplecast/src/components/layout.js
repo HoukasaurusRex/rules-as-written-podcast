@@ -1,11 +1,21 @@
 /** @jsx jsx */
+import { useEffect } from "react"
 import PropTypes from "prop-types"
 import Navigation from "./navigation"
-import { jsx, Container, Box } from "theme-ui"
+import { jsx, Container, Box, useColorMode, useThemeUI } from "theme-ui"
 import "@reach/skip-nav/styles.css"
 import "./layout.css"
 
 function Layout({ children }) {
+  const [colorMode, setColorMode] = useColorMode()
+  const userColorMode = typeof window !== 'undefined' && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? 'dark'
+    : colorMode
+  const { theme } = useThemeUI()
+    useEffect(() => {
+      setColorMode(userColorMode)
+    }, [userColorMode])
+  console.log({theme, colorMode})
   return (
     <Box>
       <Container
