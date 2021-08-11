@@ -1,4 +1,4 @@
-module.exports = ({ markdownPath = `${__dirname}/content/episodes`, disqusShortname }) => ({
+module.exports = ({ markdownPath = `${__dirname}/content/episodes`, disqusShortname, mcEndpoint }) => ({
   siteMetadata: {
     title: `Podcast Name`,
     description: `Podcast description.`,
@@ -46,6 +46,13 @@ module.exports = ({ markdownPath = `${__dirname}/content/episodes`, disqusShortn
       options: {
           shortname: disqusShortname
       }
+    },
+    {
+      resolve: 'gatsby-plugin-mailchimp',
+        options: {
+            endpoint: mcEndpoint,
+            timeout: 15000,
+        },
     }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline

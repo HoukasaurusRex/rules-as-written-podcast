@@ -31,7 +31,8 @@ module.exports = {
         markdownPath,
         episodeSlug: 'show',
         rssFeedURL: 'https://anchor.fm/s/44a4277c/podcast/rss',
-        disqusShortname: 'rulesaswrittenshow'
+        disqusShortname: 'rulesaswrittenshow',
+        mcEndpoint: process.env.MC_ENDPOINT
       },
     },
     {

@@ -7,9 +7,7 @@ import Header from "../components/header"
 import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
 import { Disqus } from 'gatsby-plugin-disqus'
-import patreonImage from "../images/patreon.png"
-import Link from "../components/link"
-import { trackEvent } from '../utils'
+import Newsletter from '../components/newsletter'
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
     ? new DOMParser()
@@ -25,7 +23,6 @@ const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const image = markdownRemark?.frontmatter?.image || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
   const markdown = markdownRemark
-  const { patreon_url } = site?.siteMetadata
   const url =  typeof window !== 'undefined' && new URL(window.location.href)
   const pathname = url && url.pathname
   const description = getDescriptionFromHTML(episode.description)
@@ -58,16 +55,11 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
               </article>
               <Box as="footer" sx={{ px: 30, textAlign: 'center' }}>
                 <Text as="p" sx={{ mb: 30 }} >
-                  Want more?
+                  Can't get enough of us?
                   <br/>
-                  You can see special behind the scenes content, vote on topics in our Discord channel,
-                  get access to exclusive merch and tons of other good stuff by becoming our patron!
+                  Stay on top of the latest releases and extra goodies by subscribing to our weekly newsletter!
                 </Text>
-                {patreon_url && (
-                  <Link to={patreon_url} isExternal>
-                    <Image onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonImage} alt="Support us on Patreon" sx={{ height: 80, py: '20px', px: '15px', borderRadius: 0, backgroundColor: 'black' }} />
-                  </Link>
-                )}
+                <Newsletter />
               </Box>
               <Box sx={{ p: 30  }}>
                 <Disqus config={{ url: url.href, identifier: episode.id, title: episode.title }}/>

@@ -176,7 +176,7 @@ const Player = ({ episode }) => {
           >
             <VisuallyHidden>{playing ? "Pause" : "Play"}</VisuallyHidden>{" "}
             {playing && loading
-              ? <Spinner />
+              ? <Spinner variant='styles.spinner'/>
               : playing
                 ? <FaPause />
                 : <FaPlay />}
