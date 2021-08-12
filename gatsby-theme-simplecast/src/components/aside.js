@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { jsx, Image, Box, Heading, useColorMode } from "theme-ui"
 import { graphql, useStaticQuery } from "gatsby"
 import { FaExternalLinkAlt as ExternalLinkIcon } from "react-icons/fa"
@@ -29,10 +29,11 @@ function Aside({ markdown }) {
   const [applePodcastLogo, setApplePodcastLogo] = useState()
   const [googlePodcastLogo, setGooglePodcastLogo] = useState()
   const [patreonLogo, setPatreonLogo] = useState()
-  importLogo('spotify', { setState: setSpotifyLogo, colorMode: logoColorMode })
-  importLogo('apple', { setState: setApplePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
-  importLogo('google', { setState: setGooglePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
-  importLogo('patreon', { setState: setPatreonLogo, colorMode: logoColorMode })
+  const isBrowser = typeof window !== 'undefined'
+  isBrowser && importLogo('spotify', { setState: setSpotifyLogo, colorMode: logoColorMode })
+  isBrowser && importLogo('apple', { setState: setApplePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  isBrowser && importLogo('google', { setState: setGooglePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  isBrowser && importLogo('patreon', { setState: setPatreonLogo, colorMode: logoColorMode })
   const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }}} = useStaticQuery(graphql`
     {
       site {
@@ -56,22 +57,22 @@ function Aside({ markdown }) {
         }}
       >
         <Link/>
-        {spotify_url && (
+        {spotify_url && spotifyLogo && (
           <PodcastProvider to={spotify_url} isExternal >
             <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyLogo} alt="Spotify" width="90" height={25} />
           </PodcastProvider>
         )}
-        {apple_podcasts_url && (
+        {apple_podcasts_url && applePodcastLogo && (
           <PodcastProvider to={apple_podcasts_url} isExternal >
             <img onClick={() => trackEvent('provider', { value: 'apple' })} src={applePodcastLogo} alt="Apple Podcasts" height={25} />
           </PodcastProvider>
         )}
-        {google_podcasts_url && (
+        {google_podcasts_url && googlePodcastLogo && (
           <PodcastProvider to={google_podcasts_url} isExternal >
             <img onClick={() => trackEvent('provider', { value: 'google' })} src={googlePodcastLogo} alt="Google Podcasts" height={25} />
           </PodcastProvider>
         )}
-        {patreon_url && (
+        {patreon_url && patreonLogo && (
           <PodcastProvider to={patreon_url} isExternal >
             <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonLogo} alt="Support us on Patreon" height={25} />
           </PodcastProvider>
