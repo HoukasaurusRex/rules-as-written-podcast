@@ -50,7 +50,10 @@ const Player = ({ episode }) => {
     setProgressTime(pTime)
     setCurrentTime(cTime)
     setDuration(d)
-    if (!timeWasLoaded) localStorage.setItem(`lastPlayed${episode.number}`, JSON.stringify({ lastPlayed: cTime }))
+    if (!timeWasLoaded) {
+      localStorage.setItem(`lastPlayed${episode.number}`, JSON.stringify({ lastPlayed: cTime }))
+    }
+    setTimeWasLoaded(false)
   }
   
   const volumeUpdate = e => {
@@ -117,7 +120,7 @@ const Player = ({ episode }) => {
         position: "fixed",
         width: "100%",
         color: "text",
-        borderTop: "2px solid",
+        borderTop: "1px solid",
         borderColor: "backgroundLighten10",
         backgroundColor: "background",
         height: ["auto", 60],
@@ -198,7 +201,7 @@ const Player = ({ episode }) => {
                 width: 40,
                 height: 60,
                 backgroundImage:
-                  "linear-gradient(270deg, #1A2232 20%, rgba(26,34,50,0) 100%)",
+                  `linear-gradient(270deg, ${theme.colors.background} 20%, rgba(26,34,50,0) 100%)`,
               },
               h3: {
                 overflow: "hidden",
@@ -239,9 +242,9 @@ const Player = ({ episode }) => {
               mx: 2,
               height: [4, 2],
               flexGrow: "1",
-              borderRadius: ["3px", "0px"],
+              borderRadius: '5px',
               maxWidth: 460,
-              backgroundColor: "backgroundLighten20",
+              backgroundColor: "backgroundLighten10",
             }}
             className="progress"
             onClick={scrub}

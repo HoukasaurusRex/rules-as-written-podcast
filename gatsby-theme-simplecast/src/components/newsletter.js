@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { jsx, Input, Box, Button, Alert, Close, Spinner } from 'theme-ui'
 import addToMailchimp from 'gatsby-plugin-mailchimp'
 import { trackEvent } from '../utils'
+import theme from '../theme'
 
 const Newsletter = () => {
   const [name, setName] = useState()
@@ -86,7 +87,8 @@ const Newsletter = () => {
           maxWidth: 500,
           display: 'flex',
           alignItems: 'self-start',
-          boxShadow: '3px 3px 7px black'
+          boxShadow: theme.colors.shadow,
+          zIndex: 1
         }}
       >
         <Box dangerouslySetInnerHTML={{ __html: toastMessage }}></Box>

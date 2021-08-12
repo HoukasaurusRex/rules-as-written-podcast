@@ -116,7 +116,7 @@ function Navigation() {
               variant: "navigation.episodes",
               transform: [`translateX(${isOpen ? "0" : "-100%"})`, "none"],
               transition: "300ms cubic-bezier(1, 0, 0, 1)",
-              boxShadow: ['none', '5px 0 10px rgb(0 0 0 / 70%)'],
+              boxShadow: ['none', theme.colors.shadowRight],
               '::-webkit-scrollbar': {
                 width: '6px'
               },
