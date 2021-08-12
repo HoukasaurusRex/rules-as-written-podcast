@@ -1,4 +1,6 @@
-import React, { Component } from "react"
+/** @jsx jsx */
+import React from "react"
+import { jsx } from "theme-ui"
 import { graphql, useStaticQuery } from "gatsby"
 
 const EpisodeContext = React.createContext()
@@ -35,10 +37,6 @@ export function EpisodeProvider(props) {
   )
 }
 
-export class EpisodeConsumer extends Component {
-  render() {
-    return (
-      <EpisodeContext.Consumer>{this.props.children}</EpisodeContext.Consumer>
-    )
-  }
-}
+export const EpisodeConsumer = ({ children }) => (
+  <EpisodeContext.Consumer>{children}</EpisodeContext.Consumer>
+)

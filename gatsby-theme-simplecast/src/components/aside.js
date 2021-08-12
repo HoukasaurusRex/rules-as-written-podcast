@@ -1,15 +1,16 @@
 /** @jsx jsx */
-import { jsx, Image, Box, Heading } from "theme-ui"
+import { useState } from "react"
+import { jsx, Image, Box, Heading, useColorMode } from "theme-ui"
 import { graphql, useStaticQuery } from "gatsby"
 import { FaExternalLinkAlt as ExternalLinkIcon } from "react-icons/fa"
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import Link from "./link"
 import Markdown from "react-markdown"
-import itunesIcon from "../images/apple.svg"
-import spotifyImage from "../images/spotify.png"
-import googleImage from "../images/google.svg"
-import patreonImage from "../images/patreon.png"
+import itunesIcon from "../images/apple-dark.svg"
+import spotifyImage from "../images/spotify-dark.png"
+import googleImage from "../images/google-dark.svg"
+import patreonImage from "../images/patreon-dark.png"
 import { trackEvent } from '../utils'
 
 const PodcastProvider = styled(Link)(
@@ -20,8 +21,21 @@ const PodcastProvider = styled(Link)(
     img: { m: 0, mr: 3 },
   })
 )
+const importLogo = async (logoName, { colorMode = 'light', fileType = 'png', setState = () => {} }) => {
+  const logo = await import(`../images/${logoName}-${colorMode}.${fileType}`)
+  setState(logo.default)
+}
 
 function Aside({ markdown }) {
+  const [colorMode, _] = useColorMode()
+  const [spotifyLogo, setSpotifyLogo] = useState()
+  const [applePodcastLogo, setApplePodcastLogo] = useState()
+  const [googlePodcastLogo, setGooglePodcastLogo] = useState()
+  const [patreonLogo, setPatreonLogo] = useState()
+  importLogo('spotify', { setState: setSpotifyLogo, colorMode })
+  importLogo('apple', { setState: setApplePodcastLogo, colorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  importLogo('google', { setState: setGooglePodcastLogo, colorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  importLogo('patreon', { setState: setPatreonLogo, colorMode })
   const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }}} = useStaticQuery(graphql`
     {
       site {
@@ -47,22 +61,22 @@ function Aside({ markdown }) {
         <Link/>
         {spotify_url && (
           <PodcastProvider to={spotify_url} isExternal >
-            <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyImage} alt="Spotify" width="90" />
+            <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyLogo} alt="Spotify" width="90" height={25} />
           </PodcastProvider>
         )}
         {apple_podcasts_url && (
           <PodcastProvider to={apple_podcasts_url} isExternal >
-            <img onClick={() => trackEvent('provider', { value: 'apple' })} src={itunesIcon} alt="Apple Podcasts" />
+            <img onClick={() => trackEvent('provider', { value: 'apple' })} src={applePodcastLogo} alt="Apple Podcasts" height={25} />
           </PodcastProvider>
         )}
         {google_podcasts_url && (
           <PodcastProvider to={google_podcasts_url} isExternal >
-            <img onClick={() => trackEvent('provider', { value: 'google' })} src={googleImage} alt="Google Podcasts" />
+            <img onClick={() => trackEvent('provider', { value: 'google' })} src={googlePodcastLogo} alt="Google Podcasts" height={25} />
           </PodcastProvider>
         )}
         {patreon_url && (
           <PodcastProvider to={patreon_url} isExternal >
-            <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonImage} alt="Support us on Patreon" height={25} />
+            <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonLogo} alt="Support us on Patreon" height={25} />
           </PodcastProvider>
         )}
       </div>
