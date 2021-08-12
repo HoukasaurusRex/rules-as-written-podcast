@@ -7,10 +7,6 @@ import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import Link from "./link"
 import Markdown from "react-markdown"
-import itunesIcon from "../images/apple-dark.svg"
-import spotifyImage from "../images/spotify-dark.png"
-import googleImage from "../images/google-dark.svg"
-import patreonImage from "../images/patreon-dark.png"
 import { trackEvent } from '../utils'
 
 const PodcastProvider = styled(Link)(
