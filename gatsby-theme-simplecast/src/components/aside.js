@@ -28,14 +28,15 @@ const importLogo = async (logoName, { colorMode = 'light', fileType = 'png', set
 
 function Aside({ markdown }) {
   const [colorMode, _] = useColorMode()
+  const logoColorMode = colorMode === 'default' ? 'light' : colorMode
   const [spotifyLogo, setSpotifyLogo] = useState()
   const [applePodcastLogo, setApplePodcastLogo] = useState()
   const [googlePodcastLogo, setGooglePodcastLogo] = useState()
   const [patreonLogo, setPatreonLogo] = useState()
-  importLogo('spotify', { setState: setSpotifyLogo, colorMode })
-  importLogo('apple', { setState: setApplePodcastLogo, colorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
-  importLogo('google', { setState: setGooglePodcastLogo, colorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
-  importLogo('patreon', { setState: setPatreonLogo, colorMode })
+  importLogo('spotify', { setState: setSpotifyLogo, colorMode: logoColorMode })
+  importLogo('apple', { setState: setApplePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  importLogo('google', { setState: setGooglePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  importLogo('patreon', { setState: setPatreonLogo, colorMode: logoColorMode })
   const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }}} = useStaticQuery(graphql`
     {
       site {
