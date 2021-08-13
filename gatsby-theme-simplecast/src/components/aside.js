@@ -23,16 +23,17 @@ const importLogo = async (logoName, { colorMode = 'light', fileType = 'png', set
 }
 
 function Aside({ markdown }) {
-  const [colorMode, _] = useColorMode()
-  const logoColorMode = colorMode === 'default' ? 'light' : colorMode
+  // const [colorMode, _] = useColorMode()
+  // const logoColorMode = colorMode === 'default' ? 'light' : colorMode
+  const logoColorMode = 'dark' // light mode is super broken in theme-ui for this site
   const [spotifyLogo, setSpotifyLogo] = useState()
   const [applePodcastLogo, setApplePodcastLogo] = useState()
   const [googlePodcastLogo, setGooglePodcastLogo] = useState()
   const [patreonLogo, setPatreonLogo] = useState()
   const isBrowser = typeof window !== 'undefined'
   isBrowser && importLogo('spotify', { setState: setSpotifyLogo, colorMode: logoColorMode })
-  isBrowser && importLogo('apple', { setState: setApplePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
-  isBrowser && importLogo('google', { setState: setGooglePodcastLogo, colorMode: logoColorMode, fileType: colorMode === 'dark' ? 'svg' : 'png' })
+  isBrowser && importLogo('apple', { setState: setApplePodcastLogo, colorMode: logoColorMode, fileType: logoColorMode === 'dark' ? 'svg' : 'png' })
+  isBrowser && importLogo('google', { setState: setGooglePodcastLogo, colorMode: logoColorMode, fileType: logoColorMode === 'dark' ? 'svg' : 'png' })
   isBrowser && importLogo('patreon', { setState: setPatreonLogo, colorMode: logoColorMode })
   const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }}} = useStaticQuery(graphql`
     {
