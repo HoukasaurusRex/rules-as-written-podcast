@@ -5,6 +5,4 @@ module.exports.slugify = (s) =>
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-')
 
-module.exports.trackEvent = (name, options = {}) => {
-  if (typeof pa !== 'undefined') pa.track({ name, ...options })
-}
+module.exports.trackEvent = (name, options = {}) => pa && pa.track({ name, ...options })
