@@ -29,7 +29,7 @@ const Newsletter = () => {
     try {
       setSendingRequest(true)
       setShouldDisplayToast(false)
-      trackEvent('Subscribe', { value: email })
+      trackEvent('subscribe', { value: email })
       const response = await addToMailchimp(email, {
         PATHNAME: window.location.pathname,
         'group[177126][2]': '2'
