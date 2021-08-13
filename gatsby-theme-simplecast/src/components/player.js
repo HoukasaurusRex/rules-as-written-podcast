@@ -81,7 +81,7 @@ const Player = ({ episode }) => {
     setPlaying(false)
     const method = audio.current.paused ? "play" : "pause"
     await audio.current[method]()
-    if (method === 'play') trackEvent('play', { value: episode.title })
+    if (method === 'play') trackEvent(`play::${episode.title}`)
   }
   
   const scrubTime = e => (e.nativeEvent.offsetX / progress.current.offsetWidth) * audio.current.duration

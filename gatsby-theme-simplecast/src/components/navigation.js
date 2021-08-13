@@ -123,22 +123,22 @@ const Navigation = () => {
             <Flex sx={{ alignContent: 'center' }}>
             {spotify_url && spotifyIcon && (
               <IconProvider to={spotify_url} isExternal >
-                <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyIcon} alt="Spotify" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+                <img onClick={() => trackEvent('provider::spotify')} src={spotifyIcon} alt="Spotify" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
               </IconProvider>
             )}
             {apple_podcasts_url && applePodcastIcon && (
               <IconProvider to={apple_podcasts_url} isExternal >
-                <img onClick={() => trackEvent('provider', { value: 'apple' })} src={applePodcastIcon} alt="Apple" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+                <img onClick={() => trackEvent('provider::apple')} src={applePodcastIcon} alt="Apple" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
               </IconProvider>
             )}
             {google_podcasts_url && googlePodcastIcon && (
               <IconProvider to={google_podcasts_url} isExternal >
-                <img onClick={() => trackEvent('provider', { value: 'google' })} src={googlePodcastIcon} alt="Google" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+                <img onClick={() => trackEvent('provider::google')} src={googlePodcastIcon} alt="Google" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
               </IconProvider>
             )}
             {patreon_url && patreonIcon && (
               <IconProvider to={patreon_url} isExternal >
-                <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonIcon} alt="Patreon" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+                <img onClick={() => trackEvent('support::patreon')} src={patreonIcon} alt="Patreon" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
               </IconProvider>
             )}
             </Flex>
