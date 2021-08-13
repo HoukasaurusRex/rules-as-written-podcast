@@ -1,25 +1,53 @@
 /** @jsx jsx */
-import React from "react"
+import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { jsx, Flex, Box, Text, useThemeUI } from "theme-ui"
 import { EpisodeConsumer } from "./context"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import { MdMenu as MenuIcon, MdClose as CloseMenuIcon } from "react-icons/md"
 import onClickOutside from "react-onclickoutside"
+import { css } from "@emotion/react"
+import styled from "@emotion/styled"
 import Link from "./link"
 import Bars from "./bars"
+import { trackEvent } from "../utils"
 
-function Navigation() {
+const IconProvider = styled(Link)(
+  css({
+    display: "flex",
+    alignItems: "center"
+  })
+)
+
+const importIcon = async (iconName, setState = () => {}) => {
+  const icon = await import(`../images/${iconName}-icon.png`)
+  setState(icon.default)
+}
+
+const Navigation = () => {
   const [isOpen, setIsOpen] = React.useState(false)
   const toggleMenu = () => setIsOpen(!isOpen)
   Navigation.handleClickOutside = () => setIsOpen(false)
   const twoDigits = n => (n.toString().length < 2 ? `0${n}` : n)
   const { theme } = useThemeUI()
+  const [spotifyIcon, setSpotifyIcon] = useState()
+  const [applePodcastIcon, setApplePodcastIcon] = useState()
+  const [googlePodcastIcon, setGooglePodcastIcon] = useState()
+  const [patreonIcon, setPatreonIcon] = useState()
+  const isBrowser = typeof window !== 'undefined'
+  isBrowser && importIcon('spotify', setSpotifyIcon)
+  isBrowser && importIcon('apple', setApplePodcastIcon)
+  isBrowser && importIcon('google', setGooglePodcastIcon)
+  isBrowser && importIcon('patreon', setPatreonIcon)
   const { site, allEpisode, allMarkdownRemark } = useStaticQuery(graphql`
     query navQuery {
       site {
         siteMetadata {
           title
+          spotify_url
+          apple_podcasts_url
+          google_podcasts_url
+          patreon_url
         }
       }
       allEpisode {
@@ -49,6 +77,7 @@ function Navigation() {
       }
     }
   `)
+  const { siteMetadata: { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }} = site
   allEpisode.nodes = allEpisode.nodes.sort((a, b) => b.number - a.number)
   const Logo = () => (
     <Box>
@@ -91,6 +120,28 @@ function Navigation() {
             >
               <Logo />
             </Flex>
+            <Flex sx={{ alignContent: 'center' }}>
+            {spotify_url && spotifyIcon && (
+              <IconProvider to={spotify_url} isExternal >
+                <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyIcon} alt="Spotify" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+              </IconProvider>
+            )}
+            {apple_podcasts_url && applePodcastIcon && (
+              <IconProvider to={apple_podcasts_url} isExternal >
+                <img onClick={() => trackEvent('provider', { value: 'apple' })} src={applePodcastIcon} alt="Apple" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+              </IconProvider>
+            )}
+            {google_podcasts_url && googlePodcastIcon && (
+              <IconProvider to={google_podcasts_url} isExternal >
+                <img onClick={() => trackEvent('provider', { value: 'google' })} src={googlePodcastIcon} alt="Google" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+              </IconProvider>
+            )}
+            {patreon_url && patreonIcon && (
+              <IconProvider to={patreon_url} isExternal >
+                <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonIcon} alt="Patreon" height={20} sx={{ display: ['block', 'none'], my: 'auto', mx: 1 }} />
+              </IconProvider>
+            )}
+            </Flex>
             <button
               sx={{
                 position: "relative",
@@ -98,8 +149,8 @@ function Navigation() {
                 display: "flex",
                 p: 3,
                 backgroundColor: "background",
+                border: 'none',
                 color: "text",
-                borderColor: "backgroundLighten20",
                 fontSize: 5,
               }}
               onClick={toggleMenu}
@@ -133,6 +184,7 @@ function Navigation() {
             <div sx={{ ml: 6, pb: 4 }}>
               <Logo />
             </div>
+            
             <ul id="menu" role="menu" sx={{ pb: 14 }}>
               {allEpisode.nodes.map(episode => (
                 <li role="none" key={episode.id}>
