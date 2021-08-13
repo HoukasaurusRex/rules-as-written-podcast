@@ -29,13 +29,13 @@ const Newsletter = () => {
     try {
       setSendingRequest(true)
       setShouldDisplayToast(false)
-      trackEvent('subscribe', { value: email })
       const response = await addToMailchimp(email, {
         PATHNAME: window.location.pathname,
         'group[177126][2]': '2'
       })
       result = response.result
       msg = response.msg || 'Success! Thanks for subscribing'
+      trackEvent('subscribe')
     } catch (error) {
       msg = error.message || 'Something went wrong. Please refresh and try again'
     } finally {

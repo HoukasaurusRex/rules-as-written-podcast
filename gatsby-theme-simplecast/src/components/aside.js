@@ -60,22 +60,22 @@ function Aside({ markdown }) {
         <Link/>
         {spotify_url && spotifyLogo && (
           <PodcastProvider to={spotify_url} isExternal >
-            <img onClick={() => trackEvent('provider', { value: 'spotify' })} src={spotifyLogo} alt="Spotify" width="90" height={25} />
+            <img onClick={() => trackEvent('provider::spotify')} src={spotifyLogo} alt="Spotify" width="90" height={25} />
           </PodcastProvider>
         )}
         {apple_podcasts_url && applePodcastLogo && (
           <PodcastProvider to={apple_podcasts_url} isExternal >
-            <img onClick={() => trackEvent('provider', { value: 'apple' })} src={applePodcastLogo} alt="Apple Podcasts" height={25} />
+            <img onClick={() => trackEvent('provider::apple')} src={applePodcastLogo} alt="Apple Podcasts" height={25} />
           </PodcastProvider>
         )}
         {google_podcasts_url && googlePodcastLogo && (
           <PodcastProvider to={google_podcasts_url} isExternal >
-            <img onClick={() => trackEvent('provider', { value: 'google' })} src={googlePodcastLogo} alt="Google Podcasts" height={25} />
+            <img onClick={() => trackEvent('provider::google')} src={googlePodcastLogo} alt="Google Podcasts" height={25} />
           </PodcastProvider>
         )}
         {patreon_url && patreonLogo && (
           <PodcastProvider to={patreon_url} isExternal >
-            <img onClick={() => trackEvent('support', { value: 'patreon' })} src={patreonLogo} alt="Support us on Patreon" height={25} />
+            <img onClick={() => trackEvent('support::patreon')} src={patreonLogo} alt="Support us on Patreon" height={25} />
           </PodcastProvider>
         )}
       </div>
