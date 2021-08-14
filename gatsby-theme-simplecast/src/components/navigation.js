@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import React, { useState } from "react"
 import { useStaticQuery, graphql } from "gatsby"
-import { jsx, Flex, Box, Text, useThemeUI } from "theme-ui"
+import { jsx, Flex, Box, Text, Image, useThemeUI } from "theme-ui"
 import { EpisodeConsumer } from "./context"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import { MdMenu as MenuIcon, MdClose as CloseMenuIcon } from "react-icons/md"
@@ -11,6 +11,7 @@ import styled from "@emotion/styled"
 import Link from "./link"
 import Bars from "./bars"
 import { trackEvent } from "../utils"
+import showLogo from '../images/icon-xl.png'
 
 const IconProvider = styled(Link)(
   css({
@@ -80,28 +81,31 @@ const Navigation = () => {
   const { siteMetadata: { spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }} = site
   allEpisode.nodes = allEpisode.nodes.sort((a, b) => b.number - a.number)
   const Logo = () => (
-    <Box>
-      <Link to="/">
-        <Text sx={{ fontSize: 6, color: "primary", mb: 0 }}>
-          {site.siteMetadata.title
-            ? site.siteMetadata.title
-            : "Podcast Name"}
-        </Text>
-      </Link>
-      {allEpisode.nodes[0].season && (
-        <h5
-          sx={{
-            textTransform: "uppercase",
-            mb: 0,
-            fontWeight: 400,
-            fontSize: 0,
-            opacity: 0.6,
-          }}
-        >
-          season {twoDigits(allEpisode.nodes[0].season)}
-        </h5>
-      )}
-    </Box>
+    <Flex sx={{ alignItems: 'center' }}>
+      <Image src={showLogo} sx={{ maxHeight: 50, display: ['none', 'block'] }} />
+      <Box>
+        <Link to="/">
+          <Text sx={{ fontSize: 6, color: "primary", mb: 0 }}>
+            {site.siteMetadata.title
+              ? site.siteMetadata.title
+              : "Podcast Name"}
+          </Text>
+        </Link>
+        {allEpisode.nodes[0].season && (
+          <h5
+            sx={{
+              textTransform: "uppercase",
+              mb: 0,
+              fontWeight: 400,
+              fontSize: 0,
+              opacity: 0.6,
+            }}
+          >
+            season {twoDigits(allEpisode.nodes[0].season)}
+          </h5>
+        )}
+      </Box>
+    </Flex>
   )
 
   return (
@@ -181,7 +185,7 @@ const Navigation = () => {
               },
             }}
           >
-            <div sx={{ ml: 6, pb: 4 }}>
+            <div sx={{ pb: 4 }}>
               <Logo />
             </div>
             
