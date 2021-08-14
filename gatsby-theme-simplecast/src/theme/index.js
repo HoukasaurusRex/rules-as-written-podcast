@@ -249,9 +249,10 @@ module.exports = {
       bg: "background",
       a: {
         color: "primaryLighten50",
-      },
-      "a:hover": {
-        color: "primaryLighten70",
+        ":hover": {
+          color: "primaryLighten70",
+          textDecoration: "none",
+        },
       },
       article: {
         p: [5, 8],
