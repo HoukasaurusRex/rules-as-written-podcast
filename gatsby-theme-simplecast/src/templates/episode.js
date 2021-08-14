@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Text, Box, Heading, Image } from "theme-ui"
+import { jsx, Text, Box, Heading, Link } from "theme-ui"
 import { graphql } from "gatsby"
 import { EpisodeConsumer } from "../components/context"
 import SEO from "../components/seo"
@@ -8,6 +8,7 @@ import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
 import { Disqus } from 'gatsby-plugin-disqus'
 import Newsletter from '../components/newsletter'
+import { trackEvent } from "../utils"
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
     ? new DOMParser()
@@ -21,7 +22,8 @@ const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
 
 
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
-  const image = markdownRemark?.frontmatter?.image || site?.siteMetadata?.episodeImage || site?.siteMetadata?.image
+  const { apple_podcasts_url, episodeImage, image } = site.siteMetadata
+  const headerImage = markdownRemark?.frontmatter?.image || episodeImage || image
   const markdown = markdownRemark
   const url =  typeof window !== 'undefined' && new URL(window.location.href)
   const pathname = url && url.pathname
@@ -32,7 +34,7 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
         <div>
           <SEO
             title={episode.title && episode.title}
-            image={image}
+            image={headerImage}
             description={description && description}
             pathname={pathname && pathname}
           />
@@ -43,11 +45,19 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
             }}
           >
             <SkipNavContent sx={{ maxWidth: ["100%", 650] }}>
-              <Header context={context} episode={episode} image={image} />
+              <Header context={context} episode={episode} image={headerImage} />
               <article>
                 <Heading>Show Notes</Heading>
                 {description &&
                   <Text as="p" sx={{ pt: 30 }}>{description}</Text>
+                }
+                {apple_podcasts_url &&
+                  <Text as="p" sx={{ pt: 30 }}>
+                  If you like this show and want to help others find it,
+                  we would be so grateful if you rate us on
+                  <Link href={apple_podcasts_url} onClick={() => trackEvent('provider::apple')}> Apple Podcasts </Link>
+                  and let us know what you think!
+                  </Text>
                 }
                 {markdown && (
                   <Box sx={{ pt: 30 }} dangerouslySetInnerHTML={{ __html: markdown.html }} />
@@ -81,7 +91,7 @@ export const episodeQuery = graphql`
       siteMetadata {
         image
         episodeImage
-        patreon_url
+        apple_podcasts_url
       }
     }
     episode(id: { eq: $id }) {
