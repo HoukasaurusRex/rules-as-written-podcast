@@ -1,6 +1,6 @@
 ---
 createdTime: 2021-08-07T14:52:00.000Z
-lastEditedTime: 2021-08-09T05:06:00.000Z
+lastEditedTime: 2021-08-15T06:05:00.000Z
 page_id: ce357519-6b10-49d1-a531-b0a6e6f0e9b5
 id: fb440703-b9ff-4892-9f45-80521a07ccbf
 title: "RaW Ep33: Races Pt1 (Humans, Elves, Dwarves)"
@@ -11,7 +11,7 @@ resources: null
 guestName: null
 guestPhoto: null
 guestSummary: null
-status: Recorded
+status: Published
 ---
 
 ### The Kingdoms of Old
