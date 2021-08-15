@@ -8,7 +8,7 @@ import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
 import { Disqus } from 'gatsby-plugin-disqus'
 import Newsletter from '../components/newsletter'
-import rawLogoFancy from '../images/raw-logo-fancy.png'
+import rawLogoFancy from '../images/raw-logo-fancy.webp'
 import { trackEvent } from "../utils"
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
