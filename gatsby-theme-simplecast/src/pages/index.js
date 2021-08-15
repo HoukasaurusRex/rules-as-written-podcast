@@ -10,7 +10,7 @@ export default function Index() {
         siteMetadata {
           image
           episodeImage
-          patreon_url
+          apple_podcasts_url
         }
       }
       allEpisode {
@@ -52,7 +52,7 @@ export default function Index() {
     <Episode
       data={{
         episode: allEpisode.nodes[0],
-        markdownRemark: MarkdownForLatestEpisode[0] && MarkdownForLatestEpisode[0].node,
+        markdownRemark: MarkdownForLatestEpisode[0]?.node,
         site
       }}
     />
