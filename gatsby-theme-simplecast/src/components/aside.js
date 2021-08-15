@@ -1,6 +1,6 @@
 /** @jsx jsx */
-import { useEffect, useState } from "react"
-import { jsx, Image, Box, Heading, useColorMode } from "theme-ui"
+import { useState } from "react"
+import { jsx, Image, Box, Heading, Text } from "theme-ui"
 import { graphql, useStaticQuery } from "gatsby"
 import { FaExternalLinkAlt as ExternalLinkIcon } from "react-icons/fa"
 import { css } from "@emotion/react"
@@ -8,6 +8,7 @@ import styled from "@emotion/styled"
 import Link from "./link"
 import Markdown from "react-markdown"
 import { trackEvent } from '../utils'
+import mailIcon from '../images/mail.svg'
 
 const PodcastProvider = styled(Link)(
   css({
@@ -35,7 +36,7 @@ function Aside({ markdown }) {
   isBrowser && importLogo('apple', { setState: setApplePodcastLogo, colorMode: logoColorMode, fileType: logoColorMode === 'dark' ? 'svg' : 'png' })
   isBrowser && importLogo('google', { setState: setGooglePodcastLogo, colorMode: logoColorMode, fileType: logoColorMode === 'dark' ? 'svg' : 'png' })
   isBrowser && importLogo('patreon', { setState: setPatreonLogo, colorMode: logoColorMode })
-  const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url }}} = useStaticQuery(graphql`
+  const { site: { siteMetadata: { patrons, spotify_url, apple_podcasts_url, google_podcasts_url, patreon_url, email }}} = useStaticQuery(graphql`
     {
       site {
         siteMetadata {
@@ -44,6 +45,7 @@ function Aside({ markdown }) {
           apple_podcasts_url
           google_podcasts_url
           patreon_url
+          email
         }
       }
     }
@@ -58,6 +60,12 @@ function Aside({ markdown }) {
         }}
       >
         <Link/>
+        {email && (
+          <Link href={`mailto:${email}`} sx={{ display: 'flex', fontSize: 16, fontWeight: 'bold', mb: 5 }}>
+            <Image src={mailIcon} sx={{ color: 'white', height: 25, mr: 2 }} />
+            <Text sx={{ color: 'text', ':hover': { color: 'text' } }}>Contact Us</Text>
+          </Link>
+        )}
         {spotify_url && spotifyLogo && (
           <PodcastProvider to={spotify_url} isExternal >
             <img onClick={() => trackEvent('provider::spotify')} src={spotifyLogo} alt="Spotify" width="90" height={25} />
@@ -70,12 +78,12 @@ function Aside({ markdown }) {
         )}
         {google_podcasts_url && googlePodcastLogo && (
           <PodcastProvider to={google_podcasts_url} isExternal >
-            <img onClick={() => trackEvent('provider::google')} src={googlePodcastLogo} alt="Google Podcasts" height={25} />
+            <img onClick={() => trackEvent('provider::google')} src={googlePodcastLogo} alt="Google Podcasts" height={22} />
           </PodcastProvider>
         )}
         {patreon_url && patreonLogo && (
           <PodcastProvider to={patreon_url} isExternal >
-            <img onClick={() => trackEvent('support::patreon')} src={patreonLogo} alt="Support us on Patreon" height={25} />
+            <img onClick={() => trackEvent('support::patreon')} src={patreonLogo} alt="Support us on Patreon" height={20} />
           </PodcastProvider>
         )}
       </div>
