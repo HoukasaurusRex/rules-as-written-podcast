@@ -24,7 +24,8 @@ const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
 
 function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
   const { apple_podcasts_url, episodeImage, image } = site.siteMetadata
-  const headerImage = markdownRemark?.frontmatter?.image || episodeImage || image
+  const customImage = markdownRemark?.frontmatter?.image || episodeImage
+  const headerImage = customImage || image
   const markdown = markdownRemark
   const url =  typeof window !== 'undefined' && new URL(window.location.href)
   const pathname = url && url.pathname
@@ -35,7 +36,7 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
         <div>
           <SEO
             title={episode.title && episode.title}
-            image={headerImage}
+            image={customImage}
             description={description && description}
             pathname={pathname && pathname}
           />
