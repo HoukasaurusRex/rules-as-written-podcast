@@ -70,6 +70,7 @@ please reach out to me on Twitter or open an issue directly on the repo!
 
 * [Gatsby](https://gatsbyjs.com/)
 * [Theme UI](https://theme-ui.com/)
+* [Gatsby Theme Simplecast](https://github.com/vojtaholik/gatsby-theme-simplecast)
 
 [logo]: src/images/icon.png
 [url]: https://rulesaswrittenshow.com
