@@ -241,6 +241,11 @@ module.exports = {
         height: "auto",
         clip: "auto",
       },
+      figcaption: {
+        fontSize: '12px',
+        fontStyle: 'italic',
+        textAlign: 'center',
+      },
       backgroundColor: "background",
       lineHeight: "body",
       fontFamily: "body",

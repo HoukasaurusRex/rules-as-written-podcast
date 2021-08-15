@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, Text, Box, Heading, Link } from "theme-ui"
+import { jsx, Text, Box, Heading, Link, Image } from "theme-ui"
 import { graphql } from "gatsby"
 import { EpisodeConsumer } from "../components/context"
 import SEO from "../components/seo"
@@ -8,6 +8,7 @@ import Aside from "../components/aside"
 import { SkipNavContent } from "@reach/skip-nav"
 import { Disqus } from 'gatsby-plugin-disqus'
 import Newsletter from '../components/newsletter'
+import rawLogoFancy from '../images/raw-logo-fancy.png'
 import { trackEvent } from "../utils"
 
 const getDescriptionFromHTML = (html) =>  typeof DOMParser !== 'undefined'
@@ -59,6 +60,13 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                   and let us know what you think!
                   </Text>
                 }
+                <figure>
+                  <Image src={rawLogoFancy} sx={{ maxWidth: '100%', py: 20 }} />
+                  <figcaption>
+                    Credit: The incredibly talented and wonderful
+                    <Link href='https://www.linkedin.com/in/nicolejuhyunkim/' target='_blank'> Nicole Kim.</Link>
+                  </figcaption>
+                </figure>
                 {markdown && (
                   <Box sx={{ pt: 30 }} dangerouslySetInnerHTML={{ __html: markdown.html }} />
                 )}
