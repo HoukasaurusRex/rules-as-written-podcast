@@ -16,6 +16,7 @@ module.exports = {
     apple_podcasts_url: "https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455",
     google_podcasts_url: "https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw",
     patreon_url: 'https://www.patreon.com/RulesAsWritten',
+    email: 'toby@rulesaswrittenshow.com',
     patrons: [
       'Kaitlyn Witman'
     ],
