@@ -12,6 +12,7 @@ import Link from "./link"
 import Bars from "./bars"
 import { trackEvent } from "../utils"
 import showLogo from '../images/icon-xl.png'
+import { getDescriptionFromHTML } from "../utils"
 
 const IconProvider = styled(Link)(
   css({
@@ -23,6 +24,17 @@ const IconProvider = styled(Link)(
 const importIcon = async (iconName, setState = () => {}) => {
   const icon = await import(`../images/${iconName}-icon.png`)
   setState(icon.default)
+}
+
+const getSummary = (episode, allMarkdownRemark) => {
+  const markdown = allMarkdownRemark.edges.find(md =>  md.node.frontmatter?.id === episode.id)
+  const mdSummary = markdown?.node?.frontmatter?.summary
+  const description = mdSummary || getDescriptionFromHTML(episode.description)
+  return description && (
+    <p key={markdown && markdown.id} className="summary">
+      {description}
+    </p>
+  )
 }
 
 const Navigation = () => {
@@ -200,17 +212,7 @@ const Navigation = () => {
                     onClick={toggleMenu}
                   >
                     <h4 sx={{ fontSize: 16 }}>{episode.title}</h4>
-                    {allMarkdownRemark.edges.map(({ node: markdown }) => {
-                      if (markdown.frontmatter.id === episode.id)
-                        return (
-                          markdown.frontmatter.summary && (
-                            <p key={markdown.id} className="summary">
-                              {markdown.frontmatter.summary}
-                            </p>
-                          )
-                        )
-                      else return null
-                    })}
+                    {getSummary(episode, allMarkdownRemark)}
                   </Link>
                   {episode.id !== context.state.id && (
                     <button
