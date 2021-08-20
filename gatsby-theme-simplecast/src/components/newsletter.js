@@ -29,11 +29,10 @@ const Newsletter = () => {
     try {
       setSendingRequest(true)
       setShouldDisplayToast(false)
-      const name = email && email.split('@')[0]
+      const name = email && email.split(/([0-9]|\.|@)/g)[0]
       const response = await addToMailchimp(email, {
         PATHNAME: window.location.pathname,
-        FNAME: name,
-        'group[177126][2]': '2'
+        FNAME: name
       })
       result = response.result
       msg = response.msg || 'Success! Thanks for subscribing'
