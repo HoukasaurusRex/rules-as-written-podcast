@@ -137,6 +137,8 @@ const Player = ({ episode }) => {
           display: "flex",
           flexDirection: ["column", "row"],
           alignItems: ["flex-start", "center"],
+          justifyContent: ['center', 'flex-start'],
+          px: ['15px', 'inherit'],
           pb: [2, "inherit"],
           pt: [0, "inherit"],
           maxWidth: 1200
@@ -144,7 +146,8 @@ const Player = ({ episode }) => {
       >
         <div
           sx={{
-            width: "100%",
+            width: "fit-content",
+            margin: ['auto', 2],
             maxWidth: ["100%", 310],
             display: "flex",
             alignItems: "center",
@@ -186,7 +189,7 @@ const Player = ({ episode }) => {
           </button>
           <div
             sx={{
-              ml: 4,
+              pl: 4,
               display: "flex",
               alignItems: "center",
               justifyContent: ["flex-start", "flex-end"],
@@ -227,6 +230,9 @@ const Player = ({ episode }) => {
             width: "100%",
             display: "flex",
             alignItems: "center",
+            justifyContent: ['center', 'flex-start'],
+            maxWidth: 600,
+            margin: 'auto',
             span: {
               fontVariantNumeric: "tabular-nums",
               width: ["auto", 50],
