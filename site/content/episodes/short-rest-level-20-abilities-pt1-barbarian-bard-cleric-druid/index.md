@@ -1,8 +1,8 @@
 ---
 createdTime: 2021-08-15T06:07:00.000Z
-lastEditedTime: 2021-08-15T07:41:00.000Z
+lastEditedTime: 2021-08-15T10:43:00.000Z
 page_id: cd6cb434-9e9a-4b97-93ab-c34a6cc5223e
-id: null
+id: 6fc69489-6188-4ffd-b129-6584f163c806
 title: Short Rest - Level 20 Abilities Pt1 (Barbarian, Bard, Cleric, Druid)
 show: Short Rest
 summary: Add some spice 🌶 to your games with some custom lvl 20 feats
