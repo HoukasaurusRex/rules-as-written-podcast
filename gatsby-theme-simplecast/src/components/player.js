@@ -23,19 +23,20 @@ const Player = ({ episode }) => {
   const themeContext = useThemeUI()
   const { theme } = themeContext
 
+  const adEndTime = 33
   const isBrowser = typeof window !== "undefined"
   const lp = isBrowser && localStorage.getItem(`lastPlayed${episode.number}`)
   const lastVolume = isBrowser && localStorage.getItem(`lastVolumeSetting`)
-  const lastPlayed = lp ? JSON.parse(lp).lastPlayed : 0
+  const lastPlayed = lp ? JSON.parse(lp).lastPlayed : adEndTime
   const lastVolumePref = lastVolume ? JSON.parse(lastVolume).lastVolumePref : 1
 
   const audio = useRef(isBrowser && new Audio())
   const progress = useRef(isBrowser && HTMLDivElement)
-  const [tooltipPosition, setTooltipPosition] = useState(0)
-  const [tooltipTime, setTooltipTime] = useState('0:00')
+  const [tooltipPosition, setTooltipPosition] = useState(adEndTime)
+  const [tooltipTime, setTooltipTime] = useState(`0:${adEndTime}`)
   const [timeWasLoaded, setTimeWasLoaded] = useState(lastPlayed !== 0)
   const [showTooltip, setShowTooltip] = useState(false)
-  const [progressTime, setProgressTime] = useState(50)
+  const [progressTime, setProgressTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [currentTime, setCurrentTime] = useState(lastPlayed)
   const [currentVolume, setCurrentVolume] = useState(lastVolumePref)
