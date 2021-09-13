@@ -49,9 +49,8 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
             <SkipNavContent sx={{ maxWidth: ["100%", 650] }}>
               <Header context={context} episode={episode} image={headerImage} />
               <article>
-                <Heading>Show Notes</Heading>
                 {description &&
-                  <Text as="p" sx={{ pt: 30 }}>{description}</Text>
+                  <Text as="p">{description}</Text>
                 }
                 {apple_podcasts_url &&
                   <Text as="p" sx={{ pt: 30 }}>
@@ -61,13 +60,6 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                   and let us know what you think!
                   </Text>
                 }
-                <figure>
-                  <Image src={rawLogoFancy} sx={{ maxWidth: '100%', py: 20 }} />
-                  <figcaption>
-                    Credit: The incredibly talented and wonderful
-                    <Link href='https://www.linkedin.com/in/nicolejuhyunkim/' target='_blank'> Nicole Kim.</Link>
-                  </figcaption>
-                </figure>
                 {markdown && (
                   <Box sx={{ pt: 30 }} dangerouslySetInnerHTML={{ __html: markdown.html }} />
                 )}
@@ -80,9 +72,13 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                 </Text>
                 <Newsletter />
               </Box>
-              <Box sx={{ p: 30  }}>
-                <Disqus config={{ url: url.href, identifier: episode.id, title: episode.title }}/>
-              </Box>
+              <figure sx={{ textAlign: 'center', mt: 20, pb: 50 }}>
+                <Image src={rawLogoFancy} sx={{ maxWidth: '250px' }} />
+                <figcaption>
+                  Our thanks to the incredibly talented and wonderful
+                  <Link href='https://www.linkedin.com/in/nicolejuhyunkim/' target='_blank'> Nicole Kim.</Link>
+                </figcaption>
+              </figure>
             </SkipNavContent>
             <Aside markdown={markdown} />
           </div>
