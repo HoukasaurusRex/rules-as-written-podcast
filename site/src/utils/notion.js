@@ -47,7 +47,7 @@ const getPagesMeta = async(notion, { notionPagesDatabaseId }) => {
     filter: {
       property: "Status",
       select: {
-        does_not_equal: "Ideas",
+        equals: "Published",
       },
     }
   })
