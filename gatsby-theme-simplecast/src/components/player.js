@@ -23,7 +23,7 @@ const Player = ({ episode }) => {
   const themeContext = useThemeUI()
   const { theme } = themeContext
 
-  const adEndTime = 33
+  const adEndTime = 0
   const isBrowser = typeof window !== "undefined"
   const lp = isBrowser && localStorage.getItem(`lastPlayed${episode.number}`)
   const lastVolume = isBrowser && localStorage.getItem(`lastVolumeSetting`)
