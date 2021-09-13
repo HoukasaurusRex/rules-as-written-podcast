@@ -1,7 +1,8 @@
 /** @jsx jsx */
-import { jsx, useThemeUI, Box, Flex, Image } from "theme-ui"
+import { jsx, useThemeUI, Box, Flex, Image, Link } from "theme-ui"
 import { FaPlay as PlayIcon } from "react-icons/fa"
 import VisuallyHidden from "@reach/visually-hidden"
+import rawLogoFancy from '../images/raw-logo-fancy.webp'
 
 function Header({ context, episode, image }) {
   const themeContext = useThemeUI()
@@ -24,6 +25,7 @@ function Header({ context, episode, image }) {
         />
       )}
       <Box className="header_content">
+        <Image src={rawLogoFancy} sx={{ maxWidth: '25%', position: 'absolute', left: 0, top: 0 }} />
         <Flex
           sx={{
             height: "100%",
