@@ -64,7 +64,7 @@ function EpisodeTemplate({ data: { episode, markdownRemark, site } }) {
                   <Box sx={{ pt: 30 }} dangerouslySetInnerHTML={{ __html: markdown.html }} />
                 )}
               </article>
-              <Box as="footer" sx={{ px: 30, textAlign: 'center' }}>
+              <Box as="footer" sx={{ p: 30, textAlign: 'center' }}>
                 <Text as="p" sx={{ mb: 30 }} >
                   Can't get enough of us?
                   <br/>
