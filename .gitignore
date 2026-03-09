@@ -5,14 +5,13 @@ node_modules/
 *.log
 
 # Build output
-astro-site/dist/
+dist/
 
 # Astro generated types
 .astro/
-astro-site/.astro/
 
 # Generated content (fetched from Notion at build time)
-astro-site/src/content/episodes/
+src/content/episodes/
 
 # Playwright
 test-results/

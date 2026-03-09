@@ -20,9 +20,9 @@ jobs:
       - run: corepack enable
       - run: yarn install
 
-      - run: yarn workspace astro-site run check
+      - run: yarn check
 
-      - run: yarn workspace astro-site run build
+      - run: yarn build
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}

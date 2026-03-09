@@ -6,7 +6,7 @@
 <br />
 <p align="center">
   <a href="https://rulesaswrittenshow.com">
-    <img src="astro-site/public/images/raw-logo-fancy.webp" alt="Logo" height="80">
+    <img src="public/images/raw-logo-fancy.webp" alt="Logo" height="80">
   </a>
 
   <h1 align="center">Rules As Written</h1>
@@ -53,14 +53,12 @@ yarn install
 ### Development
 
 ```sh
-cd astro-site
 yarn dev
 ```
 
 ### Build
 
 ```sh
-cd astro-site
 yarn build
 ```
 
@@ -89,7 +87,7 @@ yarn test:e2e
 [contributors-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/graphs/contributors
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/jt-houk/
-[product-screenshot]: astro-site/public/images/raw-logo-fancy.webp
+[product-screenshot]: public/images/raw-logo-fancy.webp
 [product-url]: https://rulesaswrittenshow.com
 [twitter-shield]: https://img.shields.io/twitter/follow/HoukasaurusRex.svg?style=social
 [twitter-url]: https://twitter.com/HoukasaurusRex
