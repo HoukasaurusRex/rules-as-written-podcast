@@ -5,7 +5,7 @@ export default function Newsletter() {
   const [toast, setToast] = useState<{ message: string; variant: 'success' | 'error' } | null>(null)
   const [sending, setSending] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
       setSending(true)
