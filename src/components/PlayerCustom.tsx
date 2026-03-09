@@ -29,6 +29,11 @@ export default function PlayerCustom({ initialEpisode }: { initialEpisode: Episo
     const handler = (e: Event) => {
       const detail = (e as CustomEvent<Episode>).detail
       $currentEpisode.set(detail)
+      // Auto-play when triggered from header or nav play buttons
+      requestAnimationFrame(() => {
+        audio.current.src = detail.enclosure_url
+        audio.current.play().catch(() => {})
+      })
     }
     window.addEventListener('play-episode', handler)
     return () => window.removeEventListener('play-episode', handler)
