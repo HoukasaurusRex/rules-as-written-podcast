@@ -16,7 +16,11 @@ export default function Newsletter() {
         body: new URLSearchParams({ email }),
       })
       if (res.ok) {
-        setToast({ message: 'Success! Thanks for subscribing', variant: 'success' })
+        const data = await res.json()
+        const message = data.already_subscribed
+          ? 'Already subscribed!'
+          : 'Success! Thanks for subscribing'
+        setToast({ message, variant: 'success' })
         setEmail('')
       } else {
         setToast({ message: 'Something went wrong. Please try again.', variant: 'error' })
