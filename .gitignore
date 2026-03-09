@@ -56,7 +56,17 @@ typings/
 
 # gatsby files
 .cache/
-public
+/public
+site/public
+
+# Astro
+astro-site/dist/
+astro-site/.astro/
+astro-site/src/content/episodes/
+
+# Playwright
+test-results/
+playwright-report/
 
 # Mac files
 .DS_Store
@@ -65,6 +75,8 @@ public
 yarn-error.log
 .pnp/
 .pnp.js
+.pnp.cjs
+.pnp.loader.mjs
 
 # Yarn Integrity file
 .yarn-integrity
