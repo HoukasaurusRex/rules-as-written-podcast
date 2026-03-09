@@ -5,14 +5,14 @@
 
 <br />
 <p align="center">
-  <a href="https://rulesaswritten.com">
-    <img src="site/src/images/raw-logo-fancy.webp" alt="Logo" height="80">
+  <a href="https://rulesaswrittenshow.com">
+    <img src="astro-site/public/images/raw-logo-fancy.webp" alt="Logo" height="80">
   </a>
 
-  <h1 align="center">Rules As Written</h3>
+  <h1 align="center">Rules As Written</h1>
 
   <p align="center">
-    Static site for the Rules As Written podcast
+    Static site for the Rules As Written D&D podcast
     <br />
     <br />
     <a href="https://github.com/HoukasaurusRex/rules-as-written-podcast/issues">Report Bug</a>
@@ -36,55 +36,61 @@ New episodes every Sunday!
 
 [![][product-screenshot]][product-url]
 
-## ☕️ Getting Started
+## Getting Started
 
-To get it running locally, install dependencies with yarn and run the commands
+### Prerequisites
+
+* [Node.js](https://nodejs.org/) v25.8.0+ (see `.nvmrc`)
+* [Yarn](https://yarnpkg.com/) Berry (enabled via corepack)
 
 ### Installation
 
 ```sh
-npm install yarn@latest -g
+corepack enable
+yarn install
 ```
+
+### Development
 
 ```sh
-# Install dependencies
-yarn install
-
-# Run local dev server
-cd site
-yarn develop
+cd astro-site
+yarn dev
 ```
 
-## 🗺 Roadmap
+### Build
 
-View project roadmap on the Github [Project](https://github.com/users/HoukasaurusRex/projects/3) page.
+```sh
+cd astro-site
+yarn build
+```
 
-## ✏️ Contact
+### Tests
 
-If you'd like to suggest site features or contribute directly to the developent of this project,
-please reach out to me on Twitter or open an issue directly on the repo!
+```sh
+# Run Playwright regression tests
+yarn test:e2e
+```
+
+## Tech Stack
+
+* [Astro](https://astro.build/) 5 with React islands
+* [TypeScript](https://www.typescriptlang.org/) strict mode
+* [Playwright](https://playwright.dev/) for e2e testing
+* [Umami](https://umami.is/) for analytics
+* [giscus](https://giscus.app/) for comments
+
+## Contact
 
 * JT Houk - [@HoukasaurusRex](https://twitter.com/HoukasaurusRex)
 
-### Acknowledgements
-
-* [Gatsby](https://gatsbyjs.com/)
-* [Theme UI](https://theme-ui.com/)
-* [Gatsby Theme Simplecast](https://github.com/vojtaholik/gatsby-theme-simplecast)
-
-[logo]: src/images/icon.png
-[url]: https://rulesaswrittenshow.com
-[github-url]: https://github.com/HoukasaurusRex
 [netlify-shield]: https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status
 [netlify-url]: https://app.netlify.com/sites/rules-as-written/deploys
-[contributors-shield]: https://img.shields.io/github/contributors/HoukasaurusRex/rules-as-written-podcast.svg\?style\=flat-square
+[contributors-shield]: https://img.shields.io/github/contributors/HoukasaurusRex/rules-as-written-podcast.svg?style=flat-square
 [contributors-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/graphs/contributors
-[hitcount-shield]: https://hits.dwyl.com/HoukasaurusRex/rules-as-written-podcast.svg
-[hitcount-url]: https://hits.dwyl.com/HoukasaurusRex/rules-as-written-podcast
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg\?style\=flat-square\&logo\=linkedin\&colorB\=555
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/jt-houk/
-[product-screenshot]: site/src/images/raw-banner.jpg
+[product-screenshot]: astro-site/public/images/raw-logo-fancy.webp
 [product-url]: https://rulesaswrittenshow.com
-[twitter-shield]: https://img.shields.io/twitter/follow/HoukasaurusRex.svg\?style\=social
+[twitter-shield]: https://img.shields.io/twitter/follow/HoukasaurusRex.svg?style=social
 [twitter-url]: https://twitter.com/HoukasaurusRex
 [issues-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/issues
