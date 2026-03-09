@@ -1,13 +1,14 @@
 {
   "private": true,
   "workspaces": [
-    "gatsby-theme-simplecast",
-    "site"
+    "astro-site"
   ],
   "scripts": {
-    "test:e2e": "yarn playwright test"
+    "test:e2e": "yarn playwright test --config=e2e/playwright.config.ts",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2"
+    "@playwright/test": "^1.58.2",
+    "husky": "^9.1.7"
   }
 }
