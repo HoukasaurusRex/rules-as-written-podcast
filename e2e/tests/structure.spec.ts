@@ -81,9 +81,10 @@ test.describe('Player bar', () => {
   })
 
   test('displays current time and duration', async ({ page }) => {
-    // Time spans in the player area
-    const timeSpans = page.locator('.player span')
-    const count = await timeSpans.count()
+    // Wait for player to hydrate and render time spans
+    const timeSpan = page.locator('.player span').first()
+    await expect(timeSpan).toBeVisible({ timeout: 10_000 })
+    const count = await page.locator('.player span').count()
     expect(count).toBeGreaterThanOrEqual(2)
   })
 })
