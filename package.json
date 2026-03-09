@@ -3,5 +3,11 @@
   "workspaces": [
     "gatsby-theme-simplecast",
     "site"
-  ]
+  ],
+  "scripts": {
+    "test:e2e": "yarn playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
 }

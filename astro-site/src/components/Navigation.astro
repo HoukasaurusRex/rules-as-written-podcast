@@ -1,0 +1,337 @@
+---
+import type { Episode } from '../utils/feed'
+import Bars from './Bars.astro'
+
+interface Props {
+  episodes: Episode[]
+  currentEpisodeId?: string
+}
+
+const { episodes, currentEpisodeId } = Astro.props
+const siteTitle = 'Rules as Written'
+const twoDigits = (n: number) => (n.toString().length < 2 ? `0${n}` : n)
+const season = episodes[0]?.season
+
+function slugify(s: string): string {
+  return s.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
+}
+---
+
+<!-- Mobile header -->
+<div class="mobile-header">
+  <div class="mobile-logo">
+    <img src="/images/icon-xl.png" alt="" class="logo-icon mobile-only-hide" />
+    <a href="/">
+      <span class="site-title">{siteTitle}</span>
+    </a>
+  </div>
+  <div class="mobile-providers">
+    <a href="https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ" target="_blank" rel="noopener noreferrer">
+      <img src="/images/spotify-icon.png" alt="Spotify" height="20" class="mobile-only-show" />
+    </a>
+    <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455" target="_blank" rel="noopener noreferrer">
+      <img src="/images/apple-icon.png" alt="Apple" height="20" class="mobile-only-show" />
+    </a>
+    <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw" target="_blank" rel="noopener noreferrer">
+      <img src="/images/google-icon.png" alt="Google" height="20" class="mobile-only-show" />
+    </a>
+    <a href="https://www.patreon.com/RulesAsWritten" target="_blank" rel="noopener noreferrer">
+      <img src="/images/patreon-icon.png" alt="Patreon" height="20" class="mobile-only-show" />
+    </a>
+  </div>
+  <button class="menu-toggle" aria-controls="menu" aria-haspopup="true" aria-expanded="false" id="menu-toggle">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="menu-icon-open">
+      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+    </svg>
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="menu-icon-close" style="display:none">
+      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Sidebar navigation -->
+<nav class="episodes_list" id="episodes-nav">
+  <div class="nav-logo">
+    <img src="/images/icon-xl.png" alt="" class="logo-icon" />
+    <div>
+      <a href="/">
+        <span class="site-title">{siteTitle}</span>
+      </a>
+      {season && (
+        <h5 class="season-label">season {twoDigits(season)}</h5>
+      )}
+    </div>
+  </div>
+
+  <ul id="menu" role="menu">
+    {episodes.map((episode) => {
+      const slug = `/show/${episode.number}/${slugify(episode.title)}`
+      const isActive = episode.id === currentEpisodeId
+      return (
+        <li role="none">
+          {isActive && <Bars />}
+          <a
+            role="menuitem"
+            href={slug}
+            class:list={[{ active: isActive }]}
+          >
+            <h4>{episode.title}</h4>
+          </a>
+          {!isActive && (
+            <button
+              class="episode-play-btn"
+              tabindex="-1"
+              data-episode={JSON.stringify(episode)}
+            >
+              <svg viewBox="0 0 448 512" width="8" height="8" fill="currentColor" aria-hidden="true">
+                <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
+              </svg>
+            </button>
+          )}
+        </li>
+      )
+    })}
+  </ul>
+</nav>
+
+<script>
+  const toggle = document.getElementById('menu-toggle')
+  const nav = document.getElementById('episodes-nav')
+  const openIcon = toggle?.querySelector('.menu-icon-open')
+  const closeIcon = toggle?.querySelector('.menu-icon-close')
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = nav?.classList.toggle('is-open')
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
+    if (openIcon && closeIcon) {
+      ;(openIcon as HTMLElement).style.display = isOpen ? 'none' : 'block'
+      ;(closeIcon as HTMLElement).style.display = isOpen ? 'block' : 'none'
+    }
+  })
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!nav?.contains(e.target as Node) && !toggle?.contains(e.target as Node)) {
+      nav?.classList.remove('is-open')
+      toggle?.setAttribute('aria-expanded', 'false')
+      if (openIcon && closeIcon) {
+        ;(openIcon as HTMLElement).style.display = 'block'
+        ;(closeIcon as HTMLElement).style.display = 'none'
+      }
+    }
+  })
+
+  // Episode play buttons
+  document.querySelectorAll('.episode-play-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const data = (btn as HTMLElement).dataset.episode
+      if (data) {
+        const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
+        window.dispatchEvent(event)
+      }
+    })
+  })
+</script>
+
+<style>
+  .mobile-header {
+    padding: var(--space-3);
+    display: flex;
+    visibility: visible;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media (min-width: 992px) {
+    .mobile-header {
+      display: none;
+      visibility: hidden;
+    }
+  }
+
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-only-hide {
+    display: none;
+  }
+
+  @media (min-width: 992px) {
+    .mobile-only-hide {
+      display: block;
+    }
+  }
+
+  .mobile-only-show {
+    display: block;
+    margin: 0 var(--space-1);
+  }
+
+  @media (min-width: 992px) {
+    .mobile-only-show {
+      display: none;
+    }
+  }
+
+  .mobile-providers {
+    display: flex;
+    align-items: center;
+  }
+
+  .site-title {
+    font-size: var(--font-size-6);
+    color: var(--color-primary);
+    margin-bottom: 0;
+  }
+
+  .logo-icon {
+    max-height: 50px;
+    margin-right: var(--space-2);
+  }
+
+  .menu-toggle {
+    position: relative;
+    z-index: 998;
+    display: flex;
+    padding: var(--space-3);
+    background-color: var(--color-bg);
+    border: none;
+    color: var(--color-text);
+    font-size: var(--font-size-5);
+    cursor: pointer;
+  }
+
+  @media (min-width: 992px) {
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  .episodes_list {
+    background-color: var(--color-bg);
+    position: absolute;
+    overflow-y: auto;
+    z-index: 2;
+    width: 100%;
+    max-width: 100%;
+    max-height: unset;
+    padding: var(--space-5);
+    padding-top: var(--space-8);
+    transform: translateX(-100%);
+    transition: 300ms cubic-bezier(1, 0, 0, 1);
+  }
+
+  .episodes_list.is-open {
+    transform: translateX(0);
+  }
+
+  @media (min-width: 992px) {
+    .episodes_list {
+      position: fixed;
+      overflow-y: scroll;
+      max-width: var(--nav-width);
+      max-height: 100vh;
+      transform: none;
+      box-shadow: var(--color-shadow-right);
+    }
+  }
+
+  .episodes_list::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .episodes_list::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 10px;
+  }
+
+  .episodes_list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-primary-darken);
+  }
+
+  .episodes_list a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-heading);
+  }
+
+  .nav-logo {
+    padding-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+  }
+
+  .season-label {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    font-weight: 400;
+    font-size: var(--font-size-0);
+    opacity: 0.6;
+  }
+
+  ul {
+    padding-bottom: var(--space-14);
+  }
+
+  li {
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  li a {
+    padding: var(--space-4) var(--space-5);
+    border-left: 3px solid var(--color-bg);
+    font-size: var(--font-size-4);
+    width: 100%;
+  }
+
+  li a.active {
+    border-left: 3px solid var(--color-primary);
+    background-color: var(--color-bg-lighten-10);
+  }
+
+  li:hover a {
+    border-color: var(--color-bg-lighten-10);
+  }
+
+  li:hover a.active {
+    border-color: var(--color-primary);
+  }
+
+  li h4 {
+    margin-bottom: 0;
+    font-size: 16px;
+  }
+
+  .episode-play-btn {
+    position: absolute;
+    opacity: 0;
+    margin-left: calc(-1 * var(--space-3));
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-text);
+    color: var(--color-text);
+    display: flex;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: var(--radius-round);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .episode-play-btn svg {
+    margin-top: 1px;
+    margin-left: 1px;
+  }
+
+  li:hover .episode-play-btn {
+    opacity: 1;
+  }
+</style>

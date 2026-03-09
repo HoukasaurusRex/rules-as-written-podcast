@@ -1,0 +1,273 @@
+/* Theme custom properties - ported from Theme UI config */
+:root {
+  /* Colors - dark mode (default) */
+  --color-text: rgba(255, 255, 255, 0.9);
+  --color-bg: #1A2232;
+  --color-bg-lighten-10: #232B3B;
+  --color-bg-lighten-20: #2C3648;
+  --color-primary-darken: hsl(9, 59%, 35%);
+  --color-primary: hsl(9, 59%, 46%);
+  --color-primary-lighten-10: hsl(9, 59%, 55%);
+  --color-primary-lighten-50: hsl(9, 59%, 65%);
+  --color-primary-lighten-70: hsl(9, 59%, 75%);
+  --color-secondary: hsl(223, 76%, 39%);
+  --color-gradient: linear-gradient(224deg, hsl(9, 59%, 75%) 0%, hsl(9, 59%, 35%) 100%);
+  --color-image-filter: none;
+  --color-shadow-right: 5px 0 10px rgb(0 0 0 / 70%);
+  --color-shadow: 3px 3px 7px rgba(0, 0, 0, 0.9);
+
+  /* Spacing scale (from theme-ui) */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 56px;
+  --space-11: 64px;
+  --space-12: 72px;
+  --space-13: 80px;
+  --space-14: 128px;
+
+  /* Font sizes */
+  --font-size-0: 12px;
+  --font-size-1: 14px;
+  --font-size-2: 16px;
+  --font-size-3: 18px;
+  --font-size-4: 20px;
+  --font-size-5: 22px;
+  --font-size-6: 24px;
+  --font-size-7: 32px;
+  --font-size-8: 40px;
+
+  /* Typography */
+  --font-body: system-ui, sans-serif;
+  --font-heading: inherit;
+  --font-weight-body: 300;
+  --font-weight-heading: 500;
+  --line-height-body: 1.675;
+  --line-height-heading: 1.125;
+
+  /* Layout */
+  --nav-width: 300px;
+  --container-max: 1200px;
+  --breakpoint-md: 992px;
+  --breakpoint-lg: 1200px;
+
+  /* Border radius */
+  --radius-0: 5px;
+  --radius-round: 50%;
+}
+
+/* Light mode */
+[data-theme="light"] {
+  --color-text: rgba(0, 0, 0, 0.9);
+  --color-bg: #f9f9f9;
+  --color-bg-lighten-10: #DFDFDF;
+  --color-bg-lighten-20: #C6C6C6;
+  --color-primary-darken: hsl(9, 59%, 45%);
+  --color-primary: hsl(9, 59%, 50%);
+  --color-primary-lighten-10: hsl(9, 59%, 55%);
+  --color-primary-lighten-50: hsl(9, 59%, 60%);
+  --color-primary-lighten-70: hsl(9, 59%, 65%);
+  --color-gradient: linear-gradient(224deg, hsl(9, 59%, 75%) 0%, hsl(9, 59%, 50%) 100%);
+  --color-image-filter: brightness(175%) opacity(80%);
+  --color-shadow-right: 5px 0 10px rgb(0 0 0 / 10%);
+  --color-shadow: 5px 5px 10px rgb(0 0 0 / 40%);
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  font: 112.5%/1.45em system-ui, sans-serif;
+  overflow-y: scroll;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-body);
+  line-height: var(--line-height-body);
+  word-wrap: break-word;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 1.45rem;
+  color: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  text-rendering: optimizeLegibility;
+  line-height: var(--line-height-heading);
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.62671rem; }
+h3 { font-size: 1.38316rem; }
+h4 { font-size: 1rem; }
+h5 { font-size: 0.85028rem; }
+
+p { margin: 0 0 1.45rem; }
+
+ul {
+  list-style: none;
+  margin: 0 0 1.45rem;
+  padding: 0;
+}
+
+li { margin-bottom: calc(1.45rem / 2); }
+
+a {
+  color: var(--color-primary-lighten-50);
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: var(--color-primary-lighten-70);
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  border-style: none;
+}
+
+hr {
+  background-color: var(--color-bg-lighten-10);
+  height: 2px;
+  border: none;
+  margin: 0 0 1.45rem;
+}
+
+figcaption {
+  font-size: 12px;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Utility classes */
+.sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+.sr-only:focus {
+  padding: 1rem;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background-color: var(--color-bg);
+  width: auto;
+  height: auto;
+  clip: auto;
+  z-index: 999;
+}
+
+/* Progress bar */
+.progress {
+  cursor: crosshair;
+  overflow: hidden;
+}
+
+.progress__time {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  min-width: 5px;
+  height: 100%;
+  transition: width 0.1s;
+}
+
+/* Audio visualizer bars */
+.bars {
+  height: 45px;
+  width: 0;
+  position: relative;
+  top: -9px;
+  left: -1px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.bar {
+  background: var(--color-secondary);
+  bottom: 1px;
+  height: 3px;
+  position: absolute;
+  width: 3px;
+  animation: sound 0ms -800ms linear infinite alternate;
+}
+
+.bars--paused > * {
+  animation-play-state: paused;
+}
+
+@keyframes sound {
+  0% {
+    opacity: 0.35;
+    background: var(--color-secondary);
+    width: 3px;
+  }
+  100% {
+    opacity: 1;
+    background: var(--color-secondary);
+    width: 10px;
+  }
+}
+
+.bar:nth-child(1) { top: 1px; animation-duration: 474ms; }
+.bar:nth-child(2) { top: 5px; animation-duration: 433ms; }
+.bar:nth-child(3) { top: 9px; animation-duration: 407ms; }
+.bar:nth-child(4) { top: 13px; animation-duration: 458ms; }
+.bar:nth-child(5) { top: 17px; animation-duration: 400ms; }
+.bar:nth-child(6) { top: 21px; animation-duration: 427ms; }
+.bar:nth-child(7) { top: 25px; animation-duration: 441ms; }
+.bar:nth-child(8) { top: 29px; animation-duration: 419ms; }
+.bar:nth-child(9) { top: 33px; animation-duration: 487ms; }
+.bar:nth-child(10) { top: 37px; animation-duration: 442ms; }
+.bar:nth-child(11) { top: 41px; animation-duration: 435ms; }
+.bar:nth-child(12) { top: 45px; animation-duration: 510ms; }
+.bar:nth-child(13) { top: 49px; animation-duration: 485ms; }
+.bar:nth-child(14) { top: 53px; animation-duration: 455ms; }
+.bar:nth-child(15) { top: 57px; animation-duration: 425ms; }
+
+/* Scrollbar */
+html::-webkit-scrollbar {
+  width: 7px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: darkgray;
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: gray;
+}
+
+@media only screen and (max-width: 480px) {
+  html {
+    font-size: 100%;
+  }
+}

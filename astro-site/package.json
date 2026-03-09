@@ -1,0 +1,33 @@
+{
+  "name": "rules-as-written-podcast",
+  "type": "module",
+  "version": "2.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "tsx scripts/fetch-content.ts && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "fetch-content": "tsx scripts/fetch-content.ts"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.2.0",
+    "@astrojs/rss": "^4.0.0",
+    "@nanostores/react": "^0.8.0",
+    "@notionhq/client": "^2.3.0",
+    "astro": "^5.7.0",
+    "fast-xml-parser": "^5.2.0",
+    "nanostores": "^0.11.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-h5-audio-player": "^3.9.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}
