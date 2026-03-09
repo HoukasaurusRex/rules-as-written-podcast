@@ -3,8 +3,8 @@ import { defineCollection, z } from 'astro:content'
 const episodes = defineCollection({
   type: 'content',
   schema: z.object({
-    createdTime: z.string(),
-    lastEditedTime: z.string(),
+    createdTime: z.coerce.string(),
+    lastEditedTime: z.coerce.string(),
     page_id: z.string(),
     id: z.string(),
     title: z.string(),
