@@ -13,7 +13,7 @@ export default function Newsletter() {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ email }),
+        body: new URLSearchParams({ email, source: 'rulesaswrittenshow.com' }),
       })
       if (res.ok) {
         const data = await res.json()
