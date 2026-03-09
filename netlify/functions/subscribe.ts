@@ -7,6 +7,12 @@ export const handler: Handler = async (event) => {
     return { statusCode: 405, body: 'Method Not Allowed' }
   }
 
+  const apiKey = process.env.KEILA_API_KEY
+  if (!apiKey) {
+    console.error('KEILA_API_KEY is not configured')
+    return { statusCode: 500, body: 'Internal error' }
+  }
+
   const params = new URLSearchParams(event.body ?? '')
   const email = params.get('email')
   if (!email) {
@@ -18,6 +24,7 @@ export const handler: Handler = async (event) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         data: {
@@ -38,6 +45,7 @@ export const handler: Handler = async (event) => {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({ data: { source: 'rulesaswritten.com' } }),
         },
