@@ -21,16 +21,7 @@ const { episode, image } = Astro.props
     <img src="/images/raw-logo-fancy.webp" alt="" class="header-logo" />
     <div class="header-bottom">
       <div class="header-info">
-        <button
-          class="play-episode-btn"
-          data-episode={JSON.stringify(episode)}
-          aria-label={`Play ${episode.title}`}
-        >
-          <span class="sr-only">Play</span>
-          <svg viewBox="0 0 448 512" width="10" height="10" fill="currentColor" aria-hidden="true">
-            <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
-          </svg>
-        </button>
+        <div id="header-play-target"></div>
         <div>
           <h1>{episode.title}</h1>
           <h5>EP{episode.number}</h5>
@@ -39,18 +30,6 @@ const { episode, image } = Astro.props
     </div>
   </div>
 </header>
-
-<script>
-  document.querySelectorAll('.play-episode-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const data = (btn as HTMLElement).dataset.episode
-      if (data) {
-        const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
-        window.dispatchEvent(event)
-      }
-    })
-  })
-</script>
 
 <style>
   .episode-header {
