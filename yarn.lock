@@ -1834,31 +1834,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro-site@workspace:astro-site":
-  version: 0.0.0-use.local
-  resolution: "astro-site@workspace:astro-site"
-  dependencies:
-    "@astrojs/check": "npm:^0.9.6"
-    "@astrojs/react": "npm:^4.2.0"
-    "@astrojs/rss": "npm:^4.0.0"
-    "@nanostores/react": "npm:^0.8.0"
-    "@netlify/functions": "npm:^5.1.2"
-    "@notionhq/client": "npm:^2.3.0"
-    "@types/node": "npm:^22.15.0"
-    "@types/react": "npm:^19.1.0"
-    "@types/react-dom": "npm:^19.1.0"
-    astro: "npm:^5.7.0"
-    fast-xml-parser: "npm:^5.2.0"
-    nanostores: "npm:^0.11.0"
-    react: "npm:^19.1.0"
-    react-dom: "npm:^19.1.0"
-    react-h5-audio-player: "npm:^3.9.0"
-    tsx: "npm:^4.19.0"
-    typescript: "npm:^5.9.3"
-    yaml: "npm:^2.7.0"
-  languageName: unknown
-  linkType: soft
-
 "astro@npm:^5.7.0":
   version: 5.18.0
   resolution: "astro@npm:5.18.0"
@@ -4820,12 +4795,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"root-workspace-0b6124@workspace:.":
+"rules-as-written-podcast@workspace:.":
   version: 0.0.0-use.local
-  resolution: "root-workspace-0b6124@workspace:."
+  resolution: "rules-as-written-podcast@workspace:."
   dependencies:
+    "@astrojs/check": "npm:^0.9.6"
+    "@astrojs/react": "npm:^4.2.0"
+    "@astrojs/rss": "npm:^4.0.0"
+    "@nanostores/react": "npm:^0.8.0"
+    "@netlify/functions": "npm:^5.1.2"
+    "@notionhq/client": "npm:^2.3.0"
     "@playwright/test": "npm:^1.58.2"
+    "@types/node": "npm:^22.15.0"
+    "@types/react": "npm:^19.1.0"
+    "@types/react-dom": "npm:^19.1.0"
+    astro: "npm:^5.7.0"
+    fast-xml-parser: "npm:^5.2.0"
     husky: "npm:^9.1.7"
+    nanostores: "npm:^0.11.0"
+    react: "npm:^19.1.0"
+    react-dom: "npm:^19.1.0"
+    react-h5-audio-player: "npm:^3.9.0"
+    tsx: "npm:^4.19.0"
+    typescript: "npm:^5.9.3"
+    yaml: "npm:^2.7.0"
   languageName: unknown
   linkType: soft
 
