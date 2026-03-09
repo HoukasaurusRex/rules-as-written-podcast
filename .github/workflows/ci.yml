@@ -18,15 +18,11 @@ jobs:
           node-version: 25
 
       - run: corepack enable
-
       - run: yarn install
-        working-directory: astro-site
 
-      - run: yarn check
-        working-directory: astro-site
+      - run: yarn workspace astro-site run check
 
-      - run: yarn build
-        working-directory: astro-site
+      - run: yarn workspace astro-site run build
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
