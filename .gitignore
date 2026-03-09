@@ -60,6 +60,7 @@ typings/
 site/public
 
 # Astro
+.astro/
 astro-site/dist/
 astro-site/.astro/
 astro-site/src/content/episodes/
@@ -77,8 +78,9 @@ yarn-error.log
 .pnp.js
 .pnp.cjs
 .pnp.loader.mjs
-
-# Yarn Integrity file
+.yarn/cache
+.yarn/unplugged
+.yarn/install-state.gz
 .yarn-integrity
 
 src/data/*

@@ -1,9 +1,9 @@
 [build]
-  base = 'astro-site'
-  publish = 'dist'
-  command = 'yarn build'
+  publish = 'astro-site/dist'
+  command = 'cd astro-site && yarn build'
 [build.environment]
   NODE_VERSION = '25'
+  YARN_VERSION = '4.13.0'
 [[redirects]]
   from = "/api/subscribe"
   to = "/.netlify/functions/subscribe"
