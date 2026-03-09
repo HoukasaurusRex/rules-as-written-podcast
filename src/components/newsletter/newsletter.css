@@ -1,0 +1,214 @@
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.newsletter-wrapper {
+  position: relative;
+  margin-bottom: var(--space-10);
+  overflow: visible;
+}
+
+/* Border glow on visibility (triggered by React mount via client:visible) */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px hsla(9, 59%, 46%, 0.1);
+    border-color: hsla(9, 59%, 46%, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 20px hsla(9, 59%, 46%, 0.25);
+    border-color: hsla(9, 59%, 46%, 0.4);
+  }
+}
+
+.newsletter-wrapper--visible {
+  border: 1px solid hsla(9, 59%, 46%, 0.15);
+  border-radius: var(--radius-0);
+  padding: var(--space-4);
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+/* Warm-up phase (fire phase 1) */
+.newsletter-wrapper--warmup {
+  animation: none;
+  border-color: hsl(30, 90%, 55%);
+  box-shadow: 0 0 30px hsla(20, 90%, 50%, 0.5);
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+/* Input */
+.newsletter-input {
+  display: block;
+  margin: var(--space-3) auto;
+  max-width: 500px;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-2);
+  background-color: transparent;
+  border: 1px solid var(--color-bg-lighten-20);
+  border-radius: var(--radius-0);
+  color: var(--color-text);
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: hsl(9, 59%, 46%);
+  box-shadow: 0 0 6px hsla(9, 59%, 46%, 0.3);
+}
+
+/* Button */
+.newsletter-button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  height: 60px;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--radius-0);
+  background-image: var(--color-gradient);
+  color: var(--color-text);
+  font-size: var(--font-size-2);
+  padding: 0 var(--space-6);
+  min-width: 180px;
+  font-family: monospace;
+}
+
+.newsletter-button:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px hsla(9, 59%, 46%, 0.3);
+}
+
+.newsletter-button:disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+/* Success state */
+.newsletter-success {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  color: var(--color-text);
+}
+
+.newsletter-success h3 {
+  margin: 0 0 var(--space-3);
+  font-size: var(--font-size-4);
+}
+
+.newsletter-success p {
+  margin: 0;
+  font-size: var(--font-size-2);
+  opacity: 0.8;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.newsletter-success--revealed {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Ember glow for subscribed state */
+.newsletter-wrapper--subscribed {
+  animation: none;
+  border-color: hsla(9, 59%, 46%, 0.3);
+  box-shadow: 0 0 15px hsla(20, 80%, 50%, 0.12);
+}
+
+/* Toast */
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.newsletter-toast {
+  position: fixed;
+  top: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  width: 90%;
+  border-radius: var(--radius-0);
+  color: var(--color-text);
+  box-shadow: var(--color-shadow);
+  z-index: 100;
+  animation: slideDown 0.3s ease forwards;
+  overflow: hidden;
+}
+
+.newsletter-toast--success {
+  background-color: #4db98f;
+}
+
+.newsletter-toast--error {
+  background-color: hsl(9, 59%, 50%);
+}
+
+.newsletter-toast__content {
+  display: flex;
+  align-items: flex-start;
+  padding: var(--space-4);
+}
+
+.newsletter-toast__message {
+  flex: 1;
+}
+
+.newsletter-toast__close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: var(--font-size-4);
+  line-height: 1;
+  padding: 0;
+}
+
+.newsletter-toast__progress {
+  height: 3px;
+  background: hsla(0, 0%, 100%, 0.4);
+  animation: shrink linear forwards;
+}
+
+/* Fire overlay fade */
+.newsletter-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 10, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 5;
+  border-radius: var(--radius-0);
+  pointer-events: none;
+}
+
+.newsletter-overlay--active {
+  opacity: 1;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .newsletter-wrapper--visible {
+    animation: none;
+    box-shadow: 0 0 12px hsla(9, 59%, 46%, 0.15);
+    border-color: hsla(9, 59%, 46%, 0.25);
+  }
+
+  .newsletter-success--revealed {
+    animation: none;
+  }
+
+  .newsletter-toast {
+    animation: none;
+  }
+
+  .newsletter-toast__progress {
+    animation: none;
+  }
+}
