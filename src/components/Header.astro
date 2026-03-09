@@ -116,25 +116,5 @@ const { episode, image } = Astro.props
     width: 100%;
   }
 
-  .play-episode-btn {
-    width: 100%;
-    max-width: var(--space-7);
-    height: var(--space-7);
-    background: transparent;
-    border: 1px solid var(--color-text);
-    color: var(--color-text);
-    font-size: 10px;
-    border-radius: var(--radius-0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-right: var(--space-3);
-    margin-top: var(--space-2);
-  }
-
-  .play-episode-btn svg {
-    margin-top: 1px;
-    margin-left: 2px;
-  }
+  /* .play-episode-btn styles are in global.css (rendered via React portal) */
 </style>
