@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [master, astro-migration]
+  pull_request:
+    branches: [master]
+
+jobs:
+  check:
+    name: Type check & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - run: corepack enable
+      - run: yarn install
+
+      - run: yarn check
+
+      - run: yarn build
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+
+  e2e:
+    name: Playwright tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - run: corepack enable
+      - run: yarn install
+      - run: yarn playwright install --with-deps chromium
+
+      - run: yarn test:e2e
+        env:
+          BASE_URL: https://rulesaswrittenshow.com
