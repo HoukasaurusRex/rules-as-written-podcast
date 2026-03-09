@@ -35,22 +35,35 @@ export const handler: Handler = async (event) => {
     })
 
     if (res.status === 201 || res.status === 200) {
-      return { statusCode: 200, body: 'OK' }
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ already_subscribed: false }),
+      }
     }
 
     if (res.status === 422) {
-      const updateRes = await fetch(
-        `${KEILA_API_URL}/${encodeURIComponent(email)}/data?id_type=email`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
+      try {
+        await fetch(
+          `${KEILA_API_URL}/${encodeURIComponent(email)}/data?id_type=email`,
+          {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({ data: { source: 'rulesaswritten.com' } }),
           },
-          body: JSON.stringify({ data: { source: 'rulesaswritten.com' } }),
-        },
-      )
-      if (updateRes.ok) return { statusCode: 200, body: 'OK' }
+        )
+      } catch (err) {
+        console.error('PATCH source update failed:', err)
+      }
+
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ already_subscribed: true }),
+      }
     }
 
     return { statusCode: 502, body: 'Subscription failed' }
