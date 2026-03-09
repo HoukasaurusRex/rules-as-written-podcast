@@ -1,5 +1,5 @@
 {
-  "name": "rules-as-written-podcast",
+  "name": "astro-site",
   "type": "module",
   "version": "2.0.0",
   "scripts": {
@@ -7,8 +7,7 @@
     "build": "tsx scripts/fetch-content.ts && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "fetch-content": "tsx scripts/fetch-content.ts",
-    "prepare": "husky"
+    "fetch-content": "tsx scripts/fetch-content.ts"
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
@@ -29,7 +28,6 @@
     "@types/node": "^22.15.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "husky": "^9.1.7",
     "tsx": "^4.19.0",
     "typescript": "^5.9.3"
   }
