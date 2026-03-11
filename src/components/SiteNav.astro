@@ -28,18 +28,23 @@ const currentPath = Astro.url.pathname
 </nav>
 
 <script>
+  // Track which episode is actually playing (set by play-episode events only)
+  window.addEventListener('play-episode', (e: Event) => {
+    const ep = (e as CustomEvent).detail
+    if (ep?.number && ep?.title) {
+      const slug = ep.title.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
+      localStorage.setItem('nowPlayingSlug', `/show/${ep.number}/${slug}`)
+    }
+  })
+
   function updateNowPlaying() {
     const link = document.getElementById('now-playing-link') as HTMLAnchorElement
     if (!link) return
-    const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: any } | undefined
-    if (init?.currentEpisode) {
-      const ep = init.currentEpisode
-      const slug = ep.title.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
-      const href = `/show/${ep.number}/${slug}`
-      link.href = href
-      // Highlight if currently on the playing episode's page
+    const playingSlug = localStorage.getItem('nowPlayingSlug')
+    if (playingSlug) {
+      link.href = playingSlug
       const currentPath = window.location.pathname.replace(/\/$/, '')
-      link.classList.toggle('active', currentPath === href || currentPath === href + '/')
+      link.classList.toggle('active', currentPath === playingSlug)
     }
   }
   document.addEventListener('astro:page-load', updateNowPlaying)
