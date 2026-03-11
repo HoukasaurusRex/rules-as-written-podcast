@@ -90,12 +90,13 @@ function slugify(s: string): string {
       flex-direction: column;
       background-color: var(--color-bg);
       position: fixed;
+      top: 56px; /* Below sticky topnav */
       overflow: hidden;
       z-index: 2;
       max-width: var(--nav-width);
-      height: 100vh;
+      height: calc(100vh - 56px);
       padding: var(--space-5);
-      padding-top: var(--space-8);
+      padding-top: var(--space-5);
       box-shadow: var(--color-shadow-right);
     }
   }

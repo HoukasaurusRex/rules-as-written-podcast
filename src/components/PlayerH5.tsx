@@ -10,6 +10,9 @@ import '../styles/marquee.css'
 import { $currentEpisode, $episodeList } from '../stores/episode'
 import type { Episode } from '../utils/feed'
 
+// Module-level playback state — survives React remounts across page navigations
+let savedPlayback: { src: string; time: number; playing: boolean } | null = null
+
 interface PlayerH5Props {
   initialEpisode?: Episode
   allEpisodes?: Episode[]
@@ -34,19 +37,51 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     if (eps.length) $episodeList.set(eps)
   }, [initialEpisode, allEpisodes])
 
-  // Re-sync when navigating between podcast pages — only update if episode changed
+  // Re-sync episode list on navigation (but don't change current episode unless on a /show/ page)
   useEffect(() => {
     const handler = () => {
       const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
+      if (init?.episodes?.length) $episodeList.set(init.episodes)
+      // Only auto-switch episode when navigating to an episode page
+      const isEpisodePage = window.location.pathname.startsWith('/show/')
       const current = $currentEpisode.get()
-      if (init?.currentEpisode && init.currentEpisode.id !== current?.id) {
+      if (isEpisodePage && init?.currentEpisode && init.currentEpisode.id !== current?.id) {
         $currentEpisode.set(init.currentEpisode)
       }
-      if (init?.episodes?.length) $episodeList.set(init.episodes)
     }
     document.addEventListener('astro:page-load', handler)
     return () => document.removeEventListener('astro:page-load', handler)
   }, [])
+
+  // Save playback state before unmount (survives React remounts)
+  useEffect(() => {
+    return () => {
+      const audio = playerRef.current?.audio?.current
+      if (audio && audio.src) {
+        savedPlayback = { src: audio.src, time: audio.currentTime, playing: !audio.paused }
+      }
+    }
+  }, [])
+
+  // Restore playback state after mount
+  useEffect(() => {
+    if (!savedPlayback || !episode) return
+    const audio = playerRef.current?.audio?.current
+    if (!audio) return
+    // Wait for the audio element to be ready
+    const restore = () => {
+      if (audio.src.includes(episode.enclosure_url) || savedPlayback?.src.includes(episode.enclosure_url)) {
+        audio.currentTime = savedPlayback!.time
+        if (savedPlayback!.playing) audio.play().catch(() => {})
+      }
+      savedPlayback = null
+    }
+    if (audio.readyState >= 1) {
+      restore()
+    } else {
+      audio.addEventListener('loadedmetadata', restore, { once: true })
+    }
+  }, [episode?.enclosure_url])
 
   // Play-episode event handler (from sidebar buttons)
   useEffect(() => {
@@ -57,9 +92,10 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
         const audio = playerRef.current?.audio?.current
         if (audio) audio.paused ? audio.play() : audio.pause()
       } else {
+        // Clear saved playback so we don't restore old position for new episode
+        savedPlayback = null
         $currentEpisode.set(detail)
       }
-      // Auto-expand when a new episode is played
       setCollapsed(false)
       localStorage.setItem('playerCollapsed', 'false')
     }
@@ -67,9 +103,11 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     return () => window.removeEventListener('play-episode', handler)
   }, [])
 
-  // Restore position and volume on episode change
+  // Restore position and volume on episode change (from localStorage)
   useEffect(() => {
     if (!episode) return
+    // Skip if we have saved playback state (handled by the restore effect above)
+    if (savedPlayback) return
     const audio = playerRef.current?.audio?.current
     if (!audio) return
     const lp = localStorage.getItem(`lastPlayed${episode.number}`)
@@ -91,6 +129,7 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
   const goToEpisode = (index: number) => {
     const target = episodes[index]
     if (target) {
+      savedPlayback = null
       $currentEpisode.set(target)
       setTimeout(() => playerRef.current?.audio?.current?.play(), 100)
     }
@@ -128,7 +167,6 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     localStorage.setItem('playerCollapsed', String(next))
   }
 
-  // Don't render until an episode is available
   if (!episode) return null
 
   const title = `${episode.title} - EP${episode.number}`
@@ -144,7 +182,6 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
       borderTop: '1px solid var(--color-bg-lighten-10)',
       color: 'var(--color-text)',
     }}>
-      {/* Collapse toggle */}
       <button
         onClick={toggleCollapse}
         aria-label={collapsed ? 'Expand player' : 'Collapse player'}
@@ -174,7 +211,6 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
         </svg>
       </button>
 
-      {/* Player content — hidden when collapsed */}
       <div style={{
         maxWidth: 1200,
         margin: '0 auto',

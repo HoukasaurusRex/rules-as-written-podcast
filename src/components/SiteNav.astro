@@ -10,10 +10,14 @@ const currentPath = Astro.url.pathname
 ---
 
 <nav class="site-nav">
-  <a href="/" class="site-nav-logo">
-    <img src="/images/raw-logo-fancy.webp" alt="Rules as Written" class="site-nav-logo-img" />
-    <span class="site-nav-logo-text">Rules as Written</span>
+  {/* Logo image — absolute positioned, overlapping below nav */}
+  <a href="/" class="site-nav-logo-link" aria-label="Home">
+    <img src="/images/raw-logo-fancy.webp" alt="" class="site-nav-logo-img" />
   </a>
+
+  {/* Title and links — in normal flex flow, aligned together */}
+  <a href="/" class="site-nav-title">Rules as Written</a>
+
   <div class="site-nav-links">
     {links.map(({ href, label }) => (
       <a href={href} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
@@ -27,7 +31,6 @@ const currentPath = Astro.url.pathname
   .site-nav {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     padding: var(--space-3) var(--space-4);
     padding-left: 5rem;
     border-bottom: 1px solid var(--color-bg-lighten-10);
@@ -36,6 +39,7 @@ const currentPath = Astro.url.pathname
     top: 0;
     z-index: 20;
     min-height: 48px;
+    gap: var(--space-3);
   }
 
   @media (min-width: 600px) {
@@ -51,22 +55,12 @@ const currentPath = Astro.url.pathname
     }
   }
 
-  .site-nav-logo {
+  /* Absolute logo — overlaps below the nav bar */
+  .site-nav-logo-link {
     position: absolute;
     left: 0;
     top: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--color-primary);
-    font-size: var(--font-size-3);
-    font-weight: var(--font-weight-heading);
-    text-decoration: none;
     z-index: 21;
-  }
-
-  .site-nav-logo:hover {
-    color: var(--color-primary-lighten-10);
   }
 
   .site-nav-logo-img {
@@ -74,20 +68,32 @@ const currentPath = Astro.url.pathname
     width: auto;
   }
 
-  .site-nav-logo-text {
+  /* Title — normal flex child, aligns with nav links */
+  .site-nav-title {
+    color: var(--color-primary);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
     display: none;
+    margin-right: auto;
+  }
+
+  .site-nav-title:hover {
+    color: var(--color-primary-lighten-10);
   }
 
   @media (min-width: 600px) {
-    .site-nav-logo-text {
+    .site-nav-title {
       display: inline;
       font-size: var(--font-size-4);
     }
   }
 
+  /* Nav links — pushed to the right by margin-right: auto on title */
   .site-nav-links {
     display: flex;
     gap: var(--space-3);
+    margin-left: auto;
   }
 
   @media (min-width: 600px) {
