@@ -29,15 +29,19 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
     const ep = initialEpisode ?? init?.currentEpisode
     const eps = allEpisodes.length ? allEpisodes : (init?.episodes ?? [])
-    if (ep && !$currentEpisode.get()) $currentEpisode.set(ep)
+    const current = $currentEpisode.get()
+    if (ep && (!current || current.id !== ep.id)) $currentEpisode.set(ep)
     if (eps.length) $episodeList.set(eps)
   }, [initialEpisode, allEpisodes])
 
-  // Re-sync when navigating between podcast pages (PodcastLayout updates window.__PLAYER_INIT__)
+  // Re-sync when navigating between podcast pages — only update if episode changed
   useEffect(() => {
     const handler = () => {
       const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
-      if (init?.currentEpisode) $currentEpisode.set(init.currentEpisode)
+      const current = $currentEpisode.get()
+      if (init?.currentEpisode && init.currentEpisode.id !== current?.id) {
+        $currentEpisode.set(init.currentEpisode)
+      }
       if (init?.episodes?.length) $episodeList.set(init.episodes)
     }
     document.addEventListener('astro:page-load', handler)

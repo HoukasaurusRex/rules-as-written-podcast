@@ -11,7 +11,7 @@ const currentPath = Astro.url.pathname
 
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">
-    <img src="/images/raw-logo-fancy.webp" alt="" class="site-nav-logo-img" />
+    <img src="/images/raw-logo-fancy.webp" alt="Rules as Written" class="site-nav-logo-img" />
     <span class="site-nav-logo-text">Rules as Written</span>
   </a>
   <div class="site-nav-links">
@@ -27,22 +27,34 @@ const currentPath = Astro.url.pathname
   .site-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: var(--space-3) var(--space-4);
+    padding-left: 5rem;
     border-bottom: 1px solid var(--color-bg-lighten-10);
     background-color: var(--color-bg);
     position: sticky;
     top: 0;
     z-index: 20;
+    min-height: 48px;
+  }
+
+  @media (min-width: 600px) {
+    .site-nav {
+      padding-left: 7rem;
+    }
   }
 
   @media (min-width: 992px) {
     .site-nav {
       padding: var(--space-4) var(--space-6);
+      padding-left: 8rem;
     }
   }
 
   .site-nav-logo {
+    position: absolute;
+    left: 0;
+    top: 0;
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -50,7 +62,7 @@ const currentPath = Astro.url.pathname
     font-size: var(--font-size-3);
     font-weight: var(--font-weight-heading);
     text-decoration: none;
-    flex-shrink: 0;
+    z-index: 21;
   }
 
   .site-nav-logo:hover {
@@ -58,7 +70,7 @@ const currentPath = Astro.url.pathname
   }
 
   .site-nav-logo-img {
-    height: 28px;
+    height: 6rem;
     width: auto;
   }
 
@@ -69,6 +81,7 @@ const currentPath = Astro.url.pathname
   @media (min-width: 600px) {
     .site-nav-logo-text {
       display: inline;
+      font-size: var(--font-size-4);
     }
   }
 
