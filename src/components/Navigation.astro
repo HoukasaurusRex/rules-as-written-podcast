@@ -1,6 +1,7 @@
 ---
 import type { Episode } from '../utils/feed'
 import Bars from './Bars.astro'
+import '../styles/marquee.css'
 
 interface Props {
   episodes: Episode[]
@@ -73,9 +74,9 @@ function slugify(s: string): string {
           <a
             role="menuitem"
             href={slug}
-            class:list={[{ active: isActive }]}
+            class:list={['marquee marquee--hover', { active: isActive }]}
           >
-            <h4>{episode.title}</h4>
+            <h4 class="marquee-inner">{episode.title}</h4>
           </a>
           {!isActive && (
             <button
@@ -122,13 +123,22 @@ function slugify(s: string): string {
       }
     })
 
-    // Episode play buttons
+    // Episode play buttons — dispatch play event and navigate to episode page
     document.querySelectorAll('.episode-play-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const data = (btn as HTMLElement).dataset.episode
         if (data) {
           const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
           window.dispatchEvent(event)
+          // Also navigate to the episode page
+          const href = btn.closest('li')?.querySelector('a')?.getAttribute('href')
+          if (href) {
+            // Use View Transitions navigate if available, otherwise fallback
+            const nav = (document as any).startViewTransition
+              ? () => (window as any).navigation?.navigate(href) ?? (window.location.href = href)
+              : () => (window.location.href = href)
+            nav()
+          }
         }
       })
     })
@@ -294,6 +304,8 @@ function slugify(s: string): string {
     border-left: 3px solid var(--color-bg);
     font-size: var(--font-size-4);
     width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   li a.active {

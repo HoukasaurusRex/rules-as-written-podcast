@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useStore } from '@nanostores/react'
 import H5AudioPlayer from 'react-h5-audio-player'
@@ -7,6 +7,7 @@ import H5AudioPlayer from 'react-h5-audio-player'
 const AudioPlayer = (H5AudioPlayer as unknown as { default: typeof H5AudioPlayer }).default ?? H5AudioPlayer
 import 'react-h5-audio-player/lib/styles.css'
 import './player-theme.css'
+import '../styles/marquee.css'
 import { $currentEpisode, $episodeList } from '../stores/episode'
 import type { Episode } from '../utils/feed'
 
@@ -149,10 +150,14 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
         borderTop: '1px solid var(--color-bg-lighten-10)',
         color: 'var(--color-text)',
       }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center' }}>
-          <div style={{ padding: '0 8px', whiteSpace: 'nowrap', overflow: 'hidden', maxWidth: 310 }}>
-            <h3 style={{ margin: 0, fontSize: 'var(--font-size-4)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', padding: '8px 16px' }}>
+          <div style={{ maxWidth: 310, flexShrink: 0 }} className="marquee marquee--scroll">
+            <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
               {episode.title} - EP{episode.number}
+              {/* Duplicate for seamless loop */}
+              <span aria-hidden="true" style={{ paddingLeft: '3rem' }}>
+                {episode.title} - EP{episode.number}
+              </span>
             </h3>
           </div>
           <AudioPlayer

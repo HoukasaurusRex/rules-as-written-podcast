@@ -2,7 +2,7 @@
 .rhap_container {
   background-color: transparent !important;
   box-shadow: none !important;
-  padding: 0 !important;
+  padding: 8px 0 !important;
 }
 
 .rhap_main-controls-button,
@@ -16,9 +16,9 @@
 
 .rhap_play-pause-button {
   color: var(--color-text) !important;
-  font-size: 32px !important;
-  width: 32px !important;
-  height: 32px !important;
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
 }
 
 /* Progress bar - thicker for easier interaction (#38) */

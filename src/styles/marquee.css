@@ -1,0 +1,50 @@
+/* Shared scrolling marquee for overflowing text.
+ * Fades trailing edge to transparent instead of hard ellipsis.
+ * Usage: wrap text in .marquee > .marquee-inner
+ */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
+.marquee-inner {
+  display: inline-block;
+  padding-right: 2rem;
+}
+
+/* Always-scrolling variant (for player title) */
+.marquee--scroll .marquee-inner {
+  animation: marquee-scroll 12s linear infinite;
+}
+
+/* Hover-only variant (for sidebar titles) */
+.marquee--hover .marquee-inner {
+  animation: none;
+}
+
+.marquee--hover:hover .marquee-inner {
+  animation: marquee-scroll 8s linear infinite;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover for always-scrolling variant */
+.marquee--scroll:hover .marquee-inner {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-inner,
+  .marquee--hover:hover .marquee-inner {
+    animation: none !important;
+  }
+}
