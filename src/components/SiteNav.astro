@@ -35,7 +35,11 @@ const currentPath = Astro.url.pathname
     if (init?.currentEpisode) {
       const ep = init.currentEpisode
       const slug = ep.title.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
-      link.href = `/show/${ep.number}/${slug}`
+      const href = `/show/${ep.number}/${slug}`
+      link.href = href
+      // Highlight if currently on the playing episode's page
+      const currentPath = window.location.pathname.replace(/\/$/, '')
+      link.classList.toggle('active', currentPath === href || currentPath === href + '/')
     }
   }
   document.addEventListener('astro:page-load', updateNowPlaying)
