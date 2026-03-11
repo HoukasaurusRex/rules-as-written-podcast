@@ -30,13 +30,12 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
   )
 
-  // Initialize stores
+  // Initialize stores — only set episode if none is loaded yet (first visit)
   useEffect(() => {
     const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
     const ep = initialEpisode ?? init?.currentEpisode
     const eps = allEpisodes.length ? allEpisodes : (init?.episodes ?? [])
-    const current = $currentEpisode.get()
-    if (ep && (!current || current.id !== ep.id)) $currentEpisode.set(ep)
+    if (ep && !$currentEpisode.get()) $currentEpisode.set(ep)
     if (eps.length) $episodeList.set(eps)
   }, [initialEpisode, allEpisodes])
 
