@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro'
+import SiteNav from '@components/SiteNav.astro'
+---
+
+<BaseLayout title="About | Rules as Written" description="The story behind the Rules as Written D&D podcast — how a pub quiz in Beijing led to an international tabletop adventure.">
+  <SiteNav />
+  <main id="main" class="mx-auto max-w-3xl px-6 py-12">
+    <h1 class="mb-6" style="color: var(--color-primary);">About Rules as Written</h1>
+
+    <section class="mb-10">
+      <h2 class="mb-4" style="font-size: var(--font-size-6);">Our Story</h2>
+      <p>
+        It all started at a pub quiz in Beijing. A group of expats, strangers at first, bonded over trivia and
+        discovered a shared love of tabletop gaming. Before long, a D&D campaign was born — complete with
+        homebrew worlds, memorable NPCs, and the kind of chaotic energy only a party of first-time players can bring.
+      </p>
+      <p>
+        When life eventually scattered the group across different countries and time zones, the campaign didn't end.
+        It adapted. Late-night video calls replaced the physical table, and the dice kept rolling. Somewhere between
+        rules debates about grappling and passionate disagreements over spell components, someone said: "We should
+        record this."
+      </p>
+      <p>
+        And so <strong>Rules as Written</strong> was born — a podcast where we break down the rules of
+        Dungeons & Dragons 5th Edition, one chapter at a time. We read the rules so you don't have to (but we think
+        you should). Whether you're a seasoned DM or rolling your first character, we're here to help you understand
+        the game we all love.
+      </p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="mb-4" style="font-size: var(--font-size-6);">The Hosts</h2>
+      <div class="flex flex-col gap-6">
+        <div>
+          <h3>JT Houk</h3>
+          <p>
+            Software engineer by day, dungeon master by night. JT built this website and handles the technical
+            side of the podcast. When not coding or rolling dice, you'll find him exploring new cities or
+            debating the finer points of action economy.
+          </p>
+        </div>
+        <div>
+          <h3>Toby</h3>
+          <p>
+            The voice of reason at the table (most of the time). Toby brings a methodical approach to rules
+            analysis and a talent for finding the edge cases that make D&D both frustrating and wonderful.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-4" style="font-size: var(--font-size-6);">Listen & Connect</h2>
+      <p>
+        Find us on <a href="https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ" target="_blank" rel="noopener noreferrer">Spotify</a>,
+        <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455" target="_blank" rel="noopener noreferrer">Apple Podcasts</a>,
+        or wherever you get your podcasts. Got a topic suggestion or rules question?
+        <a href="/contact">Drop us a line</a>.
+      </p>
+    </section>
+  </main>
+</BaseLayout>

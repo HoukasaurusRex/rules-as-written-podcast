@@ -1,0 +1,69 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/episodes', label: 'Episodes' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+]
+
+const currentPath = Astro.url.pathname
+---
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">
+    <img src="/images/icon-xl.png" alt="" width="32" height="32" />
+    <span>Rules as Written</span>
+  </a>
+  <div class="site-nav-links">
+    {links.map(({ href, label }) => (
+      <a href={href} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
+        {label}
+      </a>
+    ))}
+  </div>
+</nav>
+
+<style>
+  .site-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--color-bg-lighten-10);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .site-nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-primary);
+    font-size: var(--font-size-5);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+  }
+
+  .site-nav-logo:hover {
+    color: var(--color-primary-lighten-10);
+  }
+
+  .site-nav-links {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .site-nav-links a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--font-size-2);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .site-nav-links a:hover,
+  .site-nav-links a.active {
+    opacity: 1;
+    color: var(--color-primary-lighten-50);
+  }
+</style>

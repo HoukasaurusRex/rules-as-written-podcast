@@ -1,0 +1,88 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro'
+import SiteNav from '@components/SiteNav.astro'
+---
+
+<BaseLayout title="Contact | Rules as Written" description="Get in touch with the Rules as Written podcast hosts.">
+  <SiteNav />
+  <main id="main" class="mx-auto max-w-2xl px-6 py-12">
+    <h1 class="mb-2" style="color: var(--color-primary);">Contact Us</h1>
+    <p class="mb-8 opacity-80">
+      Got a question, topic suggestion, or just want to say hi? We'd love to hear from you, adventurer.
+    </p>
+
+    <form id="contact-form" class="flex flex-col gap-5">
+      <div>
+        <label for="name" class="mb-1 block text-sm font-medium">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="w-full rounded border px-4 py-3"
+          style="background: var(--color-bg-lighten-10); border-color: var(--color-bg-lighten-20); color: var(--color-text);"
+        />
+      </div>
+      <div>
+        <label for="email" class="mb-1 block text-sm font-medium">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="w-full rounded border px-4 py-3"
+          style="background: var(--color-bg-lighten-10); border-color: var(--color-bg-lighten-20); color: var(--color-text);"
+        />
+      </div>
+      <div>
+        <label for="message" class="mb-1 block text-sm font-medium">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          class="w-full rounded border px-4 py-3"
+          style="background: var(--color-bg-lighten-10); border-color: var(--color-bg-lighten-20); color: var(--color-text); resize: vertical;"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="self-start rounded px-6 py-3 font-medium transition-opacity hover:opacity-90"
+        style="background: var(--color-primary); color: white;"
+      >
+        Send Message
+      </button>
+      <p id="form-status" class="hidden text-sm"></p>
+    </form>
+  </main>
+</BaseLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null
+    const status = document.getElementById('form-status')
+    if (!form || !status) return
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      status.className = 'text-sm'
+      status.textContent = 'Sending...'
+
+      const data = new URLSearchParams(new FormData(form) as unknown as Record<string, string>)
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', body: data })
+        if (res.ok) {
+          status.textContent = 'Message sent! We\'ll get back to you soon.'
+          status.style.color = 'var(--color-primary-lighten-50)'
+          form.reset()
+        } else {
+          status.textContent = 'Something went wrong. Please try again.'
+          status.style.color = 'var(--color-primary)'
+        }
+      } catch {
+        status.textContent = 'Network error. Please try again.'
+        status.style.color = 'var(--color-primary)'
+      }
+    })
+  })
+</script>
