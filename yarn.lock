@@ -338,13 +338,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.2":
-  version: 7.28.6
-  resolution: "@babel/runtime@npm:7.28.6"
-  checksum: 10c0/358cf2429992ac1c466df1a21c1601d595c46930a13c1d4662fde908d44ee78ec3c183aaff513ecb01ef8c55c3624afe0309eeeb34715672dbfadb7feedb2c0d
-  languageName: node
-  linkType: hard
-
 "@babel/template@npm:^7.28.6":
   version: 7.28.6
   resolution: "@babel/template@npm:7.28.6"
@@ -683,24 +676,6 @@ __metadata:
   dependencies:
     retry: "npm:^0.13.1"
   checksum: 10c0/748a84fb0ab962f7867966f21dc24d1872c53c1656dd3352320fe69ad3b2043f2dfdb3be024c7636ce4904c5ba1da22d0f3558e489c3de578f5bb520f062d0fd
-  languageName: node
-  linkType: hard
-
-"@iconify/react@npm:^5":
-  version: 5.2.1
-  resolution: "@iconify/react@npm:5.2.1"
-  dependencies:
-    "@iconify/types": "npm:^2.0.0"
-  peerDependencies:
-    react: ">=16"
-  checksum: 10c0/aafd1b170de7d83a4d36d5ae3d5fa38384020858a2147d7e9d9f88a066ea57eed754fa48d393967052a38414df175013007555a4cf5840c98ca1b23cf955cf65
-  languageName: node
-  linkType: hard
-
-"@iconify/types@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@iconify/types@npm:2.0.0"
-  checksum: 10c0/65a3be43500c7ccacf360e136d00e1717f050b7b91da644e94370256ac66f582d59212bdb30d00788aab4fc078262e91c95b805d1808d654b72f6d2072a7e4b2
   languageName: node
   linkType: hard
 
@@ -4446,19 +4421,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-h5-audio-player@npm:^3.9.0":
-  version: 3.10.2
-  resolution: "react-h5-audio-player@npm:3.10.2"
-  dependencies:
-    "@babel/runtime": "npm:^7.10.2"
-    "@iconify/react": "npm:^5"
-  peerDependencies:
-    react: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    react-dom: ^16.3.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/1e096c486cdc7fd468e17ffa9ad45ffaeeb833885e2fb8550ad5266e915bfc56cdebbc3ad379fac8945ee2b7982ea1f056ba44aeac2ce6fb3acd1ad4f2ef58a0
-  languageName: node
-  linkType: hard
-
 "react-refresh@npm:^0.18.0":
   version: 0.18.0
   resolution: "react-refresh@npm:0.18.0"
@@ -4818,7 +4780,6 @@ __metadata:
     nanostores: "npm:^0.11.0"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
-    react-h5-audio-player: "npm:^3.9.0"
     tailwindcss: "npm:^4.2.1"
     tsx: "npm:^4.19.0"
     typescript: "npm:^5.9.3"

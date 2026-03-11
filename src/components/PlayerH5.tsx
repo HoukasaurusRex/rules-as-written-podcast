@@ -1,33 +1,35 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useStore } from '@nanostores/react'
-import H5AudioPlayer from 'react-h5-audio-player'
-
-// CJS/ESM interop: the default export may be wrapped
-const AudioPlayer = (H5AudioPlayer as unknown as { default: typeof H5AudioPlayer }).default ?? H5AudioPlayer
-import 'react-h5-audio-player/lib/styles.css'
 import './player-theme.css'
 import '../styles/marquee.css'
 import { $currentEpisode, $episodeList } from '../stores/episode'
 import type { Episode } from '../utils/feed'
+import formatTime from '../utils/formatTime'
 
-// Module-level playback state — survives React remounts across page navigations
-let savedPlayback: { src: string; time: number; playing: boolean } | null = null
+// Module-level Audio — persists across React remounts and page navigations
+const audio = typeof window !== 'undefined' ? new Audio() : (null as unknown as HTMLAudioElement)
+if (audio) audio.preload = 'auto'
 
-interface PlayerH5Props {
+interface PlayerProps {
   initialEpisode?: Episode
   allEpisodes?: Episode[]
 }
 
-export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5Props) {
+export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps) {
   const storeEpisode = useStore($currentEpisode)
   const episode = storeEpisode ?? initialEpisode ?? null
-  const playerRef = useRef<InstanceType<typeof AudioPlayer>>(null)
+  const progressRef = useRef<HTMLDivElement>(null)
   const lastSaveRef = useRef(0)
+
+  const [playing, setPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(1)
   const [collapsed, setCollapsed] = useState(() =>
     typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
   )
 
-  // Initialize stores from props or from PodcastLayout's injected data
+  // Initialize stores
   useEffect(() => {
     const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
     const ep = initialEpisode ?? init?.currentEpisode
@@ -37,12 +39,11 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     if (eps.length) $episodeList.set(eps)
   }, [initialEpisode, allEpisodes])
 
-  // Re-sync episode list on navigation (but don't change current episode unless on a /show/ page)
+  // Re-sync on navigation
   useEffect(() => {
     const handler = () => {
       const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
       if (init?.episodes?.length) $episodeList.set(init.episodes)
-      // Only auto-switch episode when navigating to an episode page
       const isEpisodePage = window.location.pathname.startsWith('/show/')
       const current = $currentEpisode.get()
       if (isEpisodePage && init?.currentEpisode && init.currentEpisode.id !== current?.id) {
@@ -53,48 +54,97 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     return () => document.removeEventListener('astro:page-load', handler)
   }, [])
 
-  // Save playback state before unmount (survives React remounts)
+  // Sync audio element with episode — only change src when episode actually changes
+  const currentSrcRef = useRef('')
   useEffect(() => {
-    return () => {
-      const audio = playerRef.current?.audio?.current
-      if (audio && audio.src) {
-        savedPlayback = { src: audio.src, time: audio.currentTime, playing: !audio.paused }
+    if (!episode || !audio) return
+    if (currentSrcRef.current === episode.enclosure_url) return
+    currentSrcRef.current = episode.enclosure_url
+    audio.src = episode.enclosure_url
+
+    // Restore position from localStorage for new episodes
+    const lp = localStorage.getItem(`lastPlayed${episode.number}`)
+    if (lp) {
+      const { lastPlayed } = JSON.parse(lp)
+      if (lastPlayed) {
+        audio.addEventListener('loadedmetadata', () => { audio.currentTime = lastPlayed }, { once: true })
+      }
+    }
+  }, [episode?.enclosure_url])
+
+  // Restore volume on first mount
+  useEffect(() => {
+    if (!audio) return
+    const vol = localStorage.getItem('lastVolumeSetting')
+    if (vol) {
+      const { lastVolumePref } = JSON.parse(vol)
+      if (lastVolumePref !== undefined) {
+        audio.volume = lastVolumePref
+        setVolume(lastVolumePref)
       }
     }
   }, [])
 
-  // Restore playback state after mount
+  // Sync React state with audio events
   useEffect(() => {
-    if (!savedPlayback || !episode) return
-    const audio = playerRef.current?.audio?.current
     if (!audio) return
-    // Wait for the audio element to be ready
-    const restore = () => {
-      if (audio.src.includes(episode.enclosure_url) || savedPlayback?.src.includes(episode.enclosure_url)) {
-        audio.currentTime = savedPlayback!.time
-        if (savedPlayback!.playing) audio.play().catch(() => {})
+    const onPlay = () => {
+      setPlaying(true)
+      document.querySelector('.bars')?.classList.remove('bars--paused')
+    }
+    const onPause = () => {
+      setPlaying(false)
+      document.querySelector('.bars')?.classList.add('bars--paused')
+    }
+    const onTimeUpdate = () => {
+      setCurrentTime(audio.currentTime)
+      setDuration(audio.duration || 0)
+      // Throttled localStorage save (~1s)
+      const now = Date.now()
+      if (now - lastSaveRef.current >= 1000 && $currentEpisode.get()) {
+        lastSaveRef.current = now
+        const ep = $currentEpisode.get()!
+        localStorage.setItem(`lastPlayed${ep.number}`, JSON.stringify({ lastPlayed: audio.currentTime }))
       }
-      savedPlayback = null
     }
-    if (audio.readyState >= 1) {
-      restore()
-    } else {
-      audio.addEventListener('loadedmetadata', restore, { once: true })
+    const onDurationChange = () => setDuration(audio.duration || 0)
+    const onVolumeChange = () => {
+      setVolume(audio.volume)
+      localStorage.setItem('lastVolumeSetting', JSON.stringify({ lastVolumePref: audio.volume }))
     }
-  }, [episode?.enclosure_url])
 
-  // Play-episode event handler (from sidebar buttons)
+    audio.addEventListener('play', onPlay)
+    audio.addEventListener('pause', onPause)
+    audio.addEventListener('timeupdate', onTimeUpdate)
+    audio.addEventListener('durationchange', onDurationChange)
+    audio.addEventListener('volumechange', onVolumeChange)
+
+    // Sync initial state (audio may already be playing from before remount)
+    setPlaying(!audio.paused)
+    setCurrentTime(audio.currentTime)
+    setDuration(audio.duration || 0)
+    setVolume(audio.volume)
+
+    return () => {
+      audio.removeEventListener('play', onPlay)
+      audio.removeEventListener('pause', onPause)
+      audio.removeEventListener('timeupdate', onTimeUpdate)
+      audio.removeEventListener('durationchange', onDurationChange)
+      audio.removeEventListener('volumechange', onVolumeChange)
+    }
+  }, [])
+
+  // Play-episode event from sidebar
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent<Episode>).detail
       const current = $currentEpisode.get()
       if (current && current.id === detail.id) {
-        const audio = playerRef.current?.audio?.current
-        if (audio) audio.paused ? audio.play() : audio.pause()
+        audio.paused ? audio.play() : audio.pause()
       } else {
-        // Clear saved playback so we don't restore old position for new episode
-        savedPlayback = null
         $currentEpisode.set(detail)
+        // src change handled by the sync effect above, then auto-play
+        requestAnimationFrame(() => audio.play().catch(() => {}))
       }
       setCollapsed(false)
       localStorage.setItem('playerCollapsed', 'false')
@@ -103,62 +153,33 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     return () => window.removeEventListener('play-episode', handler)
   }, [])
 
-  // Restore position and volume on episode change (from localStorage)
-  useEffect(() => {
-    if (!episode) return
-    // Skip if we have saved playback state (handled by the restore effect above)
-    if (savedPlayback) return
-    const audio = playerRef.current?.audio?.current
-    if (!audio) return
-    const lp = localStorage.getItem(`lastPlayed${episode.number}`)
-    if (lp) {
-      const { lastPlayed } = JSON.parse(lp)
-      if (lastPlayed) audio.currentTime = lastPlayed
-    }
-    const vol = localStorage.getItem('lastVolumeSetting')
-    if (vol) {
-      const { lastVolumePref } = JSON.parse(vol)
-      if (lastVolumePref !== undefined) audio.volume = lastVolumePref
-    }
-  }, [episode?.number])
-
-  // Next/prev navigation
+  // Next/prev
   const episodes = useStore($episodeList)
   const currentIndex = episode ? episodes.findIndex((ep) => ep.id === episode.id) : -1
 
-  const goToEpisode = (index: number) => {
+  const goToEpisode = useCallback((index: number) => {
     const target = episodes[index]
     if (target) {
-      savedPlayback = null
       $currentEpisode.set(target)
-      setTimeout(() => playerRef.current?.audio?.current?.play(), 100)
+      requestAnimationFrame(() => audio.play().catch(() => {}))
     }
+  }, [episodes])
+
+  const handleNext = () => { if (currentIndex > 0) goToEpisode(currentIndex - 1) }
+  const handlePrev = () => { if (currentIndex < episodes.length - 1) goToEpisode(currentIndex + 1) }
+
+  const togglePlay = () => { audio.paused ? audio.play() : audio.pause() }
+
+  const scrub = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!progressRef.current || !duration) return
+    const rect = progressRef.current.getBoundingClientRect()
+    const ratio = (e.clientX - rect.left) / rect.width
+    audio.currentTime = ratio * duration
   }
 
-  const handleNext = () => {
-    if (currentIndex > 0) goToEpisode(currentIndex - 1)
-  }
-
-  const handlePrevious = () => {
-    if (currentIndex < episodes.length - 1) goToEpisode(currentIndex + 1)
-  }
-
-  // Throttled localStorage writes (~1s)
-  const handleListen = (e: Event) => {
-    if (!episode) return
-    const now = Date.now()
-    if (now - lastSaveRef.current < 1000) return
-    lastSaveRef.current = now
-    const audio = e.target as HTMLAudioElement
-    localStorage.setItem(
-      `lastPlayed${episode.number}`,
-      JSON.stringify({ lastPlayed: audio.currentTime }),
-    )
-  }
-
-  const handleVolumeChange = (e: Event) => {
-    const audio = e.target as HTMLAudioElement
-    localStorage.setItem('lastVolumeSetting', JSON.stringify({ lastVolumePref: audio.volume }))
+  const changeVolume = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+    audio.volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
   }
 
   const toggleCollapse = () => {
@@ -169,80 +190,78 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
 
   if (!episode) return null
 
+  const progress = duration ? (currentTime / duration) * 100 : 0
   const title = `${episode.title} - EP${episode.number}`
+  const hasSkip = episodes.length > 1
 
   return (
-    <div className="player" style={{
-      zIndex: 10,
-      position: 'fixed',
-      width: '100%',
-      bottom: 0,
-      left: 0,
-      backgroundColor: 'var(--color-bg)',
-      borderTop: '1px solid var(--color-bg-lighten-10)',
-      color: 'var(--color-text)',
-    }}>
-      <button
-        onClick={toggleCollapse}
-        aria-label={collapsed ? 'Expand player' : 'Collapse player'}
-        type="button"
-        style={{
-          position: 'absolute',
-          top: -24,
-          right: 16,
-          width: 32,
-          height: 24,
-          backgroundColor: 'var(--color-bg)',
-          border: '1px solid var(--color-bg-lighten-10)',
-          borderBottom: 'none',
-          borderRadius: '4px 4px 0 0',
-          color: 'var(--color-text)',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: 12,
-          opacity: 0.7,
-        }}
-      >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"
-          style={{ transform: collapsed ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+    <div className="player-bar">
+      {/* Collapse toggle */}
+      <button onClick={toggleCollapse} className="player-collapse-btn" aria-label={collapsed ? 'Expand player' : 'Collapse player'} type="button">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" className={`player-collapse-icon ${collapsed ? 'player-collapse-icon--flipped' : ''}`}>
           <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
         </svg>
       </button>
 
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: collapsed ? 'none' : 'flex',
-        alignItems: 'center',
-        padding: '8px 16px',
-      }}>
-        <div style={{ maxWidth: 310, flexShrink: 0 }} className="player-title marquee marquee--scroll">
+      {/* Player content */}
+      <div className={`player-content ${collapsed ? 'player-content--collapsed' : ''}`}>
+        {/* Title (hidden on mobile) */}
+        <div className="player-title marquee marquee--scroll" style={{ maxWidth: 310, flexShrink: 0 }}>
           <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
             {title}
             <span aria-hidden="true">{` ${title}`}</span>
           </h3>
         </div>
-        <AudioPlayer
-          ref={playerRef}
-          src={episode.enclosure_url}
-          showSkipControls={episodes.length > 1}
-          showJumpControls={false}
-          customAdditionalControls={[]}
-          layout="horizontal-reverse"
-          onClickNext={handleNext}
-          onClickPrevious={handlePrevious}
-          onListen={handleListen}
-          onVolumeChange={handleVolumeChange}
-          onPlay={() => document.querySelector('.bars')?.classList.remove('bars--paused')}
-          onPause={() => document.querySelector('.bars')?.classList.add('bars--paused')}
-          style={{
-            backgroundColor: 'transparent',
-            boxShadow: 'none',
-            color: 'var(--color-text)',
-          }}
-        />
+
+        {/* Controls */}
+        <div className="player-controls">
+          {/* Main controls: prev, play/pause, next */}
+          <div className="player-main-controls">
+            {hasSkip && (
+              <button onClick={handlePrev} className="player-skip-btn" aria-label="Previous" type="button" disabled={currentIndex >= episodes.length - 1}>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+              </button>
+            )}
+            <button onClick={togglePlay} className="player-play-btn" aria-label={playing ? 'Pause' : 'Play'} type="button">
+              {playing ? (
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              )}
+            </button>
+            {hasSkip && (
+              <button onClick={handleNext} className="player-skip-btn" aria-label="Next" type="button" disabled={currentIndex <= 0}>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+              </button>
+            )}
+          </div>
+
+          {/* Progress section */}
+          <div className="player-progress-section">
+            <span className="player-time">{formatTime(currentTime)}</span>
+            <div className="player-progress-bar" ref={progressRef} onClick={scrub}>
+              <div className="player-progress-filled" style={{ width: `${progress}%` }} />
+              <div className="player-progress-indicator" style={{ left: `${progress}%` }} />
+            </div>
+            <span className="player-time">{formatTime(duration)}</span>
+          </div>
+
+          {/* Volume */}
+          <div className="player-volume">
+            <button className="player-volume-btn" type="button" onClick={() => { audio.volume = audio.volume > 0 ? 0 : 1 }} aria-label="Mute">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                {volume === 0
+                  ? <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                  : <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                }
+              </svg>
+            </button>
+            <div className="player-volume-bar" onClick={changeVolume}>
+              <div className="player-volume-filled" style={{ width: `${volume * 100}%` }} />
+              <div className="player-volume-indicator" style={{ left: `${volume * 100}%` }} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

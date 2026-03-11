@@ -1,83 +1,69 @@
-/* Dark D&D theme overrides for react-h5-audio-player */
-.rhap_container {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  padding: 8px 0 !important;
+/* Custom audio player — dark D&D theme */
+
+.player-bar {
+  z-index: 10;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-bg-lighten-10);
+  color: var(--color-text);
 }
 
-.rhap_main-controls-button,
-.rhap_volume-button,
-.rhap_additional-controls button,
-.rhap_repeat-button,
-.rhap_forward-button,
-.rhap_rewind-button {
-  color: var(--color-text) !important;
+/* Collapse toggle */
+.player-collapse-btn {
+  position: absolute;
+  top: -24px;
+  right: 16px;
+  width: 32px;
+  height: 24px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-bg-lighten-10);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  transition: opacity 0.2s;
 }
 
-.rhap_play-pause-button {
-  color: var(--color-text) !important;
-  font-size: 40px !important;
-  width: 40px !important;
-  height: 40px !important;
+.player-collapse-btn:hover {
+  opacity: 1;
 }
 
-/* Progress bar - thicker for easier interaction (#38) */
-.rhap_progress-bar {
-  height: 6px !important;
-  background-color: var(--color-bg-lighten-10) !important;
-  border-radius: 3px !important;
+.player-collapse-icon {
+  transition: transform 0.2s;
 }
 
-.rhap_progress-filled {
-  background-image: linear-gradient(224deg, var(--color-primary-lighten-70) 0%, var(--color-primary-darken) 100%) !important;
-  border-radius: 3px !important;
+.player-collapse-icon--flipped {
+  transform: rotate(180deg);
 }
 
-.rhap_progress-indicator {
-  background: var(--color-primary) !important;
-  width: 14px !important;
-  height: 14px !important;
-  top: -4px !important;
-  box-shadow: none !important;
+/* Content area with smooth collapse transition */
+.player-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  max-height: 80px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
+  opacity: 1;
 }
 
-.rhap_download-progress {
-  background-color: var(--color-bg-lighten-20) !important;
+.player-content--collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
 }
 
-/* Time display */
-.rhap_time {
-  color: var(--color-text) !important;
-  opacity: 0.6;
-  font-size: var(--font-size-1) !important;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Volume bar */
-.rhap_volume-bar {
-  background-color: var(--color-bg-lighten-10) !important;
-}
-
-.rhap_volume-indicator {
-  background: var(--color-primary) !important;
-  box-shadow: none !important;
-}
-
-.rhap_volume-filled {
-  background-color: var(--color-primary) !important;
-}
-
-/* Skip controls (next/prev) */
-.rhap_skip-button {
-  color: var(--color-text) !important;
-  font-size: 20px !important;
-}
-
-.rhap_skip-button:hover {
-  color: var(--color-primary-lighten-50) !important;
-}
-
-/* Hide player title on mobile to save horizontal space */
+/* Title — hidden on mobile */
 .player-title {
   display: none;
 }
@@ -86,4 +72,173 @@
   .player-title {
     display: block;
   }
+}
+
+/* Controls layout — mimics horizontal-reverse: controls left, progress right */
+.player-controls {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Main controls: prev, play, next */
+.player-main-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Play/pause button */
+.player-play-btn {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: var(--radius-round);
+  transition: opacity 0.2s;
+}
+
+.player-play-btn:hover {
+  opacity: 0.8;
+}
+
+/* Skip buttons */
+.player-skip-btn {
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.player-skip-btn:hover {
+  opacity: 1;
+  color: var(--color-primary-lighten-50);
+}
+
+.player-skip-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Progress section */
+.player-progress-section {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Time display */
+.player-time {
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-1);
+  opacity: 0.6;
+  white-space: nowrap;
+  width: 45px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Progress bar */
+.player-progress-bar {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  background-color: var(--color-bg-lighten-10);
+  border-radius: 3px;
+  cursor: pointer;
+  min-width: 60px;
+}
+
+.player-progress-filled {
+  height: 100%;
+  border-radius: 3px;
+  background-image: linear-gradient(224deg, var(--color-primary-lighten-70) 0%, var(--color-primary-darken) 100%);
+  pointer-events: none;
+}
+
+.player-progress-indicator {
+  position: absolute;
+  top: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Volume */
+.player-volume {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+@media (min-width: 600px) {
+  .player-volume {
+    display: flex;
+  }
+}
+
+.player-volume-btn {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  opacity: 0.7;
+}
+
+.player-volume-btn:hover {
+  opacity: 1;
+}
+
+.player-volume-bar {
+  position: relative;
+  width: 80px;
+  height: 4px;
+  background-color: var(--color-bg-lighten-10);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.player-volume-filled {
+  height: 100%;
+  border-radius: 2px;
+  background-color: var(--color-primary);
+  pointer-events: none;
+}
+
+.player-volume-indicator {
+  position: absolute;
+  top: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
