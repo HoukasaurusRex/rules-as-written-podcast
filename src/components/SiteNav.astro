@@ -11,7 +11,7 @@ const currentPath = Astro.url.pathname
 
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">
-    <img src="/images/icon-xl.png" alt="" width="28" height="28" />
+    <img src="/images/raw-logo-fancy.webp" alt="" class="site-nav-logo-img" />
     <span class="site-nav-logo-text">Rules as Written</span>
   </a>
   <div class="site-nav-links">
@@ -55,6 +55,11 @@ const currentPath = Astro.url.pathname
 
   .site-nav-logo:hover {
     color: var(--color-primary-lighten-10);
+  }
+
+  .site-nav-logo-img {
+    height: 28px;
+    width: auto;
   }
 
   .site-nav-logo-text {

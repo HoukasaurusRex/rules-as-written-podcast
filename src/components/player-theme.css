@@ -76,3 +76,14 @@
 .rhap_skip-button:hover {
   color: var(--color-primary-lighten-50) !important;
 }
+
+/* Hide player title on mobile to save horizontal space */
+.player-title {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .player-title {
+    display: block;
+  }
+}

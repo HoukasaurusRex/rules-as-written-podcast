@@ -9,7 +9,6 @@ interface Props {
 }
 
 const { episodes, currentEpisodeId } = Astro.props
-const siteTitle = 'Rules as Written'
 const twoDigits = (n: number) => (n.toString().length < 2 ? `0${n}` : n)
 const season = episodes[0]?.season
 
@@ -18,45 +17,13 @@ function slugify(s: string): string {
 }
 ---
 
-<!-- Mobile header -->
-<div class="mobile-header">
-  <div class="mobile-logo">
-    <img src="/images/icon-xl.png" alt="" class="logo-icon mobile-only-hide" width="50" height="50" />
-    <a href="/">
-      <span class="site-title">{siteTitle}</span>
-    </a>
-  </div>
-  <div class="mobile-providers">
-    <a href="https://open.spotify.com/show/3QsthThGhfigIwbGHauPfQ" target="_blank" rel="noopener noreferrer">
-      <img src="/images/spotify-icon.png" alt="Spotify" height="20" class="mobile-only-show" />
-    </a>
-    <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455" target="_blank" rel="noopener noreferrer">
-      <img src="/images/apple-icon.png" alt="Apple" height="20" class="mobile-only-show" />
-    </a>
-    <a href="https://podcasts.google.com/feed/aHR0cHM6Ly9hbmNob3IuZm0vcy80NGE0Mjc3Yy9wb2RjYXN0L3Jzcw" target="_blank" rel="noopener noreferrer">
-      <img src="/images/google-icon.png" alt="Google" height="20" class="mobile-only-show" />
-    </a>
-    <a href="https://www.patreon.com/RulesAsWritten" target="_blank" rel="noopener noreferrer">
-      <img src="/images/patreon-icon.png" alt="Patreon" height="20" class="mobile-only-show" />
-    </a>
-  </div>
-  <button class="menu-toggle" aria-controls="menu" aria-haspopup="true" aria-expanded="false" id="menu-toggle">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="menu-icon-open">
-      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-    </svg>
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="menu-icon-close" style="display:none">
-      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-    </svg>
-  </button>
-</div>
-
-<!-- Sidebar navigation -->
+<!-- Desktop-only sidebar navigation -->
 <nav class="episodes_list" id="episodes-nav">
   <div class="nav-logo">
     <img src="/images/icon-xl.png" alt="" class="logo-icon" width="50" height="50" />
     <div>
       <a href="/">
-        <span class="site-title">{siteTitle}</span>
+        <span class="site-title">Rules as Written</span>
       </a>
       {season && (
         <h5 class="season-label">season {twoDigits(season)}</h5>
@@ -97,32 +64,6 @@ function slugify(s: string): string {
 
 <script>
   function initNavigation() {
-    const toggle = document.getElementById('menu-toggle')
-    const nav = document.getElementById('episodes-nav')
-    const openIcon = toggle?.querySelector('.menu-icon-open')
-    const closeIcon = toggle?.querySelector('.menu-icon-close')
-
-    toggle?.addEventListener('click', () => {
-      const isOpen = nav?.classList.toggle('is-open')
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
-      if (openIcon && closeIcon) {
-        ;(openIcon as HTMLElement).style.display = isOpen ? 'none' : 'block'
-        ;(closeIcon as HTMLElement).style.display = isOpen ? 'block' : 'none'
-      }
-    })
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!nav?.contains(e.target as Node) && !toggle?.contains(e.target as Node)) {
-        nav?.classList.remove('is-open')
-        toggle?.setAttribute('aria-expanded', 'false')
-        if (openIcon && closeIcon) {
-          ;(openIcon as HTMLElement).style.display = 'block'
-          ;(closeIcon as HTMLElement).style.display = 'none'
-        }
-      }
-    })
-
     // Episode play buttons — dispatch play event and navigate to episode page
     document.querySelectorAll('.episode-play-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -130,126 +71,33 @@ function slugify(s: string): string {
         if (data) {
           const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
           window.dispatchEvent(event)
-          // Also navigate to the episode page
           const href = btn.closest('li')?.querySelector('a')?.getAttribute('href')
-          if (href) {
-            // Use View Transitions navigate if available, otherwise fallback
-            const nav = (document as any).startViewTransition
-              ? () => (window as any).navigation?.navigate(href) ?? (window.location.href = href)
-              : () => (window.location.href = href)
-            nav()
-          }
+          if (href) window.location.href = href
         }
       })
     })
   }
 
-  // Re-bind after View Transitions swap the DOM
   document.addEventListener('astro:page-load', initNavigation)
 </script>
 
 <style>
-  .mobile-header {
-    padding: var(--space-3);
-    display: flex;
-    visibility: visible;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  @media (min-width: 992px) {
-    .mobile-header {
-      display: none;
-      visibility: hidden;
-    }
-  }
-
-  .mobile-logo {
-    display: flex;
-    align-items: center;
-  }
-
-  .mobile-only-hide {
+  /* Hidden on mobile — SiteNav handles mobile navigation */
+  .episodes_list {
     display: none;
   }
 
   @media (min-width: 992px) {
-    .mobile-only-hide {
-      display: block;
-    }
-  }
-
-  .mobile-only-show {
-    display: block;
-    margin: 0 var(--space-1);
-  }
-
-  @media (min-width: 992px) {
-    .mobile-only-show {
-      display: none;
-    }
-  }
-
-  .mobile-providers {
-    display: flex;
-    align-items: center;
-  }
-
-  .site-title {
-    font-size: var(--font-size-6);
-    color: var(--color-primary);
-    margin-bottom: 0;
-  }
-
-  .logo-icon {
-    max-height: 50px;
-    margin-right: var(--space-2);
-  }
-
-  .menu-toggle {
-    position: relative;
-    z-index: 998;
-    display: flex;
-    padding: var(--space-3);
-    background-color: var(--color-bg);
-    border: none;
-    color: var(--color-text);
-    font-size: var(--font-size-5);
-    cursor: pointer;
-  }
-
-  @media (min-width: 992px) {
-    .menu-toggle {
-      display: none;
-    }
-  }
-
-  .episodes_list {
-    background-color: var(--color-bg);
-    position: absolute;
-    overflow-y: auto;
-    z-index: 2;
-    width: 100%;
-    max-width: 100%;
-    max-height: unset;
-    padding: var(--space-5);
-    padding-top: var(--space-8);
-    transform: translateX(-100%);
-    transition: 300ms cubic-bezier(1, 0, 0, 1);
-  }
-
-  .episodes_list.is-open {
-    transform: translateX(0);
-  }
-
-  @media (min-width: 992px) {
     .episodes_list {
+      display: block;
+      background-color: var(--color-bg);
       position: fixed;
       overflow-y: scroll;
+      z-index: 2;
       max-width: var(--nav-width);
       max-height: 100vh;
-      transform: none;
+      padding: var(--space-5);
+      padding-top: var(--space-8);
       box-shadow: var(--color-shadow-right);
     }
   }
@@ -272,6 +120,17 @@ function slugify(s: string): string {
     color: var(--color-text);
     font-size: var(--font-size-3);
     font-weight: var(--font-weight-heading);
+  }
+
+  .site-title {
+    font-size: var(--font-size-6);
+    color: var(--color-primary);
+    margin-bottom: 0;
+  }
+
+  .logo-icon {
+    max-height: 50px;
+    margin-right: var(--space-2);
   }
 
   .nav-logo {

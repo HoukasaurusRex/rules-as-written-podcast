@@ -1,5 +1,6 @@
 ---
 import type { Episode } from '../utils/feed'
+import '../styles/marquee.css'
 
 interface Props {
   episode: Episode
@@ -18,11 +19,15 @@ const { episode, image } = Astro.props
     />
   )}
   <div class="header_content">
-    <img src="/images/raw-logo-fancy.webp" alt="" class="header-logo" />
     <div class="header-bottom">
       <div class="header-info">
-        <div>
-          <h1>{episode.title}</h1>
+        <div class="header-title-wrap">
+          <div class="header-title marquee marquee--scroll">
+            <h1 class="marquee-inner">
+              {episode.title}
+              <span aria-hidden="true">{` ${episode.title}`}</span>
+            </h1>
+          </div>
           <h5>EP{episode.number}</h5>
         </div>
       </div>
@@ -36,8 +41,9 @@ const { episode, image } = Astro.props
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 300px;
+    height: 250px;
     color: var(--color-text);
+    overflow: hidden;
   }
 
   @media (min-width: 992px) {
@@ -47,8 +53,8 @@ const { episode, image } = Astro.props
   }
 
   .episode-header h1 {
-    font-size: var(--font-size-6);
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    font-size: var(--font-size-5);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     margin: 0;
   }
 
@@ -81,11 +87,10 @@ const { episode, image } = Astro.props
     width: 100%;
     height: 100%;
     position: absolute;
-    padding: var(--space-5) var(--space-5);
+    padding: var(--space-4);
     z-index: 1;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
+    align-items: flex-end;
   }
 
   @media (min-width: 992px) {
@@ -94,25 +99,46 @@ const { episode, image } = Astro.props
     }
   }
 
-  .header-logo {
-    max-width: 25%;
-    position: absolute;
-    left: 0;
-    top: 0;
+  .header-bottom {
+    width: 100%;
+    padding-bottom: var(--space-4);
   }
 
-  .header-bottom {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: row;
-    padding-bottom: var(--space-8);
+  @media (min-width: 992px) {
+    .header-bottom {
+      padding-bottom: var(--space-8);
+    }
   }
 
   .header-info {
-    display: flex;
     width: 100%;
   }
 
+  .header-title-wrap {
+    width: 100%;
+  }
+
+  /* Marquee scrolls on mobile, disabled on desktop (allow wrapping) */
+  .header-title {
+    max-width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .header-title {
+      overflow: visible;
+      white-space: normal;
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+
+    .header-title .marquee-inner {
+      animation: none;
+      padding-right: 0;
+    }
+
+    /* Hide the duplicate text on desktop */
+    .header-title .marquee-inner span[aria-hidden] {
+      display: none;
+    }
+  }
 </style>

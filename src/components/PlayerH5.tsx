@@ -109,10 +109,10 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
       color: 'var(--color-text)',
     }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', padding: '8px 16px' }}>
-        <div style={{ maxWidth: 310, flexShrink: 0 }} className="marquee marquee--scroll">
-          <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)', gap: '3rem', display: 'inline-flex' }}>
-            <span>{title}</span>
-            <span aria-hidden="true">{title}</span>
+        <div style={{ maxWidth: 310, flexShrink: 0 }} className="player-title marquee marquee--scroll">
+          <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
+            {title}
+            <span aria-hidden="true">{` ${title}`}</span>
           </h3>
         </div>
         <AudioPlayer

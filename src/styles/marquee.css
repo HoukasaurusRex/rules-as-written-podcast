@@ -12,8 +12,7 @@
 
 .marquee-inner {
   display: inline-block;
-  /* Gap between the original and duplicate text for seamless looping.
-   * The animation translates -50% so each copy occupies exactly half. */
+  padding-right: 3rem;
 }
 
 /* Always-scrolling variant (for player title) */
