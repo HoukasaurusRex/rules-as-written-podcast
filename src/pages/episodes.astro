@@ -70,12 +70,18 @@ const episodes = await getEpisodes()
       })
     }
 
-    // Highlight currently playing episode
+    // Highlight currently playing episode with equalizer bars
     const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: { id: string } } | undefined
     if (init?.currentEpisode) {
       cards.forEach((card) => {
         if (card.dataset.episodeId === init.currentEpisode!.id) {
           card.classList.add('now-playing')
+          // Inject CSS-only equalizer bars
+          const barsEl = document.createElement('div')
+          barsEl.className = 'eq-bars'
+          barsEl.innerHTML = '<span></span><span></span><span></span><span></span>'
+          const body = card.querySelector('.episode-card-body')
+          if (body) body.prepend(barsEl)
         }
       })
     }
@@ -143,5 +149,32 @@ const episodes = await getEpisodes()
     50% {
       box-shadow: 0 0 16px rgba(176, 72, 56, 0.6);
     }
+  }
+
+  /* CSS-only equalizer bars for now-playing card */
+  :global(.eq-bars) {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+    margin-bottom: var(--space-2);
+  }
+
+  :global(.eq-bars span) {
+    display: block;
+    width: 3px;
+    background: var(--color-secondary);
+    border-radius: 1px;
+    animation: eqBounce 0.8s ease-in-out infinite alternate;
+  }
+
+  :global(.eq-bars span:nth-child(1)) { height: 8px; animation-delay: 0s; }
+  :global(.eq-bars span:nth-child(2)) { height: 12px; animation-delay: 0.2s; }
+  :global(.eq-bars span:nth-child(3)) { height: 6px; animation-delay: 0.4s; }
+  :global(.eq-bars span:nth-child(4)) { height: 10px; animation-delay: 0.1s; }
+
+  @keyframes eqBounce {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
   }
 </style>
