@@ -40,16 +40,11 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     if (eps.length) $episodeList.set(eps)
   }, [initialEpisode, allEpisodes])
 
-  // Re-sync on navigation
+  // Re-sync episode list on navigation (for next/prev), but never auto-switch current episode
   useEffect(() => {
     const handler = () => {
       const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
       if (init?.episodes?.length) $episodeList.set(init.episodes)
-      const isEpisodePage = window.location.pathname.startsWith('/show/')
-      const current = $currentEpisode.get()
-      if (isEpisodePage && init?.currentEpisode && init.currentEpisode.id !== current?.id) {
-        $currentEpisode.set(init.currentEpisode)
-      }
     }
     document.addEventListener('astro:page-load', handler)
     return () => document.removeEventListener('astro:page-load', handler)
