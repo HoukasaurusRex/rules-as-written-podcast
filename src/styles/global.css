@@ -185,22 +185,9 @@ figcaption {
   z-index: 999;
 }
 
-/* Progress bar */
-.progress {
-  cursor: crosshair;
-  overflow: hidden;
-}
-
-.progress__time {
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  min-width: 5px;
-  height: 100%;
-  transition: width 0.1s;
-}
-
 /* Audio visualizer bars */
 .bars {
-  height: 45px;
+  height: 60px;
   width: 12px;
   position: absolute;
   left: 6px;

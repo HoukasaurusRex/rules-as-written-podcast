@@ -1,0 +1,33 @@
+/* Shared episode page layout styles — used by index.astro and [slug].astro */
+.episode-main {
+  max-width: 100%;
+  margin: 0 auto;
+  padding-bottom: var(--space-14);
+}
+
+@media (min-width: 992px) {
+  .episode-main {
+    max-width: 900px;
+  }
+}
+
+.episode-main article {
+  padding: var(--space-5);
+  padding-bottom: var(--space-2);
+}
+
+@media (min-width: 992px) {
+  .episode-main article {
+    padding: var(--space-8);
+    padding-bottom: var(--space-14);
+  }
+}
+
+.episode-footer {
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.episode-footer p {
+  margin-bottom: var(--space-5);
+}
