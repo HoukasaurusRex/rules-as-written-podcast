@@ -1,115 +1,88 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useNewsletterForm } from './newsletter/useNewsletterForm'
+import { useTypewriter } from './newsletter/useTypewriter'
+import { useFireEffect } from './newsletter/useFireEffect'
+import { useSlowLoadingMessages } from './newsletter/useSlowLoadingMessages'
+import { Toast } from './newsletter/Toast'
+import './newsletter/newsletter.css'
 
 export default function Newsletter() {
-  const [email, setEmail] = useState('')
-  const [toast, setToast] = useState<{ message: string; variant: 'success' | 'error' } | null>(null)
-  const [sending, setSending] = useState(false)
+  const { email, setEmail, status, toast, submit, clearToast, isSubscribed, reset, abort, completeSubscription } = useNewsletterForm()
 
-  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    try {
-      setSending(true)
-      setToast(null)
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ email, source: 'rulesaswrittenshow.com' }),
-      })
-      if (res.ok) {
-        const data = await res.json()
-        const message = data.already_subscribed
-          ? 'Already subscribed!'
-          : 'Success! Thanks for subscribing'
-        setToast({ message, variant: 'success' })
-        setEmail('')
-      } else {
-        setToast({ message: 'Something went wrong. Please try again.', variant: 'error' })
-      }
-    } catch {
-      setToast({ message: 'Something went wrong. Please try again.', variant: 'error' })
-    } finally {
-      setSending(false)
-    }
-  }
+  const isSubmitting = status === 'submitting'
+  const fireTriggered = status === 'success'
+  const { text: buttonText, showCursor } = useTypewriter(isSubmitting)
+  const { phase, isActive: fireActive, FireOverlay } = useFireEffect(fireTriggered, completeSubscription)
+  const { message: loadingMessage, phase: loadingPhase, shouldAbort } = useSlowLoadingMessages(isSubmitting)
+
+  useEffect(() => {
+    if (shouldAbort) abort()
+  }, [shouldAbort, abort])
+
+  const showSuccess = isSubscribed && !fireActive
+
+  const wrapperClass = [
+    'newsletter-wrapper',
+    showSuccess ? 'newsletter-wrapper--subscribed'
+      : phase === 1 ? 'newsletter-wrapper--warmup'
+      : !fireActive ? 'newsletter-wrapper--visible'
+      : '',
+    isSubmitting ? 'newsletter-wrapper--submitting' : '',
+    phase === 2 ? 'newsletter-wrapper--burning' : '',
+  ].filter(Boolean).join(' ')
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: 'var(--space-10)' }}>
-      <input
-        type="email"
-        name="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="janedoe@gmail.com"
-        required
-        style={{
-          display: 'block',
-          margin: 'var(--space-3) auto',
-          maxWidth: 500,
-          width: '100%',
-          padding: 'var(--space-2) var(--space-3)',
-          fontSize: 'var(--font-size-2)',
-          backgroundColor: 'transparent',
-          border: '1px solid var(--color-bg-lighten-20)',
-          borderRadius: 'var(--radius-0)',
-          color: 'var(--color-text)',
-        }}
-      />
-      <button
-        type="submit"
-        disabled={sending}
-        style={{
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          height: 60,
-          fontWeight: 'bold',
-          border: 'none',
-          borderRadius: 'var(--radius-0)',
-          backgroundImage: 'var(--color-gradient)',
-          color: 'var(--color-text)',
-          fontSize: 'var(--font-size-2)',
-          padding: '0 var(--space-6)',
-        }}
-      >
-        {sending ? 'Sending...' : 'Subscribe'}
-      </button>
+    <div className={wrapperClass}>
+      <div className="newsletter-content">
+        {showSuccess ? (
+          <div className="newsletter-success newsletter-success--revealed">
+            <h3>You're in the party!</h3>
+            <p>Watch your inbox for the next quest log.</p>
+          </div>
+        ) : (
+          <form onSubmit={submit}>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="janedoe@gmail.com"
+              required
+              autoComplete="email"
+              className="newsletter-input"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting || fireTriggered}
+              className="newsletter-button"
+            >
+              {buttonText}
+              {showCursor && <span className="newsletter-cursor">|</span>}
+            </button>
+
+            <div className="newsletter-subtext-container">
+              {loadingMessage && loadingPhase && (
+                <div className={`newsletter-subtext newsletter-subtext--${loadingPhase}`}>
+                  {loadingMessage}
+                </div>
+              )}
+            </div>
+          </form>
+        )}
+      </div>
+
+      {FireOverlay}
 
       {toast && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 'var(--space-5)',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            maxWidth: 500,
-            width: '90%',
-            display: 'flex',
-            alignItems: 'flex-start',
-            padding: 'var(--space-4)',
-            borderRadius: 'var(--radius-0)',
-            backgroundColor: toast.variant === 'success' ? '#4db98f' : 'hsl(9, 59%, 50%)',
-            color: 'var(--color-text)',
-            boxShadow: 'var(--color-shadow)',
-            zIndex: 100,
+        <Toast
+          message={toast.message}
+          variant={toast.variant}
+          onClose={() => {
+            clearToast()
+            if (status === 'error') reset()
           }}
-        >
-          <span style={{ flex: 1 }}>{toast.message}</span>
-          <button
-            onClick={() => setToast(null)}
-            style={{
-              marginLeft: 'auto',
-              background: 'none',
-              border: 'none',
-              color: 'var(--color-text)',
-              cursor: 'pointer',
-              fontSize: 'var(--font-size-4)',
-              lineHeight: 1,
-            }}
-          >
-            &times;
-          </button>
-        </div>
+        />
       )}
-    </form>
+    </div>
   )
 }

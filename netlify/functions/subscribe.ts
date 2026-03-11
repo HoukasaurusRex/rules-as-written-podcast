@@ -32,7 +32,7 @@ export const handler: Handler = async (event) => {
     })
 
     if (res.status === 201 || res.status === 200) {
-      return { statusCode: 200, body: 'OK' }
+      return { statusCode: 200, body: JSON.stringify({ success: true }) }
     }
 
     const responseText = await res.text()

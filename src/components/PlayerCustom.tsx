@@ -252,6 +252,8 @@ export default function PlayerCustom({ initialEpisode }: { initialEpisode: Episo
             </span>
           </div>
         </div>
+        {/* Expose audio in DOM for e2e tests — actual playback uses in-memory Audio() ref */}
+        <audio src={episode.enclosure_url} preload="none" style={{ display: 'none' }} />
       </div>
     </>
   )
