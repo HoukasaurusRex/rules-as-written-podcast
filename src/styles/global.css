@@ -203,7 +203,7 @@ figcaption {
   height: 45px;
   width: 12px;
   position: absolute;
-  left: 10px;
+  left: 6px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;

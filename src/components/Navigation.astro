@@ -31,7 +31,7 @@ function slugify(s: string): string {
       const slug = `/show/${episode.number}/${slugify(episode.title)}`
       const isActive = episode.id === currentEpisodeId
       return (
-        <li role="none" data-episode-id={episode.id}>
+        <li role="none">
           {isActive && <Bars />}
           <a
             role="menuitem"
@@ -40,19 +40,6 @@ function slugify(s: string): string {
           >
             <h4 class="marquee-inner">{episode.title}</h4>
           </a>
-          <button
-            class="episode-play-btn"
-            tabindex="-1"
-            data-episode={JSON.stringify(episode)}
-            data-href={slug}
-          >
-            <svg class="play-icon" viewBox="0 0 448 512" width="8" height="8" fill="currentColor" aria-hidden="true">
-              <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
-            </svg>
-            <svg class="pause-icon" viewBox="0 0 448 512" width="8" height="8" fill="currentColor" aria-hidden="true" style="display:none">
-              <path d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"/>
-            </svg>
-          </button>
         </li>
       )
     })}
@@ -63,57 +50,7 @@ function slugify(s: string): string {
 
 <script>
   function initNavigation() {
-    // Play buttons: dispatch event + navigate via View Transitions
-    document.querySelectorAll('.episode-play-btn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        const data = (btn as HTMLElement).dataset.episode
-        const href = (btn as HTMLElement).dataset.href
-        if (data) {
-          window.dispatchEvent(new CustomEvent('play-episode', { detail: JSON.parse(data) }))
-        }
-        // Navigate via the sibling link (uses Astro View Transitions)
-        if (href) {
-          const link = btn.closest('li')?.querySelector('a') as HTMLAnchorElement
-          link?.click()
-        }
-      })
-    })
-
-    // Sync play/pause button icons with audio state
-    syncPlayButtons()
-
     // Detect marquee overflow
-    detectOverflow()
-  }
-
-  function syncPlayButtons() {
-    const updateButtons = () => {
-      document.querySelectorAll('.episode-play-btn').forEach((btn) => {
-        const li = btn.closest('li')
-        const isThisPlaying = li?.classList.contains('episode-playing')
-        const playIcon = btn.querySelector('.play-icon') as HTMLElement
-        const pauseIcon = btn.querySelector('.pause-icon') as HTMLElement
-        if (playIcon && pauseIcon) {
-          playIcon.style.display = isThisPlaying ? 'none' : 'block'
-          pauseIcon.style.display = isThisPlaying ? 'block' : 'none'
-        }
-      })
-    }
-
-    // Listen for custom events from the player to mark playing episode
-    window.addEventListener('play-episode', (e: Event) => {
-      const detail = (e as CustomEvent).detail
-      document.querySelectorAll('#menu li').forEach((li) => {
-        const isThis = (li as HTMLElement).dataset.episodeId === detail.id
-        li.classList.toggle('episode-playing', isThis)
-      })
-      requestAnimationFrame(updateButtons)
-    })
-  }
-
-  function detectOverflow() {
     document.querySelectorAll('.marquee').forEach((el) => {
       const inner = el.querySelector('.marquee-inner') as HTMLElement
       if (inner && inner.scrollWidth > el.clientWidth) {
@@ -139,11 +76,11 @@ function slugify(s: string): string {
       flex-direction: column;
       background-color: var(--color-bg);
       position: fixed;
-      top: 56px; /* Below sticky topnav */
+      top: 56px;
       overflow: hidden;
       z-index: 2;
       max-width: var(--nav-width);
-      height: calc(100vh - 56px - 70px); /* Minus topnav and player bar */
+      height: calc(100vh - 56px - 70px);
       padding: var(--space-5);
       padding-top: var(--space-5);
       box-shadow: var(--color-shadow-right);
@@ -206,7 +143,7 @@ function slugify(s: string): string {
 
   li a {
     padding: var(--space-4) var(--space-5);
-    padding-left: 36px; /* Room for play button and bars */
+    padding-left: 24px;
     border-left: 3px solid var(--color-bg);
     font-size: var(--font-size-4);
     width: 100%;
@@ -231,34 +168,5 @@ function slugify(s: string): string {
   li h4 {
     margin-bottom: 0;
     font-size: 16px;
-  }
-
-  .episode-play-btn {
-    position: absolute;
-    left: 10px;
-    opacity: 0;
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-text);
-    color: var(--color-text);
-    display: flex;
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    border-radius: var(--radius-round);
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 1;
-    transition: opacity 0.2s;
-  }
-
-  .episode-play-btn svg {
-    margin-top: 1px;
-    margin-left: 1px;
-  }
-
-  li:hover .episode-play-btn,
-  li.episode-playing .episode-play-btn {
-    opacity: 1;
   }
 </style>
