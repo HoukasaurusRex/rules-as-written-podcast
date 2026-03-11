@@ -33,15 +33,6 @@ function slugify(s: string): string {
       return (
         <li role="none">
           {isActive && <Bars />}
-          <button
-            class="episode-play-btn"
-            data-episode={JSON.stringify(episode)}
-            data-href={slug}
-            aria-label={`Play ${episode.title} from beginning`}
-            type="button"
-          >
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
           <a
             role="menuitem"
             href={slug}
@@ -59,24 +50,6 @@ function slugify(s: string): string {
 
 <script>
   function initNavigation() {
-    // Play buttons: dispatch play-from-beginning event + navigate to episode page
-    document.querySelectorAll('.episode-play-btn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        const data = (btn as HTMLElement).dataset.episode
-        if (data) {
-          const episode = JSON.parse(data)
-          window.dispatchEvent(new CustomEvent('play-episode', {
-            detail: { ...episode, startFromBeginning: true }
-          }))
-        }
-        // Navigate via sibling link (uses Astro View Transitions)
-        const link = btn.closest('li')?.querySelector('a') as HTMLAnchorElement
-        if (link) link.click()
-      })
-    })
-
     // Detect marquee overflow
     document.querySelectorAll('.marquee').forEach((el) => {
       const inner = el.querySelector('.marquee-inner') as HTMLElement
@@ -92,7 +65,6 @@ function slugify(s: string): string {
 </script>
 
 <style>
-  /* Hidden on mobile — SiteNav handles mobile navigation */
   .episodes_list {
     display: none;
   }
@@ -195,26 +167,5 @@ function slugify(s: string): string {
   li h4 {
     margin-bottom: 0;
     font-size: 16px;
-  }
-
-  .episode-play-btn {
-    position: absolute;
-    left: 7px;
-    opacity: 0;
-    background: none;
-    border: none;
-    color: var(--color-text);
-    cursor: pointer;
-    padding: 2px;
-    z-index: 1;
-    transition: opacity 0.2s;
-  }
-
-  li:hover .episode-play-btn {
-    opacity: 0.7;
-  }
-
-  .episode-play-btn:hover {
-    opacity: 1 !important;
   }
 </style>

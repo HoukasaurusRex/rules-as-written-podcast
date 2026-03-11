@@ -21,6 +21,16 @@ const { episode, image } = Astro.props
   <div class="header_content">
     <div class="header-bottom">
       <div class="header-info">
+        <button
+          class="header-play-btn"
+          data-episode={JSON.stringify(episode)}
+          aria-label={`Play ${episode.title}`}
+          type="button"
+        >
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </button>
         <div class="header-title-wrap">
           <div class="header-title marquee marquee--scroll">
             <h1 class="marquee-inner">
@@ -34,6 +44,23 @@ const { episode, image } = Astro.props
     </div>
   </div>
 </header>
+
+<script>
+  function initHeaderPlay() {
+    document.querySelectorAll('.header-play-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const data = (btn as HTMLElement).dataset.episode
+        if (data) {
+          const episode = JSON.parse(data)
+          window.dispatchEvent(new CustomEvent('play-episode', {
+            detail: { ...episode, startFromBeginning: true }
+          }))
+        }
+      })
+    })
+  }
+  document.addEventListener('astro:page-load', initHeaderPlay)
+</script>
 
 <style>
   .episode-header {
@@ -111,11 +138,47 @@ const { episode, image } = Astro.props
   }
 
   .header-info {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
     width: 100%;
   }
 
+  .header-play-btn {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-round);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .header-play-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+  }
+
+  .header-play-btn svg {
+    margin-left: 2px; /* Optical centering for play triangle */
+  }
+
+  @media (min-width: 992px) {
+    .header-play-btn {
+      width: 56px;
+      height: 56px;
+    }
+  }
+
   .header-title-wrap {
-    width: 100%;
+    flex: 1;
+    min-width: 0;
   }
 
   /* Marquee scrolls on mobile, disabled on desktop (allow wrapping) */
@@ -136,7 +199,6 @@ const { episode, image } = Astro.props
       padding-right: 0;
     }
 
-    /* Hide the duplicate text on desktop */
     .header-title .marquee-inner span[aria-hidden] {
       display: none;
     }
