@@ -1,6 +1,6 @@
 ---
 const links = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: '♪ Now Playing', id: 'now-playing-link' },
   { href: '/episodes', label: 'Episodes' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
@@ -19,13 +19,27 @@ const currentPath = Astro.url.pathname
   <a href="/" class="site-nav-title">Rules as Written</a>
 
   <div class="site-nav-links">
-    {links.map(({ href, label }) => (
-      <a href={href} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
+    {links.map(({ href, label, id }) => (
+      <a href={href} id={id} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
         {label}
       </a>
     ))}
   </div>
 </nav>
+
+<script>
+  function updateNowPlaying() {
+    const link = document.getElementById('now-playing-link') as HTMLAnchorElement
+    if (!link) return
+    const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: any } | undefined
+    if (init?.currentEpisode) {
+      const ep = init.currentEpisode
+      const slug = ep.title.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
+      link.href = `/show/${ep.number}/${slug}`
+    }
+  }
+  document.addEventListener('astro:page-load', updateNowPlaying)
+</script>
 
 <style>
   .site-nav {

@@ -29,7 +29,7 @@ const episodes = await getEpisodes()
         const description = getDescriptionFromHTML(episode.description)
         const image = episode.markdown?.image
         return (
-          <a href={slug} class="episode-card" data-title={episode.title.toLowerCase()}>
+          <a href={slug} class="episode-card" data-title={episode.title.toLowerCase()} data-episode-id={episode.id}>
             {image && (
               <img src={image} alt="" class="episode-card-image" loading="lazy" />
             )}
@@ -54,19 +54,31 @@ const episodes = await getEpisodes()
     const search = document.getElementById('episode-search') as HTMLInputElement | null
     const cards = document.querySelectorAll('.episode-card') as NodeListOf<HTMLElement>
     const noResults = document.getElementById('no-results')
-    if (!search || !noResults) return
 
-    search.addEventListener('input', () => {
-      const query = search.value.toLowerCase().trim()
-      let visible = 0
-      cards.forEach((card) => {
-        const title = card.dataset.title ?? ''
-        const match = !query || title.includes(query)
-        card.style.display = match ? '' : 'none'
-        if (match) visible++
+    // Search filtering
+    if (search && noResults) {
+      search.addEventListener('input', () => {
+        const query = search.value.toLowerCase().trim()
+        let visible = 0
+        cards.forEach((card) => {
+          const title = card.dataset.title ?? ''
+          const match = !query || title.includes(query)
+          card.style.display = match ? '' : 'none'
+          if (match) visible++
+        })
+        noResults.classList.toggle('hidden', visible > 0)
       })
-      noResults.classList.toggle('hidden', visible > 0)
-    })
+    }
+
+    // Highlight currently playing episode
+    const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: { id: string } } | undefined
+    if (init?.currentEpisode) {
+      cards.forEach((card) => {
+        if (card.dataset.episodeId === init.currentEpisode!.id) {
+          card.classList.add('now-playing')
+        }
+      })
+    }
   })
 </script>
 
@@ -115,5 +127,21 @@ const episodes = await getEpisodes()
     opacity: 0.7;
     margin: 0;
     line-height: 1.5;
+  }
+
+  /* Currently playing episode highlight */
+  :global(.episode-card.now-playing) {
+    border-left: 3px solid var(--color-primary);
+    background: var(--color-bg-lighten-10);
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba(176, 72, 56, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 16px rgba(176, 72, 56, 0.6);
+    }
   }
 </style>

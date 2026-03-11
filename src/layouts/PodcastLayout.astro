@@ -20,7 +20,16 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
   <SiteNav />
   <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
 
-  <main id="main" class="podcast-content" transition:animate="fade">
+  <main id="main" class="podcast-content" transition:animate={{
+    forwards: {
+      old: { name: 'fadeOut', duration: '0.15s', fillMode: 'forwards' },
+      new: { name: 'fadeIn', duration: '0.15s', delay: '0.15s', fillMode: 'backwards' },
+    },
+    backwards: {
+      old: { name: 'fadeOut', duration: '0.15s', fillMode: 'forwards' },
+      new: { name: 'fadeIn', duration: '0.15s', delay: '0.15s', fillMode: 'backwards' },
+    },
+  }}>
     <slot />
   </main>
 
@@ -34,6 +43,8 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
   .podcast-content {
     margin-left: 0;
     padding-bottom: 80px; /* Space for fixed player bar */
+    position: relative;
+    z-index: 1; /* Below player (z-index: 10) during transitions */
   }
 
   @media (min-width: 992px) {

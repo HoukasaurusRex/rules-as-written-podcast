@@ -151,16 +151,24 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     }
   }, [])
 
-  // Play-episode event from sidebar
+  // Play-episode event from sidebar or other sources
   useEffect(() => {
     const handler = (e: Event) => {
-      const detail = (e as CustomEvent<Episode>).detail
+      const detail = (e as CustomEvent<Episode & { startFromBeginning?: boolean }>).detail
       const current = $currentEpisode.get()
-      if (current && current.id === detail.id) {
+      const isSame = current && current.id === detail.id
+
+      if (isSame && !detail.startFromBeginning) {
+        // Same episode, no restart flag: toggle play/pause
         audio.paused ? audio.play() : audio.pause()
       } else {
-        $currentEpisode.set(detail)
-        // src change handled by the sync effect above, then auto-play
+        if (!isSame) {
+          $currentEpisode.set(detail)
+        }
+        // Start from beginning if requested, or auto-play new episode
+        if (detail.startFromBeginning) {
+          audio.currentTime = 0
+        }
         requestAnimationFrame(() => audio.play().catch(() => {}))
       }
       setCollapsed(false)
