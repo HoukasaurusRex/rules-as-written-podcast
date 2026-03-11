@@ -50,6 +50,23 @@ function slugify(s: string): string {
 
 <script>
   function initNavigation() {
+    // Highlight the currently playing episode with bars animation
+    const playingSlug = localStorage.getItem('nowPlayingSlug')
+    document.querySelectorAll('#menu li').forEach((li) => {
+      const link = li.querySelector('a') as HTMLAnchorElement
+      const isPlaying = link && playingSlug && link.getAttribute('href') === playingSlug
+      li.classList.toggle('now-playing', !!isPlaying)
+      // Inject CSS-only equalizer bars if playing and not already present
+      if (isPlaying && !li.querySelector('.eq-bars')) {
+        const bars = document.createElement('div')
+        bars.className = 'eq-bars'
+        bars.innerHTML = '<span></span><span></span><span></span><span></span>'
+        li.prepend(bars)
+      } else if (!isPlaying) {
+        li.querySelector('.eq-bars')?.remove()
+      }
+    })
+
     // Detect marquee overflow
     document.querySelectorAll('.marquee').forEach((el) => {
       const inner = el.querySelector('.marquee-inner') as HTMLElement
@@ -167,5 +184,41 @@ function slugify(s: string): string {
   li h4 {
     margin-bottom: 0;
     font-size: 16px;
+  }
+
+  /* Now-playing episode highlight (set via JS from localStorage) */
+  :global(li.now-playing a) {
+    border-left-color: var(--color-primary) !important;
+    background-color: var(--color-bg-lighten-10);
+  }
+
+  :global(.eq-bars) {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+    z-index: 1;
+  }
+
+  :global(.eq-bars span) {
+    display: block;
+    width: 3px;
+    background: var(--color-secondary);
+    border-radius: 1px;
+    animation: eqBounce 0.8s ease-in-out infinite alternate;
+  }
+
+  :global(.eq-bars span:nth-child(1)) { height: 8px; animation-delay: 0s; }
+  :global(.eq-bars span:nth-child(2)) { height: 12px; animation-delay: 0.2s; }
+  :global(.eq-bars span:nth-child(3)) { height: 6px; animation-delay: 0.4s; }
+  :global(.eq-bars span:nth-child(4)) { height: 10px; animation-delay: 0.1s; }
+
+  @keyframes eqBounce {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
   }
 </style>

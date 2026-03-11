@@ -172,6 +172,12 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
           audio.play().catch(() => {})
         }
       }
+      // Track playing episode in localStorage for sidebar/nav/episodes page highlights
+      const ep = isSame ? ($currentEpisode.get() ?? detail) : detail
+      localStorage.setItem('nowPlayingEpisodeId', ep.id)
+      const slug = ep.title.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
+      localStorage.setItem('nowPlayingSlug', `/show/${ep.number}/${slug}`)
+
       setCollapsed(false)
       localStorage.setItem('playerCollapsed', 'false')
     }

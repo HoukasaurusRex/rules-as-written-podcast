@@ -70,13 +70,13 @@ const episodes = await getEpisodes()
       })
     }
 
-    // Highlight currently playing episode with equalizer bars
-    const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: { id: string } } | undefined
-    if (init?.currentEpisode) {
+    // Highlight currently playing episode (from localStorage, not page data)
+    const playingId = localStorage.getItem('nowPlayingEpisodeId')
+    if (playingId) {
       cards.forEach((card) => {
-        if (card.dataset.episodeId === init.currentEpisode!.id) {
-          card.classList.add('now-playing')
-          // Inject CSS-only equalizer bars
+        const isPlaying = card.dataset.episodeId === playingId
+        card.classList.toggle('now-playing', isPlaying)
+        if (isPlaying && !card.querySelector('.eq-bars')) {
           const barsEl = document.createElement('div')
           barsEl.className = 'eq-bars'
           barsEl.innerHTML = '<span></span><span></span><span></span><span></span>'
