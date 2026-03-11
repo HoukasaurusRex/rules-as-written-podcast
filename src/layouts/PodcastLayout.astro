@@ -23,7 +23,7 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
     <slot />
   </main>
 
-  <Player client:load initialEpisode={currentEpisode} transition:persist />
+  <Player client:load initialEpisode={currentEpisode} allEpisodes={episodes} transition:persist />
 </BaseLayout>
 
 <style>

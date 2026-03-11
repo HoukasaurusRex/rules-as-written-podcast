@@ -1,0 +1,78 @@
+/* Dark D&D theme overrides for react-h5-audio-player */
+.rhap_container {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.rhap_main-controls-button,
+.rhap_volume-button,
+.rhap_additional-controls button,
+.rhap_repeat-button,
+.rhap_forward-button,
+.rhap_rewind-button {
+  color: var(--color-text) !important;
+}
+
+.rhap_play-pause-button {
+  color: var(--color-text) !important;
+  font-size: 32px !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* Progress bar - thicker for easier interaction (#38) */
+.rhap_progress-bar {
+  height: 6px !important;
+  background-color: var(--color-bg-lighten-10) !important;
+  border-radius: 3px !important;
+}
+
+.rhap_progress-filled {
+  background-image: linear-gradient(224deg, var(--color-primary-lighten-70) 0%, var(--color-primary-darken) 100%) !important;
+  border-radius: 3px !important;
+}
+
+.rhap_progress-indicator {
+  background: var(--color-primary) !important;
+  width: 14px !important;
+  height: 14px !important;
+  top: -4px !important;
+  box-shadow: none !important;
+}
+
+.rhap_download-progress {
+  background-color: var(--color-bg-lighten-20) !important;
+}
+
+/* Time display */
+.rhap_time {
+  color: var(--color-text) !important;
+  opacity: 0.6;
+  font-size: var(--font-size-1) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Volume bar */
+.rhap_volume-bar {
+  background-color: var(--color-bg-lighten-10) !important;
+}
+
+.rhap_volume-indicator {
+  background: var(--color-primary) !important;
+  box-shadow: none !important;
+}
+
+.rhap_volume-filled {
+  background-color: var(--color-primary) !important;
+}
+
+/* Skip controls (next/prev) */
+.rhap_skip-button {
+  color: var(--color-text) !important;
+  font-size: 20px !important;
+}
+
+.rhap_skip-button:hover {
+  color: var(--color-primary-lighten-50) !important;
+}
