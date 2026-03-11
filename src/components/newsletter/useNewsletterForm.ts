@@ -44,14 +44,19 @@ export function useNewsletterForm() {
     setStatus('error')
   }, [])
 
+  // Triggers fire animation. isSubscribed is deferred until fire completes (via completeSubscription).
   const setSuccess = useCallback((alreadySubscribed = false) => {
     if (alreadySubscribed) {
       setToast({ message: 'Already subscribed!', variant: 'success' })
     }
     writeStorage()
-    setIsSubscribed(true)
     setEmail('')
     setStatus('success')
+  }, [])
+
+  // Called after fire animation completes to reveal the success message.
+  const completeSubscription = useCallback(() => {
+    setIsSubscribed(true)
   }, [])
 
   const abort = useCallback(() => {
@@ -93,5 +98,5 @@ export function useNewsletterForm() {
 
   const reset = useCallback(() => setStatus('idle'), [])
 
-  return { email, setEmail, status, toast, submit, clearToast, isSubscribed, reset, abort }
+  return { email, setEmail, status, toast, submit, clearToast, isSubscribed, reset, abort, completeSubscription }
 }

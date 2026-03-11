@@ -8,11 +8,13 @@ const DotLottieReact = lazy(() =>
 const FIRE_DURATION = 1500
 const WARMUP_DURATION = 400
 
-export function useFireEffect(trigger: boolean) {
+export function useFireEffect(trigger: boolean, onComplete?: () => void) {
   const [isActive, setIsActive] = useState(false)
   const [showFlame, setShowFlame] = useState(false)
   const [warmup, setWarmup] = useState(false)
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+  const onCompleteRef = useRef(onComplete)
+  onCompleteRef.current = onComplete
 
   const clearTimers = useCallback(() => {
     for (const t of timersRef.current) clearTimeout(t)
@@ -27,7 +29,7 @@ export function useFireEffect(trigger: boolean) {
     if (!trigger) return
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsActive(false)
+      onCompleteRef.current?.()
       return
     }
 
@@ -42,6 +44,7 @@ export function useFireEffect(trigger: boolean) {
     schedule(() => {
       setShowFlame(false)
       setIsActive(false)
+      onCompleteRef.current?.()
     }, WARMUP_DURATION + FIRE_DURATION)
 
     return clearTimers

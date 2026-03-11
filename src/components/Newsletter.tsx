@@ -7,12 +7,12 @@ import { Toast } from './newsletter/Toast'
 import './newsletter/newsletter.css'
 
 export default function Newsletter() {
-  const { email, setEmail, status, toast, submit, clearToast, isSubscribed, reset, abort } = useNewsletterForm()
+  const { email, setEmail, status, toast, submit, clearToast, isSubscribed, reset, abort, completeSubscription } = useNewsletterForm()
 
   const isSubmitting = status === 'submitting'
   const fireTriggered = status === 'success'
   const { text: buttonText, showCursor } = useTypewriter(isSubmitting)
-  const { phase, isActive: fireActive, FireOverlay } = useFireEffect(fireTriggered)
+  const { phase, isActive: fireActive, FireOverlay } = useFireEffect(fireTriggered, completeSubscription)
   const { message: loadingMessage, phase: loadingPhase, shouldAbort } = useSlowLoadingMessages(isSubmitting)
 
   useEffect(() => {
