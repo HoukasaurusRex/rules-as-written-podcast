@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
+import PodcastLayout from '@layouts/PodcastLayout.astro'
 import Header from '@components/Header.astro'
 import Aside from '@components/Aside.astro'
 import Newsletter from '@components/Newsletter'
@@ -24,7 +24,7 @@ const description = getDescriptionFromHTML(episode.description)
 const pathname = `/show/${episode.number}/${slugify(episode.title)}`
 ---
 
-<BaseLayout
+<PodcastLayout
   title={episode.title}
   description={description}
   image={customImage}
@@ -63,7 +63,7 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
     </div>
     <Aside markdown={episode.markdown} />
   </div>
-</BaseLayout>
+</PodcastLayout>
 
 <style>
   .episode-layout {
@@ -85,7 +85,7 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
 
   @media (min-width: 992px) {
     .episode-main {
-      max-width: 650px;
+      max-width: 800px;
     }
   }
 

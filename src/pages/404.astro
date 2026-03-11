@@ -1,23 +1,18 @@
 ---
-import '@styles/global.css'
+import BaseLayout from '@layouts/BaseLayout.astro'
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="/images/icon.png" />
-    <link rel="apple-touch-icon" href="/images/apple-icon.png" />
-    <meta name="theme-color" content="#9A3C31" />
-    <title>404 | Rules as Written</title>
-  </head>
-  <body>
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center;">
-      <div>
-        <h1>404</h1>
-        <p>Page not found.</p>
-        <a href="/">Go back home</a>
-      </div>
+<BaseLayout title="404 - Here There Be Dragons">
+  <main id="main" class="flex min-h-screen items-center justify-center text-center">
+    <div class="max-w-lg px-8">
+      <h1 style="font-size: var(--font-size-8); color: var(--color-primary);">404</h1>
+      <h2 style="font-size: var(--font-size-6);">Here There Be Dragons</h2>
+      <p class="mb-8 opacity-80">
+        You've wandered off the map, adventurer. The page you seek lies beyond the edges of our realm.
+      </p>
+      <a href="/" class="inline-block rounded px-6 py-3" style="background: var(--color-primary); color: white; text-decoration: none;">
+        Return to the Tavern
+      </a>
     </div>
-  </body>
-</html>
+  </main>
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Navigation from '@components/Navigation.astro'
+import Player from '@components/Player'
+import type { Episode } from '../utils/feed'
+
+interface Props {
+  title?: string
+  description?: string
+  image?: string | null
+  pathname?: string
+  episodes: Episode[]
+  currentEpisode: Episode
+}
+
+const { title, description, image, pathname, episodes, currentEpisode } = Astro.props
+---
+
+<BaseLayout title={title} description={description} image={image} pathname={pathname}>
+  <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
+
+  <main id="main" class="podcast-content" transition:animate="fade">
+    <slot />
+  </main>
+
+  <Player client:load initialEpisode={currentEpisode} transition:persist />
+</BaseLayout>
+
+<style>
+  .podcast-content {
+    margin-left: 0;
+  }
+
+  @media (min-width: 992px) {
+    .podcast-content {
+      margin-left: var(--nav-width);
+    }
+  }
+</style>

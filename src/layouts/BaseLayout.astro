@@ -2,20 +2,16 @@
 import '@styles/global.css'
 import '@styles/tailwind.css'
 import SEO from '@components/SEO.astro'
-import Navigation from '@components/Navigation.astro'
-import Player from '@components/Player'
-import type { Episode } from '../utils/feed'
+import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   title?: string
   description?: string
   image?: string | null
   pathname?: string
-  episodes: Episode[]
-  currentEpisode: Episode
 }
 
-const { title, description, image, pathname, episodes, currentEpisode } = Astro.props
+const { title, description, image, pathname } = Astro.props
 ---
 
 <html lang="en">
@@ -27,17 +23,11 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#9A3C31" />
     <SEO title={title} description={description} image={image} pathname={pathname} />
+    <ClientRouter />
   </head>
   <body>
     <a href="#main" class="sr-only">Skip to content</a>
-
-    <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
-
-    <main id="main" class="main-content">
-      <slot />
-    </main>
-
-    <Player client:load initialEpisode={currentEpisode} />
+    <slot />
 
     <script>
       if ('serviceWorker' in navigator) {
@@ -46,15 +36,3 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
     </script>
   </body>
 </html>
-
-<style>
-  .main-content {
-    margin-left: 0;
-  }
-
-  @media (min-width: 992px) {
-    .main-content {
-      margin-left: var(--nav-width);
-    }
-  }
-</style>

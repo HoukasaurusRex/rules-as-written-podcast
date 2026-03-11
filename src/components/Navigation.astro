@@ -20,7 +20,7 @@ function slugify(s: string): string {
 <!-- Mobile header -->
 <div class="mobile-header">
   <div class="mobile-logo">
-    <img src="/images/icon-xl.png" alt="" class="logo-icon mobile-only-hide" />
+    <img src="/images/icon-xl.png" alt="" class="logo-icon mobile-only-hide" width="50" height="50" />
     <a href="/">
       <span class="site-title">{siteTitle}</span>
     </a>
@@ -52,7 +52,7 @@ function slugify(s: string): string {
 <!-- Sidebar navigation -->
 <nav class="episodes_list" id="episodes-nav">
   <div class="nav-logo">
-    <img src="/images/icon-xl.png" alt="" class="logo-icon" />
+    <img src="/images/icon-xl.png" alt="" class="logo-icon" width="50" height="50" />
     <div>
       <a href="/">
         <span class="site-title">{siteTitle}</span>
@@ -95,42 +95,47 @@ function slugify(s: string): string {
 </nav>
 
 <script>
-  const toggle = document.getElementById('menu-toggle')
-  const nav = document.getElementById('episodes-nav')
-  const openIcon = toggle?.querySelector('.menu-icon-open')
-  const closeIcon = toggle?.querySelector('.menu-icon-close')
+  function initNavigation() {
+    const toggle = document.getElementById('menu-toggle')
+    const nav = document.getElementById('episodes-nav')
+    const openIcon = toggle?.querySelector('.menu-icon-open')
+    const closeIcon = toggle?.querySelector('.menu-icon-close')
 
-  toggle?.addEventListener('click', () => {
-    const isOpen = nav?.classList.toggle('is-open')
-    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
-    if (openIcon && closeIcon) {
-      ;(openIcon as HTMLElement).style.display = isOpen ? 'none' : 'block'
-      ;(closeIcon as HTMLElement).style.display = isOpen ? 'block' : 'none'
-    }
-  })
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (!nav?.contains(e.target as Node) && !toggle?.contains(e.target as Node)) {
-      nav?.classList.remove('is-open')
-      toggle?.setAttribute('aria-expanded', 'false')
+    toggle?.addEventListener('click', () => {
+      const isOpen = nav?.classList.toggle('is-open')
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
       if (openIcon && closeIcon) {
-        ;(openIcon as HTMLElement).style.display = 'block'
-        ;(closeIcon as HTMLElement).style.display = 'none'
-      }
-    }
-  })
-
-  // Episode play buttons
-  document.querySelectorAll('.episode-play-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const data = (btn as HTMLElement).dataset.episode
-      if (data) {
-        const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
-        window.dispatchEvent(event)
+        ;(openIcon as HTMLElement).style.display = isOpen ? 'none' : 'block'
+        ;(closeIcon as HTMLElement).style.display = isOpen ? 'block' : 'none'
       }
     })
-  })
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!nav?.contains(e.target as Node) && !toggle?.contains(e.target as Node)) {
+        nav?.classList.remove('is-open')
+        toggle?.setAttribute('aria-expanded', 'false')
+        if (openIcon && closeIcon) {
+          ;(openIcon as HTMLElement).style.display = 'block'
+          ;(closeIcon as HTMLElement).style.display = 'none'
+        }
+      }
+    })
+
+    // Episode play buttons
+    document.querySelectorAll('.episode-play-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const data = (btn as HTMLElement).dataset.episode
+        if (data) {
+          const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
+          window.dispatchEvent(event)
+        }
+      })
+    })
+  }
+
+  // Re-bind after View Transitions swap the DOM
+  document.addEventListener('astro:page-load', initNavigation)
 </script>
 
 <style>

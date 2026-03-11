@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
+import PodcastLayout from '@layouts/PodcastLayout.astro'
 import Header from '@components/Header.astro'
 import Aside from '@components/Aside.astro'
 import Newsletter from '@components/Newsletter'
@@ -14,7 +14,7 @@ const headerImage = customImage || 'https://rulesaswrittenshow.com/raw-banner.jp
 const description = getDescriptionFromHTML(latest.description)
 ---
 
-<BaseLayout
+<PodcastLayout
   title={latest.title}
   description={description}
   image={customImage}
@@ -52,7 +52,7 @@ const description = getDescriptionFromHTML(latest.description)
     </div>
     <Aside markdown={latest.markdown} />
   </div>
-</BaseLayout>
+</PodcastLayout>
 
 <style>
   .episode-layout {
@@ -74,7 +74,7 @@ const description = getDescriptionFromHTML(latest.description)
 
   @media (min-width: 992px) {
     .episode-main {
-      max-width: 650px;
+      max-width: 800px;
     }
   }
 
