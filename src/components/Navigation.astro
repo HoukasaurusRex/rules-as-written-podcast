@@ -61,15 +61,15 @@ function slugify(s: string): string {
 
 <script>
   function initNavigation() {
-    // Episode play buttons — dispatch play event and navigate to episode page
+    // Episode play buttons — dispatch play event only (no navigation)
     document.querySelectorAll('.episode-play-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         const data = (btn as HTMLElement).dataset.episode
         if (data) {
           const event = new CustomEvent('play-episode', { detail: JSON.parse(data) })
           window.dispatchEvent(event)
-          const href = btn.closest('li')?.querySelector('a')?.getAttribute('href')
-          if (href) window.location.href = href
         }
       })
     })
@@ -157,6 +157,7 @@ function slugify(s: string): string {
 
   li a {
     padding: var(--space-4) var(--space-5);
+    padding-left: 36px; /* Room for play button and bars */
     border-left: 3px solid var(--color-bg);
     font-size: var(--font-size-4);
     width: 100%;

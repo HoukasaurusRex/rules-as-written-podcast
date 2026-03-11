@@ -6,9 +6,10 @@ import { $currentEpisode, $episodeList } from '../stores/episode'
 import type { Episode } from '../utils/feed'
 import formatTime from '../utils/formatTime'
 
-// Module-level Audio — persists across React remounts and page navigations
+// Module-level — persists across React remounts and page navigations
 const audio = typeof window !== 'undefined' ? new Audio() : (null as unknown as HTMLAudioElement)
 if (audio) audio.preload = 'auto'
+let currentSrc = '' // tracks which src is loaded, survives remounts
 
 interface PlayerProps {
   initialEpisode?: Episode
@@ -55,11 +56,14 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
   }, [])
 
   // Sync audio element with episode — only change src when episode actually changes
-  const currentSrcRef = useRef('')
   useEffect(() => {
     if (!episode || !audio) return
-    if (currentSrcRef.current === episode.enclosure_url) return
-    currentSrcRef.current = episode.enclosure_url
+    // Check both module-level tracker AND the audio element's actual src
+    if (currentSrc === episode.enclosure_url || audio.src === episode.enclosure_url) {
+      currentSrc = episode.enclosure_url
+      return
+    }
+    currentSrc = episode.enclosure_url
     audio.src = episode.enclosure_url
 
     // Restore position from localStorage for new episodes
@@ -224,9 +228,9 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
             )}
             <button onClick={togglePlay} className="player-play-btn" aria-label={playing ? 'Pause' : 'Play'} type="button">
               {playing ? (
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
               ) : (
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               )}
             </button>
             {hasSkip && (
