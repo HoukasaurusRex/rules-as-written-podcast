@@ -1,5 +1,6 @@
 ---
 import '@styles/global.css'
+import '@styles/tailwind.css'
 import SEO from '@components/SEO.astro'
 import Navigation from '@components/Navigation.astro'
 import Player from '@components/Player'
@@ -21,7 +22,10 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/images/icon.png" />
+    <link rel="apple-touch-icon" href="/images/apple-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#9A3C31" />
     <SEO title={title} description={description} image={image} pathname={pathname} />
   </head>
   <body>
@@ -34,6 +38,12 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
     </main>
 
     <Player client:load initialEpisode={currentEpisode} />
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    </script>
   </body>
 </html>
 
