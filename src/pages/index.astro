@@ -1,7 +1,6 @@
 ---
 import PodcastLayout from '@layouts/PodcastLayout.astro'
 import Header from '@components/Header.astro'
-import Aside from '@components/Aside.astro'
 import Newsletter from '@components/Newsletter'
 import Comments from '@components/Comments.astro'
 import { getEpisodes, getDescriptionFromHTML } from '@utils/episodes'
@@ -22,54 +21,40 @@ const description = getDescriptionFromHTML(latest.description)
   episodes={episodes}
   currentEpisode={latest}
 >
-  <div class="episode-layout">
-    <div class="episode-main">
-      <Header episode={latest} image={headerImage} />
-      <article>
-        {description && <p>{description}</p>}
-        <p style="padding-top: 30px;">
-          If you like this show and want to help others find it,
-          we would be so grateful if you rate us on
-          <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
-          and let us know what you think!
-        </p>
-        {latest.body && <div set:html={latest.body} style="padding-top: 30px;" />}
-      </article>
-      <footer class="episode-footer">
-        <p>
-          Can't get enough of us?
-          <br />
-          Stay on top of the latest releases and extra goodies by subscribing to our weekly newsletter!
-        </p>
-        <Newsletter client:visible />
-      </footer>
-      <Comments term={latest.title} />
-    </div>
-    <Aside markdown={latest.markdown} />
+  <div class="episode-main">
+    <Header episode={latest} image={headerImage} />
+    <article>
+      {description && <p>{description}</p>}
+      <p style="padding-top: 30px;">
+        If you like this show and want to help others find it,
+        we would be so grateful if you rate us on
+        <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
+        and let us know what you think!
+      </p>
+      {latest.body && <div set:html={latest.body} style="padding-top: 30px;" />}
+    </article>
+    <footer class="episode-footer">
+      <p>
+        Can't get enough of us?
+        <br />
+        Stay on top of the latest releases and extra goodies by subscribing to our weekly newsletter!
+      </p>
+      <Newsletter client:visible />
+    </footer>
+    <Comments term={latest.title} />
   </div>
 </PodcastLayout>
 
 <style>
-  .episode-layout {
-    display: flex;
-    flex-direction: column;
-  }
-
-  @media (min-width: 992px) {
-    .episode-layout {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-
   .episode-main {
     max-width: 100%;
-    min-width: 0;
+    margin: 0 auto;
+    padding-bottom: var(--space-14);
   }
 
   @media (min-width: 992px) {
     .episode-main {
-      max-width: 800px;
+      max-width: 900px;
     }
   }
 

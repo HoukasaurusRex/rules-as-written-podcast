@@ -11,8 +11,8 @@ const currentPath = Astro.url.pathname
 
 <nav class="site-nav">
   <a href="/" class="site-nav-logo">
-    <img src="/images/icon-xl.png" alt="" width="32" height="32" />
-    <span>Rules as Written</span>
+    <img src="/images/icon-xl.png" alt="" width="28" height="28" />
+    <span class="site-nav-logo-text">Rules as Written</span>
   </a>
   <div class="site-nav-links">
     {links.map(({ href, label }) => (
@@ -28,10 +28,18 @@ const currentPath = Astro.url.pathname
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-4) var(--space-6);
+    padding: var(--space-2) var(--space-4);
     border-bottom: 1px solid var(--color-bg-lighten-10);
-    flex-wrap: wrap;
-    gap: var(--space-3);
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  @media (min-width: 992px) {
+    .site-nav {
+      padding: var(--space-3) var(--space-6);
+    }
   }
 
   .site-nav-logo {
@@ -39,26 +47,49 @@ const currentPath = Astro.url.pathname
     align-items: center;
     gap: var(--space-2);
     color: var(--color-primary);
-    font-size: var(--font-size-5);
+    font-size: var(--font-size-3);
     font-weight: var(--font-weight-heading);
     text-decoration: none;
+    flex-shrink: 0;
   }
 
   .site-nav-logo:hover {
     color: var(--color-primary-lighten-10);
   }
 
+  .site-nav-logo-text {
+    display: none;
+  }
+
+  @media (min-width: 600px) {
+    .site-nav-logo-text {
+      display: inline;
+    }
+  }
+
   .site-nav-links {
     display: flex;
-    gap: var(--space-5);
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 600px) {
+    .site-nav-links {
+      gap: var(--space-5);
+    }
   }
 
   .site-nav-links a {
     color: var(--color-text);
     text-decoration: none;
-    font-size: var(--font-size-2);
+    font-size: var(--font-size-1);
     opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  @media (min-width: 600px) {
+    .site-nav-links a {
+      font-size: var(--font-size-2);
+    }
   }
 
   .site-nav-links a:hover,

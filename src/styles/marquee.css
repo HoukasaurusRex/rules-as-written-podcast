@@ -1,22 +1,24 @@
 /* Shared scrolling marquee for overflowing text.
- * Fades trailing edge to transparent instead of hard ellipsis.
+ * Fades both edges to transparent for smooth appearance.
  * Usage: wrap text in .marquee > .marquee-inner
+ * For seamless loop, duplicate the text content inside .marquee-inner
  */
 .marquee {
   overflow: hidden;
   white-space: nowrap;
-  mask-image: linear-gradient(to right, black 85%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 
 .marquee-inner {
   display: inline-block;
-  padding-right: 2rem;
+  /* Gap between the original and duplicate text for seamless looping.
+   * The animation translates -50% so each copy occupies exactly half. */
 }
 
 /* Always-scrolling variant (for player title) */
 .marquee--scroll .marquee-inner {
-  animation: marquee-scroll 12s linear infinite;
+  animation: marquee-scroll 14s linear infinite;
 }
 
 /* Hover-only variant (for sidebar titles) */

@@ -1,0 +1,59 @@
+/*! Custom giscus theme for Rules as Written - matches the site's dark D&D aesthetic */
+
+main {
+  --color-canvas-default: #1A2232;
+  --color-canvas-overlay: #232B3B;
+  --color-canvas-inset: #1A2232;
+  --color-canvas-subtle: #232B3B;
+  --color-border-default: #2C3648;
+  --color-border-muted: #232B3B;
+  --color-neutral-muted: rgba(255, 255, 255, 0.1);
+  --color-accent-fg: hsl(9, 59%, 55%);
+  --color-accent-emphasis: hsl(9, 59%, 46%);
+  --color-attention-subtle: rgba(255, 255, 255, 0.05);
+  --color-danger-fg: hsl(9, 59%, 55%);
+  --color-fg-default: rgba(255, 255, 255, 0.9);
+  --color-fg-muted: rgba(255, 255, 255, 0.6);
+  --color-fg-subtle: rgba(255, 255, 255, 0.4);
+  --color-btn-text: rgba(255, 255, 255, 0.9);
+  --color-btn-bg: #2C3648;
+  --color-btn-border: #2C3648;
+  --color-btn-hover-bg: hsl(9, 59%, 35%);
+  --color-btn-hover-border: hsl(9, 59%, 46%);
+  --color-btn-active-bg: hsl(9, 59%, 46%);
+  --color-btn-active-border: hsl(9, 59%, 55%);
+  --color-btn-primary-text: #fff;
+  --color-btn-primary-bg: hsl(9, 59%, 46%);
+  --color-btn-primary-border: hsl(9, 59%, 46%);
+  --color-btn-primary-hover-bg: hsl(9, 59%, 55%);
+  --color-btn-primary-hover-border: hsl(9, 59%, 55%);
+  --color-social-reaction-bg-hover: rgba(255, 255, 255, 0.08);
+  --color-social-reaction-bg-reacted-hover: rgba(255, 255, 255, 0.12);
+}
+
+main .gsc-comment {
+  border-color: #2C3648;
+}
+
+main .gsc-timeline {
+  border-color: #2C3648;
+}
+
+main .gsc-header .gsc-left-header {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+main .gsc-comment-box {
+  border-color: #2C3648;
+  background-color: #232B3B;
+}
+
+main .gsc-comment-box textarea {
+  background-color: #1A2232;
+  border-color: #2C3648;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+main .gsc-reactions-button {
+  border-color: #2C3648;
+}

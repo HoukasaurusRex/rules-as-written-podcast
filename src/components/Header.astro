@@ -21,7 +21,6 @@ const { episode, image } = Astro.props
     <img src="/images/raw-logo-fancy.webp" alt="" class="header-logo" />
     <div class="header-bottom">
       <div class="header-info">
-        <div id="header-play-target" style="min-width: 32px; min-height: 32px;"></div>
         <div>
           <h1>{episode.title}</h1>
           <h5>EP{episode.number}</h5>
@@ -116,5 +115,4 @@ const { episode, image } = Astro.props
     width: 100%;
   }
 
-  /* .play-episode-btn styles are in global.css (rendered via React portal) */
 </style>

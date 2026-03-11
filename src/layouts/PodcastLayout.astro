@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro'
+import SiteNav from '@components/SiteNav.astro'
 import Navigation from '@components/Navigation.astro'
 import Player from '@components/Player'
 import type { Episode } from '../utils/feed'
@@ -17,6 +18,7 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
 ---
 
 <BaseLayout title={title} description={description} image={image} pathname={pathname}>
+  <SiteNav />
   <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
 
   <main id="main" class="podcast-content" transition:animate="fade">
@@ -29,6 +31,7 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
 <style>
   .podcast-content {
     margin-left: 0;
+    padding-bottom: 80px; /* Space for fixed player bar */
   }
 
   @media (min-width: 992px) {
