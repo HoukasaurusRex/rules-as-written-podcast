@@ -15,6 +15,7 @@
   "dependencies": {
     "@astrojs/react": "^4.2.0",
     "@astrojs/rss": "^4.0.0",
+    "@lottiefiles/dotlottie-react": "^0.18.4",
     "@nanostores/react": "^0.8.0",
     "@notionhq/client": "^2.3.0",
     "astro": "^5.7.0",

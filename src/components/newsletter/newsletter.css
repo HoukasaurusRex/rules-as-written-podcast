@@ -8,6 +8,18 @@
   overflow: visible;
 }
 
+/* Inner content box — fixed height prevents layout shift on state change */
+.newsletter-content {
+  position: relative;
+  background-color: var(--color-bg);
+  width: 100%;
+  /* Match form height: padding(32) + input(40) + margin(16) + button(60) + subtext(40) ≈ 190px */
+  min-height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Border glow on visibility (triggered by React mount via client:visible) */
 @keyframes glowPulse {
   0%, 100% {
@@ -20,19 +32,41 @@
   }
 }
 
-.newsletter-wrapper--visible {
+.newsletter-wrapper--visible .newsletter-content {
   border: 1px solid hsla(9, 59%, 46%, 0.15);
   border-radius: var(--radius-0);
   padding: var(--space-4);
   animation: glowPulse 4s ease-in-out infinite;
 }
 
+/* Brighter, slower pulse while submitting — builds anticipation before fire */
+@keyframes glowBuild {
+  0%, 100% {
+    box-shadow: 0 0 15px hsla(9, 59%, 46%, 0.3);
+    border-color: hsla(9, 59%, 46%, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px hsla(15, 80%, 50%, 0.5);
+    border-color: hsla(15, 80%, 50%, 0.6);
+  }
+}
+
+.newsletter-wrapper--submitting .newsletter-content {
+  animation: glowBuild 2s ease-in-out infinite;
+}
+
 /* Warm-up phase (fire phase 1) */
-.newsletter-wrapper--warmup {
-  animation: none;
+.newsletter-wrapper--warmup .newsletter-content {
   border-color: hsl(30, 90%, 55%);
   box-shadow: 0 0 30px hsla(20, 90%, 50%, 0.5);
-  transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+/* Ember glow for subscribed state */
+.newsletter-wrapper--subscribed .newsletter-content {
+  transition: box-shadow 0.8s ease, border-color 0.8s ease;
+  animation: none;
+  border-color: hsla(9, 59%, 46%, 0.3);
+  box-shadow: 0 0 15px hsla(20, 80%, 50%, 0.12);
 }
 
 /* Input */
@@ -55,10 +89,12 @@
   box-shadow: 0 0 6px hsla(9, 59%, 46%, 0.3);
 }
 
-/* Button */
+/* Button — z-index 2 sits above fire overlay */
 .newsletter-button {
+  position: relative;
+  z-index: 2;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-image 0.3s ease, filter 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
   height: 60px;
   font-weight: bold;
   border: none;
@@ -67,7 +103,7 @@
   color: var(--color-text);
   font-size: var(--font-size-2);
   padding: 0 var(--space-6);
-  min-width: 180px;
+  min-width: 250px;
   font-family: monospace;
 }
 
@@ -77,8 +113,12 @@
 }
 
 .newsletter-button:disabled {
-  cursor: default;
-  opacity: 0.9;
+  cursor: not-allowed;
+  filter: brightness(60%);
+}
+
+.newsletter-cursor {
+  animation: blink 0.8s step-end infinite;
 }
 
 /* Success state */
@@ -96,7 +136,6 @@
 .newsletter-success p {
   margin: 0;
   font-size: var(--font-size-2);
-  opacity: 0.8;
 }
 
 @keyframes fadeIn {
@@ -106,13 +145,6 @@
 
 .newsletter-success--revealed {
   animation: fadeIn 0.6s ease forwards;
-}
-
-/* Ember glow for subscribed state */
-.newsletter-wrapper--subscribed {
-  animation: none;
-  border-color: hsla(9, 59%, 46%, 0.3);
-  box-shadow: 0 0 15px hsla(20, 80%, 50%, 0.12);
 }
 
 /* Toast */
@@ -141,13 +173,8 @@
   overflow: hidden;
 }
 
-.newsletter-toast--success {
-  background-color: #4db98f;
-}
-
-.newsletter-toast--error {
-  background-color: hsl(9, 59%, 50%);
-}
+.newsletter-toast--success { background-color: #4db98f; }
+.newsletter-toast--error { background-color: hsl(9, 59%, 50%); }
 
 .newsletter-toast__content {
   display: flex;
@@ -155,9 +182,7 @@
   padding: var(--space-4);
 }
 
-.newsletter-toast__message {
-  flex: 1;
-}
+.newsletter-toast__message { flex: 1; }
 
 .newsletter-toast__close {
   margin-left: auto;
@@ -176,39 +201,75 @@
   animation: shrink linear forwards;
 }
 
-/* Fire overlay fade */
-.newsletter-overlay {
+.newsletter-fire {
   position: absolute;
-  inset: 0;
-  background: rgba(20, 10, 0, 0.7);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 5;
-  border-radius: var(--radius-0);
+  left: -5px;
+  right: 0;
+  bottom: 60px;
+  height: 100%;
+  z-index: 1;
   pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
-.newsletter-overlay--active {
-  opacity: 1;
+.newsletter-flame {
+  width: 50%;
+  height: 200%;
+  transform: scale(1.2);
+  transform-origin: center bottom;
+}
+
+/* Slow-loading subtext */
+.newsletter-subtext-container {
+  height: 24px;
+  margin-top: var(--space-3);
+  text-align: center;
+}
+
+.newsletter-subtext {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  opacity: 0.75;
+}
+
+@keyframes subtextEnter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 0.75; transform: translateY(0); }
+}
+
+@keyframes subtextExit {
+  from { opacity: 0.75; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(6px); }
+}
+
+.newsletter-subtext--entering {
+  animation: subtextEnter 0.3s ease-out forwards;
+}
+
+.newsletter-subtext--visible {
+  opacity: 0.75;
+}
+
+.newsletter-subtext--exiting {
+  animation: subtextExit 0.2s ease-in forwards;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .newsletter-wrapper--visible {
+  .newsletter-wrapper--visible .newsletter-content {
     animation: none;
     box-shadow: 0 0 12px hsla(9, 59%, 46%, 0.15);
     border-color: hsla(9, 59%, 46%, 0.25);
   }
 
-  .newsletter-success--revealed {
-    animation: none;
-  }
-
-  .newsletter-toast {
-    animation: none;
-  }
-
-  .newsletter-toast__progress {
+  .newsletter-success--revealed,
+  .newsletter-toast,
+  .newsletter-toast__progress,
+  .newsletter-subtext--entering,
+  .newsletter-subtext--exiting {
     animation: none;
   }
 }

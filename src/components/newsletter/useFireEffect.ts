@@ -1,59 +1,75 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
-import { FireEffect, type FirePhase } from './fire-particles'
+import { useEffect, useState, useCallback, useRef, type ReactNode, createElement, Suspense, lazy } from 'react'
 
-export function useFireEffect(
-  wrapperRef: React.RefObject<HTMLElement | null>,
-  trigger: boolean,
-) {
-  const [phase, setPhase] = useState<FirePhase | null>(null)
+const DotLottieReact = lazy(() =>
+  import('@lottiefiles/dotlottie-react').then(m => ({ default: m.DotLottieReact }))
+)
+
+// Must be >= animation duration (fire-d.lottie is 1.3s at 24fps)
+const FIRE_DURATION = 1500
+const WARMUP_DURATION = 400
+
+export function useFireEffect(trigger: boolean) {
   const [isActive, setIsActive] = useState(false)
-  const effectRef = useRef<FireEffect | null>(null)
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const [showFlame, setShowFlame] = useState(false)
+  const [warmup, setWarmup] = useState(false)
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
-  const cleanup = useCallback(() => {
-    effectRef.current?.destroy()
-    effectRef.current = null
-    if (canvasRef.current?.parentNode) {
-      canvasRef.current.parentNode.removeChild(canvasRef.current)
-    }
-    canvasRef.current = null
-    setIsActive(false)
-    setPhase(null)
+  const clearTimers = useCallback(() => {
+    for (const t of timersRef.current) clearTimeout(t)
+    timersRef.current = []
+  }, [])
+
+  const schedule = useCallback((fn: () => void, ms: number) => {
+    timersRef.current.push(setTimeout(fn, ms))
   }, [])
 
   useEffect(() => {
-    if (!trigger || !wrapperRef.current) return
+    if (!trigger) return
 
-    // Respect reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      // Skip fire, go straight to complete
-      setPhase(4)
       setIsActive(false)
       return
     }
 
-    const wrapper = wrapperRef.current
-
-    // Create canvas
-    const canvas = document.createElement('canvas')
-    canvas.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:10;border-radius:inherit;'
-    wrapper.appendChild(canvas)
-    canvasRef.current = canvas
-
-    // Create and start effect
-    const effect = new FireEffect()
-    effectRef.current = effect
-
-    effect.onPhaseChange((p) => setPhase(p))
-    effect.onComplete(() => {
-      cleanup()
-    })
-
     setIsActive(true)
-    effect.start(canvas)
+    setWarmup(true)
 
-    return cleanup
-  }, [trigger, wrapperRef, cleanup])
+    schedule(() => {
+      setWarmup(false)
+      setShowFlame(true)
+    }, WARMUP_DURATION)
 
-  return { phase, isActive }
+    schedule(() => {
+      setShowFlame(false)
+      setIsActive(false)
+    }, WARMUP_DURATION + FIRE_DURATION)
+
+    return clearTimers
+  }, [trigger, schedule, clearTimers])
+
+  const phase = warmup ? 1 : showFlame ? 2 : null
+
+  let FireOverlay: ReactNode = null
+  if (showFlame) {
+    FireOverlay = createElement(
+      Suspense,
+      { fallback: null },
+      createElement(
+        'div',
+        { className: 'newsletter-fire' },
+        createElement(
+          'div',
+          { className: 'newsletter-flame newsletter-flame--active' },
+          createElement(DotLottieReact, {
+            src: '/animations/fire-d.lottie',
+            loop: false,
+            autoplay: true,
+            style: { width: '100%', height: '100%' },
+          })
+        )
+      )
+    )
+  }
+
+  return { phase, isActive, FireOverlay }
 }
