@@ -75,8 +75,7 @@ test.describe('Player bar', () => {
 
   test('has audio element with src', async ({ page }) => {
     const audio = page.locator('.player audio')
-    // Player hydrates as a React island — allow extra time for client:load
-    await expect(audio).toBeAttached({ timeout: 15_000 })
+    await expect(audio).toBeAttached()
     const src = await audio.getAttribute('src')
     expect(src).toBeTruthy()
   })
