@@ -19,16 +19,11 @@ function slugify(s: string): string {
 
 <!-- Desktop-only sidebar navigation -->
 <nav class="episodes_list" id="episodes-nav">
-  <div class="nav-logo">
-    <img src="/images/icon-xl.png" alt="" class="logo-icon" width="50" height="50" />
-    <div>
-      <a href="/">
-        <span class="site-title">Rules as Written</span>
-      </a>
-      {season && (
-        <h5 class="season-label">season {twoDigits(season)}</h5>
-      )}
-    </div>
+  <div class="nav-header">
+    {/* TODO: Link to season-specific tag filter on /episodes when tags are implemented */}
+    <a href="/episodes" class="season-link">
+      {season ? `Season ${twoDigits(season)}` : 'All Episodes'}
+    </a>
   </div>
 
   <ul id="menu" role="menu">
@@ -60,6 +55,8 @@ function slugify(s: string): string {
       )
     })}
   </ul>
+
+  <a href="/episodes" class="more-episodes-link">More Episodes &rarr;</a>
 </nav>
 
 <script>
@@ -122,33 +119,38 @@ function slugify(s: string): string {
     font-weight: var(--font-weight-heading);
   }
 
-  .site-title {
-    font-size: var(--font-size-6);
-    color: var(--color-primary);
-    margin-bottom: 0;
-  }
-
-  .logo-icon {
-    max-height: 50px;
-    margin-right: var(--space-2);
-  }
-
-  .nav-logo {
+  .nav-header {
     padding-bottom: var(--space-4);
-    display: flex;
-    align-items: center;
   }
 
-  .season-label {
+  .season-link {
+    font-size: var(--font-size-3);
     text-transform: uppercase;
-    margin-bottom: 0;
-    font-weight: 400;
-    font-size: var(--font-size-0);
-    opacity: 0.6;
+    letter-spacing: 0.05em;
+    color: var(--color-primary) !important;
+    opacity: 0.8;
+  }
+
+  .season-link:hover {
+    opacity: 1;
+  }
+
+  .more-episodes-link {
+    display: block;
+    text-align: center;
+    padding: var(--space-4) var(--space-5);
+    color: var(--color-primary-lighten-50) !important;
+    font-size: var(--font-size-2);
+    border-top: 1px solid var(--color-bg-lighten-10);
+    margin-top: var(--space-2);
+  }
+
+  .more-episodes-link:hover {
+    color: var(--color-primary-lighten-70) !important;
   }
 
   ul {
-    padding-bottom: var(--space-14);
+    padding-bottom: var(--space-4);
   }
 
   li {

@@ -2,7 +2,6 @@
 import BaseLayout from './BaseLayout.astro'
 import SiteNav from '@components/SiteNav.astro'
 import Navigation from '@components/Navigation.astro'
-import Player from '@components/Player'
 import type { Episode } from '../utils/feed'
 
 interface Props {
@@ -25,7 +24,10 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
     <slot />
   </main>
 
-  <Player client:load initialEpisode={currentEpisode} allEpisodes={episodes} transition:persist />
+  {/* Initialize player store with episode data — Player lives in BaseLayout */}
+  <script define:vars={{ currentEpisode, episodes }}>
+    window.__PLAYER_INIT__ = { currentEpisode, episodes }
+  </script>
 </BaseLayout>
 
 <style>

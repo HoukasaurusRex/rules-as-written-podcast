@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useStore } from '@nanostores/react'
 import H5AudioPlayer from 'react-h5-audio-player'
 
@@ -11,20 +11,38 @@ import { $currentEpisode, $episodeList } from '../stores/episode'
 import type { Episode } from '../utils/feed'
 
 interface PlayerH5Props {
-  initialEpisode: Episode
+  initialEpisode?: Episode
   allEpisodes?: Episode[]
 }
 
 export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5Props) {
-  const episode = useStore($currentEpisode) ?? initialEpisode
+  const storeEpisode = useStore($currentEpisode)
+  const episode = storeEpisode ?? initialEpisode ?? null
   const playerRef = useRef<InstanceType<typeof AudioPlayer>>(null)
   const lastSaveRef = useRef(0)
+  const [collapsed, setCollapsed] = useState(() =>
+    typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
+  )
 
-  // Initialize stores
+  // Initialize stores from props or from PodcastLayout's injected data
   useEffect(() => {
-    if (!$currentEpisode.get()) $currentEpisode.set(initialEpisode)
-    if (allEpisodes.length) $episodeList.set(allEpisodes)
+    const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
+    const ep = initialEpisode ?? init?.currentEpisode
+    const eps = allEpisodes.length ? allEpisodes : (init?.episodes ?? [])
+    if (ep && !$currentEpisode.get()) $currentEpisode.set(ep)
+    if (eps.length) $episodeList.set(eps)
   }, [initialEpisode, allEpisodes])
+
+  // Re-sync when navigating between podcast pages (PodcastLayout updates window.__PLAYER_INIT__)
+  useEffect(() => {
+    const handler = () => {
+      const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
+      if (init?.currentEpisode) $currentEpisode.set(init.currentEpisode)
+      if (init?.episodes?.length) $episodeList.set(init.episodes)
+    }
+    document.addEventListener('astro:page-load', handler)
+    return () => document.removeEventListener('astro:page-load', handler)
+  }, [])
 
   // Play-episode event handler (from sidebar buttons)
   useEffect(() => {
@@ -37,6 +55,9 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
       } else {
         $currentEpisode.set(detail)
       }
+      // Auto-expand when a new episode is played
+      setCollapsed(false)
+      localStorage.setItem('playerCollapsed', 'false')
     }
     window.addEventListener('play-episode', handler)
     return () => window.removeEventListener('play-episode', handler)
@@ -44,6 +65,7 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
 
   // Restore position and volume on episode change
   useEffect(() => {
+    if (!episode) return
     const audio = playerRef.current?.audio?.current
     if (!audio) return
     const lp = localStorage.getItem(`lastPlayed${episode.number}`)
@@ -56,11 +78,11 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
       const { lastVolumePref } = JSON.parse(vol)
       if (lastVolumePref !== undefined) audio.volume = lastVolumePref
     }
-  }, [episode.number])
+  }, [episode?.number])
 
   // Next/prev navigation
   const episodes = useStore($episodeList)
-  const currentIndex = episodes.findIndex((ep) => ep.id === episode.id)
+  const currentIndex = episode ? episodes.findIndex((ep) => ep.id === episode.id) : -1
 
   const goToEpisode = (index: number) => {
     const target = episodes[index]
@@ -80,6 +102,7 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
 
   // Throttled localStorage writes (~1s)
   const handleListen = (e: Event) => {
+    if (!episode) return
     const now = Date.now()
     if (now - lastSaveRef.current < 1000) return
     lastSaveRef.current = now
@@ -95,6 +118,15 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
     localStorage.setItem('lastVolumeSetting', JSON.stringify({ lastVolumePref: audio.volume }))
   }
 
+  const toggleCollapse = () => {
+    const next = !collapsed
+    setCollapsed(next)
+    localStorage.setItem('playerCollapsed', String(next))
+  }
+
+  // Don't render until an episode is available
+  if (!episode) return null
+
   const title = `${episode.title} - EP${episode.number}`
 
   return (
@@ -108,7 +140,44 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
       borderTop: '1px solid var(--color-bg-lighten-10)',
       color: 'var(--color-text)',
     }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', display: 'flex', alignItems: 'center', padding: '8px 16px' }}>
+      {/* Collapse toggle */}
+      <button
+        onClick={toggleCollapse}
+        aria-label={collapsed ? 'Expand player' : 'Collapse player'}
+        type="button"
+        style={{
+          position: 'absolute',
+          top: -24,
+          right: 16,
+          width: 32,
+          height: 24,
+          backgroundColor: 'var(--color-bg)',
+          border: '1px solid var(--color-bg-lighten-10)',
+          borderBottom: 'none',
+          borderRadius: '4px 4px 0 0',
+          color: 'var(--color-text)',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 12,
+          opacity: 0.7,
+        }}
+      >
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"
+          style={{ transform: collapsed ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+          <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
+        </svg>
+      </button>
+
+      {/* Player content — hidden when collapsed */}
+      <div style={{
+        maxWidth: 1200,
+        margin: '0 auto',
+        display: collapsed ? 'none' : 'flex',
+        alignItems: 'center',
+        padding: '8px 16px',
+      }}>
         <div style={{ maxWidth: 310, flexShrink: 0 }} className="player-title marquee marquee--scroll">
           <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
             {title}
