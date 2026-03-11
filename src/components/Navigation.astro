@@ -36,10 +36,11 @@ function slugify(s: string): string {
           <button
             class="episode-play-btn"
             data-episode={JSON.stringify(episode)}
+            data-href={slug}
             aria-label={`Play ${episode.title} from beginning`}
             type="button"
           >
-            <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </button>
           <a
             role="menuitem"
@@ -58,7 +59,7 @@ function slugify(s: string): string {
 
 <script>
   function initNavigation() {
-    // Play buttons: dispatch play-from-beginning event
+    // Play buttons: dispatch play-from-beginning event + navigate to episode page
     document.querySelectorAll('.episode-play-btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault()
@@ -70,6 +71,9 @@ function slugify(s: string): string {
             detail: { ...episode, startFromBeginning: true }
           }))
         }
+        // Navigate via sibling link (uses Astro View Transitions)
+        const link = btn.closest('li')?.querySelector('a') as HTMLAnchorElement
+        if (link) link.click()
       })
     })
 

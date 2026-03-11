@@ -162,14 +162,21 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
         // Same episode, no restart flag: toggle play/pause
         audio.paused ? audio.play() : audio.pause()
       } else {
+        // Switch to new episode: set src directly for immediate effect
         if (!isSame) {
+          currentSrc = detail.enclosure_url
+          audio.src = detail.enclosure_url
           $currentEpisode.set(detail)
         }
-        // Start from beginning if requested, or auto-play new episode
         if (detail.startFromBeginning) {
           audio.currentTime = 0
         }
-        requestAnimationFrame(() => audio.play().catch(() => {}))
+        // Play after src is assigned — use loadeddata for new episodes
+        if (!isSame) {
+          audio.addEventListener('loadeddata', () => audio.play().catch(() => {}), { once: true })
+        } else {
+          audio.play().catch(() => {})
+        }
       }
       setCollapsed(false)
       localStorage.setItem('playerCollapsed', 'false')
