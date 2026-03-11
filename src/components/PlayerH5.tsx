@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useStore } from '@nanostores/react'
 import H5AudioPlayer from 'react-h5-audio-player'
 
@@ -19,7 +19,6 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
   const episode = useStore($currentEpisode) ?? initialEpisode
   const playerRef = useRef<InstanceType<typeof AudioPlayer>>(null)
   const lastSaveRef = useRef(0)
-  const [playing, setPlaying] = useState(false)
 
   // Initialize stores
   useEffect(() => {
@@ -127,14 +126,8 @@ export default function PlayerH5({ initialEpisode, allEpisodes = [] }: PlayerH5P
           onClickPrevious={handlePrevious}
           onListen={handleListen}
           onVolumeChange={handleVolumeChange}
-          onPlay={() => {
-            setPlaying(true)
-            document.querySelector('.bars')?.classList.remove('bars--paused')
-          }}
-          onPause={() => {
-            setPlaying(false)
-            document.querySelector('.bars')?.classList.add('bars--paused')
-          }}
+          onPlay={() => document.querySelector('.bars')?.classList.remove('bars--paused')}
+          onPause={() => document.querySelector('.bars')?.classList.add('bars--paused')}
           style={{
             backgroundColor: 'transparent',
             boxShadow: 'none',
