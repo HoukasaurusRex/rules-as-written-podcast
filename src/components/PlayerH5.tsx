@@ -89,6 +89,19 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     }
   }, [])
 
+  // Detect marquee overflow for player title
+  const titleRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = titleRef.current
+    if (!el) return
+    const inner = el.querySelector('.marquee-inner') as HTMLElement
+    if (inner && inner.scrollWidth > el.clientWidth) {
+      el.classList.add('is-overflowing')
+    } else {
+      el.classList.remove('is-overflowing')
+    }
+  }, [episode?.title])
+
   // Sync React state with audio events
   useEffect(() => {
     if (!audio) return
@@ -210,7 +223,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
       {/* Player content */}
       <div className={`player-content ${collapsed ? 'player-content--collapsed' : ''}`}>
         {/* Title (hidden on mobile) */}
-        <div className="player-title marquee marquee--scroll" style={{ maxWidth: 310, flexShrink: 0 }}>
+        <div ref={titleRef} className="player-title marquee marquee--scroll" style={{ maxWidth: 310, flexShrink: 0 }}>
           <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
             {title}
             <span aria-hidden="true">{` ${title}`}</span>

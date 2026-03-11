@@ -1,31 +1,40 @@
 /* Shared scrolling marquee for overflowing text.
  * Fades both edges to transparent for smooth appearance.
+ * Only activates when .is-overflowing class is present (added via JS).
  * Usage: wrap text in .marquee > .marquee-inner
  * For seamless loop, duplicate the text content inside .marquee-inner
  */
 .marquee {
   overflow: hidden;
   white-space: nowrap;
+}
+
+/* Only apply fade mask when text actually overflows */
+.marquee.is-overflowing {
   mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 
 .marquee-inner {
   display: inline-block;
+}
+
+/* Padding only needed when overflowing (for seamless loop spacing) */
+.marquee.is-overflowing .marquee-inner {
   padding-right: 3rem;
 }
 
-/* Always-scrolling variant (for player title) */
-.marquee--scroll .marquee-inner {
+/* Always-scrolling variant (for player title) — only when overflowing */
+.marquee--scroll.is-overflowing .marquee-inner {
   animation: marquee-scroll 14s linear infinite;
 }
 
-/* Hover-only variant (for sidebar titles) */
+/* Hover-only variant (for sidebar titles) — only when overflowing */
 .marquee--hover .marquee-inner {
   animation: none;
 }
 
-.marquee--hover:hover .marquee-inner {
+.marquee--hover.is-overflowing:hover .marquee-inner {
   animation: marquee-scroll 8s linear infinite;
 }
 
@@ -39,7 +48,7 @@
 }
 
 /* Pause on hover for always-scrolling variant */
-.marquee--scroll:hover .marquee-inner {
+.marquee--scroll.is-overflowing:hover .marquee-inner {
   animation-play-state: paused;
 }
 
