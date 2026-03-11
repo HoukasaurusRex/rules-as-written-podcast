@@ -3,6 +3,7 @@ import PodcastLayout from '@layouts/PodcastLayout.astro'
 import Header from '@components/Header.astro'
 import Aside from '@components/Aside.astro'
 import Newsletter from '@components/Newsletter'
+import Comments from '@components/Comments.astro'
 import { getEpisodes, getDescriptionFromHTML } from '@utils/episodes'
 
 const episodes = await getEpisodes()
@@ -42,13 +43,7 @@ const description = getDescriptionFromHTML(latest.description)
         </p>
         <Newsletter client:visible />
       </footer>
-      <figure class="credit-figure">
-        <img src="/images/raw-logo-fancy.webp" alt="" style="max-width: 250px;" />
-        <figcaption>
-          Our thanks to the incredibly talented and wonderful
-          <a href="https://www.linkedin.com/in/nicolejuhyunkim/" target="_blank">Nicole Kim.</a>
-        </figcaption>
-      </figure>
+      <Comments term={latest.title} />
     </div>
     <Aside markdown={latest.markdown} />
   </div>
@@ -97,11 +92,5 @@ const description = getDescriptionFromHTML(latest.description)
 
   .episode-footer p {
     margin-bottom: var(--space-5);
-  }
-
-  .credit-figure {
-    text-align: center;
-    margin-top: var(--space-4);
-    padding-bottom: var(--space-9);
   }
 </style>
