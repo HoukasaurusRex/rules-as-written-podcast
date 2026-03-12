@@ -680,11 +680,12 @@ export const handler: Handler = async (event) => {
         body: JSON.stringify({ error: 'Database unavailable. The party tracker requires a database connection.' }),
       }
     }
-    console.error('Party API error:', err)
+    const errMessage = err instanceof Error ? err.message : 'Unknown error'
+    console.error('Party API error:', errMessage, err)
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ error: 'Internal server error', debug: errMessage }),
     }
   }
 }
