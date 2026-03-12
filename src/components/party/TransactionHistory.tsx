@@ -107,7 +107,10 @@ export default function TransactionHistory({
       <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
         Transaction History
       </h3>
-      <div className="h-72 space-y-space-1 overflow-y-auto rounded-[5px] border border-bg-lighter p-space-2">
+      <div
+        className="relative h-72 space-y-space-1 overflow-hidden"
+        style={{ maskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 75%, transparent 100%)' }}
+      >
         {transactions.map((tx) => {
           const isDebit = isDebitTransaction(tx.type)
           const isUndo = tx.type === 'undo'
@@ -195,7 +198,7 @@ export default function TransactionHistory({
                 style={{ fontSize: '16px' }}
               />
             </div>
-            <div className="flex-1 overflow-y-auto p-space-4">
+            <div className="h-96 overflow-y-auto p-space-4">
               <div className="space-y-space-1">
                 {allTransactions
                   .filter((tx) => {
