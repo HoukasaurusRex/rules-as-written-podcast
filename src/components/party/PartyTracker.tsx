@@ -1,11 +1,8 @@
-import { useState, useEffect, lazy, Suspense } from 'react'
-
-const DotLottieReact = lazy(() =>
-  import('@lottiefiles/dotlottie-react').then((m) => ({ default: m.DotLottieReact })),
-)
+import { useState, useEffect } from 'react'
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
-import { DENOMINATIONS, DENOM_COLORS, totalGpValue } from '../../utils/currency'
+import { DENOMINATIONS, totalGpValue } from '../../utils/currency'
 import { usePartyApi } from './hooks/usePartyApi'
 import { Toast } from '../Toast'
 import CoinInput from './CoinInput'
@@ -34,6 +31,7 @@ export default function PartyTracker({ partyId }: Props) {
   const [showTxModal, setShowTxModal] = useState(false)
   const [showLootMode, setShowLootMode] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [assigningLootItemId, setAssigningLootItemId] = useState<string | null>(null)
 
   // Initialize tab from URL query param
   useEffect(() => {
@@ -45,14 +43,12 @@ export default function PartyTracker({ partyId }: Props) {
   if (!party) {
     return (
       <div className="flex min-h-[50vh] flex-col items-center justify-center gap-space-2">
-        <Suspense fallback={<div className="h-24 w-24" />}>
-          <DotLottieReact
-            src="/animations/campfire.lottie"
-            loop
-            autoplay
-            style={{ width: 96, height: 96 }}
-          />
-        </Suspense>
+        <DotLottieReact
+          src="/animations/campfire.lottie"
+          loop
+          autoplay
+          style={{ width: 96, height: 96 }}
+        />
         <div className="text-xs text-text/30">Loading party...</div>
       </div>
     )
@@ -212,21 +208,33 @@ export default function PartyTracker({ partyId }: Props) {
                           <div className="flex items-center gap-space-2">
                             <span className="text-text/40">×{item.quantity}</span>
                             {editMode && party.characters.length > 0 && (
-                              <select
-                                onChange={(e) => {
-                                  if (e.target.value) api.upsertItem({ id: item.id, characterId: e.target.value })
-                                }}
-                                defaultValue=""
-                                className="rounded bg-bg-light px-space-2 py-space-1 text-[10px] text-text/50 outline-none"
+                              <button
+                                type="button"
+                                onClick={() => setAssigningLootItemId(assigningLootItemId === item.id ? null : item.id)}
+                                className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
                               >
-                                <option value="" disabled>Assign</option>
-                                {party.characters.map((c) => (
-                                  <option key={c.id} value={c.id}>{c.name}</option>
-                                ))}
-                              </select>
+                                Assign
+                              </button>
                             )}
                           </div>
                         </div>
+                        {assigningLootItemId === item.id && editMode && (
+                          <div className="flex flex-wrap gap-space-1 border-t border-bg-lighter px-space-3 py-space-2">
+                            {party.characters.map((c) => (
+                              <button
+                                type="button"
+                                key={c.id}
+                                onClick={() => {
+                                  api.upsertItem({ id: item.id, characterId: c.id })
+                                  setAssigningLootItemId(null)
+                                }}
+                                className="rounded px-space-2 py-space-1 text-xs bg-bg-light text-text/50 transition-colors hover:bg-bg-lighter"
+                              >
+                                {c.name}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
