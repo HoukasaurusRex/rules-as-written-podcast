@@ -104,7 +104,7 @@ export default function InventoryList({ items, characterId, onAdd, onUpdate, onD
                         </button>
                         <button
                           onClick={() => onDelete(item.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded text-xs text-red-400/50 hover:bg-red-400/10 hover:text-red-400"
+                          className="flex h-8 w-8 items-center justify-center rounded text-xs text-error/50 hover:bg-error/10 hover:text-error"
                         >
                           ×
                         </button>

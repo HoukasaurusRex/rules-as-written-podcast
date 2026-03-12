@@ -58,6 +58,19 @@
   --breakpoint-md: 992px;
   --breakpoint-lg: 1200px;
 
+  /* Semantic state colors */
+  --color-error: #ef4444;
+  --color-success: #22c55e;
+
+  /* Overlay */
+  --color-overlay: rgba(0, 0, 0, 0.6);
+
+  /* Primary opacity scale */
+  --color-primary-10: hsla(9, 59%, 46%, 0.1);
+  --color-primary-20: hsla(9, 59%, 46%, 0.2);
+  --color-primary-30: hsla(9, 59%, 46%, 0.3);
+  --color-primary-40: hsla(9, 59%, 46%, 0.4);
+
   /* Player bar */
   --player-bar-height: 80px;
   --character-tabs-bottom: 0px;

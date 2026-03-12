@@ -121,7 +121,7 @@ export default function TransactionHistory({
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-space-2">
-                  <span className={`font-medium ${isUndo ? 'text-text/50' : isDebit ? 'text-red-400' : 'text-green-400'}`}>
+                  <span className={`font-medium ${isUndo ? 'text-text/50' : isDebit ? 'text-error' : 'text-success'}`}>
                     {isDebit ? '−' : '+'}{formatAmount(tx)}
                   </span>
                   {tx.undone && (
@@ -171,7 +171,7 @@ export default function TransactionHistory({
       {/* Full history modal */}
       {showFullHistory && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-space-4"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
           onClick={(e) => { if (e.target === e.currentTarget) setShowFullHistory(false) }}
         >
           <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
@@ -220,7 +220,7 @@ export default function TransactionHistory({
                       >
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-space-2">
-                            <span className={`font-medium ${isUndo ? 'text-text/50' : isDebit ? 'text-red-400' : 'text-green-400'}`}>
+                            <span className={`font-medium ${isUndo ? 'text-text/50' : isDebit ? 'text-error' : 'text-success'}`}>
                               {isDebit ? '−' : '+'}{formatAmount(tx)}
                             </span>
                           </div>

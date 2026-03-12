@@ -158,7 +158,7 @@ export default function MagicItemList({
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); onDelete(item.id) }}
-                        className="rounded px-space-2 py-space-1 text-[10px] text-red-400/50 hover:bg-red-400/10 hover:text-red-400"
+                        className="rounded px-space-2 py-space-1 text-[10px] text-error/50 hover:bg-error/10 hover:text-error"
                       >
                         ×
                       </button>

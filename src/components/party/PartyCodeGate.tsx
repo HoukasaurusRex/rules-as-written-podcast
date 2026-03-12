@@ -43,7 +43,7 @@ export default function PartyCodeGate({ partyId }: Props) {
 
       {showModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-space-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-space-4"
           onClick={(e) => { if (e.target === e.currentTarget) setShowModal(false) }}
         >
           <div className="w-full max-w-sm rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light p-space-6 shadow-lg">
@@ -69,7 +69,7 @@ export default function PartyCodeGate({ partyId }: Props) {
               </div>
 
               {error && (
-                <div className="rounded-[5px] border border-red-500/30 bg-red-500/10 px-space-3 py-space-2 text-sm text-red-400">
+                <div className="rounded-[5px] border border-error/30 bg-error/10 px-space-3 py-space-2 text-sm text-error">
                   {error}
                 </div>
               )}

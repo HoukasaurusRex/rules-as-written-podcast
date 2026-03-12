@@ -75,7 +75,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-space-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) handleCancel() }}
     >
       <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
@@ -135,7 +135,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
                   <span className="text-text">{item.name}</span>
                   <button
                     onClick={() => setItems(items.filter((_, j) => j !== i))}
-                    className="text-xs text-red-400/50 hover:text-red-400"
+                    className="text-xs text-error/50 hover:text-error"
                   >
                     Remove
                   </button>
@@ -177,7 +177,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
                   </div>
                   <button
                     onClick={() => setMagicItems(magicItems.filter((_, j) => j !== i))}
-                    className="text-xs text-red-400/50 hover:text-red-400"
+                    className="text-xs text-error/50 hover:text-error"
                   >
                     Remove
                   </button>

@@ -64,7 +64,7 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-space-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <div className="w-full max-w-md rounded-t-xl border border-bg-lighter bg-bg-light p-space-6 shadow-lg sm:rounded-[5px]">

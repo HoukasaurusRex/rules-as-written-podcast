@@ -29,7 +29,7 @@ export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-space-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <div className="w-full max-w-sm rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light p-space-6 shadow-lg">
@@ -92,7 +92,7 @@ export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add
               }}
               inputMode="numeric"
               className={`w-full rounded-[5px] border bg-bg px-space-4 py-space-3 text-base text-text outline-none ${
-                typeof level === 'number' && (level < 1 || level > 20) ? 'border-red-500/50' : 'border-bg-lighter'
+                typeof level === 'number' && (level < 1 || level > 20) ? 'border-error/50' : 'border-bg-lighter'
               } focus:border-primary`}
               style={{ fontSize: '16px' }}
             />

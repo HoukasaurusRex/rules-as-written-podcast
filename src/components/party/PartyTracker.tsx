@@ -268,7 +268,7 @@ export default function PartyTracker({ partyId }: Props) {
                         $activeTab.set('party')
                       }
                     }}
-                    className="rounded-[5px] px-space-2 py-space-2 text-xs text-red-400/60 transition-colors hover:bg-red-400/10 hover:text-red-400"
+                    className="rounded-[5px] px-space-2 py-space-2 text-xs text-error/60 transition-colors hover:bg-error/10 hover:text-error"
                   >
                     Remove
                   </button>
