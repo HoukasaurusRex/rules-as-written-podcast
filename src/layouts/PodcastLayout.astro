@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro'
 import SiteNav from '@components/SiteNav.astro'
 import Navigation from '@components/Navigation.astro'
+import { fade } from 'astro:transitions'
 import type { Episode } from '../utils/feed'
 
 interface Props {
@@ -20,16 +21,7 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
   <SiteNav />
   <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
 
-  <main id="main" class="podcast-content" transition:animate={{
-    forwards: {
-      old: { name: 'fadeOut', duration: '0.15s', fillMode: 'forwards' },
-      new: { name: 'fadeIn', duration: '0.15s', delay: '0.15s', fillMode: 'backwards' },
-    },
-    backwards: {
-      old: { name: 'fadeOut', duration: '0.15s', fillMode: 'forwards' },
-      new: { name: 'fadeIn', duration: '0.15s', delay: '0.15s', fillMode: 'backwards' },
-    },
-  }}>
+  <main id="main" class="podcast-content" transition:animate={fade({ duration: '0.3s' })}>
     <slot />
   </main>
 

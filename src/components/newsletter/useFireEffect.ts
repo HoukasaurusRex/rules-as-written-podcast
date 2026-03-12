@@ -5,7 +5,8 @@ const DotLottieReact = lazy(() =>
 )
 
 // Must be >= animation duration (fire-d.lottie is 1.3s at 24fps)
-const FIRE_DURATION = 1500
+// Extra time lets the fire animation finish before transitioning to success
+const FIRE_DURATION = 2500
 const WARMUP_DURATION = 400
 
 export function useFireEffect(trigger: boolean, onComplete?: () => void) {
