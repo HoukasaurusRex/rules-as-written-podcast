@@ -1,0 +1,47 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import SiteNav from '@components/SiteNav.astro'
+import Navigation from '@components/Navigation.astro'
+import { fade } from 'astro:transitions'
+import type { Episode } from '../utils/feed'
+
+interface Props {
+  title?: string
+  description?: string
+  image?: string | null
+  pathname?: string
+  episodes: Episode[]
+  currentEpisode: Episode
+}
+
+const { title, description, image, pathname, episodes, currentEpisode } = Astro.props
+---
+
+<BaseLayout title={title} description={description} image={image} pathname={pathname}>
+  <SiteNav />
+  <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
+
+  <main id="main" class="podcast-content" transition:animate={fade({ duration: '0.3s' })}>
+    <slot />
+  </main>
+
+  {/* Initialize player store with episode data — Player lives in BaseLayout */}
+  <script define:vars={{ currentEpisode, episodes }}>
+    window.__PLAYER_INIT__ = { currentEpisode, episodes }
+  </script>
+</BaseLayout>
+
+<style>
+  .podcast-content {
+    margin-left: 0;
+    padding-bottom: 80px; /* Space for fixed player bar */
+    position: relative;
+    z-index: 1; /* Below player (z-index: 10) during transitions */
+  }
+
+  @media (min-width: 992px) {
+    .podcast-content {
+      margin-left: var(--nav-width);
+    }
+  }
+</style>

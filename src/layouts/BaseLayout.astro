@@ -1,50 +1,41 @@
 ---
 import '@styles/global.css'
+import '@styles/tailwind.css'
 import SEO from '@components/SEO.astro'
-import Navigation from '@components/Navigation.astro'
 import Player from '@components/Player'
-import type { Episode } from '../utils/feed'
+import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   title?: string
   description?: string
   image?: string | null
   pathname?: string
-  episodes: Episode[]
-  currentEpisode: Episode
 }
 
-const { title, description, image, pathname, episodes, currentEpisode } = Astro.props
+const { title, description, image, pathname } = Astro.props
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/images/icon.png" />
+    <link rel="apple-touch-icon" href="/images/apple-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#9A3C31" />
     <SEO title={title} description={description} image={image} pathname={pathname} />
+    <ClientRouter />
   </head>
   <body>
     <a href="#main" class="sr-only">Skip to content</a>
+    <slot />
 
-    <Navigation episodes={episodes} currentEpisodeId={currentEpisode.id} />
+    <Player client:load transition:persist />
 
-    <main id="main" class="main-content">
-      <slot />
-    </main>
-
-    <Player client:load initialEpisode={currentEpisode} />
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+      }
+    </script>
   </body>
 </html>
-
-<style>
-  .main-content {
-    margin-left: 0;
-  }
-
-  @media (min-width: 992px) {
-    .main-content {
-      margin-left: var(--nav-width);
-    }
-  }
-</style>

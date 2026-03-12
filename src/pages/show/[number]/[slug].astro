@@ -1,10 +1,11 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro'
+import PodcastLayout from '@layouts/PodcastLayout.astro'
 import Header from '@components/Header.astro'
-import Aside from '@components/Aside.astro'
 import Newsletter from '@components/Newsletter'
+import Comments from '@components/Comments.astro'
 import { getEpisodes, getDescriptionFromHTML } from '@utils/episodes'
 import { slugify } from '@utils/slugify'
+import '@styles/episode.css'
 
 export async function getStaticPaths() {
   const episodes = await getEpisodes()
@@ -24,7 +25,7 @@ const description = getDescriptionFromHTML(episode.description)
 const pathname = `/show/${episode.number}/${slugify(episode.title)}`
 ---
 
-<BaseLayout
+<PodcastLayout
   title={episode.title}
   description={description}
   image={customImage}
@@ -32,87 +33,26 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
   episodes={allEpisodes}
   currentEpisode={episode}
 >
-  <div class="episode-layout">
-    <div class="episode-main">
-      <Header episode={episode} image={headerImage} />
-      <article>
-        {description && <p>{description}</p>}
-        <p style="padding-top: 30px;">
-          If you like this show and want to help others find it,
-          we would be so grateful if you rate us on
-          <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
-          and let us know what you think!
-        </p>
-        {episode.body && <div set:html={episode.body} style="padding-top: 30px;" />}
-      </article>
-      <footer class="episode-footer">
-        <p>
-          Can't get enough of us?
-          <br />
-          Stay on top of the latest releases and extra goodies by subscribing to our weekly newsletter!
-        </p>
-        <Newsletter client:visible />
-      </footer>
-      <figure class="credit-figure">
-        <img src="/images/raw-logo-fancy.webp" alt="" style="max-width: 250px;" />
-        <figcaption>
-          Our thanks to the incredibly talented and wonderful
-          <a href="https://www.linkedin.com/in/nicolejuhyunkim/" target="_blank">Nicole Kim.</a>
-        </figcaption>
-      </figure>
-    </div>
-    <Aside markdown={episode.markdown} />
+  <div class="episode-main">
+    <Header episode={episode} image={headerImage} />
+    <article>
+      {description && <p>{description}</p>}
+      <p style="padding-top: 30px;">
+        If you like this show and want to help others find it,
+        we would be so grateful if you rate us on
+        <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
+        and let us know what you think!
+      </p>
+      {episode.body && <div set:html={episode.body} style="padding-top: 30px;" />}
+    </article>
+    <footer class="episode-footer">
+      <p>
+        Can't get enough of us?
+        <br />
+        Stay on top of the latest releases and extra goodies by subscribing to our weekly newsletter!
+      </p>
+      <Newsletter client:visible />
+    </footer>
+    <Comments term={episode.title} />
   </div>
-</BaseLayout>
-
-<style>
-  .episode-layout {
-    display: flex;
-    flex-direction: column;
-  }
-
-  @media (min-width: 992px) {
-    .episode-layout {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-
-  .episode-main {
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  @media (min-width: 992px) {
-    .episode-main {
-      max-width: 650px;
-    }
-  }
-
-  article {
-    padding: var(--space-5);
-    padding-bottom: var(--space-2);
-  }
-
-  @media (min-width: 992px) {
-    article {
-      padding: var(--space-8);
-      padding-bottom: var(--space-14);
-    }
-  }
-
-  .episode-footer {
-    padding: var(--space-5);
-    text-align: center;
-  }
-
-  .episode-footer p {
-    margin-bottom: var(--space-5);
-  }
-
-  .credit-figure {
-    text-align: center;
-    margin-top: var(--space-4);
-    padding-bottom: var(--space-9);
-  }
-</style>
+</PodcastLayout>

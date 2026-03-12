@@ -18,55 +18,53 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--space-4);
 }
 
-/* Border glow on visibility (triggered by React mount via client:visible) */
+/* Border glow on input (triggered by React mount via client:visible) */
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 8px hsla(9, 59%, 46%, 0.1);
+    box-shadow: 3px 3px 8px hsla(9, 59%, 46%, 0.15);
     border-color: hsla(9, 59%, 46%, 0.15);
   }
   50% {
-    box-shadow: 0 0 20px hsla(9, 59%, 46%, 0.25);
+    box-shadow: 3px 3px 12px hsla(9, 59%, 46%, 0.25);
     border-color: hsla(9, 59%, 46%, 0.4);
   }
 }
 
-.newsletter-wrapper--visible .newsletter-content {
-  border: 1px solid hsla(9, 59%, 46%, 0.15);
-  border-radius: var(--radius-0);
-  padding: var(--space-4);
+.newsletter-wrapper--visible .newsletter-input {
   animation: glowPulse 4s ease-in-out infinite;
 }
 
-/* Brighter, slower pulse while submitting — builds anticipation before fire */
+/* Brighter, faster pulse while submitting — builds anticipation before fire */
 @keyframes glowBuild {
   0%, 100% {
-    box-shadow: 0 0 15px hsla(9, 59%, 46%, 0.3);
+    box-shadow: 3px 3px 15px hsla(9, 59%, 46%, 0.3);
     border-color: hsla(9, 59%, 46%, 0.4);
   }
   50% {
-    box-shadow: 0 0 35px hsla(15, 80%, 50%, 0.5);
+    box-shadow: 3px 3px 35px hsla(15, 80%, 50%, 0.5);
     border-color: hsla(15, 80%, 50%, 0.6);
   }
 }
 
-.newsletter-wrapper--submitting .newsletter-content {
+.newsletter-wrapper--submitting .newsletter-input {
   animation: glowBuild 2s ease-in-out infinite;
 }
 
 /* Warm-up phase (fire phase 1) */
-.newsletter-wrapper--warmup .newsletter-content {
+.newsletter-wrapper--warmup .newsletter-input {
   border-color: hsl(30, 90%, 55%);
-  box-shadow: 0 0 30px hsla(20, 90%, 50%, 0.5);
+  box-shadow: 3px 3px 30px hsla(20, 90%, 50%, 0.5);
 }
 
 /* Ember glow for subscribed state */
-.newsletter-wrapper--subscribed .newsletter-content {
+.newsletter-wrapper--subscribed .newsletter-input {
   transition: box-shadow 0.8s ease, border-color 0.8s ease;
   animation: none;
   border-color: hsla(9, 59%, 46%, 0.3);
-  box-shadow: 0 0 15px hsla(20, 80%, 50%, 0.12);
+  box-shadow: 3px 3px 15px hsla(20, 80%, 50%, 0.12);
 }
 
 /* Input */
@@ -81,12 +79,13 @@
   border: 1px solid var(--color-bg-lighten-20);
   border-radius: var(--radius-0);
   color: var(--color-text);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .newsletter-input:focus {
   outline: none;
   border-color: hsl(9, 59%, 46%);
-  box-shadow: 0 0 6px hsla(9, 59%, 46%, 0.3);
+  box-shadow: 3px 3px 6px hsla(9, 59%, 46%, 0.3);
 }
 
 /* Button — z-index 2 sits above fire overlay */
@@ -108,8 +107,7 @@
 }
 
 .newsletter-button:hover:not(:disabled) {
-  transform: scale(1.02);
-  box-shadow: 0 4px 12px hsla(9, 59%, 46%, 0.3);
+  box-shadow: 3px 3px 12px hsla(9, 59%, 46%, 0.3);
 }
 
 .newsletter-button:disabled {
@@ -149,8 +147,13 @@
 
 /* Toast */
 @keyframes slideDown {
-  from { opacity: 0; transform: translate(-50%, -20px); }
+  from { opacity: 0; transform: translate(-50%, -30px); }
   to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 1; transform: translate(-50%, 0); }
+  to { opacity: 0; transform: translate(-50%, -30px); }
 }
 
 @keyframes shrink {
@@ -160,7 +163,7 @@
 
 .newsletter-toast {
   position: fixed;
-  top: var(--space-5);
+  top: 70px; /* Below sticky navbar */
   left: 50%;
   transform: translateX(-50%);
   max-width: 500px;
@@ -169,8 +172,18 @@
   color: var(--color-text);
   box-shadow: var(--color-shadow);
   z-index: 100;
-  animation: slideDown 0.3s ease forwards;
+  animation: slideDown 0.4s ease forwards;
   overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .newsletter-toast {
+    left: calc(50% + var(--nav-width) / 2);
+  }
+}
+
+.newsletter-toast--exiting {
+  animation: slideUp 0.3s ease forwards;
 }
 
 .newsletter-toast--success { background-color: #4db98f; }
@@ -223,14 +236,12 @@
 
 /* Slow-loading subtext */
 .newsletter-subtext-container {
-  /* Position relative so subtext can be absolute-positioned within */
   position: relative;
   height: 24px;
   margin-top: var(--space-3);
 }
 
 .newsletter-subtext {
-  /* Absolute positioning takes text out of flow so it can't expand the form */
   position: absolute;
   left: 0;
   right: 0;
@@ -265,9 +276,9 @@
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .newsletter-wrapper--visible .newsletter-content {
+  .newsletter-wrapper--visible .newsletter-input {
     animation: none;
-    box-shadow: 0 0 12px hsla(9, 59%, 46%, 0.15);
+    box-shadow: 3px 3px 12px hsla(9, 59%, 46%, 0.15);
     border-color: hsla(9, 59%, 46%, 0.25);
   }
 

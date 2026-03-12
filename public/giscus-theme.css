@@ -1,0 +1,93 @@
+/*! Custom giscus theme for Rules as Written - dark D&D aesthetic */
+
+main {
+  /* Canvas / backgrounds */
+  --color-canvas-default: #1A2232;
+  --color-canvas-overlay: #273041;
+  --color-canvas-inset: #151c28;
+  --color-canvas-subtle: #232B3B;
+
+  /* Borders — visible against dark bg */
+  --color-border-default: #3D4A5C;
+  --color-border-muted: #2C3648;
+
+  /* Accent */
+  --color-accent-fg: hsl(9, 59%, 60%);
+  --color-accent-emphasis: hsl(9, 59%, 50%);
+  --color-neutral-muted: rgba(255, 255, 255, 0.12);
+  --color-attention-subtle: rgba(255, 255, 255, 0.08);
+  --color-danger-fg: hsl(0, 70%, 60%);
+
+  /* Text — high contrast (WCAG AA on #1A2232) */
+  --color-fg-default: #E8EAED;
+  --color-fg-muted: #B0B8C4;
+  --color-fg-subtle: #8892A0;
+
+  /* Buttons */
+  --color-btn-text: #E8EAED;
+  --color-btn-bg: #2C3648;
+  --color-btn-border: #3D4A5C;
+  --color-btn-hover-bg: #3D4A5C;
+  --color-btn-hover-border: #4E5D72;
+  --color-btn-active-bg: hsl(9, 59%, 46%);
+  --color-btn-active-border: hsl(9, 59%, 55%);
+  --color-btn-primary-text: #fff;
+  --color-btn-primary-bg: hsl(9, 59%, 46%);
+  --color-btn-primary-border: hsl(9, 59%, 50%);
+  --color-btn-primary-hover-bg: hsl(9, 59%, 55%);
+  --color-btn-primary-hover-border: hsl(9, 59%, 60%);
+
+  /* Reactions */
+  --color-social-reaction-bg-hover: rgba(255, 255, 255, 0.1);
+  --color-social-reaction-bg-reacted-hover: rgba(255, 255, 255, 0.15);
+}
+
+/* Comment borders */
+main .gsc-comment {
+  border-color: #3D4A5C;
+}
+
+main .gsc-timeline {
+  border-color: #3D4A5C;
+}
+
+/* Header text */
+main .gsc-header .gsc-left-header {
+  color: #B0B8C4;
+}
+
+/* Comment input box */
+main .gsc-comment-box {
+  border-color: #3D4A5C;
+  background-color: #232B3B;
+}
+
+main .gsc-comment-box textarea {
+  background-color: #1A2232;
+  border-color: #3D4A5C;
+  color: #E8EAED;
+}
+
+main .gsc-comment-box textarea::placeholder {
+  color: #8892A0;
+}
+
+/* Reactions */
+main .gsc-reactions-button {
+  border-color: #3D4A5C;
+  color: #B0B8C4;
+}
+
+main .gsc-reactions-button:hover {
+  border-color: #4E5D72;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Sign in link */
+main a {
+  color: hsl(9, 59%, 65%);
+}
+
+main a:hover {
+  color: hsl(9, 59%, 75%);
+}

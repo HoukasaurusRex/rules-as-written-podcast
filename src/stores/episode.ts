@@ -2,7 +2,4 @@ import { atom } from 'nanostores'
 import type { Episode } from '../utils/feed'
 
 export const $currentEpisode = atom<Episode | null>(null)
-
-export function setCurrentEpisode(episode: Episode) {
-  $currentEpisode.set(episode)
-}
+export const $episodeList = atom<Episode[]>([])

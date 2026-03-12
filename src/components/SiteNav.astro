@@ -1,0 +1,147 @@
+---
+const links = [
+  { href: '/', label: '♪ Now Playing', id: 'now-playing-link' },
+  { href: '/episodes', label: 'Episodes' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+]
+
+const currentPath = Astro.url.pathname
+---
+
+<nav class="site-nav">
+  {/* Logo image — absolute positioned, overlapping below nav */}
+  <a href="/" class="site-nav-logo-link" aria-label="Home">
+    <img src="/images/raw-logo-fancy.webp" alt="" class="site-nav-logo-img" />
+  </a>
+
+  {/* Title and links — in normal flex flow, aligned together */}
+  <a href="/" class="site-nav-title">Rules as Written</a>
+
+  <div class="site-nav-links">
+    {links.map(({ href, label, id }) => (
+      <a href={href} id={id} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
+        {label}
+      </a>
+    ))}
+  </div>
+</nav>
+
+<script>
+  // Track which episode is actually playing (set by play-episode events only)
+  window.addEventListener('play-episode', (e: Event) => {
+    const ep = (e as CustomEvent).detail
+    if (ep?.number && ep?.title) {
+      const slug = ep.title.trim().toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-')
+      localStorage.setItem('nowPlayingSlug', `/show/${ep.number}/${slug}`)
+    }
+  })
+
+  function updateNowPlaying() {
+    const link = document.getElementById('now-playing-link') as HTMLAnchorElement
+    if (!link) return
+    const playingSlug = localStorage.getItem('nowPlayingSlug')
+    if (playingSlug) {
+      link.href = playingSlug
+      const currentPath = window.location.pathname.replace(/\/$/, '')
+      link.classList.toggle('active', currentPath === playingSlug)
+    }
+  }
+  document.addEventListener('astro:page-load', updateNowPlaying)
+</script>
+
+<style>
+  .site-nav {
+    display: flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    padding-left: 5rem;
+    border-bottom: 1px solid var(--color-bg-lighten-10);
+    background-color: var(--color-bg);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    min-height: 48px;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 600px) {
+    .site-nav {
+      padding-left: 7rem;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .site-nav {
+      padding: var(--space-4) var(--space-6);
+      padding-left: 8rem;
+    }
+  }
+
+  /* Absolute logo — overlaps below the nav bar */
+  .site-nav-logo-link {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 21;
+  }
+
+  .site-nav-logo-img {
+    height: 6rem;
+    width: auto;
+  }
+
+  /* Title — normal flex child, aligns with nav links */
+  .site-nav-title {
+    color: var(--color-primary);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+    display: none;
+    margin-right: auto;
+  }
+
+  .site-nav-title:hover {
+    color: var(--color-primary-lighten-10);
+  }
+
+  @media (min-width: 600px) {
+    .site-nav-title {
+      display: inline;
+      font-size: var(--font-size-4);
+    }
+  }
+
+  /* Nav links — pushed to the right by margin-right: auto on title */
+  .site-nav-links {
+    display: flex;
+    gap: var(--space-3);
+    margin-left: auto;
+  }
+
+  @media (min-width: 600px) {
+    .site-nav-links {
+      gap: var(--space-5);
+    }
+  }
+
+  .site-nav-links a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--font-size-1);
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  @media (min-width: 600px) {
+    .site-nav-links a {
+      font-size: var(--font-size-2);
+    }
+  }
+
+  .site-nav-links a:hover,
+  .site-nav-links a.active {
+    opacity: 1;
+    color: var(--color-primary-lighten-50);
+  }
+</style>

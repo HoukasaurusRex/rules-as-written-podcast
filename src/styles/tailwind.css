@@ -1,0 +1,73 @@
+@import "tailwindcss" layer(tailwind);
+
+/*
+ * Tailwind v4 CSS-first theme configuration.
+ * Maps existing CSS custom properties from global.css as Tailwind theme values.
+ * This allows using classes like `bg-bg`, `text-primary`, `p-space-4`, etc.
+ */
+@theme {
+  /* Colors - reference existing CSS custom properties */
+  --color-text: var(--color-text);
+  --color-bg: var(--color-bg);
+  --color-bg-light: var(--color-bg-lighten-10);
+  --color-bg-lighter: var(--color-bg-lighten-20);
+  --color-primary-dark: var(--color-primary-darken);
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-lighten-10);
+  --color-primary-muted: var(--color-primary-lighten-50);
+  --color-primary-faint: var(--color-primary-lighten-70);
+  --color-secondary: var(--color-secondary);
+
+  /* Spacing - map custom scale */
+  --spacing-space-0: var(--space-0);
+  --spacing-space-1: var(--space-1);
+  --spacing-space-2: var(--space-2);
+  --spacing-space-3: var(--space-3);
+  --spacing-space-4: var(--space-4);
+  --spacing-space-5: var(--space-5);
+  --spacing-space-6: var(--space-6);
+  --spacing-space-7: var(--space-7);
+  --spacing-space-8: var(--space-8);
+  --spacing-space-9: var(--space-9);
+  --spacing-space-10: var(--space-10);
+  --spacing-space-11: var(--space-11);
+  --spacing-space-12: var(--space-12);
+  --spacing-space-13: var(--space-13);
+  --spacing-space-14: var(--space-14);
+
+  /* Font sizes */
+  --font-size-xs: var(--font-size-0);
+  --font-size-sm: var(--font-size-1);
+  --font-size-base: var(--font-size-2);
+  --font-size-md: var(--font-size-3);
+  --font-size-lg: var(--font-size-4);
+  --font-size-xl: var(--font-size-5);
+  --font-size-2xl: var(--font-size-6);
+  --font-size-3xl: var(--font-size-7);
+  --font-size-4xl: var(--font-size-8);
+
+  /* Font families */
+  --font-body: var(--font-body);
+  --font-heading: var(--font-heading);
+
+  /* Border radius */
+  --radius-default: var(--radius-0);
+  --radius-round: var(--radius-round);
+
+  /* Layout */
+  --width-nav: var(--nav-width);
+  --width-container: var(--container-max);
+
+  /* Breakpoints */
+  --breakpoint-md: 992px;
+  --breakpoint-lg: 1200px;
+}
+
+/*
+ * Disable Tailwind's preflight reset — global.css already provides one.
+ * The `layer(tailwind)` import above scopes Tailwind's base layer,
+ * and we override it here to prevent conflicts.
+ */
+@layer base {
+  /* Intentionally empty — global.css handles all resets and base typography */
+}
