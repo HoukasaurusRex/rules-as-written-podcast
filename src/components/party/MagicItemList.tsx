@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useStore } from '@nanostores/react'
 import { $editMode, type PartyMagicItem, type PartyCharacter } from '../../stores/party'
 import ItemAutocomplete from './ItemAutocomplete'
+import ItemEditModal from './ItemEditModal'
 
 const RARITY_COLORS: Record<string, string> = {
   Common: 'text-rarity-common border-rarity-common/30',
@@ -35,6 +36,7 @@ export default function MagicItemList({
   const [showAddInput, setShowAddInput] = useState(false)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [assigningItem, setAssigningItem] = useState<string | null>(null)
+  const [editingItem, setEditingItem] = useState<PartyMagicItem | null>(null)
 
   const attunedCount = items.filter(
     (i) => i.characterId === currentCharacterId && i.attuned,
@@ -199,10 +201,19 @@ export default function MagicItemList({
                     <p className="m-0 mb-space-2 leading-relaxed text-text/60">
                       {item.description || <span className="italic text-text/20">No description</span>}
                     </p>
-                    <div className="flex flex-wrap gap-space-3">
+                    <div className="flex flex-wrap items-center gap-space-3">
                       <span><span className="text-text/30">Rarity:</span> {item.rarity || 'Unknown'}</span>
                       {item.requiresAttunement && <span>Requires attunement</span>}
                       {item.srdIndex && <span><span className="text-text/30">SRD:</span> {item.srdIndex}</span>}
+                      {editMode && (
+                        <button
+                          type="button"
+                          onClick={() => setEditingItem(item)}
+                          className="rounded-[5px] bg-bg-light px-space-3 py-space-1 text-xs text-text/50 hover:bg-bg-lighter hover:text-text/70"
+                        >
+                          Edit
+                        </button>
+                      )}
                     </div>
                   </div>
                 )}
@@ -210,6 +221,21 @@ export default function MagicItemList({
             )
           })}
         </div>
+      )}
+
+      {editingItem && (
+        <ItemEditModal
+          item={{
+            type: 'magic',
+            id: editingItem.id,
+            name: editingItem.name,
+            rarity: editingItem.rarity,
+            description: editingItem.description,
+            requiresAttunement: editingItem.requiresAttunement,
+          }}
+          onSave={onUpdate}
+          onClose={() => setEditingItem(null)}
+        />
       )}
     </section>
   )

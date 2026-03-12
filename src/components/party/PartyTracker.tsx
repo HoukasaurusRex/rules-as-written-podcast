@@ -47,7 +47,7 @@ export default function PartyTracker({ partyId }: Props) {
       <div className="flex min-h-[50vh] flex-col items-center justify-center gap-space-2">
         <Suspense fallback={<div className="h-24 w-24" />}>
           <DotLottieReact
-            src="/animations/fire-d.lottie"
+            src="/animations/campfire.lottie"
             loop
             autoplay
             style={{ width: 96, height: 96 }}
@@ -62,7 +62,7 @@ export default function PartyTracker({ partyId }: Props) {
   const characterNames = Object.fromEntries(party.characters.map((c) => [c.id, c.name]))
 
   return (
-    <div className="mx-auto max-w-2xl px-space-4 pb-[140px] pt-space-4">
+    <div className="mx-auto max-w-2xl px-space-4 pt-space-4">
       {/* Party name — auto-scrolls if too long */}
       <div className="mb-space-4 overflow-hidden">
         <h1

@@ -14,6 +14,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 25
+          cache: 'yarn'
 
       - run: corepack enable
       - run: yarn install
@@ -45,8 +46,7 @@ jobs:
           NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
 
       - name: Set preview DB URL on Netlify
-        run: |
-          npx netlify-cli env:set PREVIEW_DATABASE_URL "$DB_URL"
+        run: yarn netlify env:set PREVIEW_DATABASE_URL "$DB_URL"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -54,7 +54,7 @@ jobs:
 
       - name: Deploy to Netlify
         run: |
-          npx netlify-cli deploy \
+          yarn netlify deploy \
             --dir=dist \
             --no-build \
             --alias="pr-${{ github.event.number }}"
@@ -69,7 +69,6 @@ jobs:
             const previewUrl = `https://pr-${{ github.event.number }}--rules-as-written.netlify.app`
             const branchName = `preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}`
 
-            // Create deployment with clickable link in PR
             const deployment = await github.rest.repos.createDeployment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -92,7 +91,6 @@ jobs:
               })
             }
 
-            // Also comment on PR for visibility
             const body = [
               '## Deploy Preview Ready',
               '',

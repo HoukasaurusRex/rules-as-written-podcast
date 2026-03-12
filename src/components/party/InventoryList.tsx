@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useStore } from '@nanostores/react'
 import { $editMode, type PartyInventoryItem } from '../../stores/party'
+import ItemEditModal from './ItemEditModal'
 import ItemAutocomplete from './ItemAutocomplete'
 
 interface Props {
@@ -15,8 +16,7 @@ export default function InventoryList({ items, characterId, onAdd, onUpdate, onD
   const editMode = useStore($editMode)
   const [showAdd, setShowAdd] = useState(false)
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [editName, setEditName] = useState('')
+  const [editingItem, setEditingItem] = useState<PartyInventoryItem | null>(null)
 
   return (
     <section>
@@ -118,65 +118,27 @@ export default function InventoryList({ items, characterId, onAdd, onUpdate, onD
                 {/* Expanded details */}
                 {isExpanded && (
                   <div className="border-t border-bg-lighter px-space-3 py-space-3 text-xs text-text/50">
-                    {editingId === item.id ? (
-                      <div className="space-y-space-2">
-                        <input
-                          type="text"
-                          value={editName}
-                          onChange={(e) => setEditName(e.target.value)}
-                          className="w-full rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-sm text-text outline-none focus:border-primary"
-                          style={{ fontSize: '16px' }}
-                        />
-                        <div className="flex gap-space-2">
-                          <button
-                            type="button"
-                            onClick={() => setEditingId(null)}
-                            className="rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-1 text-xs text-text/50 hover:bg-bg-light"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (editName.trim()) {
-                                onUpdate({ id: item.id, name: editName.trim() })
-                              }
-                              setEditingId(null)
-                            }}
-                            className="rounded-[5px] bg-primary px-space-3 py-space-1 text-xs font-medium text-white hover:bg-primary-light"
-                          >
-                            Save
-                          </button>
-                        </div>
+                    {item.weight != null && (
+                      <div className="mb-space-1">
+                        <span className="text-text/30">Weight:</span> {item.weight} lb
                       </div>
-                    ) : (
-                      <>
-                        {item.weight != null && (
-                          <div className="mb-space-1">
-                            <span className="text-text/30">Weight:</span> {item.weight} lb
-                          </div>
-                        )}
-                        {item.srdIndex && (
-                          <div className="mb-space-1">
-                            <span className="text-text/30">SRD:</span> {item.srdIndex}
-                          </div>
-                        )}
-                        {!item.weight && !item.srdIndex && (
-                          <div className="mb-space-1 text-text/30">Custom item</div>
-                        )}
-                        {editMode && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setEditingId(item.id)
-                              setEditName(item.name)
-                            }}
-                            className="mt-space-2 rounded-[5px] bg-bg-light px-space-3 py-space-1 text-xs text-text/50 hover:bg-bg-lighter hover:text-text/70"
-                          >
-                            Edit name
-                          </button>
-                        )}
-                      </>
+                    )}
+                    {item.srdIndex && (
+                      <div className="mb-space-1">
+                        <span className="text-text/30">SRD:</span> {item.srdIndex}
+                      </div>
+                    )}
+                    {!item.weight && !item.srdIndex && (
+                      <div className="mb-space-1 text-text/30">Custom item</div>
+                    )}
+                    {editMode && (
+                      <button
+                        type="button"
+                        onClick={() => setEditingItem(item)}
+                        className="mt-space-2 rounded-[5px] bg-bg-light px-space-3 py-space-1 text-xs text-text/50 hover:bg-bg-lighter hover:text-text/70"
+                      >
+                        Edit
+                      </button>
                     )}
                   </div>
                 )}
@@ -184,6 +146,14 @@ export default function InventoryList({ items, characterId, onAdd, onUpdate, onD
             )
           })}
         </div>
+      )}
+
+      {editingItem && (
+        <ItemEditModal
+          item={{ type: 'inventory', id: editingItem.id, name: editingItem.name, quantity: editingItem.quantity, weight: editingItem.weight }}
+          onSave={onUpdate}
+          onClose={() => setEditingItem(null)}
+        />
       )}
     </section>
   )
