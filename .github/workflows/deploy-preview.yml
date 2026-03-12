@@ -46,7 +46,7 @@ jobs:
 
       - name: Set preview DB URL on Netlify
         run: |
-          npx netlify-cli env:set PREVIEW_DATABASE_URL "$DB_URL" --scope functions runtime
+          npx netlify-cli env:set PREVIEW_DATABASE_URL "$DB_URL"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
