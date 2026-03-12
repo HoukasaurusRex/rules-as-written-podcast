@@ -2,6 +2,7 @@
 const links = [
   { href: '/', label: '♪ Now Playing', id: 'now-playing-link' },
   { href: '/episodes', label: 'Episodes' },
+  { href: '/party/new', label: 'Party' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -20,7 +21,7 @@ const currentPath = Astro.url.pathname
 
   <div class="site-nav-links">
     {links.map(({ href, label, id }) => (
-      <a href={href} id={id} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
+      <a href={href} id={id} class:list={[{ active: href === '/' ? currentPath === '/' : currentPath.startsWith(href) }]}>
         {label}
       </a>
     ))}
@@ -117,6 +118,13 @@ const currentPath = Astro.url.pathname
     display: flex;
     gap: var(--space-3);
     margin-left: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .site-nav-links::-webkit-scrollbar {
+    display: none;
   }
 
   @media (min-width: 600px) {
@@ -131,6 +139,7 @@ const currentPath = Astro.url.pathname
     font-size: var(--font-size-1);
     opacity: 0.7;
     transition: opacity 0.2s, color 0.2s;
+    white-space: nowrap;
   }
 
   @media (min-width: 600px) {
