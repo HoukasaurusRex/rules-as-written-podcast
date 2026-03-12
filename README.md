@@ -43,9 +43,11 @@ A collaborative D&D party management tool that lets groups track gold, inventory
 
 **Features**: Per-denomination gold tracking (CP/SP/EP/GP/PP) with auto-split, inventory management with SRD autocomplete, magic item registry with attunement tracking, Loot Mode for post-encounter distribution, transaction history with undo, collaborative editing via D&D-themed party codes, real-time sync, and mobile-first design.
 
-**Stack**: Astro 6 hybrid mode, React islands, Tailwind CSS v4, Netlify Functions, Neon PostgreSQL via Drizzle ORM.
+**Stack**: Astro 6 (hybrid SSR), React islands, Tailwind CSS v4, Netlify Functions, Neon PostgreSQL via Drizzle ORM.
 
-**Plan**: See [implementation plan](.claude/plans/deep-tumbling-donut.md) | Tracked in [GitHub Project #17](https://github.com/users/HoukasaurusRex/projects/17) (issues #44–#58)
+**Deploy Previews**: Each PR gets an isolated Neon database branch + Netlify preview deploy via GitHub Actions. Branches are auto-cleaned on PR close.
+
+**Tracked in**: [GitHub Project #17](https://github.com/users/HoukasaurusRex/projects/17) (issues #44–#58) | v2 ideas in [Project #18](https://github.com/users/HoukasaurusRex/projects/18)
 
 ## Getting Started
 
@@ -82,7 +84,10 @@ yarn test:e2e
 
 ## Tech Stack
 
-* [Astro](https://astro.build/) 6 with React islands
+* [Astro](https://astro.build/) 6 (hybrid SSR) with React islands
+* [Tailwind CSS](https://tailwindcss.com/) v4 (CSS-first config)
+* [Drizzle ORM](https://orm.drizzle.team/) + [Neon PostgreSQL](https://neon.tech/)
+* [Netlify](https://netlify.com/) (Functions, deploy previews, Neon DB integration)
 * [TypeScript](https://www.typescriptlang.org/) strict mode
 * [Playwright](https://playwright.dev/) for e2e testing
 * [Umami](https://umami.is/) for analytics

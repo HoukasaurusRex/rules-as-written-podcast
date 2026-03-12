@@ -1498,7 +1498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neondatabase/serverless@npm:^1.0.2":
+"@neondatabase/serverless@npm:1.x":
   version: 1.0.2
   resolution: "@neondatabase/serverless@npm:1.0.2"
   dependencies:
@@ -1764,6 +1764,15 @@ __metadata:
   dependencies:
     ipx: "npm:^3.1.1"
   checksum: 10c0/7f1bc3900f91fb2900e1cc809aafdf738a015ba1239f37f715306513e600bf985deb166bec80f3b26391559a77f2c808a7a6284b73d09ae548d0ca30cb5010b1
+  languageName: node
+  linkType: hard
+
+"@netlify/neon@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@netlify/neon@npm:0.1.2"
+  dependencies:
+    "@neondatabase/serverless": "npm:1.x"
+  checksum: 10c0/ea7e44a55cca983e16efdd733446f061dccc0c302e65ed33c702bfd3cf895a808a65527d09ac56b48bbd29157a6a2cd14ed7a17058918437a65ab1b6e8375d3d
   languageName: node
   linkType: hard
 
@@ -9451,8 +9460,8 @@ __metadata:
     "@astrojs/rss": "npm:^4.0.17"
     "@lottiefiles/dotlottie-react": "npm:^0.18.4"
     "@nanostores/react": "npm:^0.8.0"
-    "@neondatabase/serverless": "npm:^1.0.2"
     "@netlify/functions": "npm:^5.1.2"
+    "@netlify/neon": "npm:^0.1.2"
     "@notionhq/client": "npm:^2.3.0"
     "@playwright/test": "npm:^1.58.2"
     "@tailwindcss/vite": "npm:^4.2.1"

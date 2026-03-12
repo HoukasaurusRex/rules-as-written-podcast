@@ -1,0 +1,93 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  preview:
+    name: Deploy preview with DB branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - run: corepack enable
+      - run: yarn install
+
+      - name: Get branch name
+        id: branch-name
+        run: echo "current_branch=${{ github.head_ref }}" >> "$GITHUB_OUTPUT"
+
+      - name: Create Neon database branch
+        id: create-branch
+        uses: neondatabase/create-branch-action@v5
+        with:
+          api_key: ${{ secrets.NEON_API_KEY }}
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          database: neondb
+          username: ${{ secrets.NEON_DATABASE_USERNAME }}
+          branch_name: preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}
+
+      - name: Run Drizzle migrations
+        run: yarn drizzle-kit migrate
+        env:
+          NETLIFY_DATABASE_URL_UNPOOLED: ${{ steps.create-branch.outputs.db_url }}
+
+      - name: Build site
+        run: yarn build
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+
+      - name: Deploy to Netlify
+        run: |
+          npx netlify-cli deploy \
+            --dir=dist \
+            --alias="pr-${{ github.event.number }}" \
+            --context=deploy-preview
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = `https://pr-${{ github.event.number }}--rules-as-written.netlify.app`
+            const branchName = `preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}`
+            const body = [
+              '## Deploy Preview Ready',
+              '',
+              `**Preview**: ${previewUrl}`,
+              `**DB Branch**: \`${branchName}\``,
+              '',
+              '_Database branch will be cleaned up when this PR is closed._',
+            ].join('\n')
+
+            // Update existing comment or create new one
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            const botComment = comments.find(c => c.body?.includes('Deploy Preview Ready'))
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                comment_id: botComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              })
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              })
+            }

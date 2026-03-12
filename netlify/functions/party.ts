@@ -1,6 +1,6 @@
 import type { Handler, HandlerEvent } from '@netlify/functions'
 import { eq, desc, and, sql } from 'drizzle-orm'
-import { getDb } from '../../src/db'
+import { getDb, DatabaseUnavailableError } from '../../src/db'
 import {
   parties,
   characters,
@@ -652,6 +652,14 @@ export const handler: Handler = async (event) => {
     const result = await route.handler(event, route.params)
     return { ...result, headers }
   } catch (err) {
+    if (err instanceof DatabaseUnavailableError) {
+      console.error('Database unavailable:', err.cause)
+      return {
+        statusCode: 503,
+        headers,
+        body: JSON.stringify({ error: 'Database unavailable. The party tracker requires a database connection.' }),
+      }
+    }
     console.error('Party API error:', err)
     return {
       statusCode: 500,
