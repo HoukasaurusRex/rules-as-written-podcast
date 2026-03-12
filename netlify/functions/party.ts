@@ -576,6 +576,8 @@ const addLoot: RouteHandler = async (event, { id }) => {
 
   if (partyCharacters.length === 0) return error(400, 'Party has no characters')
 
+  const lootNote = typeof body.note === 'string' ? body.note : ''
+
   const results: { transactions: unknown[]; items: unknown[]; magicItems: unknown[] } = {
     transactions: [],
     items: [],
@@ -606,7 +608,7 @@ const addLoot: RouteHandler = async (event, { id }) => {
             characterId: char.id,
             type: 'loot',
             ...values,
-            note: `Loot split: ${total} ${denom.toUpperCase()}`,
+            note: `Loot split: ${total} ${denom.toUpperCase()}${lootNote ? ` · ${lootNote}` : ''}`,
           })
           .returning()
         results.transactions.push(tx)

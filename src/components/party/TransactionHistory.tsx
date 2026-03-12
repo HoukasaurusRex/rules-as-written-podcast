@@ -57,8 +57,10 @@ export default function TransactionHistory({
   const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
 
-  const [expanded, setExpanded] = useState(false)
-  const PAGE_SIZE = expanded ? 20 : 10
+  const [showFullHistory, setShowFullHistory] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [allTransactions, setAllTransactions] = useState<Transaction[]>([])
+  const PAGE_SIZE = 10
 
   const loadTransactions = useCallback(async (offset = 0) => {
     setLoading(true)
@@ -152,25 +154,102 @@ export default function TransactionHistory({
         })}
       </div>
 
-      {!expanded && transactions.length >= 10 && (
+      {!showFullHistory && transactions.length >= 10 && (
         <button
-          onClick={() => {
-            setExpanded(true)
-            loadTransactions()
+          type="button"
+          onClick={async () => {
+            setShowFullHistory(true)
+            const rows = await onListTransactions(characterId, 100, 0)
+            setAllTransactions(rows)
           }}
           className="mt-space-3 w-full rounded-[5px] border border-bg-lighter py-space-2 text-xs text-text/40 transition-colors hover:bg-bg-light"
         >
           Older transactions
         </button>
       )}
-      {expanded && hasMore && (
-        <button
-          onClick={() => loadTransactions(apiTransactions.length)}
-          disabled={loading}
-          className="mt-space-3 w-full rounded-[5px] border border-bg-lighter py-space-2 text-xs text-text/40 transition-colors hover:bg-bg-light"
+
+      {/* Full history modal */}
+      {showFullHistory && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-space-4"
+          onClick={(e) => { if (e.target === e.currentTarget) setShowFullHistory(false) }}
         >
-          {loading ? 'Loading...' : 'Load more'}
-        </button>
+          <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
+            <div className="flex shrink-0 items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
+              <h3 className="m-0 text-base font-bold text-text">Transaction History</h3>
+              <button
+                type="button"
+                onClick={() => setShowFullHistory(false)}
+                className="text-sm text-text/50 hover:text-text"
+              >
+                Close
+              </button>
+            </div>
+            <div className="shrink-0 border-b border-bg-lighter px-space-4 py-space-3">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by item, note, type..."
+                className="w-full rounded-[5px] border border-bg-lighter bg-bg-light px-space-3 py-space-2 text-sm text-text placeholder-text/30 outline-none focus:border-primary"
+                style={{ fontSize: '16px' }}
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto p-space-4">
+              <div className="space-y-space-1">
+                {allTransactions
+                  .filter((tx) => {
+                    if (!searchQuery.trim()) return true
+                    const q = searchQuery.toLowerCase()
+                    return (
+                      tx.itemName?.toLowerCase().includes(q) ||
+                      tx.note?.toLowerCase().includes(q) ||
+                      tx.type.toLowerCase().includes(q) ||
+                      (tx.characterId && characterNames[tx.characterId]?.toLowerCase().includes(q))
+                    )
+                  })
+                  .map((tx) => {
+                    const isDebit = isDebitTransaction(tx.type)
+                    const isUndo = tx.type === 'undo'
+                    return (
+                      <div
+                        key={tx.id}
+                        className={`flex items-center justify-between rounded-[5px] px-space-3 py-space-2 text-sm ${
+                          tx.undone ? 'bg-bg-light/50 opacity-50' : 'bg-bg-light'
+                        }`}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-space-2">
+                            <span className={`font-medium ${isUndo ? 'text-text/50' : isDebit ? 'text-red-400' : 'text-green-400'}`}>
+                              {isDebit ? '−' : '+'}{formatAmount(tx)}
+                            </span>
+                          </div>
+                          <div className="mt-0.5 truncate text-xs text-text/40">
+                            {TYPE_LABELS[tx.type] ?? tx.type}
+                            {tx.itemName && ` · ${tx.itemName}`}
+                            {tx.note && ` · ${tx.note}`}
+                            {tx.characterId && characterNames[tx.characterId] && ` · ${characterNames[tx.characterId]}`}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-space-2">
+                          <span className="text-[10px] text-text/30">{formatTime(tx.createdAt)}</span>
+                          {editMode && !tx.undone && tx.type !== 'undo' && (
+                            <button
+                              type="button"
+                              onClick={() => onUndo(tx.id)}
+                              className="rounded px-space-2 py-space-1 text-[10px] text-text/30 hover:bg-bg-lighter hover:text-text/60"
+                            >
+                              Undo
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </section>
   )

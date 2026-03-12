@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
-import { DENOMINATIONS, DENOM_COLORS } from '../../utils/currency'
+import { DENOMINATIONS, DENOM_COLORS, totalGpValue } from '../../utils/currency'
 import { usePartyApi } from './hooks/usePartyApi'
 import { Toast } from '../Toast'
 import CoinInput from './CoinInput'
@@ -108,10 +108,7 @@ export default function PartyTracker({ partyId }: Props) {
               }}
               className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60 transition-colors hover:bg-bg-light"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-              </svg>
+              <img src="/images/raw-logo-fancy.webp" alt="" width="18" height="18" className="rounded-sm" />
               Share
             </button>
 
@@ -148,7 +145,7 @@ export default function PartyTracker({ partyId }: Props) {
             )
           })()}
 
-          {/* Unclaimed Loot (combined inventory + magic items) */}
+          {/* Unclaimed Loot (magic items first, then regular items) */}
           {(() => {
             const lootItems = party.inventoryItems.filter((i) => !i.characterId)
             const lootMagic = party.magicItems.filter((i) => !i.characterId)
@@ -158,8 +155,20 @@ export default function PartyTracker({ partyId }: Props) {
                 <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
                   Unclaimed Loot
                 </h2>
+                {lootMagic.length > 0 && (
+                  <div className="mb-space-2">
+                    <MagicItemList
+                      items={lootMagic}
+                      characters={party.characters}
+                      currentCharacterId={null}
+                      onUpdate={api.upsertMagicItem}
+                      onDelete={api.deleteMagicItem}
+                      showHeading={false}
+                    />
+                  </div>
+                )}
                 {lootItems.length > 0 && (
-                  <div className="mb-space-2 space-y-space-1">
+                  <div className="space-y-space-1">
                     {lootItems.map((item) => (
                       <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
                         <span className="text-text">{item.name}</span>
@@ -167,16 +176,6 @@ export default function PartyTracker({ partyId }: Props) {
                       </div>
                     ))}
                   </div>
-                )}
-                {lootMagic.length > 0 && (
-                  <MagicItemList
-                    items={lootMagic}
-                    characters={party.characters}
-                    currentCharacterId={null}
-                    onAdd={api.upsertMagicItem}
-                    onUpdate={api.upsertMagicItem}
-                    onDelete={api.deleteMagicItem}
-                  />
                 )}
               </section>
             )
@@ -224,7 +223,7 @@ export default function PartyTracker({ partyId }: Props) {
                         </div>
                       </div>
                       <div className="text-right text-sm tabular-nums text-gold-gp">
-                        {char.gp ?? 0} GP
+                        {totalGpValue(char)} GP
                       </div>
                     </button>
                   )

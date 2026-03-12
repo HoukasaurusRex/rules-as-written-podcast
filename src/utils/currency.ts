@@ -20,3 +20,19 @@ export const DENOM_LABELS: Record<Denomination, string> = {
 export function isDebitTransaction(type: string): boolean {
   return ['spend', 'buy'].includes(type)
 }
+
+const GP_RATES: Record<Denomination, number> = {
+  pp: 10,
+  gp: 1,
+  ep: 0.5,
+  sp: 0.1,
+  cp: 0.01,
+}
+
+export function totalGpValue(coins: { pp?: number; gp?: number; ep?: number; sp?: number; cp?: number }): number {
+  let total = 0
+  for (const d of DENOMINATIONS) {
+    total += (coins[d] ?? 0) * GP_RATES[d]
+  }
+  return Math.round(total * 100) / 100
+}

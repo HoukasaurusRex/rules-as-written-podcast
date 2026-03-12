@@ -16,9 +16,10 @@ interface Props {
   items: PartyMagicItem[]
   characters: PartyCharacter[]
   currentCharacterId: string | null
-  onAdd: (item: Record<string, unknown>) => Promise<void>
+  onAdd?: (item: Record<string, unknown>) => Promise<void>
   onUpdate: (item: Record<string, unknown>) => Promise<void>
   onDelete: (itemId: string) => Promise<void>
+  showHeading?: boolean
 }
 
 export default function MagicItemList({
@@ -28,9 +29,10 @@ export default function MagicItemList({
   onAdd,
   onUpdate,
   onDelete,
+  showHeading = true,
 }: Props) {
   const editMode = useStore($editMode)
-  const [showAdd, setShowAdd] = useState(false)
+  const [showAddInput, setShowAddInput] = useState(false)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [assigningItem, setAssigningItem] = useState<string | null>(null)
 
@@ -40,159 +42,168 @@ export default function MagicItemList({
 
   return (
     <section>
-      <div className="mb-space-3 flex items-center justify-between">
-        <h3 className="m-0 text-sm font-semibold uppercase tracking-wider text-text/50">
-          {currentCharacterId ? 'Magic Items' : 'Unclaimed Loot'}
-          {currentCharacterId && (
-            <span className="ml-space-2 text-xs font-normal text-text/30">
-              ({attunedCount}/3 attuned)
-            </span>
+      {showHeading && (
+        <div className="mb-space-3 flex items-center justify-between">
+          <h3 className="m-0 text-sm font-semibold uppercase tracking-wider text-text/50">
+            {currentCharacterId ? 'Magic Items' : 'Unclaimed Loot'}
+            {currentCharacterId && (
+              <span className="ml-space-2 text-xs font-normal text-text/30">
+                ({attunedCount}/3 attuned)
+              </span>
+            )}
+          </h3>
+          {editMode && onAdd && (
+            <button
+              type="button"
+              onClick={() => setShowAddInput(!showAddInput)}
+              className="rounded-[5px] bg-primary/20 px-space-3 py-space-1 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
+            >
+              {showAddInput ? 'Cancel' : '+ Add'}
+            </button>
           )}
-        </h3>
-        {editMode && (
-          <button
-            onClick={() => setShowAdd(!showAdd)}
-            className="rounded-[5px] bg-primary/20 px-space-3 py-space-1 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
-          >
-            {showAdd ? 'Cancel' : '+ Add'}
-          </button>
-        )}
-      </div>
-
-      {showAdd && editMode && (
-        <div className="mb-space-3">
-          <ItemAutocomplete
-            type="magic-item"
-            placeholder="Search magic items or type custom..."
-            onSelect={async (item) => {
-              await onAdd({
-                characterId: currentCharacterId,
-                name: item.name,
-                rarity: 'rarity' in item ? item.rarity : undefined,
-                requiresAttunement: 'requiresAttunement' in item ? item.requiresAttunement : false,
-                srdIndex: 'index' in item ? item.index : undefined,
-              })
-              setShowAdd(false)
-            }}
-          />
         </div>
       )}
 
-      {items.length === 0 ? (
+      {showAddInput && editMode && onAdd && (
+        <div className="mb-space-3 flex gap-space-2">
+          <div className="flex-1">
+            <ItemAutocomplete
+              type="magic-item"
+              placeholder="Search magic items..."
+              onSelect={async (item) => {
+                await onAdd({
+                  characterId: currentCharacterId,
+                  name: item.name,
+                  rarity: 'rarity' in item ? item.rarity : undefined,
+                  requiresAttunement: 'requiresAttunement' in item ? item.requiresAttunement : false,
+                  srdIndex: 'index' in item ? item.index : undefined,
+                })
+                setShowAddInput(false)
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {items.length === 0 && showHeading ? (
         <div className="rounded-[5px] border border-dashed border-bg-lighter py-space-4 text-center text-xs text-text/30">
           {currentCharacterId ? 'No magic items' : 'No unclaimed loot'}
         </div>
       ) : (
-        <div className="space-y-space-2">
+        <div className="space-y-space-1">
           {items.map((item) => {
             const colorParts = (RARITY_COLORS[item.rarity ?? ''] ?? 'text-text border-bg-lighter').split(' ')
             const textColor = colorParts[0]
             const borderColor = colorParts[1] ?? 'border-bg-lighter'
             const isExpanded = expandedId === item.id
+            const descSnippet = item.description?.slice(0, 60)
 
             return (
               <div key={item.id} className={`rounded-[5px] border bg-bg ${borderColor}`}>
-                {/* Header row */}
-                <button
-                  onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                  className="flex w-full items-start justify-between p-space-3 text-left"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-space-2">
-                      <svg
-                        width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                        className={`shrink-0 text-text/30 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
-                      >
-                        <polyline points="9 18 15 12 9 6" />
-                      </svg>
-                      <span className={`text-sm font-medium ${textColor}`}>{item.name}</span>
-                      {item.attuned && (
-                        <span className="rounded-full bg-primary/20 px-space-2 py-0.5 text-[10px] font-semibold uppercase text-primary-muted">
-                          Attuned
-                        </span>
+                {/* Main row: name + description snippet + quick actions */}
+                <div className="flex items-center gap-space-2 px-space-3 py-space-2">
+                  <button
+                    type="button"
+                    onClick={() => setExpandedId(isExpanded ? null : item.id)}
+                    className="flex min-w-0 flex-1 items-center gap-space-2 text-left"
+                  >
+                    <svg
+                      width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                      className={`shrink-0 text-text/30 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-space-1">
+                        <span className={`truncate text-sm font-medium ${textColor}`}>{item.name}</span>
+                        {item.attuned && (
+                          <span className="shrink-0 rounded-full bg-primary/20 px-1.5 py-0 text-[9px] font-semibold uppercase text-primary-muted">
+                            A
+                          </span>
+                        )}
+                      </div>
+                      {descSnippet && (
+                        <div className="truncate text-[11px] text-text/30">
+                          {descSnippet}{(item.description?.length ?? 0) > 60 ? '…' : ''}
+                        </div>
                       )}
                     </div>
-                    <div className="mt-space-1 pl-5 text-xs text-text/40">
-                      {item.rarity}
-                      {item.requiresAttunement && ' · Requires attunement'}
+                  </button>
+
+                  {/* Quick actions — always visible in edit mode */}
+                  {editMode && (
+                    <div className="flex shrink-0 items-center gap-space-1">
+                      {item.requiresAttunement && item.characterId && (
+                        <button
+                          type="button"
+                          onClick={() => onUpdate({ id: item.id, attuned: !item.attuned })}
+                          disabled={!item.attuned && attunedCount >= 3}
+                          className={`rounded px-space-2 py-space-1 text-[10px] font-medium transition-colors ${
+                            item.attuned
+                              ? 'bg-primary/20 text-primary-muted hover:bg-primary/30'
+                              : 'bg-bg-light text-text/40 hover:bg-bg-lighter disabled:opacity-30'
+                          }`}
+                        >
+                          {item.attuned ? 'Unattune' : 'Attune'}
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); setAssigningItem(assigningItem === item.id ? null : item.id) }}
+                        className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
+                      >
+                        {currentCharacterId ? 'Give' : 'Assign'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); onDelete(item.id) }}
+                        className="rounded px-space-2 py-space-1 text-[10px] text-red-400/50 hover:bg-red-400/10 hover:text-red-400"
+                      >
+                        ×
+                      </button>
                     </div>
+                  )}
+                </div>
+
+                {/* Assignment dropdown */}
+                {assigningItem === item.id && editMode && (
+                  <div className="flex flex-wrap gap-space-1 border-t border-bg-lighter px-space-3 py-space-2">
+                    <button
+                      type="button"
+                      onClick={() => { onUpdate({ id: item.id, characterId: null }); setAssigningItem(null) }}
+                      className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
+                        !item.characterId ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
+                      }`}
+                    >
+                      Loot Pool
+                    </button>
+                    {characters.map((char) => (
+                      <button
+                        type="button"
+                        key={char.id}
+                        onClick={() => { onUpdate({ id: item.id, characterId: char.id }); setAssigningItem(null) }}
+                        className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
+                          item.characterId === char.id ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
+                        }`}
+                      >
+                        {char.name}
+                      </button>
+                    ))}
                   </div>
-                </button>
+                )}
 
                 {/* Expanded details */}
                 {isExpanded && (
-                  <div className="border-t border-bg-lighter px-space-3 py-space-3">
-                    {/* Description */}
+                  <div className="border-t border-bg-lighter px-space-3 py-space-3 text-xs text-text/50">
                     {item.description && (
-                      <p className="m-0 mb-space-3 text-xs leading-relaxed text-text/60">
-                        {item.description}
-                      </p>
+                      <p className="m-0 mb-space-2 leading-relaxed text-text/60">{item.description}</p>
                     )}
-
-                    {/* Edit actions */}
-                    {editMode && (
-                      <div className="flex flex-wrap gap-space-1">
-                        {item.requiresAttunement && item.characterId && (
-                          <button
-                            onClick={() => onUpdate({ id: item.id, attuned: !item.attuned })}
-                            disabled={!item.attuned && attunedCount >= 3}
-                            className={`rounded px-space-2 py-space-1 text-[10px] font-medium transition-colors ${
-                              item.attuned
-                                ? 'bg-primary/20 text-primary-muted hover:bg-primary/30'
-                                : 'bg-bg-light text-text/40 hover:bg-bg-lighter disabled:opacity-30'
-                            }`}
-                          >
-                            {item.attuned ? 'Unattune' : 'Attune'}
-                          </button>
-                        )}
-
-                        <button
-                          onClick={() => setAssigningItem(assigningItem === item.id ? null : item.id)}
-                          className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
-                        >
-                          {currentCharacterId ? 'Give' : 'Assign'}
-                        </button>
-
-                        <button
-                          onClick={() => onDelete(item.id)}
-                          className="rounded px-space-2 py-space-1 text-[10px] text-red-400/50 hover:bg-red-400/10 hover:text-red-400"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Assignment dropdown */}
-                    {assigningItem === item.id && editMode && (
-                      <div className="mt-space-2 flex flex-wrap gap-space-1 border-t border-bg-lighter pt-space-2">
-                        <button
-                          onClick={() => {
-                            onUpdate({ id: item.id, characterId: null })
-                            setAssigningItem(null)
-                          }}
-                          className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
-                            !item.characterId ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
-                          }`}
-                        >
-                          Loot Pool
-                        </button>
-                        {characters.map((char) => (
-                          <button
-                            key={char.id}
-                            onClick={() => {
-                              onUpdate({ id: item.id, characterId: char.id })
-                              setAssigningItem(null)
-                            }}
-                            className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
-                              item.characterId === char.id ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
-                            }`}
-                          >
-                            {char.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    <div className="flex flex-wrap gap-space-3">
+                      {item.rarity && <span><span className="text-text/30">Rarity:</span> {item.rarity}</span>}
+                      {item.requiresAttunement && <span>Requires attunement</span>}
+                      {item.srdIndex && <span><span className="text-text/30">SRD:</span> {item.srdIndex}</span>}
+                    </div>
                   </div>
                 )}
               </div>

@@ -198,7 +198,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
             className="accent-primary"
           />
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            <line x1="2" y1="20" x2="22" y2="20" /><line x1="12" y1="4" x2="12" y2="20" /><polyline points="4 10 12 4 20 10" /><line x1="4" y1="10" x2="4" y2="14" /><line x1="20" y1="10" x2="20" y2="14" />
           </svg>
           Split coins (convert for even distribution)
         </label>

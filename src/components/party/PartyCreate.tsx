@@ -221,9 +221,19 @@ export default function PartyCreate() {
             style={{ fontSize: '16px' }}
           />
           <button
-            onClick={() => {
-              // TODO: validate code against API and navigate to party
-              setToast({ message: 'Code lookup coming soon', variant: 'error' })
+            onClick={async () => {
+              const code = codeInput.trim()
+              if (!code) return
+              try {
+                const res = await fetch(`/api/party/${encodeURIComponent(code)}`)
+                if (res.ok) {
+                  window.location.href = `/party/${encodeURIComponent(code)}`
+                } else {
+                  setToast({ message: 'Party not found. Check the code and try again.', variant: 'error' })
+                }
+              } catch {
+                setToast({ message: randomErrorMessage(), variant: 'error' })
+              }
             }}
             disabled={!codeInput.trim()}
             className="rounded-[5px] bg-primary/20 px-space-4 py-space-3 text-sm font-medium text-primary-muted transition-colors hover:bg-primary/30 disabled:opacity-50"
