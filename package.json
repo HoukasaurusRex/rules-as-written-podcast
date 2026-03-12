@@ -19,6 +19,7 @@
     "@astrojs/rss": "^4.0.17",
     "@lottiefiles/dotlottie-react": "^0.18.4",
     "@nanostores/react": "^0.8.0",
+    "@neondatabase/serverless": "^1.0.2",
     "@netlify/neon": "^0.1.2",
     "@notionhq/client": "^2.3.0",
     "@tailwindcss/vite": "^4.2.1",

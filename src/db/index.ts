@@ -1,4 +1,4 @@
-import { neon } from '@netlify/neon'
+import { neon } from '@neondatabase/serverless'
 import { drizzle } from 'drizzle-orm/neon-http'
 import * as schema from './schema'
 
@@ -11,12 +11,14 @@ export class DatabaseUnavailableError extends Error {
 }
 
 export function getDb() {
-  try {
-    const sql = neon()
-    return drizzle(sql, { schema })
-  } catch (err) {
-    throw new DatabaseUnavailableError(err)
+  const url = process.env.NETLIFY_DATABASE_URL
+  if (!url) {
+    throw new DatabaseUnavailableError(
+      new Error('NETLIFY_DATABASE_URL is not set'),
+    )
   }
+  const sql = neon(url)
+  return drizzle(sql, { schema })
 }
 
 export type Db = ReturnType<typeof getDb>

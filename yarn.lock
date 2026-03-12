@@ -1498,7 +1498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neondatabase/serverless@npm:1.x":
+"@neondatabase/serverless@npm:1.x, @neondatabase/serverless@npm:^1.0.2":
   version: 1.0.2
   resolution: "@neondatabase/serverless@npm:1.0.2"
   dependencies:
@@ -9460,6 +9460,7 @@ __metadata:
     "@astrojs/rss": "npm:^4.0.17"
     "@lottiefiles/dotlottie-react": "npm:^0.18.4"
     "@nanostores/react": "npm:^0.8.0"
+    "@neondatabase/serverless": "npm:^1.0.2"
     "@netlify/functions": "npm:^5.1.2"
     "@netlify/neon": "npm:^0.1.2"
     "@notionhq/client": "npm:^2.3.0"
