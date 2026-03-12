@@ -34,5 +34,5 @@ export function totalGpValue(coins: { pp?: number; gp?: number; ep?: number; sp?
   for (const d of DENOMINATIONS) {
     total += (coins[d] ?? 0) * GP_RATES[d]
   }
-  return Math.round(total * 100) / 100
+  return Math.floor(total)
 }

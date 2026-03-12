@@ -196,11 +196,11 @@ export default function MagicItemList({
                 {/* Expanded details */}
                 {isExpanded && (
                   <div className="border-t border-bg-lighter px-space-3 py-space-3 text-xs text-text/50">
-                    {item.description && (
-                      <p className="m-0 mb-space-2 leading-relaxed text-text/60">{item.description}</p>
-                    )}
+                    <p className="m-0 mb-space-2 leading-relaxed text-text/60">
+                      {item.description || <span className="italic text-text/20">No description</span>}
+                    </p>
                     <div className="flex flex-wrap gap-space-3">
-                      {item.rarity && <span><span className="text-text/30">Rarity:</span> {item.rarity}</span>}
+                      <span><span className="text-text/30">Rarity:</span> {item.rarity || 'Unknown'}</span>
                       {item.requiresAttunement && <span>Requires attunement</span>}
                       {item.srdIndex && <span><span className="text-text/30">SRD:</span> {item.srdIndex}</span>}
                     </div>

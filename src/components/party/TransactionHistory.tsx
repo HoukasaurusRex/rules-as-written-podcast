@@ -107,7 +107,7 @@ export default function TransactionHistory({
       <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
         Transaction History
       </h3>
-      <div className="space-y-space-1">
+      <div className="max-h-96 space-y-space-1 overflow-y-auto">
         {transactions.map((tx) => {
           const isDebit = isDebitTransaction(tx.type)
           const isUndo = tx.type === 'undo'
