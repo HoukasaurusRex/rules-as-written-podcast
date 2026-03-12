@@ -1,6 +1,5 @@
 ---
 import type { Episode } from '../utils/feed'
-import Bars from './Bars.astro'
 import '../styles/marquee.css'
 
 interface Props {
@@ -32,7 +31,6 @@ function slugify(s: string): string {
       const isActive = episode.id === currentEpisodeId
       return (
         <li role="none">
-          {isActive && <Bars />}
           <a
             role="menuitem"
             href={slug}
@@ -56,14 +54,18 @@ function slugify(s: string): string {
       const link = li.querySelector('a') as HTMLAnchorElement
       const isPlaying = link && playingSlug && link.getAttribute('href') === playingSlug
       li.classList.toggle('now-playing', !!isPlaying)
-      // Inject CSS-only equalizer bars if playing and not already present
-      if (isPlaying && !li.querySelector('.eq-bars')) {
+      // Inject bars animation if playing (reuses .bars/.bar CSS from global.css)
+      if (isPlaying && !li.querySelector('.bars')) {
         const bars = document.createElement('div')
-        bars.className = 'eq-bars'
-        bars.innerHTML = '<span></span><span></span><span></span><span></span>'
+        bars.className = 'bars'
+        for (let i = 0; i < 15; i++) {
+          const bar = document.createElement('div')
+          bar.className = 'bar'
+          bars.appendChild(bar)
+        }
         li.prepend(bars)
       } else if (!isPlaying) {
-        li.querySelector('.eq-bars')?.remove()
+        li.querySelector('.bars')?.remove()
       }
     })
 
@@ -79,6 +81,11 @@ function slugify(s: string): string {
   }
 
   document.addEventListener('astro:page-load', initNavigation)
+  // Also update bars when a new episode starts playing (without navigation)
+  window.addEventListener('play-episode', () => {
+    // Small delay to let localStorage update first (set by PlayerH5)
+    setTimeout(initNavigation, 50)
+  })
 </script>
 
 <style>
@@ -166,6 +173,9 @@ function slugify(s: string): string {
     overflow: hidden;
     white-space: nowrap;
     transition: border-color 0.2s, background-color 0.2s;
+    /* Override marquee left fade — border needs to be fully visible */
+    mask-image: linear-gradient(to right, black 0%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 90%, transparent 100%);
   }
 
   li a.active {
@@ -186,39 +196,4 @@ function slugify(s: string): string {
     font-size: 16px;
   }
 
-  /* Now-playing episode highlight (set via JS from localStorage) */
-  :global(li.now-playing a) {
-    border-left-color: var(--color-primary) !important;
-    background-color: var(--color-bg-lighten-10);
-  }
-
-  :global(.eq-bars) {
-    position: absolute;
-    left: 6px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 16px;
-    z-index: 1;
-  }
-
-  :global(.eq-bars span) {
-    display: block;
-    width: 3px;
-    background: var(--color-secondary);
-    border-radius: 1px;
-    animation: eqBounce 0.8s ease-in-out infinite alternate;
-  }
-
-  :global(.eq-bars span:nth-child(1)) { height: 8px; animation-delay: 0s; }
-  :global(.eq-bars span:nth-child(2)) { height: 12px; animation-delay: 0.2s; }
-  :global(.eq-bars span:nth-child(3)) { height: 6px; animation-delay: 0.4s; }
-  :global(.eq-bars span:nth-child(4)) { height: 10px; animation-delay: 0.1s; }
-
-  @keyframes eqBounce {
-    0% { transform: scaleY(0.3); }
-    100% { transform: scaleY(1); }
-  }
 </style>

@@ -239,6 +239,12 @@ figcaption {
 .bar:nth-child(14) { top: 53px; animation-duration: 455ms; }
 .bar:nth-child(15) { top: 57px; animation-duration: 425ms; }
 
+/* Now-playing episode highlight (injected via JS from localStorage) */
+li.now-playing a {
+  border-left-color: var(--color-primary) !important;
+  background-color: var(--color-bg-lighten-10);
+}
+
 /* Scrollbar */
 html::-webkit-scrollbar {
   width: 7px;
