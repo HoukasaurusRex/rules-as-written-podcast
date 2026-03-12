@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/neon-http'
 import * as schema from './schema'
 
 export function getDb() {
-  const sql = neon(process.env.DATABASE_URL!)
+  const sql = neon(process.env.NETLIFY_DATABASE_URL!)
   return drizzle(sql, { schema })
 }
 

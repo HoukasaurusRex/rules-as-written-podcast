@@ -1,4 +1,5 @@
-[![Netlify Status][netlify-shield]][netlify-url]
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status)](https://app.netlify.com/projects/rules-as-written/deploys)
+[![CI](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/ci.yml/badge.svg)](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/ci.yml)
 [![Contributors][contributors-shield]][contributors-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Twitter: HoukasaurusRex][twitter-shield]][twitter-url]
@@ -91,8 +92,6 @@ yarn test:e2e
 
 * JT Houk - [@HoukasaurusRex](https://twitter.com/HoukasaurusRex)
 
-[netlify-shield]: https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status
-[netlify-url]: https://app.netlify.com/sites/rules-as-written/deploys
 [contributors-shield]: https://img.shields.io/github/contributors/HoukasaurusRex/rules-as-written-podcast.svg?style=flat-square
 [contributors-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/graphs/contributors
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
