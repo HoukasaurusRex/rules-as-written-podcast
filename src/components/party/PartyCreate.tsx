@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Toast } from '../Toast'
+import { randomErrorMessage } from '../../utils/error-messages'
 
 interface PartyCreateResult {
   id: string
@@ -6,11 +8,13 @@ interface PartyCreateResult {
   code: string
 }
 
+type ToastState = { message: string; variant: 'success' | 'error' } | null
+
 export default function PartyCreate() {
   const [name, setName] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState<PartyCreateResult | null>(null)
-  const [error, setError] = useState('')
+  const [toast, setToast] = useState<ToastState>(null)
   const [copied, setCopied] = useState<'code' | 'link' | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -18,7 +22,7 @@ export default function PartyCreate() {
     if (!name.trim() || submitting) return
 
     setSubmitting(true)
-    setError('')
+    setToast(null)
 
     try {
       const res = await fetch('/api/party', {
@@ -27,13 +31,24 @@ export default function PartyCreate() {
         body: JSON.stringify({ name: name.trim() }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed to create party')
 
-      // Store code in localStorage for immediate edit access
+      if (!res.ok) {
+        // 4xx: show server's specific message
+        if (res.status >= 400 && res.status < 500) {
+          setToast({ message: data.error ?? 'Invalid request', variant: 'error' })
+        } else {
+          // 5xx: D&D-themed message, log real error
+          console.error('Create party error:', data)
+          setToast({ message: randomErrorMessage(), variant: 'error' })
+        }
+        return
+      }
+
       localStorage.setItem(`party-code-${data.id}`, data.code)
       setResult(data)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong')
+      console.error('Create party error:', err)
+      setToast({ message: randomErrorMessage(), variant: 'error' })
     } finally {
       setSubmitting(false)
     }
@@ -132,15 +147,9 @@ export default function PartyCreate() {
             maxLength={100}
             autoFocus
             className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none transition-colors focus:border-primary"
-            style={{ fontSize: '16px' }} // Prevent iOS zoom
+            style={{ fontSize: '16px' }}
           />
         </div>
-
-        {error && (
-          <div className="rounded-[5px] border border-red-500/30 bg-red-500/10 px-space-4 py-space-3 text-sm text-red-400">
-            {error}
-          </div>
-        )}
 
         <button
           type="submit"
@@ -150,6 +159,14 @@ export default function PartyCreate() {
           {submitting ? 'Creating...' : 'Create Party'}
         </button>
       </form>
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          variant={toast.variant}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   )
 }

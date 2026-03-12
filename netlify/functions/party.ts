@@ -35,6 +35,11 @@ function matchRoute(
     return { handler: createParty, params: {} }
   }
 
+  // GET /api/party/health — diagnostic endpoint
+  if (segments.length === 1 && segments[0] === 'health' && method === 'GET') {
+    return { handler: healthCheck, params: {} }
+  }
+
   // GET /api/party/:id — get full party
   if (segments.length === 1 && method === 'GET') {
     return { handler: getParty, params: { id: segments[0] } }
@@ -134,6 +139,21 @@ function parseBody(event: HandlerEvent): Record<string, unknown> {
 }
 
 // --- Route Handlers ---
+
+const healthCheck: RouteHandler = async () => {
+  const envStatus = {
+    PREVIEW_DATABASE_URL: !!process.env.PREVIEW_DATABASE_URL,
+    NETLIFY_DATABASE_URL: !!process.env.NETLIFY_DATABASE_URL,
+  }
+  try {
+    const db = getDb()
+    await db.execute(sql`SELECT 1`)
+    return json(200, { status: 'ok', env: envStatus })
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error'
+    return json(503, { status: 'error', env: envStatus, error: message })
+  }
+}
 
 const createParty: RouteHandler = async (event) => {
   const { name } = parseBody(event)

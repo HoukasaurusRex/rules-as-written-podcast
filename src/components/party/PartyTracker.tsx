@@ -3,6 +3,7 @@ import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
 import { DENOMINATIONS, DENOM_COLORS } from '../../utils/currency'
 import { usePartyApi } from './hooks/usePartyApi'
+import { Toast } from '../Toast'
 import PartyCodeGate from './PartyCodeGate'
 import CharacterTabs from './CharacterTabs'
 import CharacterForm from './CharacterForm'
@@ -263,6 +264,14 @@ export default function PartyTracker({ partyId }: Props) {
           onClose={() => setShowLootMode(false)}
           playerName="Player"
           onLockLoot={async (name) => api.updateParty({ lootActiveBy: name })}
+        />
+      )}
+
+      {api.toast && (
+        <Toast
+          message={api.toast.message}
+          variant={api.toast.variant}
+          onClose={api.clearToast}
         />
       )}
     </div>
