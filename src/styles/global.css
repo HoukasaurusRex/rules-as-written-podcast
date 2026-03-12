@@ -245,6 +245,49 @@ li.now-playing a {
   background-color: var(--color-bg-lighten-10);
 }
 
+/* Now-playing episode card on episodes list page */
+.episode-card.now-playing {
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-bg-lighten-10);
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: var(--color-shadow);
+  }
+  50% {
+    box-shadow: 3px 3px 12px hsla(9, 59%, 46%, 0.4);
+  }
+}
+
+/* CSS-only equalizer bars for now-playing cards (episodes list page) */
+.episode-card .eq-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+  margin-bottom: var(--space-2);
+}
+
+.episode-card .eq-bars span {
+  display: block;
+  width: 3px;
+  background: var(--color-secondary);
+  border-radius: 1px;
+  animation: eqBounce 0.8s ease-in-out infinite alternate;
+}
+
+.episode-card .eq-bars span:nth-child(1) { height: 8px; animation-delay: 0s; }
+.episode-card .eq-bars span:nth-child(2) { height: 12px; animation-delay: 0.2s; }
+.episode-card .eq-bars span:nth-child(3) { height: 6px; animation-delay: 0.4s; }
+.episode-card .eq-bars span:nth-child(4) { height: 10px; animation-delay: 0.1s; }
+
+@keyframes eqBounce {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1); }
+}
+
 /* Scrollbar */
 html::-webkit-scrollbar {
   width: 7px;
