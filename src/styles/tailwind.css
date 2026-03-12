@@ -61,6 +61,21 @@
   /* Breakpoints */
   --breakpoint-md: 992px;
   --breakpoint-lg: 1200px;
+
+  /* Party Tracker - Currency colors */
+  --color-gold-cp: #b87333;
+  --color-gold-sp: #c0c0c0;
+  --color-gold-ep: #a8a060;
+  --color-gold-gp: #ffd700;
+  --color-gold-pp: #e5e4e2;
+
+  /* Party Tracker - Rarity colors */
+  --color-rarity-common: #9ca3af;
+  --color-rarity-uncommon: #22c55e;
+  --color-rarity-rare: #3b82f6;
+  --color-rarity-very-rare: #a855f7;
+  --color-rarity-legendary: #f97316;
+  --color-rarity-artifact: #ef4444;
 }
 
 /*

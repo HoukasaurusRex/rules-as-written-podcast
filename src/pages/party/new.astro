@@ -1,0 +1,14 @@
+---
+export const prerender = false
+
+import BaseLayout from '@layouts/BaseLayout.astro'
+import SiteNav from '@components/SiteNav.astro'
+import PartyCreate from '@components/party/PartyCreate'
+---
+
+<BaseLayout title="Create a Party | Rules As Written" description="Start a new D&D party tracker to manage gold, inventory, and magic items with your group.">
+  <SiteNav />
+  <main id="main" style="padding-top: 56px;">
+    <PartyCreate client:load />
+  </main>
+</BaseLayout>

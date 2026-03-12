@@ -1,0 +1,17 @@
+---
+export const prerender = false
+
+import BaseLayout from '@layouts/BaseLayout.astro'
+import SiteNav from '@components/SiteNav.astro'
+import PartyTracker from '@components/party/PartyTracker'
+
+const { id } = Astro.params
+if (!id) return Astro.redirect('/party/new')
+---
+
+<BaseLayout title="Party Tracker | Rules As Written" description="Track your D&D party's gold, inventory, and magic items in real-time.">
+  <SiteNav />
+  <main id="main" style="padding-top: 56px;">
+    <PartyTracker client:load partyId={id} />
+  </main>
+</BaseLayout>
