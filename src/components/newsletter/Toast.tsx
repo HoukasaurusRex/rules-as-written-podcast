@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 interface ToastProps {
   message: string
@@ -8,21 +8,28 @@ interface ToastProps {
 }
 
 export function Toast({ message, variant, onClose, autoClose = 5000 }: ToastProps) {
+  const [exiting, setExiting] = useState(false)
+
+  const dismiss = useCallback(() => {
+    setExiting(true)
+    setTimeout(onClose, 300) // Match slideUp animation duration
+  }, [onClose])
+
   useEffect(() => {
-    const timer = setTimeout(onClose, autoClose)
+    const timer = setTimeout(dismiss, autoClose)
     return () => clearTimeout(timer)
-  }, [onClose, autoClose])
+  }, [dismiss, autoClose])
 
   return (
     <div
-      className={`newsletter-toast newsletter-toast--${variant}`}
+      className={`newsletter-toast newsletter-toast--${variant}${exiting ? ' newsletter-toast--exiting' : ''}`}
       role="status"
       aria-live="polite"
     >
       <div className="newsletter-toast__content">
         <span className="newsletter-toast__message">{message}</span>
         <button
-          onClick={onClose}
+          onClick={dismiss}
           className="newsletter-toast__close"
           aria-label="Dismiss"
         >
