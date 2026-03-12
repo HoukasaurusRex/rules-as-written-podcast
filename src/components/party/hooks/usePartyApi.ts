@@ -190,6 +190,9 @@ export function usePartyApi(partyId: string | undefined) {
           { method: 'POST' },
           partyId,
         )
+        if (result?.id) {
+          $recentTransactions.set([result, ...$recentTransactions.get()])
+        }
         await fetchParty()
         return result
       } catch (err) {

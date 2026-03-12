@@ -159,7 +159,7 @@ export default function MagicItemList({
                       </button>
                       <button
                         type="button"
-                        onClick={(e) => { e.stopPropagation(); onDelete(item.id) }}
+                        onClick={(e) => { e.stopPropagation(); if (confirm(`Delete ${item.name}?`)) onDelete(item.id) }}
                         className="rounded px-space-2 py-space-1 text-[10px] text-error/50 hover:bg-error/10 hover:text-error"
                       >
                         ×

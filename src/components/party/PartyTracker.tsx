@@ -207,14 +207,25 @@ export default function PartyTracker({ partyId }: Props) {
                           <span className="text-text">{item.name}</span>
                           <div className="flex items-center gap-space-2">
                             <span className="text-text/40">×{item.quantity}</span>
-                            {editMode && party.characters.length > 0 && (
-                              <button
-                                type="button"
-                                onClick={() => setAssigningLootItemId(assigningLootItemId === item.id ? null : item.id)}
-                                className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
-                              >
-                                Assign
-                              </button>
+                            {editMode && (
+                              <>
+                                {party.characters.length > 0 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => setAssigningLootItemId(assigningLootItemId === item.id ? null : item.id)}
+                                    className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
+                                  >
+                                    Assign
+                                  </button>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => api.deleteItem(item.id)}
+                                  className="rounded px-space-2 py-space-1 text-[10px] text-error/50 hover:bg-error/10 hover:text-error"
+                                >
+                                  ×
+                                </button>
+                              </>
                             )}
                           </div>
                         </div>

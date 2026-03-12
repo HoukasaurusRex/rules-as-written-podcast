@@ -338,6 +338,41 @@ const addTransaction: RouteHandler = async (event, { id }) => {
       .where(eq(characters.id, tx.characterId))
   }
 
+  // Handle inventory changes for buy/sell transactions
+  if (tx.itemName && tx.characterId) {
+    if (tx.type === 'buy') {
+      // Add item to inventory (increment if exists, create if not)
+      const existing = await db.query.inventoryItems.findFirst({
+        where: and(
+          eq(inventoryItems.partyId, id),
+          eq(inventoryItems.characterId, tx.characterId),
+          sql`lower(${inventoryItems.name}) = lower(${tx.itemName})`,
+        ),
+      })
+      if (existing) {
+        await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) + 1 }).where(eq(inventoryItems.id, existing.id))
+      } else {
+        await db.insert(inventoryItems).values({ partyId: id, characterId: tx.characterId, name: tx.itemName, quantity: 1 })
+      }
+    } else if (tx.type === 'sell') {
+      // Remove item from inventory (decrement or delete)
+      const existing = await db.query.inventoryItems.findFirst({
+        where: and(
+          eq(inventoryItems.partyId, id),
+          eq(inventoryItems.characterId, tx.characterId),
+          sql`lower(${inventoryItems.name}) = lower(${tx.itemName})`,
+        ),
+      })
+      if (existing) {
+        if ((existing.quantity ?? 1) <= 1) {
+          await db.delete(inventoryItems).where(eq(inventoryItems.id, existing.id))
+        } else {
+          await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) - 1 }).where(eq(inventoryItems.id, existing.id))
+        }
+      }
+    }
+  }
+
   return json(201, tx)
 }
 
@@ -386,6 +421,41 @@ const undoTransaction: RouteHandler = async (event, { id, tid }) => {
         pp: sql`${characters.pp} + ${sign * (original.pp ?? 0)}`,
       })
       .where(eq(characters.id, original.characterId))
+  }
+
+  // Restore inventory on undo
+  if (original.itemName && original.characterId) {
+    if (original.type === 'buy') {
+      // Undo buy → remove item
+      const existing = await db.query.inventoryItems.findFirst({
+        where: and(
+          eq(inventoryItems.partyId, id),
+          eq(inventoryItems.characterId, original.characterId),
+          sql`lower(${inventoryItems.name}) = lower(${original.itemName})`,
+        ),
+      })
+      if (existing) {
+        if ((existing.quantity ?? 1) <= 1) {
+          await db.delete(inventoryItems).where(eq(inventoryItems.id, existing.id))
+        } else {
+          await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) - 1 }).where(eq(inventoryItems.id, existing.id))
+        }
+      }
+    } else if (original.type === 'sell') {
+      // Undo sell → re-add item
+      const existing = await db.query.inventoryItems.findFirst({
+        where: and(
+          eq(inventoryItems.partyId, id),
+          eq(inventoryItems.characterId, original.characterId),
+          sql`lower(${inventoryItems.name}) = lower(${original.itemName})`,
+        ),
+      })
+      if (existing) {
+        await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) + 1 }).where(eq(inventoryItems.id, existing.id))
+      } else {
+        await db.insert(inventoryItems).values({ partyId: id, characterId: original.characterId, name: original.itemName, quantity: 1 })
+      }
+    }
   }
 
   return json(201, inverse)

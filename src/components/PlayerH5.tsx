@@ -247,14 +247,23 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
   }
 
   // Toggle player-active class when episode is loaded
+  // Also re-apply on astro:page-load since View Transitions replace <body> and strip classes
   useEffect(() => {
-    if (episode) {
-      document.body.classList.add('player-active')
-    } else {
-      document.body.classList.remove('player-active')
+    function applyBodyClasses() {
+      if (episode) {
+        document.body.classList.add('player-active')
+      } else {
+        document.body.classList.remove('player-active')
+      }
+      document.body.classList.toggle('player-collapsed', collapsed)
     }
-    return () => document.body.classList.remove('player-active')
-  }, [!!episode])
+    applyBodyClasses()
+    document.addEventListener('astro:page-load', applyBodyClasses)
+    return () => {
+      document.body.classList.remove('player-active')
+      document.removeEventListener('astro:page-load', applyBodyClasses)
+    }
+  }, [!!episode, collapsed])
 
   if (!episode) return null
 
