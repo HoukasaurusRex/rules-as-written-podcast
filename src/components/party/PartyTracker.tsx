@@ -6,21 +6,24 @@ import PartyCodeGate from './PartyCodeGate'
 import CharacterTabs from './CharacterTabs'
 import CharacterForm from './CharacterForm'
 import GoldTracker from './GoldTracker'
+import InventoryList from './InventoryList'
+import MagicItemList from './MagicItemList'
+import TransactionModal from './TransactionModal'
+import TransactionHistory from './TransactionHistory'
+import LootMode from './LootMode'
 
 interface Props {
   partyId: string
 }
 
 export default function PartyTracker({ partyId }: Props) {
-  const {
-    party,
-    addCharacter,
-    updateCharacter,
-    deleteCharacter,
-  } = usePartyApi(partyId)
+  const api = usePartyApi(partyId)
+  const { party } = api
   const activeTab = useStore($activeTab)
   const editMode = useStore($editMode)
   const [showCharForm, setShowCharForm] = useState(false)
+  const [showTxModal, setShowTxModal] = useState(false)
+  const [showLootMode, setShowLootMode] = useState(false)
 
   if (!party) {
     return (
@@ -31,8 +34,7 @@ export default function PartyTracker({ partyId }: Props) {
   }
 
   const activeCharacter = party.characters.find((c) => c.id === activeTab)
-  const lootPoolItems = party.inventoryItems.filter((i) => !i.characterId)
-  const lootPoolMagic = party.magicItems.filter((i) => !i.characterId)
+  const characterNames = Object.fromEntries(party.characters.map((c) => [c.id, c.name]))
 
   return (
     <div className="mx-auto max-w-2xl px-space-4 pb-[180px] pt-space-4">
@@ -44,7 +46,17 @@ export default function PartyTracker({ partyId }: Props) {
             {party.characters.length} character{party.characters.length !== 1 ? 's' : ''}
           </p>
         </div>
-        <PartyCodeGate partyId={partyId} />
+        <div className="flex items-center gap-space-2">
+          {editMode && !party.lootActiveBy && (
+            <button
+              onClick={() => setShowLootMode(true)}
+              className="flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-xs font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
+            >
+              Loot
+            </button>
+          )}
+          <PartyCodeGate partyId={partyId} />
+        </div>
       </div>
 
       {/* Loot lock banner */}
@@ -72,9 +84,7 @@ export default function PartyTracker({ partyId }: Props) {
                       <span className={`text-xs font-bold uppercase tracking-wider ${colorMap[denom]}`}>
                         {denom.toUpperCase()}
                       </span>
-                      <span className="text-xl font-bold tabular-nums text-text">
-                        {total}
-                      </span>
+                      <span className="text-xl font-bold tabular-nums text-text">{total}</span>
                     </div>
                   )
                 })}
@@ -82,44 +92,24 @@ export default function PartyTracker({ partyId }: Props) {
             </section>
           )}
 
-          {/* Loot Pool */}
-          {(lootPoolItems.length > 0 || lootPoolMagic.length > 0) && (
-            <section>
-              <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
-                Loot Pool
-              </h2>
-              {lootPoolItems.length > 0 && (
-                <div className="mb-space-3 space-y-space-1">
-                  {lootPoolItems.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
-                      <span className="text-text">{item.name}</span>
-                      <span className="text-text/40">×{item.quantity}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {lootPoolMagic.length > 0 && (
-                <div className="space-y-space-1">
-                  {lootPoolMagic.map((item) => {
-                    const rarityColors: Record<string, string> = {
-                      Common: 'text-rarity-common',
-                      Uncommon: 'text-rarity-uncommon',
-                      Rare: 'text-rarity-rare',
-                      'Very Rare': 'text-rarity-very-rare',
-                      Legendary: 'text-rarity-legendary',
-                      Artifact: 'text-rarity-artifact',
-                    }
-                    return (
-                      <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
-                        <span className={rarityColors[item.rarity ?? ''] ?? 'text-text'}>{item.name}</span>
-                        <span className="text-xs text-text/40">{item.rarity}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-            </section>
-          )}
+          {/* Loot Pool - Items */}
+          <InventoryList
+            items={party.inventoryItems.filter((i) => !i.characterId)}
+            characterId={null}
+            onAdd={api.upsertItem}
+            onUpdate={api.upsertItem}
+            onDelete={api.deleteItem}
+          />
+
+          {/* Loot Pool - Magic Items */}
+          <MagicItemList
+            items={party.magicItems.filter((i) => !i.characterId)}
+            characters={party.characters}
+            currentCharacterId={null}
+            onAdd={api.upsertMagicItem}
+            onUpdate={api.upsertMagicItem}
+            onDelete={api.deleteMagicItem}
+          />
 
           {/* Character list */}
           <section>
@@ -163,6 +153,14 @@ export default function PartyTracker({ partyId }: Props) {
               </div>
             )}
           </section>
+
+          {/* Party transaction history */}
+          <TransactionHistory
+            partyId={partyId}
+            characterNames={characterNames}
+            onListTransactions={api.listTransactions}
+            onUndo={api.undoTransaction}
+          />
         </div>
       ) : activeCharacter ? (
         <div className="space-y-space-6">
@@ -174,19 +172,29 @@ export default function PartyTracker({ partyId }: Props) {
                 {activeCharacter.class && `${activeCharacter.class} · `}Level {activeCharacter.level}
               </p>
             </div>
-            {editMode && (
-              <button
-                onClick={() => {
-                  if (confirm(`Remove ${activeCharacter.name}?`)) {
-                    deleteCharacter(activeCharacter.id)
-                    $activeTab.set('party')
-                  }
-                }}
-                className="rounded-[5px] px-space-3 py-space-2 text-xs text-red-400/60 transition-colors hover:bg-red-400/10 hover:text-red-400"
-              >
-                Remove
-              </button>
-            )}
+            <div className="flex items-center gap-space-2">
+              {editMode && (
+                <>
+                  <button
+                    onClick={() => setShowTxModal(true)}
+                    className="rounded-[5px] bg-primary/20 px-space-3 py-space-2 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
+                  >
+                    Transaction
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (confirm(`Remove ${activeCharacter.name}?`)) {
+                        api.deleteCharacter(activeCharacter.id)
+                        $activeTab.set('party')
+                      }
+                    }}
+                    className="rounded-[5px] px-space-2 py-space-2 text-xs text-red-400/60 transition-colors hover:bg-red-400/10 hover:text-red-400"
+                  >
+                    Remove
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Gold */}
@@ -194,91 +202,67 @@ export default function PartyTracker({ partyId }: Props) {
             <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
               Currency
             </h3>
-            <GoldTracker
-              character={activeCharacter}
-              onUpdate={updateCharacter}
-            />
+            <GoldTracker character={activeCharacter} onUpdate={api.updateCharacter} />
           </section>
 
-          {/* Character inventory */}
-          <section>
-            <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
-              Inventory
-            </h3>
-            {party.inventoryItems.filter((i) => i.characterId === activeCharacter.id).length === 0 ? (
-              <div className="rounded-[5px] border border-dashed border-[color:var(--color-bg-lighten-20)] py-space-4 text-center text-xs text-text/30">
-                No items yet
-              </div>
-            ) : (
-              <div className="space-y-space-1">
-                {party.inventoryItems
-                  .filter((i) => i.characterId === activeCharacter.id)
-                  .map((item) => (
-                    <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
-                      <span className="text-text">{item.name}</span>
-                      <span className="text-text/40">×{item.quantity}</span>
-                    </div>
-                  ))}
-              </div>
-            )}
-          </section>
+          {/* Inventory */}
+          <InventoryList
+            items={party.inventoryItems.filter((i) => i.characterId === activeCharacter.id)}
+            characterId={activeCharacter.id}
+            onAdd={api.upsertItem}
+            onUpdate={api.upsertItem}
+            onDelete={api.deleteItem}
+          />
 
-          {/* Character magic items */}
-          <section>
-            <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
-              Magic Items
-              <span className="ml-space-2 text-xs font-normal text-text/30">
-                ({party.magicItems.filter((i) => i.characterId === activeCharacter.id && i.attuned).length}/3 attuned)
-              </span>
-            </h3>
-            {party.magicItems.filter((i) => i.characterId === activeCharacter.id).length === 0 ? (
-              <div className="rounded-[5px] border border-dashed border-[color:var(--color-bg-lighten-20)] py-space-4 text-center text-xs text-text/30">
-                No magic items
-              </div>
-            ) : (
-              <div className="space-y-space-1">
-                {party.magicItems
-                  .filter((i) => i.characterId === activeCharacter.id)
-                  .map((item) => {
-                    const rarityColors: Record<string, string> = {
-                      Common: 'text-rarity-common',
-                      Uncommon: 'text-rarity-uncommon',
-                      Rare: 'text-rarity-rare',
-                      'Very Rare': 'text-rarity-very-rare',
-                      Legendary: 'text-rarity-legendary',
-                      Artifact: 'text-rarity-artifact',
-                    }
-                    return (
-                      <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
-                        <div className="flex items-center gap-space-2">
-                          <span className={rarityColors[item.rarity ?? ''] ?? 'text-text'}>{item.name}</span>
-                          {item.attuned && (
-                            <span className="rounded-full bg-primary/20 px-space-2 py-0.5 text-[10px] font-semibold uppercase text-primary-muted">
-                              Attuned
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs text-text/40">{item.rarity}</span>
-                      </div>
-                    )
-                  })}
-              </div>
-            )}
-          </section>
+          {/* Magic Items */}
+          <MagicItemList
+            items={party.magicItems.filter((i) => i.characterId === activeCharacter.id)}
+            characters={party.characters}
+            currentCharacterId={activeCharacter.id}
+            onAdd={api.upsertMagicItem}
+            onUpdate={api.upsertMagicItem}
+            onDelete={api.deleteMagicItem}
+          />
+
+          {/* Character transaction history */}
+          <TransactionHistory
+            partyId={partyId}
+            characterId={activeCharacter.id}
+            characterNames={characterNames}
+            onListTransactions={api.listTransactions}
+            onUndo={api.undoTransaction}
+          />
         </div>
       ) : null}
 
       {/* Character tabs */}
       <CharacterTabs characters={party.characters} />
 
-      {/* Add character modal */}
+      {/* Modals */}
       {showCharForm && (
         <CharacterForm
           onSubmit={async (name, charClass, level) => {
-            await addCharacter(name, charClass, level)
+            await api.addCharacter(name, charClass, level)
             setShowCharForm(false)
           }}
           onClose={() => setShowCharForm(false)}
+        />
+      )}
+
+      {showTxModal && activeCharacter && (
+        <TransactionModal
+          character={activeCharacter}
+          onSubmit={api.addTransaction}
+          onClose={() => setShowTxModal(false)}
+        />
+      )}
+
+      {showLootMode && (
+        <LootMode
+          onSubmit={api.addLoot}
+          onClose={() => setShowLootMode(false)}
+          playerName="Player"
+          onLockLoot={async (name) => api.updateParty({ lootActiveBy: name })}
         />
       )}
     </div>
