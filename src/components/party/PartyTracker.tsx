@@ -64,18 +64,8 @@ export default function PartyTracker({ partyId }: Props) {
         </p>
       </div>
 
-      {/* Action buttons */}
-      <div className="flex items-center gap-space-2">
-        {editMode && !party.lootActiveBy && (
-          <button
-            onClick={() => setShowLootMode(true)}
-            className="ml-auto flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
-          >
-            Loot
-          </button>
-        )}
-        <PartyCodeGate partyId={partyId} />
-      </div>
+      {/* Unlock editing (shown when not in edit mode) */}
+      <PartyCodeGate partyId={partyId} />
 
       {/* Loot lock banner */}
       {party.lootActiveBy && (
@@ -96,8 +86,8 @@ export default function PartyTracker({ partyId }: Props) {
       {/* Tab Content */}
       {activeTab === 'party' ? (
         <div className="space-y-space-6">
-          {/* Share + Settings row */}
-          <div className="flex flex-wrap items-center gap-space-2">
+          {/* Toolbar: Share + Settings gear + Loot */}
+          <div className="flex items-center gap-space-2">
             <button
               type="button"
               onClick={async () => {
@@ -107,8 +97,6 @@ export default function PartyTracker({ partyId }: Props) {
                   await navigator.share({ title: party.name, text, url })
                 } else {
                   await navigator.clipboard.writeText(url)
-                  api.clearToast()
-                  // Brief visual feedback handled by toast
                 }
               }}
               className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60 transition-colors hover:bg-bg-light"
@@ -119,17 +107,46 @@ export default function PartyTracker({ partyId }: Props) {
               Share
             </button>
 
+            {/* Settings gear dropdown */}
             {editMode && (
-              <>
-                <label className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60">
-                  <input type="checkbox" checked={party.showEp ?? false} onChange={(e) => api.updateParty({ showEp: e.target.checked })} className="accent-primary" />
-                  EP
-                </label>
-                <label className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60">
-                  <input type="checkbox" checked={party.showPp ?? false} onChange={(e) => api.updateParty({ showPp: e.target.checked })} className="accent-primary" />
-                  PP
-                </label>
-              </>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setShowSettings(!showSettings)}
+                  className="flex items-center justify-center rounded-[5px] border border-bg-lighter bg-bg p-space-2 text-text/50 transition-colors hover:bg-bg-light hover:text-text/70"
+                  aria-label="Party settings"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                  </svg>
+                </button>
+                {showSettings && (
+                  <div className="absolute left-0 top-full z-20 mt-space-1 w-48 rounded-[5px] border border-bg-lighter bg-bg-light p-space-3 shadow-lg">
+                    <div className="space-y-space-3">
+                      <label className="flex items-center justify-between text-xs text-text/70">
+                        Show Electrum (EP)
+                        <input type="checkbox" checked={party.showEp ?? false} onChange={(e) => api.updateParty({ showEp: e.target.checked })} className="accent-primary" />
+                      </label>
+                      <label className="flex items-center justify-between text-xs text-text/70">
+                        Show Platinum (PP)
+                        <input type="checkbox" checked={party.showPp ?? false} onChange={(e) => api.updateParty({ showPp: e.target.checked })} className="accent-primary" />
+                      </label>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Loot button — right-aligned */}
+            {editMode && !party.lootActiveBy && (
+              <button
+                type="button"
+                onClick={() => setShowLootMode(true)}
+                className="ml-auto flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
+              >
+                Loot
+              </button>
             )}
           </div>
 
