@@ -44,12 +44,13 @@ jobs:
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
           NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
 
-      - name: Deploy to Netlify
+      - name: Deploy to Netlify (pre-built)
         run: |
           npx netlify-cli deploy \
             --dir=dist \
+            --functions=netlify/functions \
             --alias="pr-${{ github.event.number }}" \
-            --context=deploy-preview
+            --skip-functions-cache
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
