@@ -58,6 +58,10 @@
   --breakpoint-md: 992px;
   --breakpoint-lg: 1200px;
 
+  /* Player bar */
+  --player-bar-height: 80px;
+  --character-tabs-bottom: var(--player-bar-height);
+
   /* Border radius */
   --radius-0: 5px;
   --radius-round: 50%;
@@ -91,6 +95,11 @@ html {
   -webkit-text-size-adjust: 100%;
   font: 112.5%/1.45em system-ui, sans-serif;
   overflow-y: scroll;
+}
+
+/* Player collapsed — push character tabs to bottom */
+body.player-collapsed {
+  --character-tabs-bottom: 0px;
 }
 
 body {

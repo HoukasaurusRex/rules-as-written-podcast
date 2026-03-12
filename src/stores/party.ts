@@ -42,6 +42,8 @@ export interface PartyData {
   id: string
   name: string
   lootActiveBy: string | null
+  showEp: boolean
+  showPp: boolean
   createdAt: string
   characters: PartyCharacter[]
   inventoryItems: PartyInventoryItem[]

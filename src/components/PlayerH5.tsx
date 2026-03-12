@@ -26,9 +26,11 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(1)
-  const [collapsed, setCollapsed] = useState(() =>
-    typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
-  )
+  const [collapsed, setCollapsed] = useState(() => {
+    const isCollapsed = typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
+    if (isCollapsed) document.body.classList.add('player-collapsed')
+    return isCollapsed
+  })
 
   // Initialize stores — only set episode if none is loaded yet (first visit)
   useEffect(() => {
@@ -218,6 +220,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     const next = !collapsed
     setCollapsed(next)
     localStorage.setItem('playerCollapsed', String(next))
+    document.body.classList.toggle('player-collapsed', next)
   }
 
   if (!episode) return null

@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
 import { DENOMINATIONS, DENOM_COLORS } from '../../utils/currency'
 import { usePartyApi } from './hooks/usePartyApi'
 import { Toast } from '../Toast'
+import CoinInput from './CoinInput'
 import PartyCodeGate from './PartyCodeGate'
 import CharacterTabs from './CharacterTabs'
 import CharacterForm from './CharacterForm'
@@ -13,6 +14,8 @@ import MagicItemList from './MagicItemList'
 import TransactionModal from './TransactionModal'
 import TransactionHistory from './TransactionHistory'
 import LootMode from './LootMode'
+import type { Denomination } from '../../utils/currency'
+import type { CoinValues } from './CoinInput'
 
 interface Props {
   partyId: string
@@ -26,6 +29,13 @@ export default function PartyTracker({ partyId }: Props) {
   const [showCharForm, setShowCharForm] = useState(false)
   const [showTxModal, setShowTxModal] = useState(false)
   const [showLootMode, setShowLootMode] = useState(false)
+
+  // Initialize tab from URL query param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const tab = params.get('tab')
+    if (tab) $activeTab.set(tab)
+  }, [])
 
   if (!party) {
     return (
@@ -63,8 +73,16 @@ export default function PartyTracker({ partyId }: Props) {
 
       {/* Loot lock banner */}
       {party.lootActiveBy && (
-        <div className="mb-space-4 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-4 py-space-3 text-center text-sm text-gold-gp">
-          {party.lootActiveBy} is distributing loot...
+        <div className="mb-space-4 flex items-center justify-between rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-4 py-space-3 text-sm text-gold-gp">
+          <span>{party.lootActiveBy} is distributing loot...</span>
+          {editMode && (
+            <button
+              onClick={() => api.updateParty({ lootActiveBy: null })}
+              className="rounded px-space-2 py-space-1 text-xs text-gold-gp/70 transition-colors hover:bg-gold-gp/20 hover:text-gold-gp"
+            >
+              Cancel
+            </button>
+          )}
         </div>
       )}
 
@@ -72,26 +90,23 @@ export default function PartyTracker({ partyId }: Props) {
       {activeTab === 'party' ? (
         <div className="space-y-space-6">
           {/* Party aggregate gold */}
-          {party.characters.length > 0 && (
-            <section>
-              <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
-                Party Wealth
-              </h2>
-              <div className="grid grid-cols-5 gap-space-2">
-                {DENOMINATIONS.map((denom) => {
-                  const total = party.characters.reduce((sum, c) => sum + (c[denom] ?? 0), 0)
-                  return (
-                    <div key={denom} className="flex flex-col items-center rounded-[5px] border border-bg-lighter bg-bg p-space-2">
-                      <span className={`text-xs font-bold uppercase tracking-wider ${DENOM_COLORS[denom]}`}>
-                        {denom.toUpperCase()}
-                      </span>
-                      <span className="text-xl font-bold tabular-nums text-text">{total}</span>
-                    </div>
-                  )
-                })}
-              </div>
-            </section>
-          )}
+          {party.characters.length > 0 && (() => {
+            const totals: CoinValues = { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 }
+            for (const c of party.characters) {
+              for (const d of DENOMINATIONS) totals[d] += c[d] ?? 0
+            }
+            const hidden: Denomination[] = []
+            if (!party.showEp) hidden.push('ep')
+            if (!party.showPp) hidden.push('pp')
+            return (
+              <section>
+                <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
+                  Party Wealth
+                </h2>
+                <CoinInput values={totals} readOnly hiddenDenoms={hidden} />
+              </section>
+            )
+          })()}
 
           {/* Loot Pool - Items */}
           <InventoryList

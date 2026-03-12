@@ -5,17 +5,27 @@ interface Props {
   characters: PartyCharacter[]
 }
 
+function setTab(tabId: string) {
+  $activeTab.set(tabId)
+  const url = new URL(window.location.href)
+  url.searchParams.set('tab', tabId)
+  history.replaceState(null, '', url.toString())
+}
+
 export default function CharacterTabs({ characters }: Props) {
   const activeTab = useStore($activeTab)
 
   return (
-    <div className="fixed bottom-[70px] left-0 right-0 z-10 border-t border-[color:var(--color-bg-lighten-20)] bg-bg">
-      <nav className="flex overflow-x-auto" role="tablist">
+    <div
+      className="character-tabs fixed bottom-0 left-0 right-0 z-10 border-t border-bg-lighter bg-bg transition-[bottom] duration-200"
+      style={{ bottom: 'var(--character-tabs-bottom, 0px)' }}
+    >
+      <nav className="flex overflow-x-auto scrollbar-none" role="tablist">
         <button
           role="tab"
           aria-selected={activeTab === 'party'}
-          onClick={() => $activeTab.set('party')}
-          className={`flex min-w-[80px] shrink-0 flex-col items-center gap-space-1 px-space-4 py-space-3 text-xs font-medium transition-colors ${
+          onClick={() => setTab('party')}
+          className={`flex min-w-[72px] shrink-0 flex-col items-center gap-space-1 px-space-3 py-space-3 text-xs font-medium transition-colors ${
             activeTab === 'party'
               ? 'border-t-2 border-primary text-primary'
               : 'text-text/50 hover:text-text/70'
@@ -35,8 +45,8 @@ export default function CharacterTabs({ characters }: Props) {
             key={char.id}
             role="tab"
             aria-selected={activeTab === char.id}
-            onClick={() => $activeTab.set(char.id)}
-            className={`flex min-w-[80px] shrink-0 flex-col items-center gap-space-1 px-space-4 py-space-3 text-xs font-medium transition-colors ${
+            onClick={() => setTab(char.id)}
+            className={`flex min-w-[72px] shrink-0 flex-col items-center gap-space-1 px-space-3 py-space-3 text-xs font-medium transition-colors ${
               activeTab === char.id
                 ? 'border-t-2 border-primary text-primary'
                 : 'text-text/50 hover:text-text/70'
@@ -45,7 +55,9 @@ export default function CharacterTabs({ characters }: Props) {
             <span className="text-base">
               {char.name.charAt(0).toUpperCase()}
             </span>
-            <span className="max-w-[60px] truncate">{char.name}</span>
+            <span className="inline-block max-w-[60px] overflow-hidden text-ellipsis whitespace-nowrap">
+              {char.name}
+            </span>
           </button>
         ))}
       </nav>
