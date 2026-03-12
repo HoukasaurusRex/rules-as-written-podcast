@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
+
+const DotLottieReact = lazy(() =>
+  import('@lottiefiles/dotlottie-react').then((m) => ({ default: m.DotLottieReact })),
+)
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
 import { DENOMINATIONS, DENOM_COLORS, totalGpValue } from '../../utils/currency'
@@ -40,8 +44,16 @@ export default function PartyTracker({ partyId }: Props) {
 
   if (!party) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="text-text/40">Loading party...</div>
+      <div className="flex min-h-[50vh] flex-col items-center justify-center gap-space-2">
+        <Suspense fallback={<div className="h-24 w-24" />}>
+          <DotLottieReact
+            src="/animations/fire-d.lottie"
+            loop
+            autoplay
+            style={{ width: 96, height: 96 }}
+          />
+        </Suspense>
+        <div className="text-xs text-text/30">Loading party...</div>
       </div>
     )
   }
@@ -52,7 +64,7 @@ export default function PartyTracker({ partyId }: Props) {
   return (
     <div className="mx-auto max-w-2xl px-space-4 pb-[140px] pt-space-4">
       {/* Party name — auto-scrolls if too long */}
-      <div className="overflow-hidden">
+      <div className="mb-space-4 overflow-hidden">
         <h1
           className="m-0 whitespace-nowrap text-xl font-bold text-text"
           style={{ animation: party.name.length > 25 ? 'marquee-scroll 12s linear infinite' : 'none' }}
