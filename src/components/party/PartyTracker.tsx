@@ -29,6 +29,7 @@ export default function PartyTracker({ partyId }: Props) {
   const [showCharForm, setShowCharForm] = useState(false)
   const [showTxModal, setShowTxModal] = useState(false)
   const [showLootMode, setShowLootMode] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
 
   // Initialize tab from URL query param
   useEffect(() => {
@@ -177,6 +178,51 @@ export default function PartyTracker({ partyId }: Props) {
             onListTransactions={api.listTransactions}
             onUndo={api.undoTransaction}
           />
+
+          {/* Party settings */}
+          {editMode && (
+            <section>
+              <button
+                onClick={() => setShowSettings(!showSettings)}
+                className="flex w-full items-center gap-space-2 text-sm font-semibold uppercase tracking-wider text-text/50"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+                Party Settings
+                <svg
+                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  className={`transition-transform ${showSettings ? 'rotate-180' : ''}`}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              {showSettings && (
+                <div className="mt-space-3 space-y-space-3 rounded-[5px] border border-bg-lighter bg-bg p-space-4">
+                  <label className="flex items-center justify-between">
+                    <span className="text-sm text-text/70">Show Electrum (EP)</span>
+                    <input
+                      type="checkbox"
+                      checked={party.showEp ?? false}
+                      onChange={(e) => api.updateParty({ showEp: e.target.checked })}
+                      className="accent-primary"
+                    />
+                  </label>
+                  <label className="flex items-center justify-between">
+                    <span className="text-sm text-text/70">Show Platinum (PP)</span>
+                    <input
+                      type="checkbox"
+                      checked={party.showPp ?? false}
+                      onChange={(e) => api.updateParty({ showPp: e.target.checked })}
+                      className="accent-primary"
+                    />
+                  </label>
+                </div>
+              )}
+            </section>
+          )}
         </div>
       ) : activeCharacter ? (
         <div className="space-y-space-6">

@@ -31,6 +31,7 @@ export default function MagicItemList({
 }: Props) {
   const editMode = useStore($editMode)
   const [showAdd, setShowAdd] = useState(false)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
   const [assigningItem, setAssigningItem] = useState<string | null>(null)
 
   const attunedCount = items.filter(
@@ -53,7 +54,7 @@ export default function MagicItemList({
             onClick={() => setShowAdd(!showAdd)}
             className="rounded-[5px] bg-primary/20 px-space-3 py-space-1 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
           >
-            {showAdd ? 'Cancel' : '+ Add Magic Item'}
+            {showAdd ? 'Cancel' : '+ Add'}
           </button>
         )}
       </div>
@@ -78,101 +79,120 @@ export default function MagicItemList({
       )}
 
       {items.length === 0 ? (
-        <div className="rounded-[5px] border border-dashed border-[color:var(--color-bg-lighten-20)] py-space-4 text-center text-xs text-text/30">
-          No magic items
+        <div className="rounded-[5px] border border-dashed border-bg-lighter py-space-4 text-center text-xs text-text/30">
+          {currentCharacterId ? 'No magic items' : 'No unclaimed loot'}
         </div>
       ) : (
         <div className="space-y-space-2">
           {items.map((item) => {
-            const colors = RARITY_COLORS[item.rarity ?? ''] ?? 'text-text border-[color:var(--color-bg-lighten-20)]'
-            const [textColor] = colors.split(' ')
+            const colorParts = (RARITY_COLORS[item.rarity ?? ''] ?? 'text-text border-bg-lighter').split(' ')
+            const textColor = colorParts[0]
+            const borderColor = colorParts[1] ?? 'border-bg-lighter'
+            const isExpanded = expandedId === item.id
 
             return (
-              <div
-                key={item.id}
-                className={`rounded-[5px] border bg-bg p-space-3 ${colors.split(' ')[1] ?? 'border-[color:var(--color-bg-lighten-20)]'}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <span className={`text-sm font-medium ${textColor}`}>
-                      {item.name}
-                    </span>
-                    {item.attuned && (
-                      <span className="ml-space-2 rounded-full bg-primary/20 px-space-2 py-0.5 text-[10px] font-semibold uppercase text-primary-muted">
-                        Attuned
-                      </span>
-                    )}
-                    <div className="mt-space-1 text-xs text-text/40">
+              <div key={item.id} className={`rounded-[5px] border bg-bg ${borderColor}`}>
+                {/* Header row */}
+                <button
+                  onClick={() => setExpandedId(isExpanded ? null : item.id)}
+                  className="flex w-full items-start justify-between p-space-3 text-left"
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-space-2">
+                      <svg
+                        width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                        className={`shrink-0 text-text/30 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                      >
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
+                      <span className={`text-sm font-medium ${textColor}`}>{item.name}</span>
+                      {item.attuned && (
+                        <span className="rounded-full bg-primary/20 px-space-2 py-0.5 text-[10px] font-semibold uppercase text-primary-muted">
+                          Attuned
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-space-1 pl-5 text-xs text-text/40">
                       {item.rarity}
                       {item.requiresAttunement && ' · Requires attunement'}
                     </div>
                   </div>
+                </button>
 
-                  {editMode && (
-                    <div className="flex gap-space-1">
-                      {/* Attunement toggle */}
-                      {item.requiresAttunement && item.characterId && (
+                {/* Expanded details */}
+                {isExpanded && (
+                  <div className="border-t border-bg-lighter px-space-3 py-space-3">
+                    {/* Description */}
+                    {item.description && (
+                      <p className="m-0 mb-space-3 text-xs leading-relaxed text-text/60">
+                        {item.description}
+                      </p>
+                    )}
+
+                    {/* Edit actions */}
+                    {editMode && (
+                      <div className="flex flex-wrap gap-space-1">
+                        {item.requiresAttunement && item.characterId && (
+                          <button
+                            onClick={() => onUpdate({ id: item.id, attuned: !item.attuned })}
+                            disabled={!item.attuned && attunedCount >= 3}
+                            className={`rounded px-space-2 py-space-1 text-[10px] font-medium transition-colors ${
+                              item.attuned
+                                ? 'bg-primary/20 text-primary-muted hover:bg-primary/30'
+                                : 'bg-bg-light text-text/40 hover:bg-bg-lighter disabled:opacity-30'
+                            }`}
+                          >
+                            {item.attuned ? 'Unattune' : 'Attune'}
+                          </button>
+                        )}
+
                         <button
-                          onClick={() => onUpdate({ id: item.id, attuned: !item.attuned })}
-                          disabled={!item.attuned && attunedCount >= 3}
-                          className={`rounded px-space-2 py-space-1 text-[10px] font-medium transition-colors ${
-                            item.attuned
-                              ? 'bg-primary/20 text-primary-muted hover:bg-primary/30'
-                              : 'bg-bg-light text-text/40 hover:bg-bg-lighter disabled:opacity-30'
-                          }`}
-                          title={!item.attuned && attunedCount >= 3 ? 'Max 3 attuned items' : ''}
+                          onClick={() => setAssigningItem(assigningItem === item.id ? null : item.id)}
+                          className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
                         >
-                          {item.attuned ? 'Unattune' : 'Attune'}
+                          Assign
                         </button>
-                      )}
 
-                      {/* Assign/reassign */}
-                      <button
-                        onClick={() => setAssigningItem(assigningItem === item.id ? null : item.id)}
-                        className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
-                      >
-                        Assign
-                      </button>
+                        <button
+                          onClick={() => onDelete(item.id)}
+                          className="rounded px-space-2 py-space-1 text-[10px] text-red-400/50 hover:bg-red-400/10 hover:text-red-400"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
 
-                      {/* Delete */}
-                      <button
-                        onClick={() => onDelete(item.id)}
-                        className="rounded px-space-2 py-space-1 text-[10px] text-red-400/50 hover:bg-red-400/10 hover:text-red-400"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Assignment dropdown */}
-                {assigningItem === item.id && editMode && (
-                  <div className="mt-space-2 flex flex-wrap gap-space-1 border-t border-[color:var(--color-bg-lighten-20)] pt-space-2">
-                    <button
-                      onClick={() => {
-                        onUpdate({ id: item.id, characterId: null })
-                        setAssigningItem(null)
-                      }}
-                      className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
-                        !item.characterId ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
-                      }`}
-                    >
-                      Loot Pool
-                    </button>
-                    {characters.map((char) => (
-                      <button
-                        key={char.id}
-                        onClick={() => {
-                          onUpdate({ id: item.id, characterId: char.id })
-                          setAssigningItem(null)
-                        }}
-                        className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
-                          item.characterId === char.id ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
-                        }`}
-                      >
-                        {char.name}
-                      </button>
-                    ))}
+                    {/* Assignment dropdown */}
+                    {assigningItem === item.id && editMode && (
+                      <div className="mt-space-2 flex flex-wrap gap-space-1 border-t border-bg-lighter pt-space-2">
+                        <button
+                          onClick={() => {
+                            onUpdate({ id: item.id, characterId: null })
+                            setAssigningItem(null)
+                          }}
+                          className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
+                            !item.characterId ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
+                          }`}
+                        >
+                          Loot Pool
+                        </button>
+                        {characters.map((char) => (
+                          <button
+                            key={char.id}
+                            onClick={() => {
+                              onUpdate({ id: item.id, characterId: char.id })
+                              setAssigningItem(null)
+                            }}
+                            className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
+                              item.characterId === char.id ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
+                            }`}
+                          >
+                            {char.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

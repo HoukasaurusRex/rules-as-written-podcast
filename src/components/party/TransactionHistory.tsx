@@ -1,24 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useStore } from '@nanostores/react'
-import { $editMode } from '../../stores/party'
+import { $editMode, $recentTransactions, type Transaction } from '../../stores/party'
 import { isDebitTransaction } from '../../utils/currency'
-
-interface Transaction {
-  id: string
-  partyId: string
-  characterId: string | null
-  type: string
-  cp: number
-  sp: number
-  ep: number
-  gp: number
-  pp: number
-  itemName: string | null
-  note: string | null
-  undone: boolean
-  undoesId: string | null
-  createdAt: string
-}
 
 interface Props {
   partyId: string
@@ -69,7 +52,8 @@ export default function TransactionHistory({
   onUndo,
 }: Props) {
   const editMode = useStore($editMode)
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const recentTxs = useStore($recentTransactions)
+  const [apiTransactions, setApiTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
 
@@ -77,9 +61,11 @@ export default function TransactionHistory({
     setLoading(true)
     const rows = await onListTransactions(characterId, 20, offset)
     if (offset === 0) {
-      setTransactions(rows)
+      setApiTransactions(rows)
+      // Clear recent transactions once we have fresh server data
+      $recentTransactions.set([])
     } else {
-      setTransactions((prev) => [...prev, ...rows])
+      setApiTransactions((prev) => [...prev, ...rows])
     }
     setHasMore(rows.length === 20)
     setLoading(false)
@@ -89,13 +75,24 @@ export default function TransactionHistory({
     loadTransactions()
   }, [loadTransactions])
 
+  // Merge recent (optimistic) transactions with API results, deduplicate by ID
+  const transactions = useMemo(() => {
+    const apiIds = new Set(apiTransactions.map((t) => t.id))
+    const newRecent = recentTxs.filter((t) => !apiIds.has(t.id))
+    // Filter by characterId if viewing a specific character
+    const filtered = characterId
+      ? newRecent.filter((t) => t.characterId === characterId)
+      : newRecent
+    return [...filtered, ...apiTransactions]
+  }, [apiTransactions, recentTxs, characterId])
+
   if (loading && transactions.length === 0) {
     return <div className="py-space-4 text-center text-xs text-text/30">Loading history...</div>
   }
 
   if (transactions.length === 0) {
     return (
-      <div className="rounded-[5px] border border-dashed border-[color:var(--color-bg-lighten-20)] py-space-4 text-center text-xs text-text/30">
+      <div className="rounded-[5px] border border-dashed border-bg-lighter py-space-4 text-center text-xs text-text/30">
         No transactions yet
       </div>
     )
@@ -155,9 +152,9 @@ export default function TransactionHistory({
 
       {hasMore && (
         <button
-          onClick={() => loadTransactions(transactions.length)}
+          onClick={() => loadTransactions(apiTransactions.length)}
           disabled={loading}
-          className="mt-space-3 w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] py-space-2 text-xs text-text/40 transition-colors hover:bg-bg-light"
+          className="mt-space-3 w-full rounded-[5px] border border-bg-lighter py-space-2 text-xs text-text/40 transition-colors hover:bg-bg-light"
         >
           {loading ? 'Loading...' : 'Load more'}
         </button>

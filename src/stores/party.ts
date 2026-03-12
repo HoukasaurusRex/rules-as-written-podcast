@@ -50,6 +50,24 @@ export interface PartyData {
   magicItems: PartyMagicItem[]
 }
 
+export interface Transaction {
+  id: string
+  partyId: string
+  characterId: string | null
+  type: string
+  cp: number
+  sp: number
+  ep: number
+  gp: number
+  pp: number
+  itemName: string | null
+  note: string | null
+  undone: boolean
+  undoesId: string | null
+  createdAt: string
+}
+
 export const $partyData = atom<PartyData | null>(null)
 export const $editMode = atom(false)
+export const $recentTransactions = atom<Transaction[]>([])
 export const $activeTab = atom<string>('party') // 'party' or character id

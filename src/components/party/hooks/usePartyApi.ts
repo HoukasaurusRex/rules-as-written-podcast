@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { $partyData, $editMode, type PartyData } from '../../../stores/party'
+import { $partyData, $editMode, $recentTransactions, type PartyData } from '../../../stores/party'
 import { randomErrorMessage } from '../../../utils/error-messages'
 
 const POLL_INTERVAL = 5000
@@ -168,6 +168,10 @@ export function usePartyApi(partyId: string | undefined) {
           { method: 'POST', body: JSON.stringify(tx) },
           partyId,
         )
+        // Inject into recent transactions for immediate UI update
+        if (result?.id) {
+          $recentTransactions.set([result, ...$recentTransactions.get()])
+        }
         await fetchParty()
         return result
       } catch (err) {

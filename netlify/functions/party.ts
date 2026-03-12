@@ -193,6 +193,8 @@ const updateParty: RouteHandler = async (event, { id }) => {
   if (body.lootActiveBy === null || typeof body.lootActiveBy === 'string') {
     updates.lootActiveBy = body.lootActiveBy
   }
+  if (typeof body.showEp === 'boolean') updates.showEp = body.showEp
+  if (typeof body.showPp === 'boolean') updates.showPp = body.showPp
 
   if (Object.keys(updates).length === 0) return error(400, 'No valid fields to update')
 
