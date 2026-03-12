@@ -7,6 +7,8 @@ export const parties = pgTable('parties', {
   code: text('code').unique().notNull(),
   codeHash: text('code_hash').notNull(),
   lootActiveBy: text('loot_active_by'),
+  showEp: boolean('show_ep').default(false),
+  showPp: boolean('show_pp').default(false),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 })
 
