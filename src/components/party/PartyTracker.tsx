@@ -92,7 +92,7 @@ export default function PartyTracker({ partyId }: Props) {
               type="button"
               onClick={async () => {
                 const url = window.location.href
-                const text = `Join ${party.name} on Rules as Written`
+                const text = `Join ${party.name} on Rules as Written\nParty code: ${party.code}`
                 if (navigator.share) {
                   await navigator.share({ title: party.name, text, url })
                 } else {

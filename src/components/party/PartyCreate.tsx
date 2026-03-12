@@ -254,17 +254,33 @@ export default function PartyCreate() {
           </h2>
           <div className="space-y-space-2">
             {savedParties.map((p) => (
-              <a
-                key={p.id}
-                href={`/party/${p.id}`}
-                className="flex items-center justify-between rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-left transition-colors hover:bg-bg-light"
-              >
-                <div>
-                  <div className="text-sm font-medium text-text">{p.name}</div>
-                  <div className="font-mono text-xs text-text/40">{p.code}</div>
-                </div>
-                <span className="text-xs text-primary-muted">Open</span>
-              </a>
+              <div key={p.id} className="flex items-center gap-space-2">
+                <a
+                  href={`/party/${p.id}`}
+                  className="flex flex-1 items-center justify-between rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-left transition-colors hover:bg-bg-light"
+                >
+                  <div>
+                    <div className="text-sm font-medium text-text">{p.name}</div>
+                    <div className="font-mono text-xs text-text/40">{p.code}</div>
+                  </div>
+                  <span className="text-xs text-primary-muted">Open</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updated = savedParties.filter((s) => s.id !== p.id)
+                    localStorage.setItem('parties', JSON.stringify(updated))
+                    localStorage.removeItem(`party-code-${p.id}`)
+                    setSavedParties(updated)
+                  }}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[5px] text-text/30 transition-colors hover:bg-error/10 hover:text-error"
+                  aria-label={`Remove ${p.name}`}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  </svg>
+                </button>
+              </div>
             ))}
           </div>
         </div>

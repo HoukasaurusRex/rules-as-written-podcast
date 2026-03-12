@@ -41,6 +41,7 @@ export interface PartyMagicItem {
 export interface PartyData {
   id: string
   name: string
+  code: string
   lootActiveBy: string | null
   showEp: boolean
   showPp: boolean
