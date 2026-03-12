@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import Fuse from 'fuse.js'
 
-interface SrdEquipment {
+export interface SrdEquipment {
   index: string
   name: string
   cost: { quantity: number; unit: string } | null
@@ -8,7 +9,7 @@ interface SrdEquipment {
   category: string
 }
 
-interface SrdMagicItem {
+export interface SrdMagicItem {
   index: string
   name: string
   rarity: string
@@ -16,14 +17,20 @@ interface SrdMagicItem {
   description: string
 }
 
-type SrdItem = SrdEquipment | SrdMagicItem
+export type SrdItem = SrdEquipment | SrdMagicItem
+
+export interface CustomItem {
+  name: string
+}
 
 interface Props {
   type: 'equipment' | 'magic-item'
-  onSelect: (item: SrdItem | { name: string }) => void
+  onSelect: (item: SrdItem | CustomItem) => void
   placeholder?: string
   value?: string
   onChange?: (value: string) => void
+  clearOnSelect?: boolean
+  customItems?: Array<{ name: string; [key: string]: unknown }>
 }
 
 let equipmentCache: SrdEquipment[] | null = null
@@ -59,33 +66,43 @@ export default function ItemAutocomplete({
   placeholder = 'Search items...',
   value: controlledValue,
   onChange: controlledOnChange,
+  clearOnSelect = true,
+  customItems,
 }: Props) {
   const [internalValue, setInternalValue] = useState('')
   const value = controlledValue ?? internalValue
   const setValue = controlledOnChange ?? setInternalValue
 
-  const [suggestions, setSuggestions] = useState<SrdItem[]>([])
+  const [suggestions, setSuggestions] = useState<Array<SrdItem | CustomItem>>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [srdData, setSrdData] = useState<SrdItem[]>([])
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    loadSrdData(type).then(setSrdData)
-  }, [type])
+    if (!customItems) loadSrdData(type).then(setSrdData)
+  }, [type, customItems])
+
+  // Build Fuse index
+  const fuse = useMemo(() => {
+    const items = (customItems ?? srdData) as Array<{ name: string }>
+    return new Fuse(items, {
+      keys: ['name'],
+      threshold: 0.4,
+      distance: 100,
+      minMatchCharLength: 1,
+    })
+  }, [srdData, customItems])
 
   useEffect(() => {
-    if (!value.trim() || srdData.length === 0) {
+    if (!value.trim()) {
       setSuggestions([])
       return
     }
-    const query = value.toLowerCase()
-    const matches = srdData
-      .filter((item) => item.name.toLowerCase().includes(query))
-      .slice(0, 8)
-    setSuggestions(matches)
+    const results = fuse.search(value, { limit: 10 })
+    setSuggestions(results.map((r) => r.item))
     setSelectedIndex(-1)
-  }, [value, srdData])
+  }, [value, fuse])
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -98,12 +115,12 @@ export default function ItemAutocomplete({
   }, [])
 
   const selectItem = useCallback(
-    (item: SrdItem) => {
+    (item: SrdItem | CustomItem) => {
       onSelect(item)
-      setValue('')
+      if (clearOnSelect) setValue('')
       setShowSuggestions(false)
     },
-    [onSelect, setValue],
+    [onSelect, setValue, clearOnSelect],
   )
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -119,12 +136,18 @@ export default function ItemAutocomplete({
         selectItem(suggestions[selectedIndex])
       } else if (value.trim()) {
         onSelect({ name: value.trim() })
-        setValue('')
+        if (clearOnSelect) setValue('')
         setShowSuggestions(false)
       }
     } else if (e.key === 'Escape') {
       setShowSuggestions(false)
     }
+  }
+
+  function getSubtext(item: SrdItem | CustomItem): string {
+    if ('cost' in item && item.cost) return `${item.cost.quantity} ${item.cost.unit}`
+    if ('rarity' in item) return item.rarity
+    return ''
   }
 
   return (
@@ -139,14 +162,14 @@ export default function ItemAutocomplete({
         onFocus={() => setShowSuggestions(true)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none focus:border-primary"
+        className="w-full rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none focus:border-primary"
         style={{ fontSize: '16px' }}
       />
 
       {showSuggestions && suggestions.length > 0 && (
-        <ul className="absolute top-full left-0 z-50 mt-space-1 max-h-[240px] w-full overflow-y-auto rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light shadow-lg">
+        <ul className="absolute top-full left-0 z-50 mt-space-1 max-h-60 w-full overflow-y-auto rounded-[5px] border border-bg-lighter bg-bg-light shadow-lg">
           {suggestions.map((item, i) => (
-            <li key={item.index}>
+            <li key={'index' in item ? item.index : item.name}>
               <button
                 onClick={() => selectItem(item)}
                 className={`flex w-full items-center justify-between px-space-4 py-space-3 text-left text-sm transition-colors ${
@@ -154,13 +177,9 @@ export default function ItemAutocomplete({
                 }`}
               >
                 <span>{item.name}</span>
-                <span className="text-xs text-text/40">
-                  {'cost' in item && item.cost
-                    ? `${item.cost.quantity} ${item.cost.unit}`
-                    : 'rarity' in item
-                      ? item.rarity
-                      : ''}
-                </span>
+                {getSubtext(item) && (
+                  <span className="ml-space-2 text-xs text-text/40">{getSubtext(item)}</span>
+                )}
               </button>
             </li>
           ))}

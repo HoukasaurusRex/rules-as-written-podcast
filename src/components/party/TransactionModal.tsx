@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { useStore } from '@nanostores/react'
+import { $partyData } from '../../stores/party'
+import type { PartyCharacter, PartyInventoryItem } from '../../stores/party'
+import type { Denomination } from '../../utils/currency'
+import CoinInput, { emptyCoinValues, type CoinValues } from './CoinInput'
 import ItemAutocomplete from './ItemAutocomplete'
-import type { PartyCharacter } from '../../stores/party'
 
 type TxType = 'buy' | 'sell'
-type Denom = 'cp' | 'sp' | 'ep' | 'gp' | 'pp'
 
 interface Props {
   character: PartyCharacter
@@ -12,24 +15,48 @@ interface Props {
 }
 
 export default function TransactionModal({ character, onSubmit, onClose }: Props) {
+  const party = useStore($partyData)
   const [txType, setTxType] = useState<TxType>('buy')
   const [itemName, setItemName] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [denom, setDenom] = useState<Denom>('gp')
+  const [quantity, setQuantity] = useState(1)
+  const [coins, setCoins] = useState<CoinValues>(emptyCoinValues())
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  const hiddenDenoms: Denomination[] = []
+  if (party && !party.showEp) hiddenDenoms.push('ep')
+  if (party && !party.showPp) hiddenDenoms.push('pp')
+
+  // For sell mode: show only inventory items as suggestions
+  const inventoryItems: PartyInventoryItem[] = party
+    ? party.inventoryItems.filter((i) => i.characterId === character.id)
+    : []
+  const sellSuggestions = inventoryItems.map((i) => ({
+    name: i.name,
+    quantity: i.quantity,
+    id: i.id,
+  }))
+
+  const hasCoins = Object.values(coins).some((v) => v > 0)
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (submitting || amount <= 0) return
+    if (submitting || !hasCoins) return
 
     setSubmitting(true)
+
+    // Multiply coins by quantity for total cost
+    const totalCoins: Record<string, number> = {}
+    for (const [k, v] of Object.entries(coins)) {
+      if (v > 0) totalCoins[k] = v * quantity
+    }
+
     await onSubmit({
       characterId: character.id,
       type: txType,
-      [denom]: amount,
+      ...totalCoins,
       itemName: itemName || undefined,
-      note: note || undefined,
+      note: note || (quantity > 1 ? `×${quantity}` : undefined),
     })
     setSubmitting(false)
     onClose()
@@ -40,19 +67,21 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div className="w-full max-w-md rounded-t-xl border border-[color:var(--color-bg-lighten-20)] bg-bg-light p-space-6 shadow-lg sm:rounded-[5px]">
+      <div className="w-full max-w-md rounded-t-xl border border-bg-lighter bg-bg-light p-space-6 shadow-lg sm:rounded-[5px]">
         <h3 className="m-0 mb-space-4 text-lg font-bold text-text">Transaction</h3>
 
         {/* Buy/Sell toggle */}
-        <div className="mb-space-4 flex rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg p-space-1">
+        <div className="mb-space-4 flex rounded-[5px] border border-bg-lighter bg-bg p-space-1">
           {(['buy', 'sell'] as const).map((t) => (
             <button
               key={t}
-              onClick={() => setTxType(t)}
+              onClick={() => {
+                setTxType(t)
+                setItemName('')
+                setCoins(emptyCoinValues())
+              }}
               className={`flex-1 rounded-[3px] py-space-2 text-sm font-medium capitalize transition-colors ${
-                txType === t
-                  ? 'bg-primary text-white'
-                  : 'text-text/50 hover:text-text/70'
+                txType === t ? 'bg-primary text-white' : 'text-text/50 hover:text-text/70'
               }`}
             >
               {t}
@@ -70,48 +99,69 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
               type="equipment"
               value={itemName}
               onChange={setItemName}
-              placeholder="Search SRD items or type custom..."
+              clearOnSelect={false}
+              placeholder={txType === 'sell' ? 'Search inventory...' : 'Search items or type custom...'}
+              customItems={txType === 'sell' ? sellSuggestions : undefined}
               onSelect={(item) => {
                 setItemName(item.name)
                 if ('cost' in item && item.cost) {
-                  setAmount(item.cost.quantity)
-                  setDenom(item.cost.unit as Denom)
+                  const newCoins = emptyCoinValues()
+                  const unit = item.cost.unit as Denomination
+                  if (unit in newCoins) newCoins[unit] = item.cost.quantity
+                  setCoins(newCoins)
                 }
               }}
             />
           </div>
 
-          {/* Amount + denomination */}
-          <div className="flex gap-space-3">
-            <div className="flex-1">
-              <label className="mb-space-1 block text-xs uppercase tracking-wider text-text/50">
-                Amount
-              </label>
+          {/* Quantity */}
+          <div>
+            <label className="mb-space-1 block text-xs uppercase tracking-wider text-text/50">
+              Quantity
+            </label>
+            <div className="flex items-center gap-space-2">
+              <button
+                type="button"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="flex h-11 w-11 items-center justify-center rounded-[5px] bg-bg text-lg text-text/50 hover:bg-bg-lighter"
+              >
+                −
+              </button>
               <input
                 type="number"
-                min={0}
-                value={amount || ''}
-                onChange={(e) => setAmount(parseInt(e.target.value) || 0)}
+                min={1}
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                 inputMode="numeric"
-                className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-base text-text outline-none focus:border-primary"
+                className="w-16 rounded-[5px] border border-bg-lighter bg-bg px-space-2 py-space-2 text-center text-base tabular-nums text-text outline-none focus:border-primary"
                 style={{ fontSize: '16px' }}
               />
-            </div>
-            <div className="w-24">
-              <label className="mb-space-1 block text-xs uppercase tracking-wider text-text/50">
-                Coin
-              </label>
-              <select
-                value={denom}
-                onChange={(e) => setDenom(e.target.value as Denom)}
-                className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-3 py-space-3 text-base text-text outline-none focus:border-primary"
-                style={{ fontSize: '16px' }}
+              <button
+                type="button"
+                onClick={() => setQuantity(quantity + 1)}
+                className="flex h-11 w-11 items-center justify-center rounded-[5px] bg-bg text-lg text-text/50 hover:bg-bg-lighter"
               >
-                {(['gp', 'sp', 'cp', 'ep', 'pp'] as const).map((d) => (
-                  <option key={d} value={d}>{d.toUpperCase()}</option>
-                ))}
-              </select>
+                +
+              </button>
+              {quantity > 1 && (
+                <span className="text-xs text-text/40">
+                  Total: ×{quantity}
+                </span>
+              )}
             </div>
+          </div>
+
+          {/* Coins (per unit) */}
+          <div>
+            <label className="mb-space-1 block text-xs uppercase tracking-wider text-text/50">
+              {quantity > 1 ? 'Price per unit' : 'Amount'}
+            </label>
+            <CoinInput
+              values={coins}
+              onChange={setCoins}
+              hiddenDenoms={hiddenDenoms}
+              compact
+            />
           </div>
 
           {/* Note */}
@@ -124,7 +174,7 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="e.g. From the merchant in Waterdeep"
-              className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none focus:border-primary"
+              className="w-full rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none focus:border-primary"
               style={{ fontSize: '16px' }}
             />
           </div>
@@ -133,13 +183,13 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-sm text-text/60 transition-colors hover:bg-bg-light"
+              className="flex-1 rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-sm text-text/60 transition-colors hover:bg-bg-light"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={submitting || amount <= 0}
+              disabled={submitting || !hasCoins}
               className="flex-1 rounded-[5px] bg-primary px-space-4 py-space-3 text-sm font-semibold text-white transition-colors hover:bg-primary-light disabled:opacity-50"
             >
               {submitting ? 'Processing...' : txType === 'buy' ? 'Buy' : 'Sell'}

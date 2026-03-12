@@ -41,7 +41,7 @@ export default function MagicItemList({
     <section>
       <div className="mb-space-3 flex items-center justify-between">
         <h3 className="m-0 text-sm font-semibold uppercase tracking-wider text-text/50">
-          Magic Items
+          {currentCharacterId ? 'Magic Items' : 'Unclaimed Loot'}
           {currentCharacterId && (
             <span className="ml-space-2 text-xs font-normal text-text/30">
               ({attunedCount}/3 attuned)

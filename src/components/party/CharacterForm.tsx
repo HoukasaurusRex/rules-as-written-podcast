@@ -16,14 +16,14 @@ const DND_CLASSES = [
 export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add Character' }: Props) {
   const [name, setName] = useState(initial?.name ?? '')
   const [charClass, setCharClass] = useState(initial?.class ?? '')
-  const [level, setLevel] = useState(initial?.level ?? 1)
+  const [level, setLevel] = useState<number | ''>(initial?.level ?? 1)
   const [submitting, setSubmitting] = useState(false)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     if (!name.trim() || submitting) return
     setSubmitting(true)
-    await onSubmit(name.trim(), charClass || undefined, level)
+    await onSubmit(name.trim(), charClass || undefined, level || 1)
     setSubmitting(false)
   }
 
@@ -82,9 +82,18 @@ export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add
               min={1}
               max={20}
               value={level}
-              onChange={(e) => setLevel(parseInt(e.target.value) || 1)}
+              onChange={(e) => {
+                const v = e.target.value
+                setLevel(v === '' ? '' : Math.min(20, Math.max(0, parseInt(v) || 0)))
+              }}
+              onBlur={() => {
+                if (level === '' || level < 1) setLevel(1)
+                if (typeof level === 'number' && level > 20) setLevel(20)
+              }}
               inputMode="numeric"
-              className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-base text-text outline-none focus:border-primary"
+              className={`w-full rounded-[5px] border bg-bg px-space-4 py-space-3 text-base text-text outline-none ${
+                typeof level === 'number' && (level < 1 || level > 20) ? 'border-red-500/50' : 'border-bg-lighter'
+              } focus:border-primary`}
               style={{ fontSize: '16px' }}
             />
           </div>

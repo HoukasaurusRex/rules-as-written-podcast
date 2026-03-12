@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useStore } from '@nanostores/react'
+import { $partyData } from '../../stores/party'
+import type { Denomination } from '../../utils/currency'
+import CoinInput, { emptyCoinValues, type CoinValues } from './CoinInput'
 import ItemAutocomplete from './ItemAutocomplete'
-import { DENOMINATIONS, DENOM_COLORS, type Denomination } from '../../utils/currency'
 
 interface LootItem {
   name: string
@@ -20,6 +23,7 @@ interface Props {
     gold?: Record<string, number>
     items?: LootItem[]
     magicItems?: LootMagicItem[]
+    note?: string
   }) => Promise<void>
   onClose: () => void
   playerName: string
@@ -27,12 +31,17 @@ interface Props {
 }
 
 export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: Props) {
-  const [gold, setGold] = useState<Record<Denomination, number>>({ cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 })
+  const party = useStore($partyData)
+  const [gold, setGold] = useState<CoinValues>(emptyCoinValues())
   const [items, setItems] = useState<LootItem[]>([])
   const [magicItems, setMagicItems] = useState<LootMagicItem[]>([])
+  const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  // Lock loot on mount
+  const hiddenDenoms: Denomination[] = []
+  if (party && !party.showEp) hiddenDenoms.push('ep')
+  if (party && !party.showPp) hiddenDenoms.push('pp')
+
   useEffect(() => { onLockLoot(playerName) }, [])
 
   const totalEntries = items.length + magicItems.length + Object.values(gold).filter((v) => v > 0).length
@@ -48,6 +57,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
       gold: Object.keys(goldEntries).length > 0 ? goldEntries : undefined,
       items: items.length > 0 ? items : undefined,
       magicItems: magicItems.length > 0 ? magicItems : undefined,
+      note: description || undefined,
     })
 
     await onLockLoot(null)
@@ -63,45 +73,40 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-bg">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[color:var(--color-bg-lighten-20)] px-space-4 py-space-3">
+      <div className="flex items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
         <h2 className="m-0 text-lg font-bold text-text">Loot Mode</h2>
         <div className="flex items-center gap-space-3">
           <span className="text-xs text-text/40">
             {totalEntries} item{totalEntries !== 1 ? 's' : ''} added
           </span>
-          <button
-            onClick={handleCancel}
-            className="text-sm text-text/50 hover:text-text"
-          >
+          <button onClick={handleCancel} className="text-sm text-text/50 hover:text-text">
             Cancel
           </button>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-space-4 pb-space-14">
+        {/* Description */}
+        <section className="mb-space-6">
+          <label className="mb-space-2 block text-xs font-semibold uppercase tracking-wider text-text/50">
+            Loot Description (optional)
+          </label>
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="e.g. Dragon's hoard, Goblin camp chest..."
+            className="w-full rounded-[5px] border border-bg-lighter bg-bg-light px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none focus:border-primary"
+            style={{ fontSize: '16px' }}
+          />
+        </section>
+
         {/* Gold */}
         <section className="mb-space-6">
           <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
             Gold (auto-splits evenly)
           </h3>
-          <div className="grid grid-cols-5 gap-space-2">
-            {DENOMINATIONS.map((denom) => (
-                <div key={denom} className="flex flex-col items-center gap-space-1">
-                  <span className={`text-xs font-bold uppercase ${DENOM_COLORS[denom]}`}>
-                    {denom.toUpperCase()}
-                  </span>
-                  <input
-                    type="number"
-                    min={0}
-                    value={gold[denom] || ''}
-                    onChange={(e) => setGold({ ...gold, [denom]: parseInt(e.target.value) || 0 })}
-                    inputMode="numeric"
-                    className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light px-space-2 py-space-2 text-center text-base tabular-nums text-text outline-none focus:border-primary"
-                    style={{ fontSize: '16px' }}
-                  />
-                </div>
-            ))}
-          </div>
+          <CoinInput values={gold} onChange={setGold} hiddenDenoms={hiddenDenoms} compact />
         </section>
 
         {/* Items */}
@@ -177,7 +182,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
       </div>
 
       {/* Done button */}
-      <div className="border-t border-[color:var(--color-bg-lighten-20)] bg-bg p-space-4">
+      <div className="border-t border-bg-lighter bg-bg p-space-4">
         <button
           onClick={handleDone}
           disabled={submitting || totalEntries === 0}
