@@ -329,6 +329,12 @@ html::-webkit-scrollbar-thumb:hover {
   background: gray;
 }
 
+/* Marquee auto-scroll for long text */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;

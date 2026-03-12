@@ -51,25 +51,30 @@ export default function PartyTracker({ partyId }: Props) {
 
   return (
     <div className="mx-auto max-w-2xl px-space-4 pb-[180px] pt-space-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="m-0 max-w-[200px] truncate text-2xl font-bold text-text sm:max-w-none">{party.name}</h1>
-          <p className="m-0 text-xs text-text/40">
-            {party.characters.length} character{party.characters.length !== 1 ? 's' : ''}
-          </p>
-        </div>
-        <div className="flex items-center gap-space-2">
-          {editMode && !party.lootActiveBy && (
-            <button
-              onClick={() => setShowLootMode(true)}
-              className="flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
-            >
-              Loot
-            </button>
-          )}
-          <PartyCodeGate partyId={partyId} />
-        </div>
+      {/* Party name — auto-scrolls if too long */}
+      <div className="overflow-hidden">
+        <h1
+          className="m-0 whitespace-nowrap text-xl font-bold text-text"
+          style={{ animation: party.name.length > 25 ? 'marquee-scroll 12s linear infinite' : 'none' }}
+        >
+          {party.name}
+        </h1>
+        <p className="m-0 text-xs text-text/40">
+          {party.characters.length} character{party.characters.length !== 1 ? 's' : ''}
+        </p>
+      </div>
+
+      {/* Action buttons */}
+      <div className="flex items-center gap-space-2">
+        {editMode && !party.lootActiveBy && (
+          <button
+            onClick={() => setShowLootMode(true)}
+            className="flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
+          >
+            Loot
+          </button>
+        )}
+        <PartyCodeGate partyId={partyId} />
       </div>
 
       {/* Loot lock banner */}
@@ -247,7 +252,7 @@ export default function PartyTracker({ partyId }: Props) {
           {/* Character header */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="m-0 text-xl font-bold text-text">{activeCharacter.name}</h2>
+              <h2 className="m-0 text-lg font-bold text-text">{activeCharacter.name}</h2>
               <p className="m-0 text-xs text-text/40">
                 {activeCharacter.class && `${activeCharacter.class} · `}Level {activeCharacter.level}
               </p>

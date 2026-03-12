@@ -172,7 +172,7 @@ export default function PartyCreate() {
   return (
     <div className="mx-auto max-w-md px-space-4 pt-space-8 pb-space-14">
       <div className="mb-space-6 text-center">
-        <h1 className="mb-space-2 text-3xl font-bold text-text">Start a New Party</h1>
+        <h1 className="mb-space-2 text-2xl font-bold text-text">Start a New Party</h1>
         <p className="m-0 text-sm text-text/60">
           Create a party to track gold, inventory, and magic items with your group.
         </p>
@@ -230,7 +230,7 @@ export default function PartyCreate() {
                   const data = await res.json()
                   saveParty({ id: data.id, name: data.name, code })
                   localStorage.setItem(`party-code-${data.id}`, code)
-                  window.location.href = `/party/${encodeURIComponent(code)}`
+                  window.location.href = `/party/${data.id}`
                 } else {
                   setToast({ message: 'Party not found. Check the code and try again.', variant: 'error' })
                 }
