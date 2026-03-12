@@ -61,7 +61,7 @@ export default function InventoryList({ items, characterId, onAdd, onUpdate, onD
         </div>
       ) : (
         <div className="space-y-space-1">
-          {items.map((item) => {
+          {[...items].sort((a, b) => a.name.localeCompare(b.name)).map((item) => {
             const isExpanded = expandedId === item.id
             return (
               <div key={item.id} className="rounded-[5px] bg-bg">

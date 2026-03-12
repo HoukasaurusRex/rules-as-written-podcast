@@ -91,7 +91,7 @@ export default function MagicItemList({
         </div>
       ) : (
         <div className="space-y-space-1">
-          {items.map((item) => {
+          {[...items].sort((a, b) => a.name.localeCompare(b.name)).map((item) => {
             const colorParts = (RARITY_COLORS[item.rarity ?? ''] ?? 'text-text border-bg-lighter').split(' ')
             const textColor = colorParts[0]
             const borderColor = colorParts[1] ?? 'border-bg-lighter'

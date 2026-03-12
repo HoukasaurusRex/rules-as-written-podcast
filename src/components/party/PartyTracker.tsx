@@ -54,7 +54,7 @@ export default function PartyTracker({ partyId }: Props) {
       {/* Party name — auto-scrolls if too long */}
       <div className="overflow-hidden">
         <h1
-          className="m-0 whitespace-nowrap text-lg font-bold text-text"
+          className="m-0 whitespace-nowrap text-xl font-bold text-text"
           style={{ animation: party.name.length > 25 ? 'marquee-scroll 12s linear infinite' : 'none' }}
         >
           {party.name}
@@ -269,34 +269,19 @@ export default function PartyTracker({ partyId }: Props) {
           {/* Character header */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="m-0 text-base font-bold text-text">{activeCharacter.name}</h2>
+              <h2 className="m-0 text-lg font-bold text-text">{activeCharacter.name}</h2>
               <p className="m-0 text-xs text-text/40">
                 {activeCharacter.class && `${activeCharacter.class} · `}Level {activeCharacter.level}
               </p>
             </div>
-            <div className="flex items-center gap-space-2">
-              {editMode && (
-                <>
-                  <button
-                    onClick={() => setShowTxModal(true)}
-                    className="rounded-[5px] bg-primary/20 px-space-3 py-space-2 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
-                  >
-                    Transaction
-                  </button>
-                  <button
-                    onClick={() => {
-                      if (confirm(`Remove ${activeCharacter.name}?`)) {
-                        api.deleteCharacter(activeCharacter.id)
-                        $activeTab.set('party')
-                      }
-                    }}
-                    className="rounded-[5px] px-space-2 py-space-2 text-xs text-error/60 transition-colors hover:bg-error/10 hover:text-error"
-                  >
-                    Remove
-                  </button>
-                </>
-              )}
-            </div>
+            {editMode && (
+              <button
+                onClick={() => setShowTxModal(true)}
+                className="rounded-[5px] bg-primary/20 px-space-3 py-space-2 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
+              >
+                Transaction
+              </button>
+            )}
           </div>
 
           {/* Gold */}
@@ -334,6 +319,24 @@ export default function PartyTracker({ partyId }: Props) {
             onListTransactions={api.listTransactions}
             onUndo={api.undoTransaction}
           />
+
+          {/* Remove character — at bottom of page */}
+          {editMode && (
+            <div className="border-t border-bg-lighter pt-space-4">
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm(`Remove ${activeCharacter.name} from the party? This cannot be undone.`)) {
+                    api.deleteCharacter(activeCharacter.id)
+                    $activeTab.set('party')
+                  }
+                }}
+                className="w-full rounded-[5px] border border-error/20 py-space-2 text-xs text-error/60 transition-colors hover:bg-error/10 hover:text-error"
+              >
+                Remove character from party
+              </button>
+            </div>
+          )}
         </div>
       ) : null}
 
