@@ -63,8 +63,8 @@ export default function PartyTracker({ partyId }: Props) {
 
   return (
     <div className="mx-auto max-w-2xl px-space-4 pt-space-4">
-      {/* Party name — auto-scrolls if too long */}
-      <div className="mb-space-4 overflow-hidden">
+      {/* Party name — centered, auto-scrolls if too long */}
+      <div className="mb-space-4 overflow-hidden text-center">
         <h1
           className="m-0 whitespace-nowrap text-xl font-bold text-text"
           style={{ animation: party.name.length > 25 ? 'marquee-scroll 12s linear infinite' : 'none' }}
@@ -104,11 +104,11 @@ export default function PartyTracker({ partyId }: Props) {
               type="button"
               onClick={async () => {
                 const url = window.location.href
-                const text = `Join ${party.name} on Rules as Written\nParty code: ${party.code}`
+                const shareText = `Join ${party.name} on Rules as Written\nParty code: ${party.code}\n${url}`
                 if (navigator.share) {
-                  await navigator.share({ title: party.name, text, url })
+                  await navigator.share({ text: shareText })
                 } else {
-                  await navigator.clipboard.writeText(url)
+                  await navigator.clipboard.writeText(shareText)
                 }
               }}
               className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60 transition-colors hover:bg-bg-light"
@@ -116,7 +116,7 @@ export default function PartyTracker({ partyId }: Props) {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" />
               </svg>
-              Share
+              Invite to party
             </button>
 
             {/* Settings gear dropdown */}
@@ -206,9 +206,27 @@ export default function PartyTracker({ partyId }: Props) {
                 {lootItems.length > 0 && (
                   <div className="space-y-space-1">
                     {lootItems.map((item) => (
-                      <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
-                        <span className="text-text">{item.name}</span>
-                        <span className="text-text/40">×{item.quantity}</span>
+                      <div key={item.id} className="rounded-[5px] bg-bg">
+                        <div className="flex items-center justify-between px-space-3 py-space-2 text-sm">
+                          <span className="text-text">{item.name}</span>
+                          <div className="flex items-center gap-space-2">
+                            <span className="text-text/40">×{item.quantity}</span>
+                            {editMode && party.characters.length > 0 && (
+                              <select
+                                onChange={(e) => {
+                                  if (e.target.value) api.upsertItem({ id: item.id, characterId: e.target.value })
+                                }}
+                                defaultValue=""
+                                className="rounded bg-bg-light px-space-2 py-space-1 text-[10px] text-text/50 outline-none"
+                              >
+                                <option value="" disabled>Assign</option>
+                                {party.characters.map((c) => (
+                                  <option key={c.id} value={c.id}>{c.name}</option>
+                                ))}
+                              </select>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -334,7 +352,7 @@ export default function PartyTracker({ partyId }: Props) {
 
           {/* Remove character — at bottom of page */}
           {editMode && (
-            <div className="border-t border-bg-lighter pt-space-4">
+            <div className="pt-space-4">
               <button
                 type="button"
                 onClick={() => {
