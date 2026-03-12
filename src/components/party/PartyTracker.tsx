@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
+import { DENOMINATIONS, DENOM_COLORS } from '../../utils/currency'
 import { usePartyApi } from './hooks/usePartyApi'
 import PartyCodeGate from './PartyCodeGate'
 import CharacterTabs from './CharacterTabs'
@@ -76,12 +77,11 @@ export default function PartyTracker({ partyId }: Props) {
                 Party Wealth
               </h2>
               <div className="grid grid-cols-5 gap-space-2">
-                {(['pp', 'gp', 'ep', 'sp', 'cp'] as const).map((denom) => {
+                {DENOMINATIONS.map((denom) => {
                   const total = party.characters.reduce((sum, c) => sum + (c[denom] ?? 0), 0)
-                  const colorMap = { pp: 'text-gold-pp', gp: 'text-gold-gp', ep: 'text-gold-ep', sp: 'text-gold-sp', cp: 'text-gold-cp' }
                   return (
-                    <div key={denom} className="flex flex-col items-center rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg p-space-2">
-                      <span className={`text-xs font-bold uppercase tracking-wider ${colorMap[denom]}`}>
+                    <div key={denom} className="flex flex-col items-center rounded-[5px] border border-bg-lighter bg-bg p-space-2">
+                      <span className={`text-xs font-bold uppercase tracking-wider ${DENOM_COLORS[denom]}`}>
                         {denom.toUpperCase()}
                       </span>
                       <span className="text-xl font-bold tabular-nums text-text">{total}</span>

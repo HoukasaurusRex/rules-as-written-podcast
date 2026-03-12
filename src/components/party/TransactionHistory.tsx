@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useStore } from '@nanostores/react'
 import { $editMode } from '../../stores/party'
+import { isDebitTransaction } from '../../utils/currency'
 
 interface Transaction {
   id: string
@@ -107,7 +108,7 @@ export default function TransactionHistory({
       </h3>
       <div className="space-y-space-1">
         {transactions.map((tx) => {
-          const isDebit = ['spend', 'buy'].includes(tx.type)
+          const isDebit = isDebitTransaction(tx.type)
           const isUndo = tx.type === 'undo'
 
           return (

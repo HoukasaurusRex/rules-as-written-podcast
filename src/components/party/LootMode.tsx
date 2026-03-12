@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ItemAutocomplete from './ItemAutocomplete'
-
-type Denom = 'cp' | 'sp' | 'ep' | 'gp' | 'pp'
+import { DENOMINATIONS, DENOM_COLORS, type Denomination } from '../../utils/currency'
 
 interface LootItem {
   name: string
@@ -28,13 +27,13 @@ interface Props {
 }
 
 export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: Props) {
-  const [gold, setGold] = useState<Record<Denom, number>>({ cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 })
+  const [gold, setGold] = useState<Record<Denomination, number>>({ cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 })
   const [items, setItems] = useState<LootItem[]>([])
   const [magicItems, setMagicItems] = useState<LootMagicItem[]>([])
   const [submitting, setSubmitting] = useState(false)
 
   // Lock loot on mount
-  useState(() => { onLockLoot(playerName) })
+  useEffect(() => { onLockLoot(playerName) }, [])
 
   const totalEntries = items.length + magicItems.length + Object.values(gold).filter((v) => v > 0).length
 
@@ -86,11 +85,9 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
             Gold (auto-splits evenly)
           </h3>
           <div className="grid grid-cols-5 gap-space-2">
-            {(['pp', 'gp', 'ep', 'sp', 'cp'] as const).map((denom) => {
-              const colorMap = { pp: 'text-gold-pp', gp: 'text-gold-gp', ep: 'text-gold-ep', sp: 'text-gold-sp', cp: 'text-gold-cp' }
-              return (
+            {DENOMINATIONS.map((denom) => (
                 <div key={denom} className="flex flex-col items-center gap-space-1">
-                  <span className={`text-xs font-bold uppercase ${colorMap[denom]}`}>
+                  <span className={`text-xs font-bold uppercase ${DENOM_COLORS[denom]}`}>
                     {denom.toUpperCase()}
                   </span>
                   <input
@@ -103,8 +100,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
                     style={{ fontSize: '16px' }}
                   />
                 </div>
-              )
-            })}
+            ))}
           </div>
         </section>
 
