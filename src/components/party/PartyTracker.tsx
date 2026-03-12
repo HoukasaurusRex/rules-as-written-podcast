@@ -54,7 +54,7 @@ export default function PartyTracker({ partyId }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="m-0 text-2xl font-bold text-text">{party.name}</h1>
+          <h1 className="m-0 max-w-[200px] truncate text-2xl font-bold text-text sm:max-w-none">{party.name}</h1>
           <p className="m-0 text-xs text-text/40">
             {party.characters.length} character{party.characters.length !== 1 ? 's' : ''}
           </p>
@@ -108,7 +108,9 @@ export default function PartyTracker({ partyId }: Props) {
               }}
               className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60 transition-colors hover:bg-bg-light"
             >
-              <img src="/images/raw-logo-fancy.webp" alt="" width="18" height="18" className="rounded-sm" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /><polyline points="16 6 12 2 8 6" /><line x1="12" y1="2" x2="12" y2="15" />
+              </svg>
               Share
             </button>
 

@@ -227,6 +227,9 @@ export default function PartyCreate() {
               try {
                 const res = await fetch(`/api/party/${encodeURIComponent(code)}`)
                 if (res.ok) {
+                  const data = await res.json()
+                  saveParty({ id: data.id, name: data.name, code })
+                  localStorage.setItem(`party-code-${data.id}`, code)
                   window.location.href = `/party/${encodeURIComponent(code)}`
                 } else {
                   setToast({ message: 'Party not found. Check the code and try again.', variant: 'error' })

@@ -176,18 +176,12 @@
   overflow: hidden;
 }
 
-@media (min-width: 992px) {
-  .newsletter-toast {
-    left: calc(50% + var(--nav-width) / 2);
-  }
-}
-
 .newsletter-toast--exiting {
   animation: slideUp 0.3s ease forwards;
 }
 
-.newsletter-toast--success { background-color: #4db98f; }
-.newsletter-toast--error { background-color: hsl(9, 59%, 50%); }
+.newsletter-toast--success { background-color: var(--color-secondary); }
+.newsletter-toast--error { background-color: var(--color-primary); }
 
 .newsletter-toast__content {
   display: flex;

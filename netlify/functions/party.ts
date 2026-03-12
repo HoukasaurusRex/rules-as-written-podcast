@@ -182,12 +182,9 @@ const createParty: RouteHandler = async (event) => {
 }
 
 const getParty: RouteHandler = async (_event, { id }) => {
-  const partyId = await resolvePartyId(id)
-  if (!partyId) return error(404, 'Party not found')
-
   const db = getDb()
   const party = await db.query.parties.findFirst({
-    where: eq(parties.id, partyId),
+    where: eq(parties.id, id),
     columns: { codeHash: false },
     with: {
       characters: { orderBy: [characters.sortOrder] },
@@ -686,6 +683,15 @@ export const handler: Handler = async (event) => {
   const route = matchRoute(path, method)
   if (!route) {
     return { statusCode: 404, headers, body: JSON.stringify({ error: 'Not found' }) }
+  }
+
+  // Resolve shortcode to UUID if the route has an `id` param
+  if (route.params.id) {
+    const resolved = await resolvePartyId(route.params.id)
+    if (!resolved) {
+      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Party not found' }) }
+    }
+    route.params.id = resolved
   }
 
   try {
