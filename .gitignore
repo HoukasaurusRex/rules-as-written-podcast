@@ -13,6 +13,9 @@ dist/
 # Generated content (fetched from Notion at build time)
 src/content/episodes/
 
+# Generated SRD data (fetched from dnd5eapi.co at build time)
+src/data/srd-*.json
+
 # Playwright
 test-results/
 playwright-report/
