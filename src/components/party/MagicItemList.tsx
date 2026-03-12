@@ -151,7 +151,7 @@ export default function MagicItemList({
                           onClick={() => setAssigningItem(assigningItem === item.id ? null : item.id)}
                           className="rounded px-space-2 py-space-1 text-[10px] text-text/40 hover:bg-bg-light hover:text-text/60"
                         >
-                          Assign
+                          {currentCharacterId ? 'Give' : 'Assign'}
                         </button>
 
                         <button

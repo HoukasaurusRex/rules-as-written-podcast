@@ -57,19 +57,21 @@ export default function TransactionHistory({
   const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
 
+  const [expanded, setExpanded] = useState(false)
+  const PAGE_SIZE = expanded ? 20 : 10
+
   const loadTransactions = useCallback(async (offset = 0) => {
     setLoading(true)
-    const rows = await onListTransactions(characterId, 20, offset)
+    const rows = await onListTransactions(characterId, PAGE_SIZE, offset)
     if (offset === 0) {
       setApiTransactions(rows)
-      // Clear recent transactions once we have fresh server data
       $recentTransactions.set([])
     } else {
       setApiTransactions((prev) => [...prev, ...rows])
     }
-    setHasMore(rows.length === 20)
+    setHasMore(rows.length === PAGE_SIZE)
     setLoading(false)
-  }, [characterId, onListTransactions])
+  }, [characterId, onListTransactions, PAGE_SIZE])
 
   useEffect(() => {
     loadTransactions()
@@ -150,7 +152,18 @@ export default function TransactionHistory({
         })}
       </div>
 
-      {hasMore && (
+      {!expanded && transactions.length >= 10 && (
+        <button
+          onClick={() => {
+            setExpanded(true)
+            loadTransactions()
+          }}
+          className="mt-space-3 w-full rounded-[5px] border border-bg-lighter py-space-2 text-xs text-text/40 transition-colors hover:bg-bg-light"
+        >
+          Older transactions
+        </button>
+      )}
+      {expanded && hasMore && (
         <button
           onClick={() => loadTransactions(apiTransactions.length)}
           disabled={loading}

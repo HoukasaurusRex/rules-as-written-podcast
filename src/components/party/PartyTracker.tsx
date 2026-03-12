@@ -52,7 +52,7 @@ export default function PartyTracker({ partyId }: Props) {
   return (
     <div className="mx-auto max-w-2xl px-space-4 pb-[180px] pt-space-4">
       {/* Header */}
-      <div className="mb-space-6 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="m-0 text-2xl font-bold text-text">{party.name}</h1>
           <p className="m-0 text-xs text-text/40">
@@ -63,7 +63,7 @@ export default function PartyTracker({ partyId }: Props) {
           {editMode && !party.lootActiveBy && (
             <button
               onClick={() => setShowLootMode(true)}
-              className="flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-xs font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
+              className="flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
             >
               Loot
             </button>
@@ -74,10 +74,11 @@ export default function PartyTracker({ partyId }: Props) {
 
       {/* Loot lock banner */}
       {party.lootActiveBy && (
-        <div className="mb-space-4 flex items-center justify-between rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-4 py-space-3 text-sm text-gold-gp">
+        <div className="flex items-center justify-between rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-4 py-space-3 text-sm text-gold-gp">
           <span>{party.lootActiveBy} is distributing loot...</span>
           {editMode && (
             <button
+              type="button"
               onClick={() => api.updateParty({ lootActiveBy: null })}
               className="rounded px-space-2 py-space-1 text-xs text-gold-gp/70 transition-colors hover:bg-gold-gp/20 hover:text-gold-gp"
             >
@@ -90,6 +91,44 @@ export default function PartyTracker({ partyId }: Props) {
       {/* Tab Content */}
       {activeTab === 'party' ? (
         <div className="space-y-space-6">
+          {/* Share + Settings row */}
+          <div className="flex flex-wrap items-center gap-space-2">
+            <button
+              type="button"
+              onClick={async () => {
+                const url = window.location.href
+                const text = `Join ${party.name} on Rules as Written`
+                if (navigator.share) {
+                  await navigator.share({ title: party.name, text, url })
+                } else {
+                  await navigator.clipboard.writeText(url)
+                  api.clearToast()
+                  // Brief visual feedback handled by toast
+                }
+              }}
+              className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60 transition-colors hover:bg-bg-light"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+              Share
+            </button>
+
+            {editMode && (
+              <>
+                <label className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60">
+                  <input type="checkbox" checked={party.showEp ?? false} onChange={(e) => api.updateParty({ showEp: e.target.checked })} className="accent-primary" />
+                  EP
+                </label>
+                <label className="flex items-center gap-space-2 rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-xs text-text/60">
+                  <input type="checkbox" checked={party.showPp ?? false} onChange={(e) => api.updateParty({ showPp: e.target.checked })} className="accent-primary" />
+                  PP
+                </label>
+              </>
+            )}
+          </div>
+
           {/* Party aggregate gold */}
           {party.characters.length > 0 && (() => {
             const totals: CoinValues = { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 }
@@ -109,24 +148,39 @@ export default function PartyTracker({ partyId }: Props) {
             )
           })()}
 
-          {/* Loot Pool - Items */}
-          <InventoryList
-            items={party.inventoryItems.filter((i) => !i.characterId)}
-            characterId={null}
-            onAdd={api.upsertItem}
-            onUpdate={api.upsertItem}
-            onDelete={api.deleteItem}
-          />
-
-          {/* Loot Pool - Magic Items */}
-          <MagicItemList
-            items={party.magicItems.filter((i) => !i.characterId)}
-            characters={party.characters}
-            currentCharacterId={null}
-            onAdd={api.upsertMagicItem}
-            onUpdate={api.upsertMagicItem}
-            onDelete={api.deleteMagicItem}
-          />
+          {/* Unclaimed Loot (combined inventory + magic items) */}
+          {(() => {
+            const lootItems = party.inventoryItems.filter((i) => !i.characterId)
+            const lootMagic = party.magicItems.filter((i) => !i.characterId)
+            if (lootItems.length === 0 && lootMagic.length === 0) return null
+            return (
+              <section>
+                <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
+                  Unclaimed Loot
+                </h2>
+                {lootItems.length > 0 && (
+                  <div className="mb-space-2 space-y-space-1">
+                    {lootItems.map((item) => (
+                      <div key={item.id} className="flex items-center justify-between rounded-[5px] bg-bg px-space-3 py-space-2 text-sm">
+                        <span className="text-text">{item.name}</span>
+                        <span className="text-text/40">×{item.quantity}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {lootMagic.length > 0 && (
+                  <MagicItemList
+                    items={lootMagic}
+                    characters={party.characters}
+                    currentCharacterId={null}
+                    onAdd={api.upsertMagicItem}
+                    onUpdate={api.upsertMagicItem}
+                    onDelete={api.deleteMagicItem}
+                  />
+                )}
+              </section>
+            )
+          })()}
 
           {/* Character list */}
           <section>
@@ -136,6 +190,7 @@ export default function PartyTracker({ partyId }: Props) {
               </h2>
               {editMode && (
                 <button
+                  type="button"
                   onClick={() => setShowCharForm(true)}
                   className="rounded-[5px] bg-primary/20 px-space-3 py-space-1 text-xs font-medium text-primary-muted transition-colors hover:bg-primary/30"
                 >
@@ -145,28 +200,35 @@ export default function PartyTracker({ partyId }: Props) {
             </div>
 
             {party.characters.length === 0 ? (
-              <div className="rounded-[5px] border border-dashed border-[color:var(--color-bg-lighten-20)] py-space-8 text-center text-sm text-text/30">
+              <div className="rounded-[5px] border border-dashed border-bg-lighter py-space-8 text-center text-sm text-text/30">
                 {editMode ? 'Add your first character to get started' : 'No characters yet'}
               </div>
             ) : (
               <div className="space-y-space-2">
-                {party.characters.map((char) => (
-                  <button
-                    key={char.id}
-                    onClick={() => $activeTab.set(char.id)}
-                    className="flex w-full items-center justify-between rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-left transition-colors hover:bg-bg-light"
-                  >
-                    <div>
-                      <div className="font-medium text-text">{char.name}</div>
-                      <div className="text-xs text-text/40">
-                        {char.class && `${char.class} `}Lv.{char.level}
+                {party.characters.map((char) => {
+                  const url = new URL(window.location.href)
+                  url.searchParams.set('tab', char.id)
+                  return (
+                    <button
+                      key={char.id}
+                      onClick={() => {
+                        $activeTab.set(char.id)
+                        history.replaceState(null, '', url.toString())
+                      }}
+                      className="flex w-full items-center justify-between rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-left transition-colors hover:bg-bg-light"
+                    >
+                      <div>
+                        <div className="font-medium text-text">{char.name}</div>
+                        <div className="text-xs text-text/40">
+                          {char.class && `${char.class} `}Lv.{char.level}
+                        </div>
                       </div>
-                    </div>
-                    <div className="text-right text-sm tabular-nums text-gold-gp">
-                      {char.gp ?? 0} GP
-                    </div>
-                  </button>
-                ))}
+                      <div className="text-right text-sm tabular-nums text-gold-gp">
+                        {char.gp ?? 0} GP
+                      </div>
+                    </button>
+                  )
+                })}
               </div>
             )}
           </section>
@@ -178,51 +240,6 @@ export default function PartyTracker({ partyId }: Props) {
             onListTransactions={api.listTransactions}
             onUndo={api.undoTransaction}
           />
-
-          {/* Party settings */}
-          {editMode && (
-            <section>
-              <button
-                onClick={() => setShowSettings(!showSettings)}
-                className="flex w-full items-center gap-space-2 text-sm font-semibold uppercase tracking-wider text-text/50"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                </svg>
-                Party Settings
-                <svg
-                  width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  className={`transition-transform ${showSettings ? 'rotate-180' : ''}`}
-                >
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-              {showSettings && (
-                <div className="mt-space-3 space-y-space-3 rounded-[5px] border border-bg-lighter bg-bg p-space-4">
-                  <label className="flex items-center justify-between">
-                    <span className="text-sm text-text/70">Show Electrum (EP)</span>
-                    <input
-                      type="checkbox"
-                      checked={party.showEp ?? false}
-                      onChange={(e) => api.updateParty({ showEp: e.target.checked })}
-                      className="accent-primary"
-                    />
-                  </label>
-                  <label className="flex items-center justify-between">
-                    <span className="text-sm text-text/70">Show Platinum (PP)</span>
-                    <input
-                      type="checkbox"
-                      checked={party.showPp ?? false}
-                      onChange={(e) => api.updateParty({ showPp: e.target.checked })}
-                      className="accent-primary"
-                    />
-                  </label>
-                </div>
-              )}
-            </section>
-          )}
         </div>
       ) : activeCharacter ? (
         <div className="space-y-space-6">

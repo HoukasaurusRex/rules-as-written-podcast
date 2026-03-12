@@ -60,7 +60,7 @@
 
   /* Player bar */
   --player-bar-height: 80px;
-  --character-tabs-bottom: var(--player-bar-height);
+  --character-tabs-bottom: 0px;
 
   /* Border radius */
   --radius-0: 5px;
@@ -97,8 +97,13 @@ html {
   overflow-y: scroll;
 }
 
-/* Player collapsed — push character tabs to bottom */
-body.player-collapsed {
+/* Player active (episode loaded) — push character tabs above player bar */
+body.player-active {
+  --character-tabs-bottom: var(--player-bar-height);
+}
+
+/* Player collapsed — tabs go back to bottom */
+body.player-active.player-collapsed {
   --character-tabs-bottom: 0px;
 }
 

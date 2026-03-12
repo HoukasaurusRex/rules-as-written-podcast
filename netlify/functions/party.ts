@@ -113,6 +113,19 @@ function matchRoute(
   return null
 }
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+async function resolvePartyId(identifier: string): Promise<string | null> {
+  const db = getDb()
+  if (UUID_REGEX.test(identifier)) return identifier
+  // Look up by code (shortcode format like ARCANE-OWLBEAR-42)
+  const party = await db.query.parties.findFirst({
+    where: eq(parties.code, identifier.toUpperCase()),
+    columns: { id: true },
+  })
+  return party?.id ?? null
+}
+
 async function requireCode(event: HandlerEvent, partyId: string): Promise<string | null> {
   const code = event.headers['x-party-code']
   if (!code) return 'Party code required'
@@ -169,9 +182,12 @@ const createParty: RouteHandler = async (event) => {
 }
 
 const getParty: RouteHandler = async (_event, { id }) => {
+  const partyId = await resolvePartyId(id)
+  if (!partyId) return error(404, 'Party not found')
+
   const db = getDb()
   const party = await db.query.parties.findFirst({
-    where: eq(parties.id, id),
+    where: eq(parties.id, partyId),
     columns: { codeHash: false },
     with: {
       characters: { orderBy: [characters.sortOrder] },

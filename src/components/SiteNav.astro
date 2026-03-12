@@ -2,10 +2,12 @@
 const links = [
   { href: '/', label: '♪ Now Playing', id: 'now-playing-link' },
   { href: '/episodes', label: 'Episodes' },
-  { href: '/party/new', label: 'Party' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]
+
+const partyHref = '/party/new'
+const isPartyActive = Astro.url.pathname.startsWith('/party')
 
 const currentPath = Astro.url.pathname
 ---
@@ -19,13 +21,19 @@ const currentPath = Astro.url.pathname
   {/* Title */}
   <a href="/" class="site-nav-title">Rules as Written</a>
 
-  {/* Desktop: inline links (hidden on mobile) */}
+  {/* Desktop: inline links + Party CTA (hidden on mobile) */}
   <div class="site-nav-links">
     {links.map(({ href, label, id }) => (
       <a href={href} id={id ? `${id}-desktop` : undefined} class:list={[{ active: href === '/' ? currentPath === '/' : currentPath.startsWith(href) }]}>
         {label}
       </a>
     ))}
+    <a href={partyHref} class:list={['party-cta', { active: isPartyActive }]}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+      </svg>
+      Party
+    </a>
   </div>
 
   {/* Mobile: hamburger button (hidden on desktop) */}
@@ -50,6 +58,12 @@ const currentPath = Astro.url.pathname
       </button>
     </div>
     <div class="mobile-menu-links">
+      <a href={partyHref} class:list={['party-cta-mobile', { active: isPartyActive }]}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+        Party Tracker
+      </a>
       {links.map(({ href, label, id }) => (
         <a href={href} id={id} class:list={[{ active: href === '/' ? currentPath === '/' : currentPath.startsWith(href) }]}>
           {label}
@@ -203,6 +217,100 @@ const currentPath = Astro.url.pathname
   .site-nav-links a.active {
     opacity: 1;
     color: var(--color-primary-lighten-50);
+  }
+
+  /* Desktop Party CTA */
+  .party-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid hsl(9, 59%, 46% / 0.4);
+    border-radius: var(--radius-0);
+    background: hsl(9, 59%, 46% / 0.1);
+    color: var(--color-primary-lighten-50);
+    font-size: var(--font-size-1);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .party-cta:hover {
+    background: hsl(9, 59%, 46% / 0.2);
+    border-color: hsl(9, 59%, 46% / 0.6);
+    color: var(--color-primary-lighten-70);
+  }
+
+  .party-cta.active {
+    background: hsl(9, 59%, 46% / 0.25);
+    border-color: var(--color-primary);
+  }
+
+  /* Ember particles */
+  .party-cta::before,
+  .party-cta::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-primary-lighten-50);
+    opacity: 0;
+    animation: ember 3s ease-in-out infinite;
+  }
+
+  .party-cta::before {
+    left: 25%;
+    bottom: 0;
+    animation-delay: 0s;
+  }
+
+  .party-cta::after {
+    left: 65%;
+    bottom: 0;
+    animation-delay: 1.5s;
+  }
+
+  .party-cta:hover::before,
+  .party-cta:hover::after {
+    opacity: 0.8;
+  }
+
+  @keyframes ember {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: translateY(-20px) scale(0); opacity: 0; }
+  }
+
+  /* Mobile Party CTA */
+  .party-cta-mobile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 48px;
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-2);
+    border: 1px solid hsl(9, 59%, 46% / 0.3);
+    border-radius: var(--radius-0);
+    background: hsl(9, 59%, 46% / 0.1);
+    color: var(--color-primary-lighten-50);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .party-cta-mobile:hover {
+    background: hsl(9, 59%, 46% / 0.2);
+  }
+
+  .party-cta-mobile.active {
+    background: hsl(9, 59%, 46% / 0.25);
+    border-color: var(--color-primary);
   }
 
   /* Hamburger button — visible on mobile only */

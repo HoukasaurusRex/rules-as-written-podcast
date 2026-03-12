@@ -277,7 +277,7 @@ export function usePartyApi(partyId: string | undefined) {
   )
 
   const addLoot = useCallback(
-    async (loot: { gold?: Record<string, number>; items?: unknown[]; magicItems?: unknown[] }) => {
+    async (loot: { gold?: Record<string, number>; items?: unknown[]; magicItems?: unknown[]; note?: string; autoConvert?: boolean }) => {
       if (!partyId) return
       try {
         const result = await apiFetch(
@@ -285,6 +285,10 @@ export function usePartyApi(partyId: string | undefined) {
           { method: 'POST', body: JSON.stringify(loot) },
           partyId,
         )
+        // Inject loot transactions for immediate history update
+        if (result?.transactions?.length) {
+          $recentTransactions.set([...result.transactions, ...$recentTransactions.get()])
+        }
         await fetchParty()
         return result
       } catch (err) {

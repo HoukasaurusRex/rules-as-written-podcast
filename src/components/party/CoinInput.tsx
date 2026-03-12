@@ -66,6 +66,7 @@ export default function CoinInput({
           {/* Up arrow */}
           {!readOnly && onChange && (
             <button
+              type="button"
               onClick={() => update(denom, (values[denom] ?? 0) + 1)}
               className={`flex w-full items-center justify-center rounded-t-[5px] bg-bg-light text-text/40 transition-colors hover:bg-bg-lighter hover:text-text/70 active:bg-primary/20 ${
                 compact ? 'h-8' : 'h-11'
@@ -96,6 +97,7 @@ export default function CoinInput({
             />
           ) : (
             <button
+              type="button"
               onClick={() => startEditing(denom)}
               disabled={readOnly}
               className={`flex w-full items-center justify-center border-x border-bg-lighter bg-bg tabular-nums text-text transition-colors ${
@@ -109,6 +111,7 @@ export default function CoinInput({
           {/* Down arrow */}
           {!readOnly && onChange && (
             <button
+              type="button"
               onClick={() => update(denom, (values[denom] ?? 0) - 1)}
               className={`flex w-full items-center justify-center rounded-b-[5px] bg-bg-light text-text/40 transition-colors hover:bg-bg-lighter hover:text-text/70 active:bg-primary/20 ${
                 compact ? 'h-8' : 'h-11'

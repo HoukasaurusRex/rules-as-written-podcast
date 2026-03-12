@@ -24,6 +24,7 @@ interface Props {
     items?: LootItem[]
     magicItems?: LootMagicItem[]
     note?: string
+    autoConvert?: boolean
   }) => Promise<void>
   onClose: () => void
   playerName: string
@@ -37,6 +38,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
   const [magicItems, setMagicItems] = useState<LootMagicItem[]>([])
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [splitCoins, setSplitCoins] = useState(true)
 
   const hiddenDenoms: Denomination[] = []
   if (party && !party.showEp) hiddenDenoms.push('ep')
@@ -58,6 +60,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
       items: items.length > 0 ? items : undefined,
       magicItems: magicItems.length > 0 ? magicItems : undefined,
       note: description || undefined,
+      autoConvert: splitCoins,
     })
 
     await onLockLoot(null)
@@ -71,9 +74,13 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-bg">
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 sm:items-center sm:p-space-4"
+      onClick={(e) => { if (e.target === e.currentTarget) handleCancel() }}
+    >
+      <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
+      <div className="flex shrink-0 items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
         <h2 className="m-0 text-lg font-bold text-text">Loot Mode</h2>
         <div className="flex items-center gap-space-3">
           <span className="text-xs text-text/40">
@@ -182,14 +189,28 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
       </div>
 
       {/* Done button */}
-      <div className="border-t border-bg-lighter bg-bg p-space-4">
+      <div className="shrink-0 border-t border-bg-lighter bg-bg p-space-4">
+        <label className="mb-space-3 flex items-center gap-space-2 text-xs text-text/60">
+          <input
+            type="checkbox"
+            checked={splitCoins}
+            onChange={(e) => setSplitCoins(e.target.checked)}
+            className="accent-primary"
+          />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+          </svg>
+          Split coins (convert for even distribution)
+        </label>
         <button
+          type="button"
           onClick={handleDone}
           disabled={submitting || totalEntries === 0}
           className="w-full rounded-[5px] bg-primary px-space-4 py-space-3 font-semibold text-white transition-colors hover:bg-primary-light disabled:opacity-50"
         >
           {submitting ? 'Distributing...' : `Distribute Loot (${totalEntries} entries)`}
         </button>
+      </div>
       </div>
     </div>
   )

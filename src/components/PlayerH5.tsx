@@ -223,6 +223,16 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     document.body.classList.toggle('player-collapsed', next)
   }
 
+  // Toggle player-active class when episode is loaded
+  useEffect(() => {
+    if (episode) {
+      document.body.classList.add('player-active')
+    } else {
+      document.body.classList.remove('player-active')
+    }
+    return () => document.body.classList.remove('player-active')
+  }, [!!episode])
+
   if (!episode) return null
 
   const progress = duration ? (currentTime / duration) * 100 : 0
