@@ -11,10 +11,11 @@ export class DatabaseUnavailableError extends Error {
 }
 
 export function getDb() {
-  const url = process.env.NETLIFY_DATABASE_URL
+  const url =
+    process.env.PREVIEW_DATABASE_URL || process.env.NETLIFY_DATABASE_URL
   if (!url) {
     throw new DatabaseUnavailableError(
-      new Error('NETLIFY_DATABASE_URL is not set'),
+      new Error('No database URL set (checked PREVIEW_DATABASE_URL and NETLIFY_DATABASE_URL)'),
     )
   }
   const sql = neon(url)

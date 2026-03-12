@@ -44,9 +44,9 @@ jobs:
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
           NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
 
-      - name: Set DB URL for deploy preview context
+      - name: Set preview DB URL on Netlify
         run: |
-          npx netlify-cli env:set NETLIFY_DATABASE_URL "$DB_URL" --context deploy-preview
+          npx netlify-cli env:set PREVIEW_DATABASE_URL "$DB_URL" --scope functions runtime
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
