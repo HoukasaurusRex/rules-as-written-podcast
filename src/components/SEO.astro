@@ -9,14 +9,15 @@ interface Props {
 const siteTitle = 'Rules as Written'
 const siteDescription = 'A weekly podcast where we talk about the rules in as many D&D 5E books we can afford to help you level up your player game.'
 const siteUrl = 'https://rulesaswrittenshow.com'
-const siteImage = 'https://rulesaswrittenshow.com/raw-banner.jpg'
+const siteImage = `${siteUrl}/raw-banner-og.jpg`
 const siteAuthor = '@HoukasaurusRex'
 const siteKeywords = ['D&D', "Player's Handbook", 'Dungeons and Dragons', 'Tabletop RPG', 'Podcast']
 const umamiWebsiteId = 'b42508b8-2051-4b45-9f3e-bb7c83993afc'
 
 const { title, description, image, pathname } = Astro.props
 const metaDescription = description || siteDescription
-const metaImage = image || siteImage
+const resolvedImage = image ? (image.startsWith('/') ? `${siteUrl}${image}` : image) : siteImage
+const isDefaultImage = !image
 const canonical = pathname ? `${siteUrl}${pathname}` : null
 const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle
 ---
@@ -31,11 +32,13 @@ const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle
 <meta property="og:title" content={title || siteTitle} />
 <meta property="og:description" content={metaDescription} />
 <meta property="og:type" content="website" />
-{metaImage && (
+<meta property="og:site_name" content={siteTitle} />
+{canonical && <meta property="og:url" content={canonical} />}
+<meta property="og:image" content={resolvedImage} />
+{isDefaultImage && (
   <>
-    <meta property="og:image" content={metaImage} />
-    <meta property="og:image:width" content="2560" />
-    <meta property="og:image:height" content="1440" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
   </>
 )}
 
@@ -44,7 +47,7 @@ const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle
 <meta name="twitter:creator" content={siteAuthor} />
 <meta name="twitter:title" content={title || siteTitle} />
 <meta name="twitter:description" content={metaDescription} />
-{metaImage && <meta name="twitter:image" content={metaImage} />}
+<meta name="twitter:image" content={resolvedImage} />
 
 <!-- Analytics (Umami - self-hosted script) -->
 <script is:inline defer src="/scripts/umami.js" data-website-id={umamiWebsiteId} />

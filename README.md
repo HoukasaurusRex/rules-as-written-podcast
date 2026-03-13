@@ -6,7 +6,7 @@
 <br />
 <p align="center">
   <a href="https://rulesaswrittenshow.com">
-    <img src="public/images/raw-logo-fancy.webp" alt="Logo" height="80">
+    <img src="public/raw-banner.jpg" alt="Rules As Written" width="600">
   </a>
 
   <h1 align="center">Rules As Written</h1>

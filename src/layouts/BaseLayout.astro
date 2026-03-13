@@ -19,8 +19,9 @@ const { title, description, image, pathname } = Astro.props
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="/images/icon.png" />
-    <link rel="apple-touch-icon" href="/images/apple-icon.png" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/images/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#9A3C31" />
     <SEO title={title} description={description} image={image} pathname={pathname} />

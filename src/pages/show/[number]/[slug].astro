@@ -22,7 +22,6 @@ export async function getStaticPaths() {
 
 const { episode, allEpisodes } = Astro.props
 const customImage = episode.markdown?.image || 'https://res.cloudinary.com/jthouk/image/upload/v1627979106/Rules%20as%20Written/lazy-bard_esoxs7.gif'
-const headerImage = customImage || 'https://rulesaswrittenshow.com/raw-banner.jpg'
 const description = getDescriptionFromHTML(episode.description)
 const pathname = `/show/${episode.number}/${slugify(episode.title)}`
 ---
@@ -36,7 +35,7 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
   currentEpisode={episode}
 >
   <div class="episode-main">
-    <Header episode={episode} image={headerImage} />
+    <Header episode={episode} image={customImage} />
     <article>
       {description && <p>{description}</p>}
       <p style="padding-top: 30px;">
