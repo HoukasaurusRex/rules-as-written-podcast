@@ -1,6 +1,9 @@
 [build]
   publish = 'dist'
+  command = 'NOTION_TOKEN=${NOTION_TOKEN_CI:-$NOTION_TOKEN} NOTION_DB_ID=${NOTION_DB_ID_CI:-$NOTION_DB_ID} yarn build'
   ignore = '/bin/true'
+[functions]
+  directory = 'netlify/functions'
 [[redirects]]
   from = "/api/subscribe"
   to = "/.netlify/functions/subscribe"
