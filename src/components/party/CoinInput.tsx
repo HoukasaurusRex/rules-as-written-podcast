@@ -93,14 +93,21 @@ export default function CoinInput({
                 compact ? 'text-sm' : 'text-lg font-bold'
               }`}
             />
+          ) : readOnly ? (
+            <div
+              className={`${valHeight} flex w-full items-center justify-center rounded-[5px] border border-bg-lighter bg-bg tabular-nums text-text ${
+                compact ? 'text-sm' : 'text-lg font-bold'
+              }`}
+            >
+              {values[denom] ?? 0}
+            </div>
           ) : (
             <button
               type="button"
               onClick={() => startEditing(denom)}
-              disabled={readOnly}
-              className={`${valHeight} flex w-full items-center justify-center rounded-[5px] border border-bg-lighter bg-bg tabular-nums text-text transition-colors ${
-                readOnly ? 'cursor-default' : 'cursor-text hover:bg-bg-light'
-              } ${compact ? 'text-sm' : 'text-lg font-bold'}`}
+              className={`${valHeight} flex w-full items-center justify-center rounded-[5px] border border-bg-lighter bg-bg tabular-nums text-text transition-colors cursor-text hover:bg-bg-light ${
+                compact ? 'text-sm' : 'text-lg font-bold'
+              }`}
             >
               {values[denom] ?? 0}
             </button>
