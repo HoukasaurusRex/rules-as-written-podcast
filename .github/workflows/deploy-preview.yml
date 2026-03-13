@@ -55,7 +55,6 @@ jobs:
       - name: Deploy to Netlify
         run: |
           yarn netlify deploy \
-            --no-build \
             --alias="pr-${{ github.event.number }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}

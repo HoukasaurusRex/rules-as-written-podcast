@@ -78,8 +78,6 @@ jobs:
       deployments: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: .github/scripts
 
       - uses: actions/setup-node@v4
         with:
@@ -93,7 +91,7 @@ jobs:
           name: build-output
 
       - name: Deploy to Netlify
-        run: yarn netlify deploy --no-build --prod
+        run: yarn netlify deploy --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
