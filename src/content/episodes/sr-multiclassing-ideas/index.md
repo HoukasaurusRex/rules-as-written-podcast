@@ -1,6 +1,6 @@
 ---
 title: SR - multiclassing ideas
-status: Ideas
+status: Unpublished
 ---
 
 

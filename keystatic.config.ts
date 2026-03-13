@@ -26,13 +26,10 @@ export default config({
         status: fields.select({
           label: 'Status',
           options: [
-            { label: 'Ideas', value: 'Ideas' },
-            { label: 'Selected for Recording', value: 'Selected for Recording' },
-            { label: 'Recorded', value: 'Recorded' },
-            { label: 'Draft', value: 'Draft' },
+            { label: 'Unpublished', value: 'Unpublished' },
             { label: 'Published', value: 'Published' },
           ],
-          defaultValue: 'Draft',
+          defaultValue: 'Unpublished',
         }),
         image: fields.url({ label: 'Image URL' }),
         resources: fields.array(fields.text({ label: 'Resource link' }), {

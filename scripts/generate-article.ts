@@ -120,7 +120,7 @@ async function writeDraftEpisode(
     title: episode.title,
     show: 'RaW',
     summary,
-    status: 'Draft',
+    status: 'Unpublished',
   })
 
   const content = `---\n${frontmatter}---\n\n${article}\n`

@@ -1,7 +1,7 @@
 ---
 title: RaW - Paths Barbarian
 show: RaW
-status: Recorded
+status: Unpublished
 ---
 
 ### Tagline (Ex. for Fighter class episode: Jack of all Trades)

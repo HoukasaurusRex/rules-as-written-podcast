@@ -1,6 +1,6 @@
 ---
 title: SR - Playing Remotely
-status: Ideas
+status: Unpublished
 ---
 
 

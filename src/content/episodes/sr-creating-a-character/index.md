@@ -1,6 +1,6 @@
 ---
 title: SR - Creating a Character
-status: Ideas
+status: Unpublished
 ---
 
 

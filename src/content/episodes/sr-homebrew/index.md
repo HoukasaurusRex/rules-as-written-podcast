@@ -1,6 +1,6 @@
 ---
 title: SR - Homebrew
-status: Ideas
+status: Unpublished
 ---
 
 
