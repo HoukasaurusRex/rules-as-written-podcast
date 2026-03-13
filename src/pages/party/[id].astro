@@ -11,7 +11,7 @@ if (!id) return Astro.redirect('/party/new')
 
 <BaseLayout title="Party Tracker | Rules As Written" description="Track your D&D party's gold, inventory, and magic items in real-time." image="/images/raw-logo-fancy.webp">
   <SiteNav />
-  <main id="main" style="padding-top: 56px;">
+  <main id="main">
     <PartyTracker client:load partyId={id} />
   </main>
 </BaseLayout>
