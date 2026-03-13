@@ -11,6 +11,7 @@
     "check": "astro check",
     "fetch-content": "tsx scripts/fetch-content.ts",
     "test:e2e": "yarn playwright test --config=e2e/playwright.config.ts",
+    "test:e2e:ci": "start-server-and-test 'serve dist -l 4173' http://localhost:4173 'yarn test:e2e'",
     "prepare": "husky"
   },
   "dependencies": {
@@ -43,6 +44,8 @@
     "drizzle-kit": "^0.31.9",
     "husky": "^9.1.7",
     "netlify-cli": "^24.2.0",
+    "serve": "^14.2.6",
+    "start-server-and-test": "^2.1.5",
     "tsx": "^4.19.0",
     "typescript": "^5.9.3"
   }

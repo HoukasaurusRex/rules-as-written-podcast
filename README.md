@@ -1,5 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status)](https://app.netlify.com/projects/rules-as-written/deploys)
-[![CI](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/ci.yml/badge.svg)](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/ci.yml)
+[![Build, Test & Deploy](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/build-test-deploy.yml/badge.svg)](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/build-test-deploy.yml)
 [![Contributors][contributors-shield]][contributors-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Twitter: HoukasaurusRex][twitter-shield]][twitter-url]
