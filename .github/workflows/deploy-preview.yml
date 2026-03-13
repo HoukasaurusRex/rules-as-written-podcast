@@ -41,8 +41,6 @@ jobs:
       - name: Build site
         run: yarn build
         env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
           NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
 
       - name: Set preview DB URL on Netlify

@@ -1,0 +1,53 @@
+name: Generate Article
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode_number:
+        description: 'Episode number to generate article for'
+        required: true
+        type: number
+
+concurrency:
+  group: generate-article
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    name: Transcribe & Generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - run: corepack enable && yarn install
+
+      - name: Generate article
+        run: yarn generate-article ${{ inputs.episode_number }}
+        env:
+          ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          KEILA_API_KEY: ${{ secrets.KEILA_API_KEY }}
+
+      - name: Create PR with draft
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="article/ep-${{ inputs.episode_number }}"
+          git checkout -b "$BRANCH"
+          git add src/content/episodes/
+          git commit -m "feat: add draft article for episode ${{ inputs.episode_number }}"
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "Draft: Episode ${{ inputs.episode_number }} article" \
+            --body "Auto-generated article and newsletter draft from podcast transcript. Review content and change status to Published when ready."
