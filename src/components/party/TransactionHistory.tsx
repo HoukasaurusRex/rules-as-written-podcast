@@ -53,6 +53,7 @@ export default function TransactionHistory({
   const recentTxs = useStore($recentTransactions)
   const [apiTransactions, setApiTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
+  const [localUndoneIds, setLocalUndoneIds] = useState<Set<string>>(new Set())
 
   const [showFullHistory, setShowFullHistory] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -76,15 +77,16 @@ export default function TransactionHistory({
   }, [loadTransactions])
 
   // Merge recent (optimistic) transactions with API results, deduplicate by ID
+  // Apply localUndoneIds to grey out undone transactions immediately
   const transactions = useMemo(() => {
     const apiIds = new Set(apiTransactions.map((t) => t.id))
     const newRecent = recentTxs.filter((t) => !apiIds.has(t.id))
-    // Filter by characterId if viewing a specific character
     const filtered = characterId
       ? newRecent.filter((t) => t.characterId === characterId)
       : newRecent
-    return [...filtered, ...apiTransactions]
-  }, [apiTransactions, recentTxs, characterId])
+    const all = [...filtered, ...apiTransactions]
+    return all.map((t) => localUndoneIds.has(t.id) ? { ...t, undone: true } : t)
+  }, [apiTransactions, recentTxs, characterId, localUndoneIds])
 
   if (loading && transactions.length === 0) {
     return <div className="py-space-4 text-center text-xs text-text/30">Loading history...</div>
@@ -141,7 +143,7 @@ export default function TransactionHistory({
                 <span className="text-[10px] text-text/30">{formatTime(tx.createdAt)}</span>
                 {editMode && !tx.undone && tx.type !== 'undo' && (
                   <button
-                    onClick={() => onUndo(tx.id)}
+                    onClick={() => { setLocalUndoneIds((prev) => new Set([...prev, tx.id])); onUndo(tx.id) }}
                     className="rounded px-space-2 py-space-1 text-[10px] text-text/30 transition-colors hover:bg-bg-light hover:text-text/60"
                   >
                     Undo
@@ -242,7 +244,7 @@ export default function TransactionHistory({
                           {editMode && !tx.undone && tx.type !== 'undo' && (
                             <button
                               type="button"
-                              onClick={() => onUndo(tx.id)}
+                              onClick={() => { setLocalUndoneIds((prev) => new Set([...prev, tx.id])); onUndo(tx.id) }}
                               className="rounded px-space-2 py-space-1 text-[10px] text-text/30 hover:bg-bg-lighter hover:text-text/60"
                             >
                               Undo
