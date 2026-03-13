@@ -75,21 +75,21 @@ export default function PartyTracker({ partyId }: Props) {
       {/* Unlock editing (shown when not in edit mode) */}
       <PartyCodeGate partyId={partyId} />
 
-      {/* Loot lock banner — sticky overlay, doesn't push layout */}
-      {party.lootActiveBy && (
-        <div className="sticky top-12 z-10 -mx-space-4 mb-space-2 flex items-center justify-between bg-gold-gp/10 px-space-4 py-space-2 text-xs text-gold-gp backdrop-blur-sm">
-          <span>{party.lootActiveBy} is distributing loot...</span>
-          {editMode && (
-            <button
-              type="button"
-              onClick={() => api.updateParty({ lootActiveBy: null })}
-              className="rounded px-space-2 py-space-1 text-gold-gp/70 transition-colors hover:text-gold-gp"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      )}
+      {/* Loot lock banner — reserved space, no layout shift */}
+      <div className={`flex items-center justify-between rounded-[5px] px-space-4 py-space-2 text-xs transition-opacity ${
+        party.lootActiveBy ? 'bg-gold-gp/10 text-gold-gp opacity-100' : 'pointer-events-none opacity-0'
+      }`}>
+        <span>{party.lootActiveBy ? `${party.lootActiveBy} is distributing loot...` : '\u00A0'}</span>
+        {editMode && party.lootActiveBy && (
+          <button
+            type="button"
+            onClick={() => api.updateParty({ lootActiveBy: null })}
+            className="rounded px-space-2 py-space-1 text-gold-gp/70 transition-colors hover:text-gold-gp"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
 
       {/* Tab Content */}
       {activeTab === 'party' ? (
