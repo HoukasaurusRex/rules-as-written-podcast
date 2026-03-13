@@ -17,19 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
 
-      - run: corepack enable && yarn install
+      - run: yarn install
 
       - run: yarn check
 
       - run: yarn netlify build
         env:
-          NOTION_TOKEN_CI: ${{ secrets.NOTION_TOKEN }}
-          NOTION_DB_ID_CI: ${{ secrets.NOTION_DB_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
@@ -47,12 +47,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
 
-      - run: corepack enable && yarn install
+      - run: yarn install
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -83,12 +85,14 @@ jobs:
         with:
           sparse-checkout: .github/scripts
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
 
-      - run: corepack enable && yarn install
+      - run: yarn install
 
       - uses: actions/download-artifact@v4
         with:
