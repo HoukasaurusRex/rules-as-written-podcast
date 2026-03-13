@@ -56,9 +56,12 @@ export default function CoinInput({
     setEditingDenom(null)
   }
 
+  const valHeight = compact ? 'h-8' : 'h-10'
+  const arrowSize = compact ? 'text-xs' : 'text-base'
+
   return (
     <div
-      className={`grid gap-space-2 ${compact ? 'gap-space-1' : ''}`}
+      className={`grid ${compact ? 'gap-space-1' : 'gap-space-2'}`}
       style={{ gridTemplateColumns: `repeat(${visible.length}, 1fr)` }}
     >
       {visible.map((denom) => (
@@ -68,14 +71,10 @@ export default function CoinInput({
             <button
               type="button"
               onClick={() => update(denom, (values[denom] ?? 0) + 1)}
-              className={`flex w-full items-center justify-center rounded-t-[5px] bg-bg-light text-text/40 transition-colors hover:bg-bg-lighter hover:text-text/70 active:bg-primary/20 ${
-                compact ? 'h-8' : 'h-11'
-              }`}
+              className={`flex w-full items-center justify-center text-text/30 transition-colors hover:text-text/60 active:text-primary ${arrowSize} ${compact ? 'h-6' : 'h-8'}`}
               aria-label={`Add 1 ${DENOM_LABELS[denom]}`}
             >
-              <svg width={compact ? 14 : 18} height={compact ? 14 : 18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="18 15 12 9 6 15" />
-              </svg>
+              ▲
             </button>
           )}
 
@@ -90,19 +89,18 @@ export default function CoinInput({
               onKeyDown={(e) => e.key === 'Enter' && commitEdit(denom)}
               autoFocus
               inputMode="numeric"
-              className={`w-full border-x border-bg-lighter bg-bg text-center tabular-nums text-text outline-none ${
-                compact ? 'py-1 text-base' : 'py-2 text-xl font-bold'
+              className={`${valHeight} w-full rounded-[5px] border border-bg-lighter bg-bg text-center tabular-nums text-text outline-none focus:border-primary ${
+                compact ? 'text-sm' : 'text-lg font-bold'
               }`}
-              style={{ fontSize: '16px' }}
             />
           ) : (
             <button
               type="button"
               onClick={() => startEditing(denom)}
               disabled={readOnly}
-              className={`flex w-full items-center justify-center border-x border-bg-lighter bg-bg tabular-nums text-text transition-colors ${
+              className={`${valHeight} flex w-full items-center justify-center rounded-[5px] border border-bg-lighter bg-bg tabular-nums text-text transition-colors ${
                 readOnly ? 'cursor-default' : 'cursor-text hover:bg-bg-light'
-              } ${compact ? 'py-1 text-base' : 'py-2 text-xl font-bold'}`}
+              } ${compact ? 'text-sm' : 'text-lg font-bold'}`}
             >
               {values[denom] ?? 0}
             </button>
@@ -113,14 +111,10 @@ export default function CoinInput({
             <button
               type="button"
               onClick={() => update(denom, (values[denom] ?? 0) - 1)}
-              className={`flex w-full items-center justify-center rounded-b-[5px] bg-bg-light text-text/40 transition-colors hover:bg-bg-lighter hover:text-text/70 active:bg-primary/20 ${
-                compact ? 'h-8' : 'h-11'
-              }`}
+              className={`flex w-full items-center justify-center text-text/30 transition-colors hover:text-text/60 active:text-primary ${arrowSize} ${compact ? 'h-6' : 'h-8'}`}
               aria-label={`Remove 1 ${DENOM_LABELS[denom]}`}
             >
-              <svg width={compact ? 14 : 18} height={compact ? 14 : 18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
+              ▼
             </button>
           )}
 

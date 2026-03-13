@@ -75,15 +75,15 @@ export default function PartyTracker({ partyId }: Props) {
       {/* Unlock editing (shown when not in edit mode) */}
       <PartyCodeGate partyId={partyId} />
 
-      {/* Loot lock banner */}
+      {/* Loot lock banner — sticky overlay, doesn't push layout */}
       {party.lootActiveBy && (
-        <div className="flex items-center justify-between rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-4 py-space-3 text-sm text-gold-gp">
+        <div className="sticky top-12 z-10 -mx-space-4 mb-space-2 flex items-center justify-between bg-gold-gp/10 px-space-4 py-space-2 text-xs text-gold-gp backdrop-blur-sm">
           <span>{party.lootActiveBy} is distributing loot...</span>
           {editMode && (
             <button
               type="button"
               onClick={() => api.updateParty({ lootActiveBy: null })}
-              className="rounded px-space-2 py-space-1 text-xs text-gold-gp/70 transition-colors hover:bg-gold-gp/20 hover:text-gold-gp"
+              className="rounded px-space-2 py-space-1 text-gold-gp/70 transition-colors hover:text-gold-gp"
             >
               Cancel
             </button>
@@ -147,11 +147,16 @@ export default function PartyTracker({ partyId }: Props) {
             )}
 
             {/* Loot button — right-aligned */}
-            {editMode && !party.lootActiveBy && (
+            {editMode && (
               <button
                 type="button"
-                onClick={() => setShowLootMode(true)}
-                className="ml-auto flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
+                onClick={() => !party.lootActiveBy && setShowLootMode(true)}
+                disabled={!!party.lootActiveBy}
+                className={`ml-auto flex items-center gap-space-1 rounded-[5px] border px-space-3 py-space-2 text-sm font-medium transition-colors ${
+                  party.lootActiveBy
+                    ? 'border-bg-lighter text-text/30 cursor-not-allowed'
+                    : 'border-gold-gp/30 bg-gold-gp/10 text-gold-gp hover:bg-gold-gp/20'
+                }`}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="10" width="20" height="12" rx="2" /><path d="M2 10l2-6h16l2 6" /><line x1="12" y1="10" x2="12" y2="16" /><circle cx="12" cy="16" r="1" />
@@ -372,7 +377,7 @@ export default function PartyTracker({ partyId }: Props) {
 
           {/* Remove character — at bottom of page */}
           {editMode && (
-            <div className="pt-space-4">
+            <div className="pt-space-4 text-center">
               <button
                 type="button"
                 onClick={() => {
@@ -381,7 +386,7 @@ export default function PartyTracker({ partyId }: Props) {
                     $activeTab.set('party')
                   }
                 }}
-                className="w-full rounded-[5px] py-space-2 text-xs text-error/60 transition-colors hover:text-error"
+                className="inline-block rounded-[5px] px-space-4 py-space-2 text-xs text-error/60 transition-colors hover:text-error"
               >
                 Remove character from party
               </button>
