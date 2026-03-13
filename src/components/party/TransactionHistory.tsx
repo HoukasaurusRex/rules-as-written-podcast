@@ -196,7 +196,14 @@ export default function TransactionHistory({
             </div>
             <div className="h-96 overflow-y-auto p-space-4">
               <div className="space-y-space-1">
-                {allTransactions
+                {(() => {
+                  const allIds = new Set(allTransactions.map((t) => t.id))
+                  const newRecent = recentTxs.filter((t) => !allIds.has(t.id))
+                  const filtered = characterId
+                    ? newRecent.filter((t) => t.characterId === characterId)
+                    : newRecent
+                  return [...filtered, ...allTransactions]
+                })()
                   .filter((tx) => {
                     if (!searchQuery.trim()) return true
                     const q = searchQuery.toLowerCase()

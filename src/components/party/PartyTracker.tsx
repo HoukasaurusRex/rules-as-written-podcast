@@ -58,7 +58,7 @@ export default function PartyTracker({ partyId }: Props) {
   const characterNames = Object.fromEntries(party.characters.map((c) => [c.id, c.name]))
 
   return (
-    <div className="mx-auto max-w-2xl px-space-4 pt-space-4">
+    <div className="mx-auto max-w-2xl px-space-4 pb-20 pt-space-4">
       {/* Party name — centered, auto-scrolls if too long */}
       <div className="mb-space-4 overflow-hidden text-center">
         <h1
@@ -378,7 +378,7 @@ export default function PartyTracker({ partyId }: Props) {
                     $activeTab.set('party')
                   }
                 }}
-                className="w-full rounded-[5px] border border-error/20 py-space-2 text-xs text-error/60 transition-colors hover:bg-error/10 hover:text-error"
+                className="w-full rounded-[5px] py-space-2 text-xs text-error/60 transition-colors hover:bg-error/10 hover:text-error"
               >
                 Remove character from party
               </button>
