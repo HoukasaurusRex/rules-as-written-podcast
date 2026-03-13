@@ -101,4 +101,6 @@ jobs:
       - name: Create GitHub Deployment
         uses: actions/github-script@v7
         with:
-          script-file: .github/scripts/create-deployment.mjs
+          script: |
+            const script = await import('${{ github.workspace }}/.github/scripts/create-deployment.mjs')
+            await script.default({ github, context })
