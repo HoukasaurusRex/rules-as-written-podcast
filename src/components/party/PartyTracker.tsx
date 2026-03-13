@@ -381,7 +381,7 @@ export default function PartyTracker({ partyId }: Props) {
                     $activeTab.set('party')
                   }
                 }}
-                className="w-full rounded-[5px] py-space-2 text-xs text-error/60 transition-colors hover:bg-error/10 hover:text-error"
+                className="w-full rounded-[5px] py-space-2 text-xs text-error/60 transition-colors hover:text-error"
               >
                 Remove character from party
               </button>
