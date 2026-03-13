@@ -252,6 +252,11 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     function applyBodyClasses() {
       if (episode) {
         document.body.classList.add('player-active')
+        // Measure actual player bar height and set CSS var
+        const bar = document.querySelector('.player-bar') as HTMLElement
+        if (bar) {
+          document.documentElement.style.setProperty('--player-bar-height', `${bar.offsetHeight}px`)
+        }
       } else {
         document.body.classList.remove('player-active')
       }

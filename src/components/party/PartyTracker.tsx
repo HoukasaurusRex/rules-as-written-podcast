@@ -307,7 +307,6 @@ export default function PartyTracker({ partyId }: Props) {
 
           {/* Party transaction history */}
           <TransactionHistory
-            partyId={partyId}
             characterNames={characterNames}
             onListTransactions={api.listTransactions}
             onUndo={api.undoTransaction}
@@ -362,7 +361,6 @@ export default function PartyTracker({ partyId }: Props) {
 
           {/* Character transaction history */}
           <TransactionHistory
-            partyId={partyId}
             characterId={activeCharacter.id}
             characterNames={characterNames}
             onListTransactions={api.listTransactions}

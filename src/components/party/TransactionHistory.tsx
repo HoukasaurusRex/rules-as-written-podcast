@@ -4,7 +4,6 @@ import { $editMode, $recentTransactions, type Transaction } from '../../stores/p
 import { isDebitTransaction } from '../../utils/currency'
 
 interface Props {
-  partyId: string
   characterId?: string
   characterNames: Record<string, string>
   onListTransactions: (characterId?: string, limit?: number, offset?: number) => Promise<Transaction[]>
@@ -45,7 +44,6 @@ function formatTime(dateStr: string): string {
 }
 
 export default function TransactionHistory({
-  partyId,
   characterId,
   characterNames,
   onListTransactions,
@@ -55,7 +53,6 @@ export default function TransactionHistory({
   const recentTxs = useStore($recentTransactions)
   const [apiTransactions, setApiTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
-  const [hasMore, setHasMore] = useState(true)
 
   const [showFullHistory, setShowFullHistory] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -71,7 +68,6 @@ export default function TransactionHistory({
     } else {
       setApiTransactions((prev) => [...prev, ...rows])
     }
-    setHasMore(rows.length === PAGE_SIZE)
     setLoading(false)
   }, [characterId, onListTransactions, PAGE_SIZE])
 
