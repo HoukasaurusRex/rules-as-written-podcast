@@ -33,8 +33,10 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: build-output
+          path: |
+            dist/
+            .netlify/v1/
 
   test:
     name: Test
@@ -60,8 +62,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: build-output
 
       - name: Run e2e tests
         run: yarn test:e2e:ci
@@ -89,11 +90,10 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: dist/
+          name: build-output
 
       - name: Deploy to Netlify
-        run: yarn netlify deploy --dir=dist --no-build --prod
+        run: yarn netlify deploy --no-build --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

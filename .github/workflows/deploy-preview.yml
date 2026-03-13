@@ -55,7 +55,6 @@ jobs:
       - name: Deploy to Netlify
         run: |
           yarn netlify deploy \
-            --dir=dist \
             --no-build \
             --alias="pr-${{ github.event.number }}"
         env:
