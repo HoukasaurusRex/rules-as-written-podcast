@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "version": "2.0.0",
+  "packageManager": "yarn@4.13.0",
   "scripts": {
     "dev": "astro dev",
     "build": "tsx scripts/fetch-srd-data.ts && astro build",

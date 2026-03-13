@@ -20,7 +20,7 @@ export interface MergedEpisode extends Episode {
 export async function getEpisodes(): Promise<MergedEpisode[]> {
   const [rssEpisodes, contentEntries] = await Promise.all([
     fetchFeedData(RSS_FEED_URL),
-    getCollection('episodes'),
+    getCollection('episodes', (entry) => entry.data.status === 'Published'),
   ])
 
   return rssEpisodes.map((episode) => {
