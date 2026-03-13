@@ -20,7 +20,7 @@ export default function CharacterTabs({ characters }: Props) {
       className="character-tabs fixed bottom-0 left-0 right-0 z-10 border-t border-bg-lighter bg-bg transition-[bottom] duration-200"
       style={{ bottom: 'var(--character-tabs-bottom, 0px)' }}
     >
-      <nav className="flex overflow-x-auto scrollbar-none" role="tablist">
+      <nav className="flex justify-center overflow-x-auto scrollbar-none" role="tablist">
         <button
           role="tab"
           aria-selected={activeTab === 'party'}

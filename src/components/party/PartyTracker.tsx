@@ -153,6 +153,9 @@ export default function PartyTracker({ partyId }: Props) {
                 onClick={() => setShowLootMode(true)}
                 className="ml-auto flex items-center gap-space-1 rounded-[5px] border border-gold-gp/30 bg-gold-gp/10 px-space-3 py-space-2 text-sm font-medium text-gold-gp transition-colors hover:bg-gold-gp/20"
               >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="10" width="20" height="12" rx="2" /><path d="M2 10l2-6h16l2 6" /><line x1="12" y1="10" x2="12" y2="16" /><circle cx="12" cy="16" r="1" />
+                </svg>
                 Loot
               </button>
             )}
