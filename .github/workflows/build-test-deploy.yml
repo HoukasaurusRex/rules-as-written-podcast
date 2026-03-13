@@ -28,8 +28,8 @@ jobs:
 
       - run: yarn netlify build
         env:
-          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
-          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          NOTION_TOKEN_CI: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID_CI: ${{ secrets.NOTION_DB_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
