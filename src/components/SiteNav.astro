@@ -6,6 +6,9 @@ const links = [
   { href: '/contact', label: 'Contact' },
 ]
 
+const partyHref = '/party/new'
+const isPartyActive = Astro.url.pathname.startsWith('/party')
+
 const currentPath = Astro.url.pathname
 ---
 
@@ -15,15 +18,58 @@ const currentPath = Astro.url.pathname
     <img src="/images/raw-logo-fancy.webp" alt="" class="site-nav-logo-img" />
   </a>
 
-  {/* Title and links — in normal flex flow, aligned together */}
+  {/* Title */}
   <a href="/" class="site-nav-title">Rules as Written</a>
 
+  {/* Desktop: inline links + Party CTA (hidden on mobile) */}
   <div class="site-nav-links">
     {links.map(({ href, label, id }) => (
-      <a href={href} id={id} class:list={[{ active: currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}>
+      <a href={href} id={id ? `${id}-desktop` : undefined} class:list={[{ active: href === '/' ? currentPath === '/' : currentPath.startsWith(href) }]}>
         {label}
       </a>
     ))}
+    <a href={partyHref} class:list={['party-cta', { active: isPartyActive }]}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2c1.5 3 4 5 4 8a4 4 0 0 1-8 0c0-3 2.5-5 4-8z" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="10" y1="21" x2="10" y2="18" /><line x1="14" y1="21" x2="14" y2="18" />
+      </svg>
+      Party
+    </a>
+  </div>
+
+  {/* Mobile: hamburger button (hidden on desktop) */}
+  <button class="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  </button>
+
+  {/* Mobile: slide-out menu */}
+  <div class="mobile-menu-backdrop" aria-hidden="true"></div>
+  <div class="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-header">
+      <span class="mobile-menu-title">Menu</span>
+      <button class="mobile-menu-close" aria-label="Close menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href={partyHref} class:list={['party-cta-mobile', { active: isPartyActive }]}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2c1.5 3 4 5 4 8a4 4 0 0 1-8 0c0-3 2.5-5 4-8z" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="10" y1="21" x2="10" y2="18" /><line x1="14" y1="21" x2="14" y2="18" />
+        </svg>
+        Party Tracker
+      </a>
+      {links.map(({ href, label, id }) => (
+        <a href={href} id={id} class:list={[{ active: href === '/' ? currentPath === '/' : currentPath.startsWith(href) }]}>
+          {label}
+        </a>
+      ))}
+    </div>
   </div>
 </nav>
 
@@ -39,15 +85,48 @@ const currentPath = Astro.url.pathname
 
   function updateNowPlaying() {
     const link = document.getElementById('now-playing-link') as HTMLAnchorElement
-    if (!link) return
+    const linkDesktop = document.getElementById('now-playing-link-desktop') as HTMLAnchorElement
     const playingSlug = localStorage.getItem('nowPlayingSlug')
-    if (playingSlug) {
-      link.href = playingSlug
-      const currentPath = window.location.pathname.replace(/\/$/, '')
-      link.classList.toggle('active', currentPath === playingSlug)
+    if (!playingSlug) return
+    const currentPath = window.location.pathname.replace(/\/$/, '')
+    for (const el of [link, linkDesktop]) {
+      if (!el) continue
+      el.href = playingSlug
+      el.classList.toggle('active', currentPath === playingSlug)
     }
   }
-  document.addEventListener('astro:page-load', updateNowPlaying)
+
+  function initMobileMenu() {
+    const hamburger = document.querySelector('.hamburger-btn') as HTMLButtonElement
+    const backdrop = document.querySelector('.mobile-menu-backdrop') as HTMLElement
+    const menu = document.querySelector('.mobile-menu') as HTMLElement
+    const closeBtn = document.querySelector('.mobile-menu-close') as HTMLButtonElement
+    if (!hamburger || !menu || !backdrop || !closeBtn) return
+
+    function open() {
+      menu.setAttribute('aria-hidden', 'false')
+      backdrop.setAttribute('aria-hidden', 'false')
+      hamburger.setAttribute('aria-expanded', 'true')
+    }
+
+    function close() {
+      menu.setAttribute('aria-hidden', 'true')
+      backdrop.setAttribute('aria-hidden', 'true')
+      hamburger.setAttribute('aria-expanded', 'false')
+    }
+
+    hamburger.addEventListener('click', open)
+    closeBtn.addEventListener('click', close)
+    backdrop.addEventListener('click', close)
+
+    // Close on link click
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', close))
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    updateNowPlaying()
+    initMobileMenu()
+  })
 </script>
 
 <style>
@@ -78,7 +157,7 @@ const currentPath = Astro.url.pathname
     }
   }
 
-  /* Absolute logo — overlaps below the nav bar */
+  /* Logo */
   .site-nav-logo-link {
     position: absolute;
     left: 0;
@@ -91,7 +170,7 @@ const currentPath = Astro.url.pathname
     width: auto;
   }
 
-  /* Title — normal flex child, aligns with nav links */
+  /* Title */
   .site-nav-title {
     color: var(--color-primary);
     font-size: var(--font-size-3);
@@ -112,36 +191,255 @@ const currentPath = Astro.url.pathname
     }
   }
 
-  /* Nav links — pushed to the right by margin-right: auto on title */
+  /* Desktop inline links — hidden on mobile */
   .site-nav-links {
-    display: flex;
-    gap: var(--space-3);
+    display: none;
+    gap: var(--space-5);
     margin-left: auto;
   }
 
   @media (min-width: 600px) {
     .site-nav-links {
-      gap: var(--space-5);
+      display: flex;
     }
   }
 
   .site-nav-links a {
     color: var(--color-text);
     text-decoration: none;
-    font-size: var(--font-size-1);
+    font-size: var(--font-size-2);
     opacity: 0.7;
     transition: opacity 0.2s, color 0.2s;
-  }
-
-  @media (min-width: 600px) {
-    .site-nav-links a {
-      font-size: var(--font-size-2);
-    }
+    white-space: nowrap;
   }
 
   .site-nav-links a:hover,
   .site-nav-links a.active {
     opacity: 1;
     color: var(--color-primary-lighten-50);
+  }
+
+  /* Desktop Party CTA */
+  .party-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-primary-40);
+    border-radius: var(--radius-0);
+    background: var(--color-primary-10);
+    color: var(--color-primary-lighten-50);
+    font-size: var(--font-size-1);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .party-cta:hover {
+    background: var(--color-primary-20);
+    border-color: var(--color-primary);
+    color: var(--color-primary-lighten-70);
+  }
+
+  .party-cta.active {
+    background: var(--color-primary-20);
+    border-color: var(--color-primary);
+  }
+
+  /* Ember particles */
+  .party-cta::before,
+  .party-cta::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-primary-lighten-50);
+    opacity: 0;
+    animation: ember 3s ease-in-out infinite;
+  }
+
+  .party-cta::before {
+    left: 25%;
+    bottom: 0;
+    animation-delay: 0s;
+  }
+
+  .party-cta::after {
+    left: 65%;
+    bottom: 0;
+    animation-delay: 1.5s;
+  }
+
+  .party-cta:hover::before,
+  .party-cta:hover::after {
+    opacity: 0.8;
+  }
+
+  @keyframes ember {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: translateY(-20px) scale(0); opacity: 0; }
+  }
+
+  /* Mobile Party CTA */
+  .party-cta-mobile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 48px;
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-2);
+    border: 1px solid var(--color-primary-30);
+    border-radius: var(--radius-0);
+    background: var(--color-primary-10);
+    color: var(--color-primary-lighten-50);
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-heading);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .party-cta-mobile:hover {
+    background: var(--color-primary-20);
+  }
+
+  .party-cta-mobile.active {
+    background: var(--color-primary-20);
+    border-color: var(--color-primary);
+  }
+
+  /* Hamburger button — visible on mobile only */
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    padding: var(--space-2);
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .hamburger-btn:hover {
+    opacity: 1;
+  }
+
+  @media (min-width: 600px) {
+    .hamburger-btn {
+      display: none;
+    }
+  }
+
+  /* Mobile menu backdrop */
+  .mobile-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--color-overlay);
+    z-index: 29;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-backdrop[aria-hidden="false"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Mobile menu panel */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(280px, 80vw);
+    background-color: var(--color-bg);
+    border-left: 1px solid var(--color-bg-lighten-10);
+    z-index: 30;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu[aria-hidden="false"] {
+    transform: translateX(0);
+  }
+
+  @media (min-width: 600px) {
+    .mobile-menu,
+    .mobile-menu-backdrop {
+      display: none;
+    }
+  }
+
+  .mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-bg-lighten-10);
+  }
+
+  .mobile-menu-title {
+    font-size: var(--font-size-2);
+    font-weight: var(--font-weight-heading);
+    color: var(--color-text);
+    opacity: 0.5;
+  }
+
+  .mobile-menu-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2);
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    opacity: 0.7;
+  }
+
+  .mobile-menu-close:hover {
+    opacity: 1;
+  }
+
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    gap: 0;
+  }
+
+  .mobile-menu-links a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: var(--font-size-3);
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s, background-color 0.2s;
+    border-radius: var(--radius-0);
+  }
+
+  .mobile-menu-links a:hover {
+    opacity: 1;
+    background-color: var(--color-bg-lighten-10);
+  }
+
+  .mobile-menu-links a.active {
+    opacity: 1;
+    color: var(--color-primary-lighten-50);
+    background-color: var(--color-bg-lighten-10);
   }
 </style>

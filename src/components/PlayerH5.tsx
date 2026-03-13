@@ -26,17 +26,40 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(1)
-  const [collapsed, setCollapsed] = useState(() =>
-    typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
-  )
+  const [collapsed, setCollapsed] = useState(() => {
+    const isCollapsed = typeof window !== 'undefined' && localStorage.getItem('playerCollapsed') === 'true'
+    if (isCollapsed) document.body.classList.add('player-collapsed')
+    return isCollapsed
+  })
 
   // Initialize stores — only set episode if none is loaded yet (first visit)
   useEffect(() => {
     const init = (window as any).__PLAYER_INIT__ as { currentEpisode?: Episode; episodes?: Episode[] } | undefined
     const ep = initialEpisode ?? init?.currentEpisode
     const eps = allEpisodes.length ? allEpisodes : (init?.episodes ?? [])
-    if (ep && !$currentEpisode.get()) $currentEpisode.set(ep)
-    if (eps.length) $episodeList.set(eps)
+
+    // Fall back to localStorage if no episode data available
+    if (!ep && !$currentEpisode.get()) {
+      try {
+        const saved = localStorage.getItem('lastEpisode')
+        if (saved) $currentEpisode.set(JSON.parse(saved))
+      } catch { /* ignore parse errors */ }
+    }
+    if (!eps.length && !$episodeList.get().length) {
+      try {
+        const saved = localStorage.getItem('episodeList')
+        if (saved) $episodeList.set(JSON.parse(saved))
+      } catch { /* ignore */ }
+    }
+
+    if (ep && !$currentEpisode.get()) {
+      $currentEpisode.set(ep)
+      try { localStorage.setItem('lastEpisode', JSON.stringify(ep)) } catch {}
+    }
+    if (eps.length) {
+      $episodeList.set(eps)
+      try { localStorage.setItem('episodeList', JSON.stringify(eps)) } catch {}
+    }
   }, [initialEpisode, allEpisodes])
 
   // Re-sync episode list on navigation (for next/prev), but never auto-switch current episode
@@ -161,6 +184,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
           currentSrc = detail.enclosure_url
           audio.src = detail.enclosure_url
           $currentEpisode.set(detail)
+          try { localStorage.setItem('lastEpisode', JSON.stringify(detail)) } catch {}
         }
         if (detail.startFromBeginning) {
           audio.currentTime = 0
@@ -193,6 +217,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     const target = episodes[index]
     if (target) {
       $currentEpisode.set(target)
+      try { localStorage.setItem('lastEpisode', JSON.stringify(target)) } catch {}
       requestAnimationFrame(() => audio.play().catch(() => {}))
     }
   }, [episodes])
@@ -218,7 +243,27 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     const next = !collapsed
     setCollapsed(next)
     localStorage.setItem('playerCollapsed', String(next))
+    document.body.classList.toggle('player-collapsed', next)
   }
+
+  // Toggle player-active class when episode is loaded
+  // Also re-apply on astro:page-load since View Transitions replace <body> and strip classes
+  useEffect(() => {
+    function applyBodyClasses() {
+      if (episode) {
+        document.body.classList.add('player-active')
+      } else {
+        document.body.classList.remove('player-active')
+      }
+      document.body.classList.toggle('player-collapsed', collapsed)
+    }
+    applyBodyClasses()
+    document.addEventListener('astro:page-load', applyBodyClasses)
+    return () => {
+      document.body.classList.remove('player-active')
+      document.removeEventListener('astro:page-load', applyBodyClasses)
+    }
+  }, [!!episode, collapsed])
 
   if (!episode) return null
 

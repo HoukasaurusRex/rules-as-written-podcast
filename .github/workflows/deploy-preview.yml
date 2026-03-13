@@ -1,0 +1,123 @@
+name: Deploy Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  preview:
+    name: Deploy preview with DB branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+          cache: 'yarn'
+
+      - run: corepack enable
+      - run: yarn install
+
+      - name: Get branch name
+        id: branch-name
+        run: echo "current_branch=${{ github.head_ref }}" >> "$GITHUB_OUTPUT"
+
+      - name: Create Neon database branch
+        id: create-branch
+        uses: neondatabase/create-branch-action@v5
+        with:
+          api_key: ${{ secrets.NEON_API_KEY }}
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          database: neondb
+          username: ${{ secrets.NEON_DATABASE_USERNAME }}
+          branch_name: preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}
+
+      - name: Run Drizzle migrations
+        run: yarn drizzle-kit migrate
+        env:
+          NETLIFY_DATABASE_URL_UNPOOLED: ${{ steps.create-branch.outputs.db_url }}
+
+      - name: Build site
+        run: yarn build
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+
+      - name: Set preview DB URL on Netlify
+        run: yarn netlify env:set PREVIEW_DATABASE_URL "$DB_URL"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          DB_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+
+      - name: Deploy to Netlify
+        run: |
+          yarn netlify deploy \
+            --dir=dist \
+            --no-build \
+            --alias="pr-${{ github.event.number }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Create GitHub Deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = `https://pr-${{ github.event.number }}--rules-as-written.netlify.app`
+            const branchName = `preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}`
+
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: `preview-pr-${{ github.event.number }}`,
+              auto_merge: false,
+              required_contexts: [],
+              transient_environment: true,
+              production_environment: false,
+            })
+
+            if (deployment.data.id) {
+              await github.rest.repos.createDeploymentStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: deployment.data.id,
+                state: 'success',
+                environment_url: previewUrl,
+                log_url: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              })
+            }
+
+            const body = [
+              '## Deploy Preview Ready',
+              '',
+              `**Preview**: ${previewUrl}`,
+              `**DB Branch**: \`${branchName}\``,
+              '',
+              '_Database branch will be cleaned up when this PR is closed._',
+            ].join('\n')
+
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+            const botComment = comments.find(c => c.body?.includes('Deploy Preview Ready'))
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                comment_id: botComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              })
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              })
+            }

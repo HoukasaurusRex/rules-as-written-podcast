@@ -58,6 +58,23 @@
   --breakpoint-md: 992px;
   --breakpoint-lg: 1200px;
 
+  /* Semantic state colors */
+  --color-error: #ef4444;
+  --color-success: #22c55e;
+
+  /* Overlay */
+  --color-overlay: rgba(0, 0, 0, 0.6);
+
+  /* Primary opacity scale */
+  --color-primary-10: hsla(9, 59%, 46%, 0.1);
+  --color-primary-20: hsla(9, 59%, 46%, 0.2);
+  --color-primary-30: hsla(9, 59%, 46%, 0.3);
+  --color-primary-40: hsla(9, 59%, 46%, 0.4);
+
+  /* Player bar */
+  --player-bar-height: 77px;
+  --character-tabs-bottom: 0px;
+
   /* Border radius */
   --radius-0: 5px;
   --radius-round: 50%;
@@ -87,10 +104,28 @@
   box-sizing: border-box;
 }
 
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   font: 112.5%/1.45em system-ui, sans-serif;
   overflow-y: scroll;
+}
+
+/* Player active (episode loaded) — push character tabs above player bar */
+body.player-active {
+  --character-tabs-bottom: var(--player-bar-height);
+}
+
+/* Player collapsed — tabs go back to bottom */
+body.player-active.player-collapsed {
+  --character-tabs-bottom: 0px;
 }
 
 body {
@@ -107,23 +142,27 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 1.45rem;
-  color: inherit;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  font-weight: bold;
-  text-rendering: optimizeLegibility;
-  line-height: var(--line-height-heading);
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 1.45rem;
+    color: inherit;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-weight: bold;
+    text-rendering: optimizeLegibility;
+    line-height: var(--line-height-heading);
+  }
 }
 
-h1 { font-size: 2.25rem; }
-h2 { font-size: 1.62671rem; }
-h3 { font-size: 1.38316rem; }
-h4 { font-size: 1rem; }
-h5 { font-size: 0.85028rem; }
+@layer base {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.62671rem; }
+  h3 { font-size: 1.38316rem; }
+  h4 { font-size: 1rem; }
+  h5 { font-size: 0.85028rem; }
 
-p { margin: 0 0 1.45rem; }
+  p { margin: 0 0 1.45rem; }
+}
 
 ul {
   list-style: none;
@@ -300,6 +339,12 @@ html::-webkit-scrollbar-thumb {
 
 html::-webkit-scrollbar-thumb:hover {
   background: gray;
+}
+
+/* Marquee auto-scroll for long text */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 @media only screen and (max-width: 480px) {

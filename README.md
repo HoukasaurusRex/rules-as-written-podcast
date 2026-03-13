@@ -1,4 +1,5 @@
-[![Netlify Status][netlify-shield]][netlify-url]
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status)](https://app.netlify.com/projects/rules-as-written/deploys)
+[![CI](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/ci.yml/badge.svg)](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/ci.yml)
 [![Contributors][contributors-shield]][contributors-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![Twitter: HoukasaurusRex][twitter-shield]][twitter-url]
@@ -36,6 +37,18 @@ New episodes every Sunday!
 
 [![][product-screenshot]][product-url]
 
+## Party Tracker MVP
+
+A collaborative D&D party management tool that lets groups track gold, inventory, and magic items in real-time during sessions.
+
+**Features**: Per-denomination gold tracking (CP/SP/EP/GP/PP) with auto-split, inventory management with SRD autocomplete, magic item registry with attunement tracking, Loot Mode for post-encounter distribution, transaction history with undo, collaborative editing via D&D-themed party codes, real-time sync, and mobile-first design.
+
+**Stack**: Astro 6 (hybrid SSR), React islands, Tailwind CSS v4, Netlify Functions, Neon PostgreSQL via Drizzle ORM.
+
+**Deploy Previews**: Each PR gets an isolated Neon database branch + Netlify preview deploy via GitHub Actions. Branches are auto-cleaned on PR close.
+
+**Tracked in**: [GitHub Project #17](https://github.com/users/HoukasaurusRex/projects/17) (issues #44–#58) | v2 ideas in [Project #18](https://github.com/users/HoukasaurusRex/projects/18)
+
 ## Getting Started
 
 ### Prerequisites
@@ -71,7 +84,10 @@ yarn test:e2e
 
 ## Tech Stack
 
-* [Astro](https://astro.build/) 5 with React islands
+* [Astro](https://astro.build/) 6 (hybrid SSR) with React islands
+* [Tailwind CSS](https://tailwindcss.com/) v4 (CSS-first config)
+* [Drizzle ORM](https://orm.drizzle.team/) + [Neon PostgreSQL](https://neon.tech/)
+* [Netlify](https://netlify.com/) (Functions, deploy previews, Neon DB integration)
 * [TypeScript](https://www.typescriptlang.org/) strict mode
 * [Playwright](https://playwright.dev/) for e2e testing
 * [Umami](https://umami.is/) for analytics
@@ -81,8 +97,6 @@ yarn test:e2e
 
 * JT Houk - [@HoukasaurusRex](https://twitter.com/HoukasaurusRex)
 
-[netlify-shield]: https://api.netlify.com/api/v1/badges/bbdf7d4d-7242-4e9f-a4fe-9e1fd523fa3e/deploy-status
-[netlify-url]: https://app.netlify.com/sites/rules-as-written/deploys
 [contributors-shield]: https://img.shields.io/github/contributors/HoukasaurusRex/rules-as-written-podcast.svg?style=flat-square
 [contributors-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/graphs/contributors
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
