@@ -1,6 +1,6 @@
 [build]
   publish = 'dist'
-  command = 'true'
+  command = 'yarn build'
   ignore = '/bin/true'
 [functions]
   directory = 'netlify/functions'

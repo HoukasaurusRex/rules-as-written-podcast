@@ -26,17 +26,19 @@ jobs:
 
       - run: yarn check
 
-      - run: yarn build
+      - run: yarn netlify build
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - uses: actions/upload-artifact@v4
         with:
           name: build-output
           path: |
             dist/
-            .netlify/v1/
+            .netlify/
 
   test:
     name: Test
@@ -78,6 +80,8 @@ jobs:
       deployments: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
 
       - uses: actions/setup-node@v4
         with:
@@ -91,7 +95,7 @@ jobs:
           name: build-output
 
       - name: Deploy to Netlify
-        run: yarn netlify deploy --prod
+        run: yarn netlify deploy --no-build --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
