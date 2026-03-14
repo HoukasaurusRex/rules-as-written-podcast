@@ -1,0 +1,2372 @@
+[
+  {
+    "index": "abacus",
+    "name": "Abacus",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "acid-vial",
+    "name": "Acid (vial)",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "alchemists-fire-flask",
+    "name": "Alchemist's fire (flask)",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "alchemists-supplies",
+    "name": "Alchemist's Supplies",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 8,
+    "category": "Tools"
+  },
+  {
+    "index": "alms-box",
+    "name": "Alms box",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "amulet",
+    "name": "Amulet",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "animal-feed-1-day",
+    "name": "Animal Feed (1 day)",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 10,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "antitoxin-vial",
+    "name": "Antitoxin (vial)",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "arrow",
+    "name": "Arrow",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "backpack",
+    "name": "Backpack",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "bagpipes",
+    "name": "Bagpipes",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Tools"
+  },
+  {
+    "index": "ball-bearings-bag-of-1000",
+    "name": "Ball bearings (bag of 1,000)",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "barding-breastplate",
+    "name": "Barding: Breastplate",
+    "cost": {
+      "quantity": 1600,
+      "unit": "gp"
+    },
+    "weight": 40,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-chain-mail",
+    "name": "Barding: Chain mail",
+    "cost": {
+      "quantity": 300,
+      "unit": "gp"
+    },
+    "weight": 110,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-chain-shirt",
+    "name": "Barding: Chain shirt",
+    "cost": {
+      "quantity": 200,
+      "unit": "gp"
+    },
+    "weight": 40,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-half-plate",
+    "name": "Barding: Half plate",
+    "cost": {
+      "quantity": 3000,
+      "unit": "gp"
+    },
+    "weight": 80,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-hide",
+    "name": "Barding: Hide",
+    "cost": {
+      "quantity": 40,
+      "unit": "gp"
+    },
+    "weight": 24,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-leather",
+    "name": "Barding: Leather",
+    "cost": {
+      "quantity": 40,
+      "unit": "gp"
+    },
+    "weight": 20,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-padded",
+    "name": "Barding: Padded",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 16,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-plate",
+    "name": "Barding: Plate",
+    "cost": {
+      "quantity": 6000,
+      "unit": "gp"
+    },
+    "weight": 130,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-ring-mail",
+    "name": "Barding: Ring mail",
+    "cost": {
+      "quantity": 12,
+      "unit": "gp"
+    },
+    "weight": 80,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-scale-mail",
+    "name": "Barding: Scale mail",
+    "cost": {
+      "quantity": 200,
+      "unit": "gp"
+    },
+    "weight": 90,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-splint",
+    "name": "Barding: Splint",
+    "cost": {
+      "quantity": 800,
+      "unit": "gp"
+    },
+    "weight": 120,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barding-studded-leather",
+    "name": "Barding: Studded Leather",
+    "cost": {
+      "quantity": 180,
+      "unit": "gp"
+    },
+    "weight": 26,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "barrel",
+    "name": "Barrel",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 70,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "basket",
+    "name": "Basket",
+    "cost": {
+      "quantity": 4,
+      "unit": "sp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "battleaxe",
+    "name": "Battleaxe",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Weapon"
+  },
+  {
+    "index": "bedroll",
+    "name": "Bedroll",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 7,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "bell",
+    "name": "Bell",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "bit-and-bridle",
+    "name": "Bit and bridle",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "blanket",
+    "name": "Blanket",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "block-and-tackle",
+    "name": "Block and tackle",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "block-of-incense",
+    "name": "Block of incense",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "blowgun",
+    "name": "Blowgun",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Weapon"
+  },
+  {
+    "index": "blowgun-needle",
+    "name": "Blowgun needle",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "book",
+    "name": "Book",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "bottle-glass",
+    "name": "Bottle, glass",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "breastplate",
+    "name": "Breastplate",
+    "cost": {
+      "quantity": 400,
+      "unit": "gp"
+    },
+    "weight": 20,
+    "category": "Armor"
+  },
+  {
+    "index": "brewers-supplies",
+    "name": "Brewer's Supplies",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 9,
+    "category": "Tools"
+  },
+  {
+    "index": "bucket",
+    "name": "Bucket",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "burglars-pack",
+    "name": "Burglar's Pack",
+    "cost": {
+      "quantity": 16,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "calligraphers-supplies",
+    "name": "Calligrapher's Supplies",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "caltrops",
+    "name": "Caltrops",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "camel",
+    "name": "Camel",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "candle",
+    "name": "Candle",
+    "cost": {
+      "quantity": 1,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "carpenters-tools",
+    "name": "Carpenter's Tools",
+    "cost": {
+      "quantity": 8,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Tools"
+  },
+  {
+    "index": "carriage",
+    "name": "Carriage",
+    "cost": {
+      "quantity": 100,
+      "unit": "gp"
+    },
+    "weight": 600,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "cart",
+    "name": "Cart",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 200,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "cartographers-tools",
+    "name": "Cartographer's Tools",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Tools"
+  },
+  {
+    "index": "case-crossbow-bolt",
+    "name": "Case, crossbow bolt",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "case-map-or-scroll",
+    "name": "Case, map or scroll",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "censer",
+    "name": "Censer",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "chain-10-feet",
+    "name": "Chain (10 feet)",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "chain-mail",
+    "name": "Chain Mail",
+    "cost": {
+      "quantity": 75,
+      "unit": "gp"
+    },
+    "weight": 55,
+    "category": "Armor"
+  },
+  {
+    "index": "chain-shirt",
+    "name": "Chain Shirt",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 20,
+    "category": "Armor"
+  },
+  {
+    "index": "chalk-1-piece",
+    "name": "Chalk (1 piece)",
+    "cost": {
+      "quantity": 1,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "chariot",
+    "name": "Chariot",
+    "cost": {
+      "quantity": 250,
+      "unit": "gp"
+    },
+    "weight": 100,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "chest",
+    "name": "Chest",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 25,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "climbers-kit",
+    "name": "Climber's Kit",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 12,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "clothes-common",
+    "name": "Clothes, common",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "clothes-costume",
+    "name": "Clothes, costume",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "clothes-fine",
+    "name": "Clothes, fine",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "clothes-travelers",
+    "name": "Clothes, traveler's",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "club",
+    "name": "Club",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "cobblers-tools",
+    "name": "Cobbler's Tools",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "component-pouch",
+    "name": "Component pouch",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "cooks-utensils",
+    "name": "Cook's utensils",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 8,
+    "category": "Tools"
+  },
+  {
+    "index": "crossbow-bolt",
+    "name": "Crossbow bolt",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 1.5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "crossbow-hand",
+    "name": "Crossbow, hand",
+    "cost": {
+      "quantity": 75,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Weapon"
+  },
+  {
+    "index": "crossbow-heavy",
+    "name": "Crossbow, heavy",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 18,
+    "category": "Weapon"
+  },
+  {
+    "index": "crossbow-light",
+    "name": "Crossbow, light",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Weapon"
+  },
+  {
+    "index": "crowbar",
+    "name": "Crowbar",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "crystal",
+    "name": "Crystal",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "dagger",
+    "name": "Dagger",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Weapon"
+  },
+  {
+    "index": "dart",
+    "name": "Dart",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 0.25,
+    "category": "Weapon"
+  },
+  {
+    "index": "dice-set",
+    "name": "Dice Set",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Tools"
+  },
+  {
+    "index": "diplomats-pack",
+    "name": "Diplomat's Pack",
+    "cost": {
+      "quantity": 39,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "disguise-kit",
+    "name": "Disguise Kit",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "donkey",
+    "name": "Donkey",
+    "cost": {
+      "quantity": 8,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "drum",
+    "name": "Drum",
+    "cost": {
+      "quantity": 6,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Tools"
+  },
+  {
+    "index": "dulcimer",
+    "name": "Dulcimer",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Tools"
+  },
+  {
+    "index": "dungeoneers-pack",
+    "name": "Dungeoneer's Pack",
+    "cost": {
+      "quantity": 12,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "elephant",
+    "name": "Elephant",
+    "cost": {
+      "quantity": 200,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "emblem",
+    "name": "Emblem",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "entertainers-pack",
+    "name": "Entertainer's Pack",
+    "cost": {
+      "quantity": 40,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "explorers-pack",
+    "name": "Explorer's Pack",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "fishing-tackle",
+    "name": "Fishing tackle",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "flail",
+    "name": "Flail",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "flask-or-tankard",
+    "name": "Flask or tankard",
+    "cost": {
+      "quantity": 2,
+      "unit": "cp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "flute",
+    "name": "Flute",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Tools"
+  },
+  {
+    "index": "forgery-kit",
+    "name": "Forgery Kit",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "galley",
+    "name": "Galley",
+    "cost": {
+      "quantity": 30000,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "glaive",
+    "name": "Glaive",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Weapon"
+  },
+  {
+    "index": "glassblowers-tools",
+    "name": "Glassblower's Tools",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "grappling-hook",
+    "name": "Grappling hook",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "greataxe",
+    "name": "Greataxe",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": 7,
+    "category": "Weapon"
+  },
+  {
+    "index": "greatclub",
+    "name": "Greatclub",
+    "cost": {
+      "quantity": 2,
+      "unit": "sp"
+    },
+    "weight": 10,
+    "category": "Weapon"
+  },
+  {
+    "index": "greatsword",
+    "name": "Greatsword",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Weapon"
+  },
+  {
+    "index": "halberd",
+    "name": "Halberd",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Weapon"
+  },
+  {
+    "index": "half-plate-armor",
+    "name": "Half Plate Armor",
+    "cost": {
+      "quantity": 750,
+      "unit": "gp"
+    },
+    "weight": 40,
+    "category": "Armor"
+  },
+  {
+    "index": "hammer",
+    "name": "Hammer",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "hammer-sledge",
+    "name": "Hammer, sledge",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "handaxe",
+    "name": "Handaxe",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "healers-kit",
+    "name": "Healer's Kit",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "herbalism-kit",
+    "name": "Herbalism Kit",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "hide-armor",
+    "name": "Hide Armor",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 12,
+    "category": "Armor"
+  },
+  {
+    "index": "holy-water-flask",
+    "name": "Holy water (flask)",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "horn",
+    "name": "Horn",
+    "cost": {
+      "quantity": 3,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Tools"
+  },
+  {
+    "index": "horse-draft",
+    "name": "Horse, draft",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "horse-riding",
+    "name": "Horse, riding",
+    "cost": {
+      "quantity": 75,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "hourglass",
+    "name": "Hourglass",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "hunting-trap",
+    "name": "Hunting trap",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 25,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "ink-1-ounce-bottle",
+    "name": "Ink (1 ounce bottle)",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "ink-pen",
+    "name": "Ink pen",
+    "cost": {
+      "quantity": 2,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "javelin",
+    "name": "Javelin",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "jewelers-tools",
+    "name": "Jeweler's Tools",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Tools"
+  },
+  {
+    "index": "jug-or-pitcher",
+    "name": "Jug or pitcher",
+    "cost": {
+      "quantity": 2,
+      "unit": "cp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "keelboat",
+    "name": "Keelboat",
+    "cost": {
+      "quantity": 3000,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "ladder-10-foot",
+    "name": "Ladder (10-foot)",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 25,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "lamp",
+    "name": "Lamp",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "lance",
+    "name": "Lance",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Weapon"
+  },
+  {
+    "index": "lantern-bullseye",
+    "name": "Lantern, bullseye",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "lantern-hooded",
+    "name": "Lantern, hooded",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "leather-armor",
+    "name": "Leather Armor",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Armor"
+  },
+  {
+    "index": "leatherworkers-tools",
+    "name": "Leatherworker's Tools",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "light-hammer",
+    "name": "Light hammer",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "little-bag-of-sand",
+    "name": "Little bag of sand",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "lock",
+    "name": "Lock",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "longbow",
+    "name": "Longbow",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "longship",
+    "name": "Longship",
+    "cost": {
+      "quantity": 10000,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "longsword",
+    "name": "Longsword",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Weapon"
+  },
+  {
+    "index": "lute",
+    "name": "Lute",
+    "cost": {
+      "quantity": 35,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Tools"
+  },
+  {
+    "index": "lyre",
+    "name": "Lyre",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Tools"
+  },
+  {
+    "index": "mace",
+    "name": "Mace",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Weapon"
+  },
+  {
+    "index": "magnifying-glass",
+    "name": "Magnifying glass",
+    "cost": {
+      "quantity": 100,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "manacles",
+    "name": "Manacles",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "masons-tools",
+    "name": "Mason's Tools",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 8,
+    "category": "Tools"
+  },
+  {
+    "index": "mastiff",
+    "name": "Mastiff",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "maul",
+    "name": "Maul",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Weapon"
+  },
+  {
+    "index": "mess-kit",
+    "name": "Mess Kit",
+    "cost": {
+      "quantity": 2,
+      "unit": "sp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "mirror-steel",
+    "name": "Mirror, steel",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 0.5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "morningstar",
+    "name": "Morningstar",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Weapon"
+  },
+  {
+    "index": "mule",
+    "name": "Mule",
+    "cost": {
+      "quantity": 8,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "navigators-tools",
+    "name": "Navigator's Tools",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Tools"
+  },
+  {
+    "index": "net",
+    "name": "Net",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Weapon"
+  },
+  {
+    "index": "oil-flask",
+    "name": "Oil (flask)",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "orb",
+    "name": "Orb",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "padded-armor",
+    "name": "Padded Armor",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 8,
+    "category": "Armor"
+  },
+  {
+    "index": "painters-supplies",
+    "name": "Painter's Supplies",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "pan-flute",
+    "name": "Pan flute",
+    "cost": {
+      "quantity": 12,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Tools"
+  },
+  {
+    "index": "paper-one-sheet",
+    "name": "Paper (one sheet)",
+    "cost": {
+      "quantity": 2,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "parchment-one-sheet",
+    "name": "Parchment (one sheet)",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "perfume-vial",
+    "name": "Perfume (vial)",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "pick-miners",
+    "name": "Pick, miner's",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "pike",
+    "name": "Pike",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 18,
+    "category": "Weapon"
+  },
+  {
+    "index": "piton",
+    "name": "Piton",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 0.25,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "plate-armor",
+    "name": "Plate Armor",
+    "cost": {
+      "quantity": 1500,
+      "unit": "gp"
+    },
+    "weight": 65,
+    "category": "Armor"
+  },
+  {
+    "index": "playing-card-set",
+    "name": "Playing Card Set",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Tools"
+  },
+  {
+    "index": "poison-basic-vial",
+    "name": "Poison, basic (vial)",
+    "cost": {
+      "quantity": 100,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "poisoners-kit",
+    "name": "Poisoner's Kit",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "pole-10-foot",
+    "name": "Pole (10-foot)",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 7,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "pony",
+    "name": "Pony",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "pot-iron",
+    "name": "Pot, iron",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "potters-tools",
+    "name": "Potter's Tools",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Tools"
+  },
+  {
+    "index": "pouch",
+    "name": "Pouch",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "priests-pack",
+    "name": "Priest's Pack",
+    "cost": {
+      "quantity": 19,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "quarterstaff",
+    "name": "Quarterstaff",
+    "cost": {
+      "quantity": 2,
+      "unit": "sp"
+    },
+    "weight": 4,
+    "category": "Weapon"
+  },
+  {
+    "index": "quiver",
+    "name": "Quiver",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "ram-portable",
+    "name": "Ram, portable",
+    "cost": {
+      "quantity": 4,
+      "unit": "gp"
+    },
+    "weight": 35,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "rapier",
+    "name": "Rapier",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "rations-1-day",
+    "name": "Rations (1 day)",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "reliquary",
+    "name": "Reliquary",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "ring-mail",
+    "name": "Ring Mail",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": 40,
+    "category": "Armor"
+  },
+  {
+    "index": "robes",
+    "name": "Robes",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "rod",
+    "name": "Rod",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "rope-hempen-50-feet",
+    "name": "Rope, hempen (50 feet)",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "rope-silk-50-feet",
+    "name": "Rope, silk (50 feet)",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "rowboat",
+    "name": "Rowboat",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "sack",
+    "name": "Sack",
+    "cost": {
+      "quantity": 1,
+      "unit": "cp"
+    },
+    "weight": 0.5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "saddle-exotic",
+    "name": "Saddle, Exotic",
+    "cost": {
+      "quantity": 60,
+      "unit": "gp"
+    },
+    "weight": 50,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "saddle-military",
+    "name": "Saddle, Military",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 30,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "saddle-pack",
+    "name": "Saddle, Pack",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 15,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "saddle-riding",
+    "name": "Saddle, Riding",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 25,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "saddlebags",
+    "name": "Saddlebags",
+    "cost": {
+      "quantity": 4,
+      "unit": "gp"
+    },
+    "weight": 8,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "sailing-ship",
+    "name": "Sailing ship",
+    "cost": {
+      "quantity": 10000,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "scale-mail",
+    "name": "Scale Mail",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 45,
+    "category": "Armor"
+  },
+  {
+    "index": "scale-merchants",
+    "name": "Scale, merchant's",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "scholars-pack",
+    "name": "Scholar's Pack",
+    "cost": {
+      "quantity": 40,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "scimitar",
+    "name": "Scimitar",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Weapon"
+  },
+  {
+    "index": "sealing-wax",
+    "name": "Sealing wax",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "shawm",
+    "name": "Shawm",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Tools"
+  },
+  {
+    "index": "shield",
+    "name": "Shield",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 6,
+    "category": "Armor"
+  },
+  {
+    "index": "shortbow",
+    "name": "Shortbow",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "shortsword",
+    "name": "Shortsword",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "shovel",
+    "name": "Shovel",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "sickle",
+    "name": "Sickle",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "signal-whistle",
+    "name": "Signal whistle",
+    "cost": {
+      "quantity": 5,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "signet-ring",
+    "name": "Signet ring",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "sled",
+    "name": "Sled",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 300,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "sling",
+    "name": "Sling",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Weapon"
+  },
+  {
+    "index": "sling-bullet",
+    "name": "Sling bullet",
+    "cost": {
+      "quantity": 4,
+      "unit": "cp"
+    },
+    "weight": 1.5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "small-knife",
+    "name": "Small knife",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "smiths-tools",
+    "name": "Smith's Tools",
+    "cost": {
+      "quantity": 20,
+      "unit": "gp"
+    },
+    "weight": 8,
+    "category": "Tools"
+  },
+  {
+    "index": "soap",
+    "name": "Soap",
+    "cost": {
+      "quantity": 2,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "spear",
+    "name": "Spear",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Weapon"
+  },
+  {
+    "index": "spellbook",
+    "name": "Spellbook",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "spike-iron",
+    "name": "Spike, iron",
+    "cost": {
+      "quantity": 1,
+      "unit": "sp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "splint-armor",
+    "name": "Splint Armor",
+    "cost": {
+      "quantity": 200,
+      "unit": "gp"
+    },
+    "weight": 60,
+    "category": "Armor"
+  },
+  {
+    "index": "sprig-of-mistletoe",
+    "name": "Sprig of mistletoe",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "spyglass",
+    "name": "Spyglass",
+    "cost": {
+      "quantity": 1000,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "stabling-1-day",
+    "name": "Stabling (1 day)",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 0,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "staff",
+    "name": "Staff",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "string-10-feet",
+    "name": "String (10 feet)",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "studded-leather-armor",
+    "name": "Studded Leather Armor",
+    "cost": {
+      "quantity": 45,
+      "unit": "gp"
+    },
+    "weight": 13,
+    "category": "Armor"
+  },
+  {
+    "index": "tent-two-person",
+    "name": "Tent, two-person",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 20,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "thieves-tools",
+    "name": "Thieves' Tools",
+    "cost": {
+      "quantity": 25,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Tools"
+  },
+  {
+    "index": "tinderbox",
+    "name": "Tinderbox",
+    "cost": {
+      "quantity": 5,
+      "unit": "sp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "tinkers-tools",
+    "name": "Tinker's Tools",
+    "cost": {
+      "quantity": 50,
+      "unit": "gp"
+    },
+    "weight": 10,
+    "category": "Tools"
+  },
+  {
+    "index": "torch",
+    "name": "Torch",
+    "cost": {
+      "quantity": 1,
+      "unit": "cp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "totem",
+    "name": "Totem",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "trident",
+    "name": "Trident",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Weapon"
+  },
+  {
+    "index": "vestments",
+    "name": "Vestments",
+    "cost": {
+      "quantity": 0,
+      "unit": "cp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "vial",
+    "name": "Vial",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 0,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "viol",
+    "name": "Viol",
+    "cost": {
+      "quantity": 30,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Tools"
+  },
+  {
+    "index": "wagon",
+    "name": "Wagon",
+    "cost": {
+      "quantity": 35,
+      "unit": "gp"
+    },
+    "weight": 400,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "wand",
+    "name": "Wand",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "war-pick",
+    "name": "War pick",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "warhammer",
+    "name": "Warhammer",
+    "cost": {
+      "quantity": 15,
+      "unit": "gp"
+    },
+    "weight": 2,
+    "category": "Weapon"
+  },
+  {
+    "index": "warhorse",
+    "name": "Warhorse",
+    "cost": {
+      "quantity": 400,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "warship",
+    "name": "Warship",
+    "cost": {
+      "quantity": 25000,
+      "unit": "gp"
+    },
+    "weight": null,
+    "category": "Mounts and Vehicles"
+  },
+  {
+    "index": "waterskin",
+    "name": "Waterskin",
+    "cost": {
+      "quantity": 2,
+      "unit": "sp"
+    },
+    "weight": 5,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "weavers-tools",
+    "name": "Weaver's Tools",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "whetstone",
+    "name": "Whetstone",
+    "cost": {
+      "quantity": 1,
+      "unit": "cp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "whip",
+    "name": "Whip",
+    "cost": {
+      "quantity": 2,
+      "unit": "gp"
+    },
+    "weight": 3,
+    "category": "Weapon"
+  },
+  {
+    "index": "woodcarvers-tools",
+    "name": "Woodcarver's Tools",
+    "cost": {
+      "quantity": 1,
+      "unit": "gp"
+    },
+    "weight": 5,
+    "category": "Tools"
+  },
+  {
+    "index": "wooden-staff",
+    "name": "Wooden staff",
+    "cost": {
+      "quantity": 5,
+      "unit": "gp"
+    },
+    "weight": 4,
+    "category": "Adventuring Gear"
+  },
+  {
+    "index": "yew-wand",
+    "name": "Yew wand",
+    "cost": {
+      "quantity": 10,
+      "unit": "gp"
+    },
+    "weight": 1,
+    "category": "Adventuring Gear"
+  }
+]
