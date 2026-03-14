@@ -16,8 +16,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@astrojs/netlify": "^7.0.1",
-    "@astrojs/react": "^5.0.0",
+    "@astrojs/netlify": "^6.6.5",
+    "@astrojs/react": "^4.4.2",
     "@astrojs/rss": "^4.0.17",
     "@google/generative-ai": "^0.24.1",
     "@keystatic/astro": "^5.0.6",
@@ -29,7 +29,7 @@
     "@netlify/otel": "^5.1.3",
     "@tailwindcss/vite": "^4.2.1",
     "assemblyai": "^4.27.0",
-    "astro": "^6.0.0",
+    "astro": "^5.18.0",
     "drizzle-orm": "^0.45.1",
     "fast-xml-parser": "^5.2.0",
     "fuse.js": "^7.1.0",

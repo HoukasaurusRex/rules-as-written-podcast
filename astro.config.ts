@@ -11,8 +11,5 @@ export default defineConfig({
   integrations: [react(), keystatic()],
   vite: {
     plugins: [tailwindcss()],
-    resolve: {
-      dedupe: ['react', 'react-dom'],
-    },
   },
 })

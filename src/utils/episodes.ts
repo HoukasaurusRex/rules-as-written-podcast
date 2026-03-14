@@ -3,10 +3,15 @@ import { fetchFeedData, type Episode } from './feed'
 
 const RSS_FEED_URL = 'https://anchor.fm/s/44a4277c/podcast/rss'
 
+type ShowType = 'RaW' | 'Short Rest'
+
 export interface MergedEpisode extends Episode {
   slug: string
   markdown?: {
     title: string
+    show: ShowType
+    season?: number
+    edition?: '5e' | '5.5e'
     summary?: string | null
     image?: string | null
     resources?: string[] | null
@@ -25,12 +30,16 @@ export async function getEpisodes(): Promise<MergedEpisode[]> {
     getCollection('raw', publishedOnly),
     getCollection('short-rest', publishedOnly),
   ])
-  const contentEntries = [...rawEntries, ...srEntries]
+  const taggedEntries = [
+    ...rawEntries.map((e) => ({ ...e, show: 'RaW' as ShowType })),
+    ...srEntries.map((e) => ({ ...e, show: 'Short Rest' as ShowType })),
+  ]
 
   return rssEpisodes.map((episode) => {
-    const content = contentEntries.find((entry) => entry.data.id === episode.id)
+    const content = taggedEntries.find((entry) => entry.data.id === episode.id)
     return {
       ...episode,
+      season: content?.data.season ?? episode.season,
       slug: `show/${episode.number}/${episode.title
         .trim()
         .toLowerCase()
@@ -39,6 +48,9 @@ export async function getEpisodes(): Promise<MergedEpisode[]> {
       markdown: content
         ? {
             title: content.data.title,
+            show: content.show,
+            season: content.data.season,
+            edition: content.data.edition,
             summary: content.data.summary,
             image: content.data.image,
             resources: content.data.resources,
