@@ -1,7 +1,5 @@
 [![Build, Test & Deploy](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/build-test-deploy.yml/badge.svg)](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/build-test-deploy.yml)
-[![Contributors][contributors-shield]][contributors-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![Twitter: HoukasaurusRex][twitter-shield]][twitter-url]
+![D&D 5e SRD](https://img.shields.io/github/last-commit/HoukasaurusRex/rules-as-written-podcast/master?path=src%2Fdata%2Fsrd-equipment.json&label=D%26D%205e%20SRD&style=flat-square)
 
 <br />
 <p align="center">
@@ -30,7 +28,7 @@ We release new episodes weekly and range in topics from book section deep diving
 
 * Check us out at: https://rulesaswrittenshow.com
 * Support us at: https://www.patreon.com/RulesAsWritten
-* Contact us at: toby@rulesaswrittenshow.com
+* Contact us at: jt@rulesaswrittenshow.com
 
 New episodes every Sunday!
 
@@ -91,15 +89,3 @@ yarn test:e2e
 * [Playwright](https://playwright.dev/) for e2e testing
 * [Umami](https://umami.is/) for analytics
 * [giscus](https://giscus.app/) for comments
-
-## Contact
-
-* JT Houk - [@HoukasaurusRex](https://twitter.com/HoukasaurusRex)
-
-[contributors-shield]: https://img.shields.io/github/contributors/HoukasaurusRex/rules-as-written-podcast.svg?style=flat-square
-[contributors-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/graphs/contributors
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/jt-houk/
-[twitter-shield]: https://img.shields.io/twitter/follow/HoukasaurusRex.svg?style=social
-[twitter-url]: https://twitter.com/HoukasaurusRex
-[issues-url]: https://github.com/HoukasaurusRex/rules-as-written-podcast/issues

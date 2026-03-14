@@ -5,7 +5,7 @@
   "version": "2.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "tsx scripts/fetch-content.ts && tsx scripts/fetch-srd-data.ts && astro build",
+    "build": "tsx scripts/fetch-content.ts && astro build",
     "fetch-srd": "tsx scripts/fetch-srd-data.ts",
     "preview": "astro preview",
     "check": "astro check",
