@@ -10,7 +10,7 @@
     "fetch-srd": "node scripts/fetch-srd-data.ts",
     "preview": "astro preview",
     "check": "astro check",
-    "generate-article": "node scripts/generate-article.ts",
+    "generate-article": "node --env-file-if-exists=.env scripts/generate-article.ts",
     "test:e2e": "yarn playwright test --config=e2e/playwright.config.ts",
     "test:e2e:ci": "start-server-and-test 'serve dist -l 4173' http://localhost:4173 'yarn test:e2e'",
     "prepare": "husky",

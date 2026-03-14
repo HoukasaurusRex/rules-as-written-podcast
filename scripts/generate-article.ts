@@ -1,16 +1,17 @@
-import { readFileSync } from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { AssemblyAI } from 'assemblyai'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import YAML from 'yaml'
-import { fetchFeedData, type Episode } from '../src/utils/feed'
-import { slugify } from '../src/utils/slugify'
+import { fetchFeedData, type Episode } from '../src/utils/feed.ts'
+import { slugify } from '../src/utils/slugify.ts'
 
 const RSS_FEED_URL = 'https://anchor.fm/s/44a4277c/podcast/rss'
 const KEILA_BASE = 'https://mail.houk.space/api/v1'
 const KEILA_SENDER_ID = 'nms_aJMpZgdr'
 const KEILA_SEGMENT_ID = 'nsgm_aJMpZgdr'
+const KEILA_TEMPLATE_ID = 'ntpl_aJMpZgdr'
+const BANNER_IMAGE_URL = 'https://rulesaswrittenshow.com/raw-banner.jpg'
 
 async function main() {
   const episodeNumber = parseInt(process.argv[2], 10)
@@ -48,7 +49,7 @@ async function main() {
   const filePath = await writeDraftEpisode(episode, article, summary)
   console.log(`Draft created: ${filePath}`)
 
-  const campaignUrl = await createKeilaDraft(episode, newsletter)
+  const campaignUrl = await createKeilaDraft(episode, newsletter, summary)
   console.log(`Newsletter draft: ${campaignUrl}`)
 
   console.log('\nDone! Review the draft:')
@@ -61,6 +62,7 @@ async function transcribeAudio(audioUrl: string): Promise<string> {
   const transcript = await client.transcripts.transcribe({
     audio_url: audioUrl,
     speaker_labels: true,
+    speech_models: ['universal-3-pro'],
   })
   if (transcript.status === 'error') {
     throw new Error(`Transcription failed: ${transcript.error}`)
@@ -73,7 +75,7 @@ async function generateContent(
   transcript: string,
 ): Promise<{ article: string; summary: string; newsletter: string }> {
   const templatePath = resolve(import.meta.dirname, 'templates/article-prompt.md')
-  const template = readFileSync(templatePath, 'utf-8')
+  const template = await readFile(templatePath, 'utf-8')
 
   const episodeSlug = slugify(episode.title)
   const prompt = template
@@ -103,7 +105,12 @@ function extractSummary(article: string): string {
   const lines = article
     .split('\n')
     .filter((line) => line.trim() && !line.startsWith('#'))
-  return lines[0]?.slice(0, 200) ?? ''
+  const firstParagraph = lines[0] ?? ''
+  // Truncate at the last sentence boundary within 200 chars
+  if (firstParagraph.length <= 200) return firstParagraph
+  const truncated = firstParagraph.slice(0, 200)
+  const lastSentence = truncated.lastIndexOf('. ')
+  return lastSentence > 50 ? truncated.slice(0, lastSentence + 1) : truncated
 }
 
 async function writeDraftEpisode(
@@ -134,7 +141,24 @@ async function writeDraftEpisode(
 async function createKeilaDraft(
   episode: Episode,
   newsletterContent: string,
+  previewText: string,
 ): Promise<string> {
+  const episodeSlug = slugify(episode.title)
+  const episodeUrl = `https://rulesaswrittenshow.com/show/${episode.number}/${episodeSlug}`
+
+  const body = [
+    `![Rules as Written](${BANNER_IMAGE_URL})`,
+    '',
+    `# ${episode.title}`,
+    '',
+    newsletterContent,
+    '',
+    `<a href="${episodeUrl}" style="display:inline-block;padding:12px 24px;background:rgb(176,65,47);color:rgb(255,255,255);text-decoration:none;border-radius:6px;font-weight:bold;">Listen to Episode ${episode.number}</a>`,
+    '',
+    'See you in the tavern,',
+    'JT',
+  ].join('\n')
+
   const res = await fetch(`${KEILA_BASE}/campaigns`, {
     method: 'POST',
     headers: {
@@ -144,10 +168,12 @@ async function createKeilaDraft(
     body: JSON.stringify({
       data: {
         subject: `RaW EP${episode.number} - ${episode.title}`,
-        text_body: newsletterContent,
+        preview_text: previewText,
+        text_body: body,
         settings: { type: 'markdown' },
         sender_id: KEILA_SENDER_ID,
         segment_id: KEILA_SEGMENT_ID,
+        template_id: KEILA_TEMPLATE_ID,
       },
     }),
   })

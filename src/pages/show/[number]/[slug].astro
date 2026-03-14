@@ -5,6 +5,7 @@ import PodcastLayout from '@layouts/PodcastLayout.astro'
 import Header from '@components/Header.astro'
 import Newsletter from '@components/Newsletter'
 import Comments from '@components/Comments.astro'
+import { render } from 'astro:content'
 import { getEpisodes, getDescriptionFromHTML } from '@utils/episodes'
 import { slugify } from '@utils/slugify'
 import '@styles/episode.css'
@@ -24,6 +25,8 @@ const { episode, allEpisodes } = Astro.props
 const customImage = episode.markdown?.image || 'https://res.cloudinary.com/jthouk/image/upload/v1627979106/Rules%20as%20Written/lazy-bard_esoxs7.gif'
 const description = getDescriptionFromHTML(episode.description)
 const pathname = `/show/${episode.number}/${slugify(episode.title)}`
+const rendered = episode.entry ? await render(episode.entry) : null
+const Content = rendered?.Content
 ---
 
 <PodcastLayout
@@ -37,15 +40,8 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
   <div class="episode-main">
     <Header episode={episode} image={customImage} />
     <article>
-      {description && <p>{description}</p>}
-      <p style="padding-top: 30px;">
-        If you like this show and want to help others find it,
-        we would be so grateful if you rate us on
-        <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
-        and let us know what you think!
-      </p>
-      {episode.body
-        ? <div set:html={episode.body} style="padding-top: 30px;" />
+      {Content
+        ? <div><Content /></div>
         : <div class="episode-placeholder">
             <p>
               The scribes haven't finished transcribing this session yet.
@@ -56,6 +52,12 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
       }
     </article>
     <footer class="episode-footer">
+      <p class="episode-postscript">
+        If you like this show and want to help others find it,
+        we would be so grateful if you rate us on
+        <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
+        and let us know what you think!
+      </p>
       <p>
         Can't get enough of us?
         <br />

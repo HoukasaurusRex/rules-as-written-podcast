@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content'
+import { getCollection, render, type CollectionEntry } from 'astro:content'
 import { fetchFeedData, type Episode } from './feed'
 
 const RSS_FEED_URL = 'https://anchor.fm/s/44a4277c/podcast/rss'
@@ -20,6 +20,7 @@ export interface MergedEpisode extends Episode {
     guestSummary?: string | null
   }
   body?: string
+  entry?: CollectionEntry<'raw'> | CollectionEntry<'short-rest'>
 }
 
 export async function getEpisodes(): Promise<MergedEpisode[]> {
@@ -60,6 +61,7 @@ export async function getEpisodes(): Promise<MergedEpisode[]> {
           }
         : undefined,
       body: content?.body,
+      entry: content,
     }
   })
 }

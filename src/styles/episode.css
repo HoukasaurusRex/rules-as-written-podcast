@@ -1,8 +1,8 @@
-/* Shared episode page layout styles — used by index.astro and [slug].astro */
+/* Shared episode page layout styles */
 .episode-main {
   max-width: 100%;
   margin: 0 auto;
-  padding-bottom: var(--space-14);
+  padding-bottom: var(--space-8);
 }
 
 @media (min-width: 992px) {
@@ -11,29 +11,77 @@
   }
 }
 
+/* Article content area */
 .episode-main article {
   padding: var(--space-5);
-  padding-bottom: var(--space-2);
+  padding-bottom: var(--space-5);
 }
 
 @media (min-width: 992px) {
   .episode-main article {
     padding: var(--space-8);
-    padding-bottom: var(--space-14);
+    padding-bottom: var(--space-7);
   }
 }
 
+/* Article typography for markdown-rendered content */
+.episode-main article h2 {
+  font-size: var(--font-size-6);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-heading);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+.episode-main article h3 {
+  font-size: var(--font-size-4);
+  font-weight: var(--font-weight-heading);
+  line-height: var(--line-height-heading);
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+}
+
+.episode-main article h4 {
+  font-size: var(--font-size-3);
+  font-weight: var(--font-weight-heading);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-2);
+}
+
+.episode-main article p {
+  margin-bottom: var(--space-4);
+}
+
+.episode-main article a {
+  color: var(--color-primary-lighten-50);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.episode-main article a:hover {
+  color: var(--color-primary-lighten-70);
+}
+
+/* Placeholder for episodes without article content */
 .episode-placeholder {
   padding-top: var(--space-8);
   font-style: italic;
   opacity: 0.7;
 }
 
+/* Footer: postscript + newsletter CTA */
 .episode-footer {
   padding: var(--space-5);
+  padding-top: var(--space-4);
   text-align: center;
 }
 
+.episode-postscript {
+  font-size: var(--font-size-1);
+  opacity: 0.5;
+  margin-bottom: var(--space-6);
+}
+
 .episode-footer p {
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
