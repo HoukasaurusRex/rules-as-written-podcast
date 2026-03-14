@@ -61,7 +61,7 @@ export function useNewsletterForm() {
     setToast(null)
 
     try {
-      const res = await fetch('/api/subscribe', {
+      const res = await fetch('https://jt.houk.space/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ email, source: 'rulesaswrittenshow.com' }),
@@ -69,8 +69,13 @@ export function useNewsletterForm() {
       })
 
       if (res.ok) {
-        const data = await res.json()
-        setSuccess(data.already_subscribed)
+        const text = await res.text()
+        try {
+          const data = JSON.parse(text)
+          setSuccess(data.already_subscribed)
+        } catch {
+          setSuccess(false)
+        }
       } else {
         setError()
       }
