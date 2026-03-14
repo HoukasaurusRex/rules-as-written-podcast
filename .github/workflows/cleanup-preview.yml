@@ -9,6 +9,17 @@ jobs:
     name: Clean up preview resources
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+
+      - run: corepack enable
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'yarn'
+
+      - run: yarn install
+
       - name: Delete Neon branch
         uses: neondatabase/delete-branch-action@v3
         with:
@@ -17,7 +28,7 @@ jobs:
           branch: preview/pr-${{ github.event.number }}-${{ github.event.pull_request.head.ref }}
 
       - name: Unset preview DB URL
-        run: npx netlify-cli env:unset PREVIEW_DATABASE_URL
+        run: yarn netlify env:unset PREVIEW_DATABASE_URL
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
