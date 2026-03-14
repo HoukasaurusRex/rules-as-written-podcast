@@ -14,11 +14,8 @@ const KEILA_TEMPLATE_ID = 'ntpl_aJMpZgdr'
 const BANNER_IMAGE_URL = 'https://rulesaswrittenshow.com/raw-banner.jpg'
 
 async function main() {
-  const episodeNumber = parseInt(process.argv[2], 10)
-  if (!episodeNumber || isNaN(episodeNumber)) {
-    console.error('Usage: yarn generate-article <episode-number>')
-    process.exit(1)
-  }
+  const arg = process.argv[2]
+  const episodeNumber = arg ? parseInt(arg, 10) : undefined
 
   const requiredEnv = ['ASSEMBLYAI_API_KEY', 'GEMINI_API_KEY', 'KEILA_API_KEY'] as const
   for (const key of requiredEnv) {
@@ -30,11 +27,18 @@ async function main() {
 
   console.log(`Fetching RSS feed...`)
   const episodes = await fetchFeedData(RSS_FEED_URL)
-  const episode = episodes.find((e) => e.number === episodeNumber)
-  if (!episode) {
-    console.error(`Episode ${episodeNumber} not found in RSS feed`)
-    console.error(`Available episodes: ${episodes.map((e) => e.number).join(', ')}`)
-    process.exit(1)
+
+  let episode: Episode | undefined
+  if (episodeNumber) {
+    episode = episodes.find((e) => e.number === episodeNumber)
+    if (!episode) {
+      console.error(`Episode ${episodeNumber} not found in RSS feed`)
+      console.error(`Available episodes: ${episodes.map((e) => e.number).join(', ')}`)
+      process.exit(1)
+    }
+  } else {
+    episode = episodes[0]
+    console.log(`No episode number specified, using latest episode`)
   }
   console.log(`Found: "${episode.title}" (${episode.enclosure_url ? 'has audio' : 'no audio'})`)
 

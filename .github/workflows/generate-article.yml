@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       episode_number:
-        description: 'Episode number to generate article for'
-        required: true
+        description: 'Episode number (leave empty for latest)'
+        required: false
         type: number
+  repository_dispatch:
+    types: [new-episode]
 
 concurrency:
   group: generate-article
@@ -16,7 +18,7 @@ jobs:
   generate:
     name: Transcribe & Generate
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 10
     permissions:
       contents: write
       pull-requests: write
@@ -32,8 +34,19 @@ jobs:
 
       - run: yarn install
 
+      - name: Determine episode number
+        id: episode
+        run: |
+          if [ -n "${{ inputs.episode_number }}" ]; then
+            echo "args=${{ inputs.episode_number }}" >> "$GITHUB_OUTPUT"
+            echo "number=${{ inputs.episode_number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "args=" >> "$GITHUB_OUTPUT"
+            echo "number=latest" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Generate article
-        run: yarn generate-article ${{ inputs.episode_number }}
+        run: yarn generate-article ${{ steps.episode.outputs.args }}
         env:
           ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -45,11 +58,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          BRANCH="article/ep-${{ inputs.episode_number }}"
+          BRANCH="article/ep-${{ steps.episode.outputs.number }}"
           git checkout -b "$BRANCH"
           git add src/content/episodes/
-          git commit -m "feat: add draft article for episode ${{ inputs.episode_number }}"
+          git commit -m "feat: add draft article for episode ${{ steps.episode.outputs.number }}"
           git push -u origin "$BRANCH"
           gh pr create \
-            --title "Draft: Episode ${{ inputs.episode_number }} article" \
+            --title "Draft: Episode ${{ steps.episode.outputs.number }} article" \
             --body "Auto-generated article and newsletter draft from podcast transcript. Review content and change status to Published when ready."
