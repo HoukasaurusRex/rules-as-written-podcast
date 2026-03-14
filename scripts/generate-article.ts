@@ -112,13 +112,15 @@ async function writeDraftEpisode(
   summary: string,
 ): Promise<string> {
   const slug = slugify(episode.title)
-  const dir = resolve(import.meta.dirname, `../src/content/episodes/${slug}`)
+  const showDir = episode.title.toLowerCase().startsWith('short rest') ? 'short-rest' : 'raw'
+  const dir = resolve(import.meta.dirname, `../src/content/episodes/${showDir}/${slug}`)
   await mkdir(dir, { recursive: true })
 
   const frontmatter = YAML.stringify({
     id: episode.id,
     title: episode.title,
-    show: 'RaW',
+    season: episode.season,
+    edition: '5e',
     summary,
     status: 'Unpublished',
   })

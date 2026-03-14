@@ -44,7 +44,16 @@ const pathname = `/show/${episode.number}/${slugify(episode.title)}`
         <a href="https://podcasts.apple.com/us/podcast/rules-as-written-a-d-d-podcast/id1545377455">Apple Podcasts</a>
         and let us know what you think!
       </p>
-      {episode.body && <div set:html={episode.body} style="padding-top: 30px;" />}
+      {episode.body
+        ? <div set:html={episode.body} style="padding-top: 30px;" />
+        : <div class="episode-placeholder">
+            <p>
+              The scribes haven't finished transcribing this session yet.
+              Check back soon for detailed show notes, or listen to the episode
+              above to hear the full discussion straight from the tavern.
+            </p>
+          </div>
+      }
     </article>
     <footer class="episode-footer">
       <p>

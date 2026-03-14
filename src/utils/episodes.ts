@@ -18,10 +18,14 @@ export interface MergedEpisode extends Episode {
 }
 
 export async function getEpisodes(): Promise<MergedEpisode[]> {
-  const [rssEpisodes, contentEntries] = await Promise.all([
+  const publishedOnly = (entry: { data: { status: string } }) =>
+    entry.data.status === 'Published'
+  const [rssEpisodes, rawEntries, srEntries] = await Promise.all([
     fetchFeedData(RSS_FEED_URL),
-    getCollection('episodes', (entry) => entry.data.status === 'Published'),
+    getCollection('raw', publishedOnly),
+    getCollection('short-rest', publishedOnly),
   ])
+  const contentEntries = [...rawEntries, ...srEntries]
 
   return rssEpisodes.map((episode) => {
     const content = contentEntries.find((entry) => entry.data.id === episode.id)
