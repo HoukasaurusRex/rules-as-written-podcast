@@ -6,7 +6,7 @@
   "packageManager": "yarn@4.13.0",
   "scripts": {
     "dev": "netlify dev",
-    "build": "tsx scripts/fetch-srd-data.ts && astro build",
+    "build": "astro build",
     "fetch-srd": "tsx scripts/fetch-srd-data.ts",
     "preview": "astro preview",
     "check": "astro check",
