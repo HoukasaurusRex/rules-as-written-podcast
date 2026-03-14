@@ -1,8 +1,8 @@
 import postgres from 'postgres'
 import { drizzle } from 'drizzle-orm/postgres-js'
 import { eq } from 'drizzle-orm'
-import * as schema from '../src/db/schema'
-import { hashCode } from '../src/utils/party-codes'
+import * as schema from '../src/db/schema.ts'
+import { hashCode } from '../src/utils/party-codes.ts'
 
 const SEED_CODE = 'ARCANE-OWLBEAR-42'
 
