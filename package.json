@@ -12,7 +12,8 @@
     "fetch-content": "tsx scripts/fetch-content.ts",
     "test:e2e": "yarn playwright test --config=e2e/playwright.config.ts",
     "test:e2e:ci": "start-server-and-test 'serve dist -l 4173' http://localhost:4173 'yarn test:e2e'",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "rm -rf node_modules/.vite"
   },
   "dependencies": {
     "@astrojs/netlify": "^7.0.1",
@@ -50,6 +51,7 @@
     "tsx": "^4.19.0",
     "typescript": "^5.9.3"
   },
+  "packageManager": "yarn@4.13.0",
   "resolutions": {
     "@netlify/otel": "^5.1.3"
   }
