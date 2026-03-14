@@ -53,8 +53,6 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NOTION_TOKEN_CI: ${{ secrets.NOTION_TOKEN }}
-          NOTION_DB_ID_CI: ${{ secrets.NOTION_DB_ID }}
           NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url_with_pooler }}
 
       - name: Create GitHub Deployment

@@ -1,12 +1,17 @@
-import { getCollection } from 'astro:content'
+import { getCollection, render, type CollectionEntry } from 'astro:content'
 import { fetchFeedData, type Episode } from './feed'
 
 const RSS_FEED_URL = 'https://anchor.fm/s/44a4277c/podcast/rss'
+
+type ShowType = 'RaW' | 'Short Rest'
 
 export interface MergedEpisode extends Episode {
   slug: string
   markdown?: {
     title: string
+    show: ShowType
+    season?: number
+    edition?: '5e' | '5.5e'
     summary?: string | null
     image?: string | null
     resources?: string[] | null
@@ -15,18 +20,27 @@ export interface MergedEpisode extends Episode {
     guestSummary?: string | null
   }
   body?: string
+  entry?: CollectionEntry<'raw'> | CollectionEntry<'short-rest'>
 }
 
 export async function getEpisodes(): Promise<MergedEpisode[]> {
-  const [rssEpisodes, contentEntries] = await Promise.all([
+  const publishedOnly = (entry: { data: { status: string } }) =>
+    entry.data.status === 'Published'
+  const [rssEpisodes, rawEntries, srEntries] = await Promise.all([
     fetchFeedData(RSS_FEED_URL),
-    getCollection('episodes'),
+    getCollection('raw', publishedOnly),
+    getCollection('short-rest', publishedOnly),
   ])
+  const taggedEntries = [
+    ...rawEntries.map((e) => ({ ...e, show: 'RaW' as ShowType })),
+    ...srEntries.map((e) => ({ ...e, show: 'Short Rest' as ShowType })),
+  ]
 
   return rssEpisodes.map((episode) => {
-    const content = contentEntries.find((entry) => entry.data.id === episode.id)
+    const content = taggedEntries.find((entry) => entry.data.id === episode.id)
     return {
       ...episode,
+      season: content?.data.season ?? episode.season,
       slug: `show/${episode.number}/${episode.title
         .trim()
         .toLowerCase()
@@ -35,6 +49,9 @@ export async function getEpisodes(): Promise<MergedEpisode[]> {
       markdown: content
         ? {
             title: content.data.title,
+            show: content.show,
+            season: content.data.season,
+            edition: content.data.edition,
             summary: content.data.summary,
             image: content.data.image,
             resources: content.data.resources,
@@ -44,6 +61,7 @@ export async function getEpisodes(): Promise<MergedEpisode[]> {
           }
         : undefined,
       body: content?.body,
+      entry: content,
     }
   })
 }

@@ -3,13 +3,14 @@
   "private": true,
   "type": "module",
   "version": "2.0.0",
+  "packageManager": "yarn@4.13.0",
   "scripts": {
     "dev": "netlify dev",
-    "build": "tsx scripts/fetch-content.ts && astro build",
-    "fetch-srd": "tsx scripts/fetch-srd-data.ts",
+    "build": "astro build",
+    "fetch-srd": "node scripts/fetch-srd-data.ts",
     "preview": "astro preview",
     "check": "astro check",
-    "fetch-content": "tsx scripts/fetch-content.ts",
+    "generate-article": "node --env-file-if-exists=.env scripts/generate-article.ts",
     "test:e2e": "yarn playwright test --config=e2e/playwright.config.ts",
     "test:e2e:ci": "start-server-and-test 'serve dist -l 4173' http://localhost:4173 'yarn test:e2e'",
     "prepare": "husky",
@@ -19,18 +20,21 @@
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "node --env-file=.env --import tsx/esm scripts/seed-db.ts"
+    "db:seed": "node --env-file=.env scripts/seed-db.ts"
   },
   "dependencies": {
-    "@astrojs/netlify": "^7.0.1",
-    "@astrojs/react": "^5.0.0",
+    "@astrojs/netlify": "^6.6.5",
+    "@astrojs/react": "^4.4.2",
     "@astrojs/rss": "^4.0.17",
+    "@google/generative-ai": "^0.24.1",
+    "@keystatic/astro": "^5.0.6",
+    "@keystatic/core": "^0.5.48",
     "@lottiefiles/dotlottie-react": "^0.18.4",
     "@nanostores/react": "^0.8.0",
     "@netlify/otel": "^5.1.3",
-    "@notionhq/client": "^2.3.0",
     "@tailwindcss/vite": "^4.2.1",
-    "astro": "^6.0.0",
+    "assemblyai": "^4.27.0",
+    "astro": "^5.18.0",
     "drizzle-orm": "^0.45.1",
     "fast-xml-parser": "^5.2.0",
     "fuse.js": "^7.1.0",
@@ -53,10 +57,8 @@
     "netlify-cli": "^24.2.0",
     "serve": "^14.2.6",
     "start-server-and-test": "^2.1.5",
-    "tsx": "^4.19.0",
     "typescript": "^5.9.3"
   },
-  "packageManager": "yarn@4.13.0",
   "resolutions": {
     "@netlify/otel": "^5.1.3"
   }
