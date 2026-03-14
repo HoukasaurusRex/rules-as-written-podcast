@@ -21,7 +21,7 @@
 
 ## About the Project
 
-We're the first (and only) D&D podcast based in China and we love deep diving into the rules of the game and why we enjoy playing it.
+We're the first D&D podcast started in China and we love deep diving into the rules of the game and why we enjoy playing it.
 
 Here we talk about the rules in the Dungeons and Dragons Player's Handbook and as many 5E expansions as we can afford.
 We release new episodes weekly and range in topics from book section deep diving to interesting items and traps and everything in between.
@@ -32,7 +32,7 @@ We release new episodes weekly and range in topics from book section deep diving
 
 New episodes every Sunday!
 
-![](public/raw-banner.jpg)
+![Rules as Written Map](public/raw-banner.jpg)
 
 ## Party Tracker MVP
 
