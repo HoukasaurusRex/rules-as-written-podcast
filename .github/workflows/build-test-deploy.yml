@@ -17,12 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
 
-      - run: corepack enable && yarn install
+      - run: yarn install
 
       - run: yarn check
 
@@ -47,12 +49,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
 
-      - run: corepack enable && yarn install
+      - run: yarn install
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -81,12 +85,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'yarn'
 
-      - run: corepack enable && yarn install
+      - run: yarn install
 
       - uses: actions/download-artifact@v4
         with:
