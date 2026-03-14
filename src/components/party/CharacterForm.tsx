@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 
 interface Props {
   onSubmit: (name: string, charClass?: string, level?: number) => Promise<void>
@@ -19,7 +19,7 @@ export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add
   const [level, setLevel] = useState<number | ''>(initial?.level ?? 1)
   const [submitting, setSubmitting] = useState(false)
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()
     if (!name.trim() || submitting) return
     setSubmitting(true)

@@ -4,7 +4,7 @@ import {
   DENOM_COLORS,
   DENOM_LABELS,
   type Denomination,
-} from '../../utils/currency'
+} from '../../utils/riches'
 
 export type CoinValues = Record<Denomination, number>
 

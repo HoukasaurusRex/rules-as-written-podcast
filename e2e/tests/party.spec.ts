@@ -7,10 +7,10 @@ test.describe('Party Tracker - Navigation', () => {
   test('Party link appears in site navigation', async ({ page }) => {
     await page.goto('/')
     // Desktop nav links (hidden on mobile, visible on desktop)
-    const partyLink = page.locator('.site-nav-links a[href="/party/new"]')
+    const partyLink = page.locator('.site-nav-links a[href="/party"]')
     // Mobile menu links
-    const mobileLink = page.locator('.mobile-menu-links a[href="/party/new"]')
-    const either = await partyLink.or(mobileLink).first()
+    const mobileLink = page.locator('.mobile-menu-links a[href="/party"]')
+    const either = partyLink.or(mobileLink).first()
     await expect(either).toBeAttached()
   })
 })
@@ -20,7 +20,7 @@ test.describe('Party Tracker - Create Page', () => {
   test.skip(isLocalBuild, 'Requires SSR server (skipped in static CI build)')
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/party/new')
+    await page.goto('/party')
   })
 
   test('renders party creation form', async ({ page }) => {

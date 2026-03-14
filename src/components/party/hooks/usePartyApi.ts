@@ -71,6 +71,13 @@ export function usePartyApi(partyId: string | undefined) {
 
   const clearToast = useCallback(() => setToast(null), [])
 
+  // Per-character debounce state for batching rapid coin updates
+  const pendingUpdatesRef = useRef<Map<string, {
+    timer: ReturnType<typeof setTimeout>
+    updates: Record<string, unknown>
+    prevState: PartyData | null
+  }>>(new Map())
+
   const fetchParty = useCallback(async () => {
     if (!partyId) return
     try {
@@ -89,7 +96,7 @@ export function usePartyApi(partyId: string | undefined) {
     fetchParty()
 
     const poll = () => {
-      if (document.hasFocus()) fetchParty()
+      if (document.hasFocus() && pendingUpdatesRef.current.size === 0) fetchParty()
     }
     pollRef.current = setInterval(poll, POLL_INTERVAL)
 
@@ -116,28 +123,53 @@ export function usePartyApi(partyId: string | undefined) {
     [partyId, fetchParty],
   )
 
+  const DEBOUNCE_MS = 1500
+
   const updateCharacter = useCallback(
-    async (characterId: string, updates: Record<string, unknown>) => {
+    (characterId: string, updates: Record<string, unknown>) => {
       if (!partyId) return
-      const prev = $partyData.get()
-      if (prev) {
+
+      // Optimistic update immediately
+      const currentState = $partyData.get()
+      if (currentState) {
         $partyData.set({
-          ...prev,
-          characters: prev.characters.map((c) =>
+          ...currentState,
+          characters: currentState.characters.map((c) =>
             c.id === characterId ? { ...c, ...updates } : c,
           ),
         })
       }
-      try {
-        await apiFetch(
-          `/${partyId}/characters/${characterId}`,
-          { method: 'PATCH', body: JSON.stringify(updates) },
-          partyId,
-        )
-      } catch (err) {
-        if (prev) $partyData.set(prev)
-        setToast(toastForError(err))
+
+      const pending = pendingUpdatesRef.current
+      const existing = pending.get(characterId)
+
+      // Clear previous timer, merge updates, keep original rollback state
+      if (existing) {
+        clearTimeout(existing.timer)
+        Object.assign(existing.updates, updates)
       }
+
+      const entry = existing ?? {
+        timer: undefined as unknown as ReturnType<typeof setTimeout>,
+        updates: { ...updates },
+        prevState: currentState,
+      }
+
+      entry.timer = setTimeout(async () => {
+        pending.delete(characterId)
+        try {
+          await apiFetch(
+            `/${partyId}/characters/${characterId}`,
+            { method: 'PATCH', body: JSON.stringify(entry.updates) },
+            partyId,
+          )
+        } catch (err) {
+          if (entry.prevState) $partyData.set(entry.prevState)
+          setToast(toastForError(err))
+        }
+      }, DEBOUNCE_MS)
+
+      if (!existing) pending.set(characterId, entry)
     },
     [partyId],
   )

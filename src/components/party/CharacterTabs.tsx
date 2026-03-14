@@ -25,7 +25,7 @@ export default function CharacterTabs({ characters }: Props) {
           role="tab"
           aria-selected={activeTab === 'party'}
           onClick={() => setTab('party')}
-          className={`flex min-w-[72px] shrink-0 flex-col items-center gap-space-1 px-space-3 py-space-3 text-xs font-medium transition-colors ${
+          className={`flex min-h-17 min-w-[72px] shrink-0 flex-col items-center gap-space-1 px-space-3 py-space-3 text-xs font-medium transition-colors ${
             activeTab === 'party'
               ? 'border-t-2 border-primary text-primary'
               : 'text-text/50 hover:text-text/70'

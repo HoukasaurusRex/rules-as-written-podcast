@@ -1,5 +1,5 @@
-import { neon } from '@neondatabase/serverless'
-import { drizzle } from 'drizzle-orm/neon-http'
+import postgres from 'postgres'
+import { drizzle } from 'drizzle-orm/postgres-js'
 import * as schema from './schema'
 
 export class DatabaseUnavailableError extends Error {
@@ -18,8 +18,8 @@ export function getDb() {
       new Error('No database URL set (checked PREVIEW_DATABASE_URL and NETLIFY_DATABASE_URL)'),
     )
   }
-  const sql = neon(url)
-  return drizzle(sql, { schema })
+  const client = postgres(url, { max: 1 })
+  return drizzle(client, { schema })
 }
 
 export type Db = ReturnType<typeof getDb>

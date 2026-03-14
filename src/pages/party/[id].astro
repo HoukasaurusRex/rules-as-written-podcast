@@ -6,7 +6,11 @@ import SiteNav from '@components/SiteNav.astro'
 import PartyTracker from '@components/party/PartyTracker'
 
 const { id } = Astro.params
-if (!id) return Astro.redirect('/party/new')
+if (!id) return Astro.redirect('/party')
+
+// Validate party exists server-side to avoid infinite loading on invalid IDs
+const res = await fetch(`${Astro.url.origin}/api/party/${encodeURIComponent(id)}`)
+if (!res.ok) return Astro.redirect('/404', 302)
 ---
 
 <BaseLayout title="Party Tracker | Rules As Written" description="Track your D&D party's gold, inventory, and magic items in real-time." image="/images/raw-logo-fancy.webp">

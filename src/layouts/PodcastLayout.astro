@@ -26,7 +26,7 @@ const { title, description, image, pathname, episodes, currentEpisode } = Astro.
   </main>
 
   {/* Initialize player store with episode data — Player lives in BaseLayout */}
-  <script define:vars={{ currentEpisode, episodes }}>
+  <script is:inline define:vars={{ currentEpisode, episodes }}>
     window.__PLAYER_INIT__ = { currentEpisode, episodes }
   </script>
 </BaseLayout>

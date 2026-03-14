@@ -2394,16 +2394,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neondatabase/serverless@npm:1.x, @neondatabase/serverless@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@neondatabase/serverless@npm:1.0.2"
-  dependencies:
-    "@types/node": "npm:^22.15.30"
-    "@types/pg": "npm:^8.8.0"
-  checksum: 10c0/21998f959f8645b6118e677e9433cec1e9d357111d8c414fda74e4c4c67b33054c652cf9b636a50fcfe8b7a5542ca817cc15ecb513c09ccae8ad8279ac806dfa
-  languageName: node
-  linkType: hard
-
 "@netlify/ai@npm:0.4.0":
   version: 0.4.0
   resolution: "@netlify/ai@npm:0.4.0"
@@ -3122,15 +3112,6 @@ __metadata:
     "@netlify/local-functions-proxy-win32-x64":
       optional: true
   checksum: 10c0/1055dc320a792a3114a2aeaf473d2343cbd5f22f6c53b417c8885bce9f5025800c5c35a897f46564395da6cc36e4dd64949a5b59b18c3353a0154d9852c381f4
-  languageName: node
-  linkType: hard
-
-"@netlify/neon@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@netlify/neon@npm:0.1.2"
-  dependencies:
-    "@neondatabase/serverless": "npm:1.x"
-  checksum: 10c0/ea7e44a55cca983e16efdd733446f061dccc0c302e65ed33c702bfd3cf895a808a65527d09ac56b48bbd29157a6a2cd14ed7a17058918437a65ab1b6e8375d3d
   languageName: node
   linkType: hard
 
@@ -6212,7 +6193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.15.0, @types/node@npm:^22.15.30":
+"@types/node@npm:^22.15.0":
   version: 22.19.15
   resolution: "@types/node@npm:22.19.15"
   dependencies:
@@ -6232,17 +6213,6 @@ __metadata:
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
   checksum: 10c0/b1b863ac34a2c2172fbe0807a1ec4d5cb684e48d422d15ec95980b81475fac4fdb3768a8b13eef39130203a7c04340fc167bae057c7ebcafd7dec9fe6c36aeb1
-  languageName: node
-  linkType: hard
-
-"@types/pg@npm:^8.8.0":
-  version: 8.18.0
-  resolution: "@types/pg@npm:8.18.0"
-  dependencies:
-    "@types/node": "npm:*"
-    pg-protocol: "npm:*"
-    pg-types: "npm:^2.2.0"
-  checksum: 10c0/cafece430d8d583a75eb3f7beff7b3e97e05ef0b6326ae5070476bda46ccc42edb72724b9c2bf799cea93a48b1342319bfbbe1217fff5ffa5c322b8d637ea949
   languageName: node
   linkType: hard
 
@@ -15204,14 +15174,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg-protocol@npm:*, pg-protocol@npm:^1.13.0":
+"pg-protocol@npm:^1.13.0":
   version: 1.13.0
   resolution: "pg-protocol@npm:1.13.0"
   checksum: 10c0/a4e851e6bb8ff404ca19d561cf49b6b0caf45163bd3f289889edaf6c4e9fb25b08fb57f50d37a8cc86007efcf2cbb3dd2372c97a353a546f45eb49ddebc84fa9
   languageName: node
   linkType: hard
 
-"pg-types@npm:2.2.0, pg-types@npm:^2.2.0":
+"pg-types@npm:2.2.0":
   version: 2.2.0
   resolution: "pg-types@npm:2.2.0"
   dependencies:
@@ -15420,6 +15390,13 @@ __metadata:
   dependencies:
     xtend: "npm:^4.0.0"
   checksum: 10c0/c1734c3cb79e7f22579af0b268a463b1fa1d084e742a02a7a290c4f041e349456f3bee3b4ee0bb3f226828597f7b76deb615c1b857db9a742c45520100456272
+  languageName: node
+  linkType: hard
+
+"postgres@npm:^3.4.8":
+  version: 3.4.8
+  resolution: "postgres@npm:3.4.8"
+  checksum: 10c0/fc737d79cd50d7be76750dfffc71e6322c64fe6a8fa8ed38001f2d969de0200302216ffbfd252560a3a2fa72d3f2fad6d1bdafc493c4e64020653a7c363df348
   languageName: node
   linkType: hard
 
@@ -16539,9 +16516,7 @@ __metadata:
     "@keystatic/core": "npm:^0.5.48"
     "@lottiefiles/dotlottie-react": "npm:^0.18.4"
     "@nanostores/react": "npm:^0.8.0"
-    "@neondatabase/serverless": "npm:^1.0.2"
     "@netlify/functions": "npm:^5.1.2"
-    "@netlify/neon": "npm:^0.1.2"
     "@netlify/otel": "npm:^5.1.3"
     "@playwright/test": "npm:^1.58.2"
     "@tailwindcss/vite": "npm:^4.2.1"
@@ -16557,6 +16532,7 @@ __metadata:
     husky: "npm:^9.1.7"
     nanostores: "npm:^0.11.0"
     netlify-cli: "npm:^24.2.0"
+    postgres: "npm:^3.4.8"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
     serve: "npm:^14.2.6"
@@ -19492,11 +19468,11 @@ __metadata:
   linkType: hard
 
 "yjs@npm:^13.6.11":
-  version: 13.6.29
-  resolution: "yjs@npm:13.6.29"
+  version: 13.6.30
+  resolution: "yjs@npm:13.6.30"
   dependencies:
     lib0: "npm:^0.2.99"
-  checksum: 10c0/f300786ea63deac8a83e85598707ab9542e0a90b72fc0a1bcc77a58e618799de531ba4f85bcf349e647ad9e72bc4186edf50c4ecf67c8144cd53d3ac80d27351
+  checksum: 10c0/98ec3c85fdb8420fe250e86e66676d7421dd4c1960319409a39e6ae90d05dc967793b67705736751633d8b22e334dba51a1404ad83139300c0be42195f068261
   languageName: node
   linkType: hard
 

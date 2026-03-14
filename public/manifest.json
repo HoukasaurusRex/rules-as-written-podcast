@@ -1,10 +1,12 @@
 {
   "name": "Rules as Written",
   "short_name": "RaW",
+  "description": "A D&D 5e podcast about the rules as they are written",
   "start_url": "/",
   "background_color": "#9A3C31",
   "theme_color": "#9A3C31",
-  "display": "minimal-ui",
+  "display": "standalone",
+  "categories": ["entertainment", "music"],
   "icons": [
     {
       "src": "/images/icon-192.png",

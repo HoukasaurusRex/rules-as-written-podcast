@@ -10,9 +10,6 @@ dist/
 # Astro generated types
 .astro/
 
-# Generated SRD data (fetched from dnd5eapi.co at build time)
-src/data/srd-*.json
-
 # Playwright
 test-results/
 playwright-report/

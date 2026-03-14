@@ -11,6 +11,22 @@ const audio = typeof window !== 'undefined' ? new Audio() : (null as unknown as 
 if (audio) audio.preload = 'auto'
 let currentSrc = '' // tracks which src is loaded, survives remounts
 
+const DEFAULT_ARTWORK = 'https://res.cloudinary.com/jthouk/image/upload/v1627979106/Rules%20as%20Written/lazy-bard_esoxs7.gif'
+
+function updateMediaSession(episode: Episode | null) {
+  if (!('mediaSession' in navigator) || !episode) return
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: episode.title,
+    artist: 'Rules as Written',
+    album: `Episode ${episode.number}`,
+    artwork: [
+      { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: DEFAULT_ARTWORK, sizes: '2048x2048', type: 'image/gif' },
+    ],
+  })
+}
+
 interface PlayerProps {
   initialEpisode?: Episode
   allEpisodes?: Episode[]
@@ -75,6 +91,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
   // Sync audio element with episode — only change src when episode actually changes
   useEffect(() => {
     if (!episode || !audio) return
+    updateMediaSession(episode)
     // Check both module-level tracker AND the audio element's actual src
     if (currentSrc === episode.enclosure_url || audio.src === episode.enclosure_url) {
       currentSrc = episode.enclosure_url
@@ -125,10 +142,12 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     const onPlay = () => {
       setPlaying(true)
       document.querySelector('.bars')?.classList.remove('bars--paused')
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'
     }
     const onPause = () => {
       setPlaying(false)
       document.querySelector('.bars')?.classList.add('bars--paused')
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused'
     }
     const onTimeUpdate = () => {
       setCurrentTime(audio.currentTime)
@@ -152,6 +171,21 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     audio.addEventListener('timeupdate', onTimeUpdate)
     audio.addEventListener('durationchange', onDurationChange)
     audio.addEventListener('volumechange', onVolumeChange)
+
+    // Media Session action handlers (lock screen / headphone controls)
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => audio.play())
+      navigator.mediaSession.setActionHandler('pause', () => audio.pause())
+      navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+        audio.currentTime = Math.max(0, audio.currentTime - (details.seekOffset ?? 10))
+      })
+      navigator.mediaSession.setActionHandler('seekforward', (details) => {
+        audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + (details.seekOffset ?? 30))
+      })
+      navigator.mediaSession.setActionHandler('seekto', (details) => {
+        if (details.seekTime != null) audio.currentTime = details.seekTime
+      })
+    }
 
     // Sync initial state (audio may already be playing from before remount)
     setPlaying(!audio.paused)
@@ -283,7 +317,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
       {/* Player content */}
       <div className={`player-content ${collapsed ? 'player-content--collapsed' : ''}`}>
         {/* Title (hidden on mobile) */}
-        <div ref={titleRef} className="player-title marquee marquee--scroll" style={{ maxWidth: 310, flexShrink: 0 }}>
+        <div ref={titleRef} className="player-title marquee marquee--scroll" style={{ maxWidth: 500, flexShrink: 1, minWidth: 0 }}>
           <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
             {title}
             <span aria-hidden="true">{` ${title}`}</span>

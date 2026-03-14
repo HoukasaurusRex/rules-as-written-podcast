@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
-import { DENOMINATIONS, totalGpValue } from '../../utils/currency'
+import { DENOMINATIONS, totalGpValue } from '../../utils/riches'
 import { usePartyApi } from './hooks/usePartyApi'
 import { Toast } from '../Toast'
 import CoinInput from './CoinInput'
@@ -13,9 +13,9 @@ import GoldTracker from './GoldTracker'
 import InventoryList from './InventoryList'
 import MagicItemList from './MagicItemList'
 import TransactionModal from './TransactionModal'
-import TransactionHistory from './TransactionHistory'
+import Ledger from './Ledger'
 import LootMode from './LootMode'
-import type { Denomination } from '../../utils/currency'
+import type { Denomination } from '../../utils/riches'
 import type { CoinValues } from './CoinInput'
 
 interface Props {
@@ -31,6 +31,7 @@ export default function PartyTracker({ partyId }: Props) {
   const [showTxModal, setShowTxModal] = useState(false)
   const [showLootMode, setShowLootMode] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [codeCopied, setCodeCopied] = useState(false)
   const [assigningLootItemId, setAssigningLootItemId] = useState<string | null>(null)
 
   // Initialize tab from URL query param
@@ -130,12 +131,34 @@ export default function PartyTracker({ partyId }: Props) {
                   </svg>
                 </button>
                 {showSettings && (
-                  <div className="absolute left-0 top-full z-20 mt-space-1 w-48 rounded-[5px] border border-bg-lighter bg-bg-light p-space-3 shadow-lg">
+                  <div className="absolute left-0 top-full z-20 mt-space-1 w-56 rounded-[5px] border border-bg-lighter bg-bg-light p-space-3 shadow-lg">
                     <div className="space-y-space-3">
-                      <label className="flex items-center justify-between text-xs text-text/70">
-                        Show Electrum (EP)
-                        <input type="checkbox" checked={party.showEp ?? false} onChange={(e) => api.updateParty({ showEp: e.target.checked })} className="accent-primary" />
-                      </label>
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          await navigator.clipboard.writeText(party.code)
+                          setCodeCopied(true)
+                          setTimeout(() => setCodeCopied(false), 2000)
+                        }}
+                        className="flex w-full items-center justify-between gap-space-2 rounded text-xs text-text/70 transition-colors hover:bg-bg-lighter"
+                      >
+                        <span>Party code: <span className="font-mono text-[11px] font-medium text-gold-gp">{party.code}</span></span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={codeCopied ? 'text-success' : 'text-text/30'}>
+                          {codeCopied ? (
+                            <polyline points="20 6 9 17 4 12" />
+                          ) : (
+                            <>
+                              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                            </>
+                          )}
+                        </svg>
+                      </button>
+                      <div className="border-t border-bg-lighter pt-space-3">
+                        <label className="flex items-center justify-between text-xs text-text/70">
+                          Show Electrum (EP)
+                          <input type="checkbox" checked={party.showEp ?? false} onChange={(e) => api.updateParty({ showEp: e.target.checked })} className="accent-primary" />
+                        </label>
+                      </div>
                       <label className="flex items-center justify-between text-xs text-text/70">
                         Show Platinum (PP)
                         <input type="checkbox" checked={party.showPp ?? false} onChange={(e) => api.updateParty({ showPp: e.target.checked })} className="accent-primary" />
@@ -313,8 +336,9 @@ export default function PartyTracker({ partyId }: Props) {
             )}
           </section>
 
-          {/* Party transaction history */}
-          <TransactionHistory
+          {/* Party ledger */}
+          <Ledger
+            characters={party.characters}
             characterNames={characterNames}
             onListTransactions={api.listTransactions}
             onUndo={api.undoTransaction}
@@ -340,10 +364,10 @@ export default function PartyTracker({ partyId }: Props) {
             )}
           </div>
 
-          {/* Gold */}
+          {/* Riches */}
           <section>
             <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
-              Currency
+              Riches
             </h3>
             <GoldTracker character={activeCharacter} onUpdate={api.updateCharacter} />
           </section>
@@ -367,8 +391,8 @@ export default function PartyTracker({ partyId }: Props) {
             onDelete={api.deleteMagicItem}
           />
 
-          {/* Character transaction history */}
-          <TransactionHistory
+          {/* Character ledger */}
+          <Ledger
             characterId={activeCharacter.id}
             characterNames={characterNames}
             onListTransactions={api.listTransactions}

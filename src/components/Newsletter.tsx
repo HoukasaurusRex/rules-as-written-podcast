@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNewsletterForm } from './newsletter/useNewsletterForm'
 import { useTypewriter } from './newsletter/useTypewriter'
 import { useFireEffect } from './newsletter/useFireEffect'
@@ -8,6 +8,9 @@ import './newsletter/newsletter.css'
 
 export default function Newsletter() {
   const { email, setEmail, status, toast, submit, clearToast, isSubscribed, reset, abort, completeSubscription } = useNewsletterForm()
+
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isValid, setIsValid] = useState(false)
 
   const isSubmitting = status === 'submitting'
   const fireTriggered = status === 'success'
@@ -40,27 +43,35 @@ export default function Newsletter() {
             <p>Watch your inbox for the next quest log.</p>
           </div>
         ) : (
-          <form onSubmit={submit}>
+          <form onSubmit={submit} aria-label="Newsletter signup">
+            <label htmlFor="newsletter-email" className="sr-only">Email address</label>
             <input
+              ref={inputRef}
+              id="newsletter-email"
               type="email"
               name="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="janedoe@gmail.com"
+              onChange={(e) => {
+                setEmail(e.target.value)
+                setIsValid(e.target.validity.valid)
+              }}
+              placeholder="brunhilda.rockskull@hotmail.com"
               required
               autoComplete="email"
+              aria-describedby="newsletter-status"
               className="newsletter-input"
             />
             <button
               type="submit"
-              disabled={isSubmitting || fireTriggered}
+              disabled={isSubmitting || fireTriggered || !isValid}
+              aria-disabled={isSubmitting || fireTriggered || !isValid}
               className="newsletter-button"
             >
               {buttonText}
               {showCursor && <span className="newsletter-cursor">|</span>}
             </button>
 
-            <div className="newsletter-subtext-container">
+            <div className="newsletter-subtext-container" id="newsletter-status" aria-live="polite">
               {loadingMessage && loadingPhase && (
                 <div className={`newsletter-subtext newsletter-subtext--${loadingPhase}`}>
                   {loadingMessage}
