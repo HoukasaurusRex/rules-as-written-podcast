@@ -1,5 +1,6 @@
+<!-- markdownlint-disable MD041 MD033 -->
 [![Build, Test & Deploy](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/build-test-deploy.yml/badge.svg)](https://github.com/HoukasaurusRex/rules-as-written-podcast/actions/workflows/build-test-deploy.yml)
-![D&D 5e SRD](https://img.shields.io/github/last-commit/HoukasaurusRex/rules-as-written-podcast/master?path=src%2Fdata%2Fsrd-equipment.json&label=D%26D%205e%20SRD&style=flat-square)
+[![D&D 5e SRD Updated](https://img.shields.io/github/last-commit/HoukasaurusRex/rules-as-written-podcast/master?path=src%2Fdata%2Fsrd-equipment.json&label=D%26D%205e%20SRD)](https://github.com/HoukasaurusRex/rules-as-written-podcast/commits/master/src/data/srd-equipment.json)
 
 <br />
 <p align="center">
@@ -20,7 +21,7 @@
     <a href="https://github.com/HoukasaurusRex/rules-as-written-podcast/issues">Request Feature</a>
   </p>
   <p align="center">
-    Have a question? <a mailto:"jt@rulesaswrittenshow.com">drop us a line</a>
+    Have a question? <a mailto:"jt@rulesaswrittenshow.com">Drop us a line</a>
   </p>
 </p>
 
