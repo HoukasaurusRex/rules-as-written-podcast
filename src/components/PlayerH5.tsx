@@ -283,7 +283,7 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
       {/* Player content */}
       <div className={`player-content ${collapsed ? 'player-content--collapsed' : ''}`}>
         {/* Title (hidden on mobile) */}
-        <div ref={titleRef} className="player-title marquee marquee--scroll" style={{ maxWidth: 310, flexShrink: 0 }}>
+        <div ref={titleRef} className="player-title marquee marquee--scroll" style={{ maxWidth: 500, flexShrink: 1, minWidth: 0 }}>
           <h3 className="marquee-inner" style={{ margin: 0, fontSize: 'var(--font-size-4)' }}>
             {title}
             <span aria-hidden="true">{` ${title}`}</span>
