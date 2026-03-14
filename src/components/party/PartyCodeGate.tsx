@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState } from 'react'
 import { useEditMode } from './hooks/useEditMode'
 
 interface Props {
@@ -14,7 +14,7 @@ export default function PartyCodeGate({ partyId }: Props) {
 
   if (editMode) return null
 
-  async function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()
     if (!code.trim() || submitting) return
 

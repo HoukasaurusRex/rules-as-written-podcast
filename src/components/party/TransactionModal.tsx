@@ -39,7 +39,7 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
 
   const hasCoins = Object.values(coins).some((v) => v > 0)
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()
     if (submitting || !hasCoins) return
 

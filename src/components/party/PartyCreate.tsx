@@ -44,7 +44,7 @@ export default function PartyCreate() {
     setSavedParties(getSavedParties())
   }, [])
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault()
     if (!name.trim() || submitting) return
 

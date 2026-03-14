@@ -10,7 +10,7 @@ test.describe('Party Tracker - Navigation', () => {
     const partyLink = page.locator('.site-nav-links a[href="/party/new"]')
     // Mobile menu links
     const mobileLink = page.locator('.mobile-menu-links a[href="/party/new"]')
-    const either = await partyLink.or(mobileLink).first()
+    const either = partyLink.or(mobileLink).first()
     await expect(either).toBeAttached()
   })
 })
