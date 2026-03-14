@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useStore } from '@nanostores/react'
 import { $editMode, $partyData, type PartyCharacter } from '../../stores/party'
-import type { Denomination } from '../../utils/currency'
+import type { Denomination } from '../../utils/riches'
 import CoinInput, { type CoinValues } from './CoinInput'
 
 interface Props {

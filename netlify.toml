@@ -13,6 +13,10 @@
   to = "/.netlify/functions/contact"
   status = 200
 [[redirects]]
+  from = "/party/new"
+  to = "/party"
+  status = 301
+[[redirects]]
   from = "/api/party/*"
   to = "/.netlify/functions/party"
   status = 200

@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useStore } from '@nanostores/react'
 import { $editMode, $recentTransactions, type Transaction } from '../../stores/party'
-import { isDebitTransaction } from '../../utils/currency'
+import { isDebitTransaction } from '../../utils/riches'
 
 interface Props {
   characterId?: string
+  characters?: { id: string; name: string }[]
   characterNames: Record<string, string>
   onListTransactions: (characterId?: string, limit?: number, offset?: number) => Promise<Transaction[]>
   onUndo: (txId: string) => Promise<void>
@@ -43,8 +44,9 @@ function formatTime(dateStr: string): string {
   return `${days}d ago`
 }
 
-export default function TransactionHistory({
+export default function Ledger({
   characterId,
+  characters,
   characterNames,
   onListTransactions,
   onUndo,
@@ -57,6 +59,7 @@ export default function TransactionHistory({
 
   const [showFullHistory, setShowFullHistory] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [filterCharacterId, setFilterCharacterId] = useState<string | null>(null)
   const [allTransactions, setAllTransactions] = useState<Transaction[]>([])
   const PAGE_SIZE = 10
 
@@ -103,7 +106,7 @@ export default function TransactionHistory({
   return (
     <section>
       <h3 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
-        Transaction History
+        Ledger
       </h3>
       <div
         className="relative h-72 space-y-space-1 overflow-hidden"
@@ -165,7 +168,7 @@ export default function TransactionHistory({
           }}
           className="mt-space-3 w-full rounded-[5px] border border-bg-lighter py-space-2 text-xs text-text/40 transition-colors hover:bg-bg-light"
         >
-          Older transactions
+          View full ledger
         </button>
       )}
 
@@ -177,7 +180,7 @@ export default function TransactionHistory({
         >
           <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
             <div className="flex shrink-0 items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
-              <h3 className="m-0 text-base font-bold text-text">Transaction History</h3>
+              <h3 className="m-0 text-base font-bold text-text">Ledger</h3>
               <button
                 type="button"
                 onClick={() => setShowFullHistory(false)}
@@ -191,11 +194,36 @@ export default function TransactionHistory({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by item, note, type..."
+                placeholder="Search items, notes..."
                 className="w-full rounded-[5px] border border-bg-lighter bg-bg-light px-space-3 py-space-2 text-sm text-text placeholder-text/30 outline-none focus:border-primary"
                 style={{ fontSize: '16px' }}
               />
             </div>
+            {!characterId && characters && (
+              <div className="flex shrink-0 flex-wrap gap-space-1 border-b border-bg-lighter px-space-4 py-space-2">
+                <button
+                  type="button"
+                  onClick={() => setFilterCharacterId(null)}
+                  className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
+                    !filterCharacterId ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
+                  }`}
+                >
+                  Party
+                </button>
+                {characters.map((char) => (
+                  <button
+                    type="button"
+                    key={char.id}
+                    onClick={() => setFilterCharacterId(char.id)}
+                    className={`rounded px-space-2 py-space-1 text-xs transition-colors ${
+                      filterCharacterId === char.id ? 'bg-primary/20 text-primary-muted' : 'bg-bg-light text-text/50 hover:bg-bg-lighter'
+                    }`}
+                  >
+                    {char.name.length > 12 ? `${char.name.slice(0, 12)}...` : char.name}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="h-96 overflow-y-auto p-space-4">
               <div className="space-y-space-1">
                 {(() => {
@@ -207,13 +235,13 @@ export default function TransactionHistory({
                   return [...filtered, ...allTransactions]
                 })()
                   .filter((tx) => {
+                    if (filterCharacterId && tx.characterId !== filterCharacterId) return false
                     if (!searchQuery.trim()) return true
                     const q = searchQuery.toLowerCase()
                     return (
                       tx.itemName?.toLowerCase().includes(q) ||
                       tx.note?.toLowerCase().includes(q) ||
-                      tx.type.toLowerCase().includes(q) ||
-                      (tx.characterId && characterNames[tx.characterId]?.toLowerCase().includes(q))
+                      tx.type.toLowerCase().includes(q)
                     )
                   })
                   .map((tx) => {

@@ -207,7 +207,27 @@ export default function PartyCreate() {
       </form>
 
       {/* Find party by code */}
-      <div className="mt-space-8">
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault()
+          const code = codeInput.trim()
+          if (!code) return
+          try {
+            const res = await fetch(`/api/party/${encodeURIComponent(code)}`)
+            if (res.ok) {
+              const data = await res.json()
+              saveParty({ id: data.id, name: data.name, code })
+              localStorage.setItem(`party-code-${data.id}`, code)
+              window.location.href = `/party/${data.id}`
+            } else {
+              setToast({ message: 'Party not found. Check the code and try again.', variant: 'error' })
+            }
+          } catch {
+            setToast({ message: randomErrorMessage(), variant: 'error' })
+          }
+        }}
+        className="mt-space-8"
+      >
         <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">
           Have a party code?
         </h2>
@@ -221,30 +241,14 @@ export default function PartyCreate() {
             style={{ fontSize: '16px' }}
           />
           <button
-            onClick={async () => {
-              const code = codeInput.trim()
-              if (!code) return
-              try {
-                const res = await fetch(`/api/party/${encodeURIComponent(code)}`)
-                if (res.ok) {
-                  const data = await res.json()
-                  saveParty({ id: data.id, name: data.name, code })
-                  localStorage.setItem(`party-code-${data.id}`, code)
-                  window.location.href = `/party/${data.id}`
-                } else {
-                  setToast({ message: 'Party not found. Check the code and try again.', variant: 'error' })
-                }
-              } catch {
-                setToast({ message: randomErrorMessage(), variant: 'error' })
-              }
-            }}
+            type="submit"
             disabled={!codeInput.trim()}
             className="rounded-[5px] bg-primary/20 px-space-4 py-space-3 text-sm font-medium text-primary-muted transition-colors hover:bg-primary/30 disabled:opacity-50"
           >
             Go
           </button>
         </div>
-      </div>
+      </form>
 
       {/* Saved parties */}
       {savedParties.length > 0 && (

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useStore } from '@nanostores/react'
 import { $partyData } from '../../stores/party'
 import type { PartyCharacter, PartyInventoryItem } from '../../stores/party'
-import type { Denomination } from '../../utils/currency'
+import type { Denomination } from '../../utils/riches'
 import CoinInput, { emptyCoinValues, type CoinValues } from './CoinInput'
 import ItemAutocomplete from './ItemAutocomplete'
 
