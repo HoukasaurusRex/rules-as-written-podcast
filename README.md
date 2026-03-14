@@ -19,6 +19,9 @@
     &middot;
     <a href="https://github.com/HoukasaurusRex/rules-as-written-podcast/issues">Request Feature</a>
   </p>
+  <p align="center">
+    Have a question? <a mailto:"jt@rulesaswrittenshow.com">drop us a line</a>
+  </p>
 </p>
 
 ## About
@@ -29,9 +32,6 @@ Here we talk about the rules in the Dungeons and Dragons Player's Handbook and a
 We release new episodes weekly and range in topics from book section deep diving to interesting items and traps and everything in between.
 
 The site features episode pages with an integrated audio player, a newsletter, GitHub Discussions-powered comments, and a collaborative Party Tracker for managing gold, inventory, and magic items during sessions.
-
-- Website: <https://rulesaswrittenshow.com>
-- Contact: <jt@rulesaswrittenshow.com>
 
 ![Rules as Written Map](public/raw-banner.jpg)
 
