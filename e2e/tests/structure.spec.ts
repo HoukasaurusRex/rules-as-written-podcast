@@ -29,7 +29,7 @@ test.describe('Homepage', () => {
     const count = await episodeTitles.count()
     if (count < 2) return
 
-    const links = nav.locator('ul#menu li a[role="menuitem"]')
+    const links = nav.locator('ul#menu li a')
     const hrefs: string[] = []
     for (let i = 0; i < Math.min(count, 5); i++) {
       const href = await links.nth(i).getAttribute('href')
@@ -84,7 +84,7 @@ test.describe('Episode page', () => {
   test('renders header and article', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 800 })
     await page.goto('/')
-    const firstEpisodeLink = page.locator('nav.episodes_list ul#menu li a[role="menuitem"]').first()
+    const firstEpisodeLink = page.locator('nav.episodes_list ul#menu li a').first()
     const href = await firstEpisodeLink.getAttribute('href')
     expect(href).toBeTruthy()
     await page.goto(href!)
@@ -96,7 +96,7 @@ test.describe('Episode page', () => {
   test('URL matches /show/{number}/{slug} pattern', async ({ page }) => {
     await page.setViewportSize({ width: 1200, height: 800 })
     await page.goto('/')
-    const firstEpisodeLink = page.locator('nav.episodes_list ul#menu li a[role="menuitem"]').first()
+    const firstEpisodeLink = page.locator('nav.episodes_list ul#menu li a').first()
     const href = await firstEpisodeLink.getAttribute('href')
     expect(href).toMatch(/^\/show\/\d+\/[\w-]+\/?$/)
   })
