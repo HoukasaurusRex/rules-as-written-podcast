@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useStore } from '@nanostores/react'
+import { useDialog } from './hooks/useDialog'
 import { $partyData } from '../../stores/party'
 import type { PartyCharacter, PartyInventoryItem } from '../../stores/party'
 import type { Denomination } from '../../utils/riches'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function TransactionModal({ character, onSubmit, onClose }: Props) {
+  const { dialogProps } = useDialog(onClose)
   const party = useStore($partyData)
   const [txType, setTxType] = useState<TxType>('buy')
   const [itemName, setItemName] = useState('')
@@ -66,15 +68,18 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      {...dialogProps}
+      aria-labelledby="transaction-title"
     >
       <div className="w-full max-w-md rounded-t-xl border border-bg-lighter bg-bg-light p-space-6 shadow-lg sm:rounded-[5px]">
-        <h3 className="m-0 mb-space-4 text-lg font-bold text-text">Transaction</h3>
+        <h3 id="transaction-title" className="m-0 mb-space-4 text-lg font-bold text-text">Transaction</h3>
 
         {/* Buy/Sell toggle */}
-        <div className="mb-space-4 flex rounded-[5px] border border-bg-lighter bg-bg p-space-1">
+        <div className="mb-space-4 flex rounded-[5px] border border-bg-lighter bg-bg p-space-1" role="group" aria-label="Transaction type">
           {(['buy', 'sell'] as const).map((t) => (
             <button
               key={t}
+              aria-pressed={txType === t}
               onClick={() => {
                 setTxType(t)
                 setItemName('')

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDialog } from './hooks/useDialog'
 
 interface Props {
   onSubmit: (name: string, charClass?: string, level?: number) => Promise<void>
@@ -14,6 +15,7 @@ const DND_CLASSES = [
 ]
 
 export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add Character' }: Props) {
+  const { dialogProps } = useDialog(onClose)
   const [name, setName] = useState(initial?.name ?? '')
   const [charClass, setCharClass] = useState(initial?.class ?? '')
   const [level, setLevel] = useState<number | ''>(initial?.level ?? 1)
@@ -31,9 +33,11 @@ export default function CharacterForm({ onSubmit, onClose, initial, title = 'Add
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      {...dialogProps}
+      aria-labelledby="char-form-title"
     >
       <div className="w-full max-w-sm rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light p-space-6 shadow-lg">
-        <h3 className="m-0 mb-space-4 text-lg font-bold text-text">{title}</h3>
+        <h3 id="char-form-title" className="m-0 mb-space-4 text-lg font-bold text-text">{title}</h3>
 
         <form onSubmit={handleSubmit} className="space-y-space-4">
           <div>

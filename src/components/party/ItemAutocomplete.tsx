@@ -150,6 +150,9 @@ export default function ItemAutocomplete({
     return ''
   }
 
+  const listboxId = `autocomplete-listbox-${type}`
+  const isExpanded = showSuggestions && suggestions.length > 0
+
   return (
     <div ref={wrapperRef} className="relative">
       <input
@@ -162,15 +165,31 @@ export default function ItemAutocomplete({
         onFocus={() => setShowSuggestions(true)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
+        role="combobox"
+        aria-expanded={isExpanded}
+        aria-autocomplete="list"
+        aria-controls={listboxId}
+        aria-activedescendant={selectedIndex >= 0 ? `${listboxId}-option-${selectedIndex}` : undefined}
         className="w-full rounded-[5px] border border-bg-lighter bg-bg px-space-4 py-space-3 text-base text-text placeholder-text/30 outline-none focus:border-primary"
         style={{ fontSize: '16px' }}
       />
 
-      {showSuggestions && suggestions.length > 0 && (
-        <ul className="absolute top-full left-0 z-50 mt-space-1 max-h-60 w-full overflow-y-auto rounded-[5px] border border-bg-lighter bg-bg-light shadow-lg">
+      {isExpanded && (
+        <ul
+          id={listboxId}
+          role="listbox"
+          aria-label={`${type === 'equipment' ? 'Equipment' : 'Magic item'} suggestions`}
+          className="absolute top-full left-0 z-50 mt-space-1 max-h-60 w-full overflow-y-auto rounded-[5px] border border-bg-lighter bg-bg-light shadow-lg"
+        >
           {suggestions.map((item, i) => (
-            <li key={'index' in item ? item.index : item.name}>
+            <li
+              key={'index' in item ? item.index : item.name}
+              id={`${listboxId}-option-${i}`}
+              role="option"
+              aria-selected={i === selectedIndex}
+            >
               <button
+                tabIndex={-1}
                 onClick={() => selectItem(item)}
                 className={`flex w-full items-center justify-between px-space-4 py-space-3 text-left text-sm transition-colors ${
                   i === selectedIndex ? 'bg-bg-lighter text-text' : 'text-text/80 hover:bg-bg-lighter'
@@ -185,6 +204,10 @@ export default function ItemAutocomplete({
           ))}
         </ul>
       )}
+
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {isExpanded ? `${suggestions.length} result${suggestions.length !== 1 ? 's' : ''} available` : ''}
+      </div>
     </div>
   )
 }

@@ -6,7 +6,10 @@ interface Props {
 const { term } = Astro.props
 ---
 
-<div class="giscus-wrapper" data-giscus-term={term}></div>
+<section aria-labelledby="comments-heading">
+  <h2 id="comments-heading" class="sr-only">Comments</h2>
+  <div class="giscus-wrapper" data-giscus-term={term}></div>
+</section>
 
 <script>
   function loadGiscus() {

@@ -25,14 +25,13 @@ function slugify(s: string): string {
     </a>
   </div>
 
-  <ul id="menu" role="menu">
+  <ul id="menu">
     {episodes.map((episode) => {
       const slug = `/show/${episode.number}/${slugify(episode.title)}`
       const isActive = episode.id === currentEpisodeId
       return (
-        <li role="none">
+        <li>
           <a
-            role="menuitem"
             href={slug}
             class:list={['marquee marquee--hover', { active: isActive }]}
           >
@@ -58,6 +57,7 @@ function slugify(s: string): string {
       if (isPlaying && !li.querySelector('.bars')) {
         const bars = document.createElement('div')
         bars.className = 'bars'
+        bars.setAttribute('aria-hidden', 'true')
         for (let i = 0; i < 15; i++) {
           const bar = document.createElement('div')
           bar.className = 'bar'
@@ -127,7 +127,7 @@ function slugify(s: string): string {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--color-primary) !important;
-    opacity: 0.8;
+    opacity: 0.9;
   }
 
   .season-link:hover {
