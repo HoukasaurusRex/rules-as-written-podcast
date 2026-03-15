@@ -17,7 +17,7 @@ import {
   buildGoldDelta,
   DENOMINATIONS,
   type Denomination,
-} from './party-logic'
+} from '../../src/utils/party-logic'
 
 type RouteHandler = (
   event: HandlerEvent,
