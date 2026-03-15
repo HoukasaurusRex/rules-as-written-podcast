@@ -126,4 +126,32 @@ test.describe('Party Tracker - Party Page', { tag: '@ssr' }, () => {
     const partyTab = page.getByRole('tab', { name: /party/i })
     await expect(partyTab).toBeVisible()
   })
+
+  test('inventory shows category filter tabs after adding character', async ({ page }) => {
+    await page.goto(`/party/${partyId}`)
+    await authenticateParty(page, partyId, partyCode)
+
+    // Add a character so we have an inventory section
+    await page.getByText('+ Add Character').click()
+    await page.getByLabel(/^name$/i).fill('Ranger')
+    await page.getByLabel(/^class$/i).selectOption('Ranger')
+    await page.getByRole('button', { name: /^add$/i }).click()
+    await expect(page.getByRole('tab', { name: /ranger/i })).toBeVisible({ timeout: 5000 })
+
+    // Navigate to character tab
+    await page.getByRole('tab', { name: /ranger/i }).click()
+
+    // Category filter tablist should be present with correct ARIA
+    const categoryTabs = page.getByRole('tablist', { name: /filter by item category/i })
+    await expect(categoryTabs).toBeVisible({ timeout: 5000 })
+
+    // "All" tab selected by default
+    const allTab = categoryTabs.getByRole('tab', { name: /all/i })
+    await expect(allTab).toHaveAttribute('aria-selected', 'true')
+
+    // All D&D category tabs present
+    for (const name of ['Weapons', 'Gear', 'Tools', 'Armor', 'Mounts']) {
+      await expect(categoryTabs.getByRole('tab', { name: new RegExp(name, 'i') })).toBeAttached()
+    }
+  })
 })
