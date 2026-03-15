@@ -755,16 +755,16 @@ export const handler: Handler = async (event) => {
     return { statusCode: 404, headers, body: JSON.stringify({ error: 'Not found' }) }
   }
 
-  // Resolve shortcode to UUID if the route has an `id` param
-  if (route.params.id) {
-    const resolved = await resolvePartyId(route.params.id)
-    if (!resolved) {
-      return { statusCode: 404, headers, body: JSON.stringify({ error: 'Party not found' }) }
-    }
-    route.params.id = resolved
-  }
-
   try {
+    // Resolve shortcode to UUID if the route has an `id` param
+    if (route.params.id) {
+      const resolved = await resolvePartyId(route.params.id)
+      if (!resolved) {
+        return { statusCode: 404, headers, body: JSON.stringify({ error: 'Party not found' }) }
+      }
+      route.params.id = resolved
+    }
+
     const result = await route.handler(event, route.params)
     return { ...result, headers }
   } catch (err) {

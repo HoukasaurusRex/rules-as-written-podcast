@@ -18,7 +18,7 @@ export function getDb() {
       new Error('No database URL set (checked PREVIEW_DATABASE_URL and NETLIFY_DATABASE_URL)'),
     )
   }
-  const client = postgres(url, { max: 1 })
+  const client = postgres(url, { max: 1, prepare: false })
   return drizzle(client, { schema })
 }
 
