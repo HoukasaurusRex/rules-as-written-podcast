@@ -7,6 +7,7 @@ import {
   transactions,
   inventoryItems,
   magicItems,
+  itemCatalog,
 } from '../../src/db/schema'
 import { generateCode, hashCode, verifyCode } from '../../src/utils/party-codes'
 import {
@@ -191,9 +192,11 @@ const applyInventoryChange = async (
   const action = computeInventoryAction(txType, existing?.quantity ?? null, isUndo)
 
   switch (action) {
-    case 'create':
-      await db.insert(inventoryItems).values({ partyId, characterId, name: itemName, quantity: 1 })
+    case 'create': {
+      const catalogItemId = await resolveCatalogItemId(db, partyId, null, itemName)
+      await db.insert(inventoryItems).values({ partyId, characterId, name: itemName, quantity: 1, catalogItemId })
       break
+    }
     case 'increment':
       await db.update(inventoryItems).set({ quantity: (existing!.quantity ?? 1) + 1 }).where(eq(inventoryItems.id, existing!.id))
       break
@@ -217,6 +220,51 @@ const applyGoldUpdate = async (
     .update(characters)
     .set(Object.fromEntries(DENOMINATIONS.map(d => [d, sql`${characters[d]} + ${delta[d]}`])))
     .where(eq(characters.id, characterId))
+}
+
+const resolveCatalogItemId = async (
+  db: DbInstance,
+  partyId: string,
+  srdIndex?: string | null,
+  itemName?: string,
+  category?: string,
+): Promise<string | null> => {
+  // 1. Try srd_index match (global catalog items)
+  if (srdIndex) {
+    const match = await db.query.itemCatalog.findFirst({
+      where: eq(itemCatalog.srdIndex, srdIndex),
+      columns: { id: true },
+    })
+    if (match) return match.id
+  }
+
+  // 2. Fall back to case-insensitive name match (global or party-scoped)
+  if (itemName) {
+    const match = await db.query.itemCatalog.findFirst({
+      where: and(
+        sql`lower(${itemCatalog.name}) = lower(${itemName})`,
+        sql`(${itemCatalog.partyId} IS NULL OR ${itemCatalog.partyId} = ${partyId})`,
+      ),
+      columns: { id: true },
+    })
+    if (match) return match.id
+  }
+
+  // 3. Auto-create a homebrew catalog entry
+  if (itemName) {
+    const [created] = await db
+      .insert(itemCatalog)
+      .values({
+        partyId,
+        source: 'homebrew',
+        name: itemName,
+        category: category ?? 'Adventuring Gear',
+      })
+      .returning({ id: itemCatalog.id })
+    return created.id
+  }
+
+  return null
 }
 
 // --- Route Handlers ---
@@ -256,7 +304,9 @@ const getParty: RouteHandler = async (_event, { id }) => {
     columns: { codeHash: false },
     with: {
       characters: { orderBy: [characters.sortOrder] },
-      inventoryItems: true,
+      inventoryItems: {
+        with: { catalogItem: true },
+      },
       magicItems: true,
     },
   })
@@ -485,6 +535,7 @@ const upsertItem: RouteHandler = async (event, { id }) => {
       updates.characterId = body.characterId
     }
     if (typeof body.weight === 'number' || body.weight === null) updates.weight = body.weight
+    if (typeof body.catalogItemId === 'string' || body.catalogItemId === null) updates.catalogItemId = body.catalogItemId
 
     const db = getDb()
     const [updated] = await db
@@ -501,6 +552,17 @@ const upsertItem: RouteHandler = async (event, { id }) => {
   if (!body.name || typeof body.name !== 'string') return error(400, 'Item name required')
 
   const db = getDb()
+  const srdIndex = typeof body.srdIndex === 'string' ? body.srdIndex : null
+  const catalogItemId = typeof body.catalogItemId === 'string'
+    ? body.catalogItemId
+    : await resolveCatalogItemId(
+        db,
+        id,
+        srdIndex,
+        body.name,
+        typeof body.category === 'string' ? body.category : undefined,
+      )
+
   const [item] = await db
     .insert(inventoryItems)
     .values({
@@ -509,7 +571,8 @@ const upsertItem: RouteHandler = async (event, { id }) => {
       name: body.name,
       quantity: typeof body.quantity === 'number' ? body.quantity : 1,
       weight: typeof body.weight === 'number' ? body.weight : null,
-      srdIndex: typeof body.srdIndex === 'string' ? body.srdIndex : null,
+      srdIndex,
+      catalogItemId,
     })
     .returning()
 
@@ -676,10 +739,11 @@ const addLoot: RouteHandler = async (event, { id }) => {
     }
 
     // Add inventory items to loot pool (unassigned)
-    const items = body.items as Array<{ name: string; quantity?: number; srdIndex?: string }> | undefined
+    const items = body.items as Array<{ name: string; quantity?: number; srdIndex?: string; catalogItemId?: string }> | undefined
     if (items?.length) {
       for (const item of items) {
         if (!item.name) continue
+        const resolvedCatalogId = item.catalogItemId ?? await resolveCatalogItemId(txn as unknown as DbInstance, id, item.srdIndex, item.name)
         const [created] = await txn
           .insert(inventoryItems)
           .values({
@@ -687,6 +751,7 @@ const addLoot: RouteHandler = async (event, { id }) => {
             name: item.name,
             quantity: item.quantity ?? 1,
             srdIndex: item.srdIndex ?? null,
+            catalogItemId: resolvedCatalogId,
           })
           .returning()
         out.items.push(created)

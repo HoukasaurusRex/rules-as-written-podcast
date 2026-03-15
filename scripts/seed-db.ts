@@ -1,6 +1,6 @@
 import postgres from 'postgres'
 import { drizzle } from 'drizzle-orm/postgres-js'
-import { eq } from 'drizzle-orm'
+import { eq, and, isNull } from 'drizzle-orm'
 import * as schema from '../src/db/schema.ts'
 import { hashCode } from '../src/utils/party-codes.ts'
 
@@ -114,6 +114,39 @@ async function seed() {
     { partyId: p, characterId: null, name: 'Map to "Definitely Not a Trap"', quantity: 1, weight: 0 },
     { partyId: p, characterId: null, name: 'Rations (10 days)', quantity: 10, weight: 2, srdIndex: 'rations-1-day' },
   ])
+
+  // ── Link inventory items to catalog ──
+
+  // Link SRD items by srd_index
+  const srdItems = await db
+    .select({ id: schema.inventoryItems.id, srdIndex: schema.inventoryItems.srdIndex })
+    .from(schema.inventoryItems)
+    .where(and(eq(schema.inventoryItems.partyId, p), isNull(schema.inventoryItems.catalogItemId)))
+
+  for (const item of srdItems) {
+    if (item.srdIndex) {
+      const catalogEntry = await db.query.itemCatalog.findFirst({
+        where: eq(schema.itemCatalog.srdIndex, item.srdIndex),
+        columns: { id: true },
+      })
+      if (catalogEntry) {
+        await db.update(schema.inventoryItems).set({ catalogItemId: catalogEntry.id }).where(eq(schema.inventoryItems.id, item.id))
+      }
+    } else {
+      // Custom item: create homebrew catalog entry
+      const name = (await db.query.inventoryItems.findFirst({
+        where: eq(schema.inventoryItems.id, item.id),
+        columns: { name: true },
+      }))?.name ?? 'Unknown'
+
+      const [catalogEntry] = await db
+        .insert(schema.itemCatalog)
+        .values({ partyId: p, source: 'homebrew', name, category: 'Adventuring Gear' })
+        .returning({ id: schema.itemCatalog.id })
+
+      await db.update(schema.inventoryItems).set({ catalogItemId: catalogEntry.id }).where(eq(schema.inventoryItems.id, item.id))
+    }
+  }
 
   // ── Magic Items (1+ per character + party pool) ──
 

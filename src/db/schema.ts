@@ -49,6 +49,43 @@ export const transactions = pgTable('transactions', {
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 })
 
+export const itemCatalog = pgTable('item_catalog', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  partyId: uuid('party_id').references(() => parties.id, { onDelete: 'cascade' }),
+  source: text('source').notNull(), // 'srd' | 'homebrew'
+  srdIndex: text('srd_index').unique(),
+  name: text('name').notNull(),
+  costQty: integer('cost_qty'),
+  costUnit: text('cost_unit'),
+  weight: real('weight'),
+  category: text('category').notNull(),
+  // Weapon fields
+  damageDice: text('damage_dice'),
+  damageType: text('damage_type'),
+  twoHandedDice: text('two_handed_dice'),
+  twoHandedType: text('two_handed_type'),
+  weaponCategory: text('weapon_category'),
+  weaponRange: text('weapon_range'),
+  rangeNormal: integer('range_normal'),
+  rangeLong: integer('range_long'),
+  properties: text('properties').array(),
+  // Armor fields
+  acBase: integer('ac_base'),
+  acDexBonus: boolean('ac_dex_bonus'),
+  armorCategory: text('armor_category'),
+  strMinimum: integer('str_minimum'),
+  stealthDisadvantage: boolean('stealth_disadvantage'),
+  // Mount/Vehicle fields
+  speedQty: integer('speed_qty'),
+  speedUnit: text('speed_unit'),
+  capacity: text('capacity'),
+  vehicleCategory: text('vehicle_category'),
+  // Shared
+  description: text('description'),
+  toolCategory: text('tool_category'),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
+})
+
 export const inventoryItems = pgTable('inventory_items', {
   id: uuid('id').primaryKey().defaultRandom(),
   partyId: uuid('party_id')
@@ -61,6 +98,7 @@ export const inventoryItems = pgTable('inventory_items', {
   quantity: integer('quantity').default(1),
   weight: real('weight'),
   srdIndex: text('srd_index'),
+  catalogItemId: uuid('catalog_item_id').references(() => itemCatalog.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow(),
 })
 
@@ -87,6 +125,7 @@ export const partiesRelations = relations(parties, ({ many }) => ({
   transactions: many(transactions),
   inventoryItems: many(inventoryItems),
   magicItems: many(magicItems),
+  catalogItems: many(itemCatalog),
 }))
 
 export const charactersRelations = relations(characters, ({ one, many }) => ({
@@ -110,6 +149,14 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
   }),
 }))
 
+export const itemCatalogRelations = relations(itemCatalog, ({ one, many }) => ({
+  party: one(parties, {
+    fields: [itemCatalog.partyId],
+    references: [parties.id],
+  }),
+  inventoryItems: many(inventoryItems),
+}))
+
 export const inventoryItemsRelations = relations(
   inventoryItems,
   ({ one }) => ({
@@ -120,6 +167,10 @@ export const inventoryItemsRelations = relations(
     character: one(characters, {
       fields: [inventoryItems.characterId],
       references: [characters.id],
+    }),
+    catalogItem: one(itemCatalog, {
+      fields: [inventoryItems.catalogItemId],
+      references: [itemCatalog.id],
     }),
   }),
 )

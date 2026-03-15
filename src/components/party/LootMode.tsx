@@ -10,6 +10,7 @@ interface LootItem {
   name: string
   quantity: number
   srdIndex?: string
+  catalogItemId?: string
 }
 
 interface LootMagicItem {

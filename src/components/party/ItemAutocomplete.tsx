@@ -7,6 +7,21 @@ export interface SrdEquipment {
   cost: { quantity: number; unit: string } | null
   weight: number | null
   category: string
+  damage?: { dice: string; type: string }
+  twoHandedDamage?: { dice: string; type: string }
+  range?: { normal: number; long?: number }
+  weaponCategory?: string
+  weaponRange?: string
+  properties?: string[]
+  armorClass?: { base: number; dexBonus: boolean }
+  armorCategory?: string
+  strMinimum?: number
+  stealthDisadvantage?: boolean
+  speed?: { quantity: number; unit: string }
+  capacity?: string
+  vehicleCategory?: string
+  description?: string
+  toolCategory?: string
 }
 
 export interface SrdMagicItem {
@@ -31,12 +46,13 @@ interface Props {
   onChange?: (value: string) => void
   clearOnSelect?: boolean
   customItems?: Array<{ name: string; [key: string]: unknown }>
+  filterCategory?: string
 }
 
 let equipmentCache: SrdEquipment[] | null = null
 let magicItemsCache: SrdMagicItem[] | null = null
 
-async function loadSrdData(type: 'equipment' | 'magic-item') {
+export async function loadSrdData(type: 'equipment' | 'magic-item') {
   if (type === 'equipment') {
     if (!equipmentCache) {
       try {
@@ -68,6 +84,7 @@ export default function ItemAutocomplete({
   onChange: controlledOnChange,
   clearOnSelect = true,
   customItems,
+  filterCategory,
 }: Props) {
   const [internalValue, setInternalValue] = useState('')
   const value = controlledValue ?? internalValue
@@ -83,16 +100,23 @@ export default function ItemAutocomplete({
     if (!customItems) loadSrdData(type).then(setSrdData)
   }, [type, customItems])
 
+  // Filter by category if specified
+  const filteredData = useMemo(() => {
+    if (customItems) return customItems
+    if (!filterCategory) return srdData
+    return (srdData as SrdEquipment[]).filter((e) => e.category === filterCategory)
+  }, [srdData, customItems, filterCategory])
+
   // Build Fuse index
   const fuse = useMemo(() => {
-    const items = (customItems ?? srdData) as Array<{ name: string }>
+    const items = filteredData as Array<{ name: string }>
     return new Fuse(items, {
       keys: ['name'],
       threshold: 0.4,
       distance: 100,
       minMatchCharLength: 1,
     })
-  }, [srdData, customItems])
+  }, [filteredData])
 
   useEffect(() => {
     if (!value.trim()) {
