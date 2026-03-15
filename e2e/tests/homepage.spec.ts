@@ -59,7 +59,7 @@ test.describe('Player bar', () => {
   })
 
   test('has play button', async ({ page }) => {
-    const playButton = page.locator('.player-bar').getByRole('button', { name: /play/i })
+    const playButton = page.locator('.player-bar').getByRole('button', { name: 'Play', exact: true })
     await expect(playButton).toBeVisible()
   })
 

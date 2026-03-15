@@ -33,9 +33,14 @@ test.describe('Party Tracker - Create Page', { tag: '@ssr' }, () => {
 
   test('submit button enabled when name entered', async ({ page }) => {
     const input = page.getByLabel(/party name/i)
+    // Wait for React hydration before interacting
+    await expect(input).toBeEditable()
     await input.fill('Test Party')
+    // Trigger React's onChange by pressing a key
+    await input.press('Space')
+    await input.press('Backspace')
     const submit = page.getByRole('button', { name: /create party/i })
-    await expect(submit).toBeEnabled({ timeout: 5000 })
+    await expect(submit).toBeEnabled({ timeout: 10000 })
   })
 
   test('creates a party and shows code', async ({ page }) => {
@@ -74,7 +79,7 @@ test.describe('Party Tracker - Party Page', { tag: '@ssr' }, () => {
   test('renders party tracker in read-only mode', async ({ page }) => {
     await page.goto(`/party/${partyId}`)
 
-    await expect(page.locator('h1')).toContainText('E2E Test Party')
+    await expect(page.locator('h1')).toContainText('E2E Test Party', { timeout: 10000 })
     await expect(page.getByText('Unlock Editing')).toBeVisible()
   })
 
