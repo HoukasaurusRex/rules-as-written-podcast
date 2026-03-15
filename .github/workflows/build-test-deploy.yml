@@ -156,7 +156,7 @@ jobs:
       - name: Seed preview database
         run: yarn db:seed
         env:
-          NETLIFY_DATABASE_URL: ${{ steps.create-branch.outputs.db_url }}
+          NETLIFY_DATABASE_URL_UNPOOLED: ${{ steps.create-branch.outputs.db_url }}
 
       - name: Set preview DB URL on Netlify
         run: yarn netlify env:set PREVIEW_DATABASE_URL "$DB_URL"
