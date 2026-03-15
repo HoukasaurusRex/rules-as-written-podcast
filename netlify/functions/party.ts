@@ -9,6 +9,15 @@ import {
   magicItems,
 } from '../../src/db/schema'
 import { generateCode, hashCode, verifyCode } from '../../src/utils/party-codes'
+import {
+  getTransactionSign,
+  splitGold,
+  computeInventoryAction,
+  isAttunementFull,
+  buildGoldDelta,
+  DENOMINATIONS,
+  type Denomination,
+} from './party-logic'
 
 type RouteHandler = (
   event: HandlerEvent,
@@ -156,6 +165,57 @@ const parseBody = (event: HandlerEvent): Record<string, unknown> => {
   } catch {
     throw new ParseError()
   }
+}
+
+// --- Shared Helpers ---
+
+type DbInstance = ReturnType<typeof getDb>
+
+const applyInventoryChange = async (
+  db: DbInstance,
+  partyId: string,
+  characterId: string,
+  itemName: string,
+  txType: string,
+  isUndo = false,
+) => {
+  const existing = await db.query.inventoryItems.findFirst({
+    where: and(
+      eq(inventoryItems.partyId, partyId),
+      eq(inventoryItems.characterId, characterId),
+      sql`lower(${inventoryItems.name}) = lower(${itemName})`,
+    ),
+  })
+
+  const action = computeInventoryAction(txType, existing?.quantity ?? null, isUndo)
+
+  switch (action) {
+    case 'create':
+      await db.insert(inventoryItems).values({ partyId, characterId, name: itemName, quantity: 1 })
+      break
+    case 'increment':
+      await db.update(inventoryItems).set({ quantity: (existing!.quantity ?? 1) + 1 }).where(eq(inventoryItems.id, existing!.id))
+      break
+    case 'decrement':
+      await db.update(inventoryItems).set({ quantity: (existing!.quantity ?? 1) - 1 }).where(eq(inventoryItems.id, existing!.id))
+      break
+    case 'delete':
+      await db.delete(inventoryItems).where(eq(inventoryItems.id, existing!.id))
+      break
+  }
+}
+
+const applyGoldUpdate = async (
+  db: DbInstance,
+  characterId: string,
+  denominations: Partial<Record<Denomination, number | null>>,
+  sign: 1 | -1,
+) => {
+  const delta = buildGoldDelta(denominations, sign)
+  await db
+    .update(characters)
+    .set(Object.fromEntries(DENOMINATIONS.map(d => [d, sql`${characters[d]} + ${delta[d]}`])))
+    .where(eq(characters.id, characterId))
 }
 
 // --- Route Handlers ---
@@ -332,52 +392,12 @@ const addTransaction: RouteHandler = async (event, { id }) => {
 
   // Update character gold if a character is specified
   if (tx.characterId) {
-    const sign = ['spend', 'buy'].includes(tx.type) ? -1 : 1
-    await db
-      .update(characters)
-      .set({
-        cp: sql`${characters.cp} + ${sign * (tx.cp ?? 0)}`,
-        sp: sql`${characters.sp} + ${sign * (tx.sp ?? 0)}`,
-        ep: sql`${characters.ep} + ${sign * (tx.ep ?? 0)}`,
-        gp: sql`${characters.gp} + ${sign * (tx.gp ?? 0)}`,
-        pp: sql`${characters.pp} + ${sign * (tx.pp ?? 0)}`,
-      })
-      .where(eq(characters.id, tx.characterId))
+    await applyGoldUpdate(db, tx.characterId, tx, getTransactionSign(tx.type))
   }
 
   // Handle inventory changes for buy/sell transactions
   if (tx.itemName && tx.characterId) {
-    if (tx.type === 'buy') {
-      // Add item to inventory (increment if exists, create if not)
-      const existing = await db.query.inventoryItems.findFirst({
-        where: and(
-          eq(inventoryItems.partyId, id),
-          eq(inventoryItems.characterId, tx.characterId),
-          sql`lower(${inventoryItems.name}) = lower(${tx.itemName})`,
-        ),
-      })
-      if (existing) {
-        await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) + 1 }).where(eq(inventoryItems.id, existing.id))
-      } else {
-        await db.insert(inventoryItems).values({ partyId: id, characterId: tx.characterId, name: tx.itemName, quantity: 1 })
-      }
-    } else if (tx.type === 'sell') {
-      // Remove item from inventory (decrement or delete)
-      const existing = await db.query.inventoryItems.findFirst({
-        where: and(
-          eq(inventoryItems.partyId, id),
-          eq(inventoryItems.characterId, tx.characterId),
-          sql`lower(${inventoryItems.name}) = lower(${tx.itemName})`,
-        ),
-      })
-      if (existing) {
-        if ((existing.quantity ?? 1) <= 1) {
-          await db.delete(inventoryItems).where(eq(inventoryItems.id, existing.id))
-        } else {
-          await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) - 1 }).where(eq(inventoryItems.id, existing.id))
-        }
-      }
-    }
+    await applyInventoryChange(db, id, tx.characterId, tx.itemName, tx.type)
   }
 
   return json(201, tx)
@@ -417,52 +437,12 @@ const undoTransaction: RouteHandler = async (event, { id, tid }) => {
 
   // Reverse character gold
   if (original.characterId) {
-    const sign = ['spend', 'buy'].includes(original.type) ? 1 : -1
-    await db
-      .update(characters)
-      .set({
-        cp: sql`${characters.cp} + ${sign * (original.cp ?? 0)}`,
-        sp: sql`${characters.sp} + ${sign * (original.sp ?? 0)}`,
-        ep: sql`${characters.ep} + ${sign * (original.ep ?? 0)}`,
-        gp: sql`${characters.gp} + ${sign * (original.gp ?? 0)}`,
-        pp: sql`${characters.pp} + ${sign * (original.pp ?? 0)}`,
-      })
-      .where(eq(characters.id, original.characterId))
+    await applyGoldUpdate(db, original.characterId, original, getTransactionSign(original.type, true))
   }
 
   // Restore inventory on undo
   if (original.itemName && original.characterId) {
-    if (original.type === 'buy') {
-      // Undo buy → remove item
-      const existing = await db.query.inventoryItems.findFirst({
-        where: and(
-          eq(inventoryItems.partyId, id),
-          eq(inventoryItems.characterId, original.characterId),
-          sql`lower(${inventoryItems.name}) = lower(${original.itemName})`,
-        ),
-      })
-      if (existing) {
-        if ((existing.quantity ?? 1) <= 1) {
-          await db.delete(inventoryItems).where(eq(inventoryItems.id, existing.id))
-        } else {
-          await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) - 1 }).where(eq(inventoryItems.id, existing.id))
-        }
-      }
-    } else if (original.type === 'sell') {
-      // Undo sell → re-add item
-      const existing = await db.query.inventoryItems.findFirst({
-        where: and(
-          eq(inventoryItems.partyId, id),
-          eq(inventoryItems.characterId, original.characterId),
-          sql`lower(${inventoryItems.name}) = lower(${original.itemName})`,
-        ),
-      })
-      if (existing) {
-        await db.update(inventoryItems).set({ quantity: (existing.quantity ?? 1) + 1 }).where(eq(inventoryItems.id, existing.id))
-      } else {
-        await db.insert(inventoryItems).values({ partyId: id, characterId: original.characterId, name: original.itemName, quantity: 1 })
-      }
-    }
+    await applyInventoryChange(db, id, original.characterId, original.itemName, original.type, true)
   }
 
   return json(201, inverse)
@@ -584,7 +564,7 @@ const upsertMagicItem: RouteHandler = async (event, { id }) => {
             sql`${magicItems.id} != ${body.id}`,
           ),
         )
-      if ((attunedCount[0]?.count ?? 0) >= 3) {
+      if (isAttunementFull(attunedCount[0]?.count ?? 0)) {
         return error(400, 'Character already has 3 attuned items')
       }
     }
@@ -662,16 +642,14 @@ const addLoot: RouteHandler = async (event, { id }) => {
     // Split gold round-robin among characters
     const gold = body.gold as Record<string, number> | undefined
     if (gold) {
-      for (const denom of ['cp', 'sp', 'ep', 'gp', 'pp'] as const) {
+      for (const denom of DENOMINATIONS) {
         const total = typeof gold[denom] === 'number' ? gold[denom] : 0
         if (total <= 0) continue
 
-        const perChar = Math.floor(total / partyCharacters.length)
-        let remainder = total % partyCharacters.length
+        const amounts = splitGold(total, partyCharacters.length)
 
-        for (const char of partyCharacters) {
-          const amount = perChar + (remainder > 0 ? 1 : 0)
-          if (remainder > 0) remainder--
+        for (let i = 0; i < partyCharacters.length; i++) {
+          const amount = amounts[i]
           if (amount <= 0) continue
 
           const values = { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0, [denom]: amount }
@@ -680,7 +658,7 @@ const addLoot: RouteHandler = async (event, { id }) => {
             .insert(transactions)
             .values({
               partyId: id,
-              characterId: char.id,
+              characterId: partyCharacters[i].id,
               type: 'loot',
               ...values,
               note: `Loot split: ${total} ${denom.toUpperCase()}${lootNote ? ` · ${lootNote}` : ''}`,
@@ -691,7 +669,7 @@ const addLoot: RouteHandler = async (event, { id }) => {
           await txn
             .update(characters)
             .set({ [denom]: sql`${characters[denom]} + ${amount}` })
-            .where(eq(characters.id, char.id))
+            .where(eq(characters.id, partyCharacters[i].id))
         }
       }
     }

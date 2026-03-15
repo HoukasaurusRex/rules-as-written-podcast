@@ -106,6 +106,7 @@ export default function PartyCreate() {
             </label>
             <button
               onClick={() => copyToClipboard(result.code, 'code')}
+              data-testid="party-code"
               className="w-full rounded-[5px] border-2 border-dashed border-gold-gp/40 bg-bg px-space-4 py-space-3 text-center font-mono text-xl font-bold tracking-wider text-gold-gp transition-colors hover:border-gold-gp/70 hover:bg-bg-light"
             >
               {result.code}

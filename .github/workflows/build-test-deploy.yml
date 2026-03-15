@@ -28,6 +28,8 @@ jobs:
 
       - run: yarn check
 
+      - run: yarn test:unit
+
       - run: yarn netlify build
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -70,10 +72,10 @@ jobs:
         with:
           name: build-output
 
-      - name: Run e2e tests
+      - name: Run e2e tests (non-SSR)
         run: |
           yarn serve dist -l 4173 &
-          yarn playwright test --config=e2e/playwright.config.ts
+          yarn playwright test --config=e2e/playwright.config.ts --grep-invert @ssr
         env:
           BASE_URL: http://localhost:4173
 
@@ -238,3 +240,16 @@ jobs:
                 body,
               })
             }
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('**/yarn.lock') }}
+
+      - run: yarn playwright install --with-deps chromium
+
+      - name: Run SSR e2e tests against preview
+        run: yarn playwright test --config=e2e/playwright.config.ts --grep @ssr
+        env:
+          BASE_URL: https://pr-${{ github.event.number }}--rules-as-written.netlify.app
