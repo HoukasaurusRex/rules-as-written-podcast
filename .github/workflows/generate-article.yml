@@ -34,35 +34,60 @@ jobs:
 
       - run: yarn install
 
-      - name: Determine episode number
-        id: episode
-        run: |
-          if [ -n "${{ inputs.episode_number }}" ]; then
-            echo "args=${{ inputs.episode_number }}" >> "$GITHUB_OUTPUT"
-            echo "number=${{ inputs.episode_number }}" >> "$GITHUB_OUTPUT"
-          else
-            echo "args=" >> "$GITHUB_OUTPUT"
-            echo "number=latest" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Generate article
-        run: yarn generate-article ${{ steps.episode.outputs.args }}
+        run: yarn generate-article ${{ inputs.episode_number }}
         env:
           ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           KEILA_API_KEY: ${{ secrets.KEILA_API_KEY }}
 
+      - name: Extract episode metadata
+        id: meta
+        run: |
+          ARTICLE_FILE=$(find src/content/episodes/ -name 'index.md' -newer package.json | head -1)
+
+          # Title from frontmatter (raw RSS title, e.g. "RaW EP47 - Stealth")
+          TITLE=$(awk '/^title:/{$1=""; print substr($0,2)}' "$ARTICLE_FILE" | sed 's/^ *//')
+
+          # Show type from directory path (raw/ or short-rest/)
+          if echo "$ARTICLE_FILE" | grep -q '/short-rest/'; then
+            SHOW="short-rest"
+          else
+            SHOW="raw"
+          fi
+
+          # Branch slug = folder name (already kebab-case from slugify())
+          SLUG=$(echo "$ARTICLE_FILE" | sed 's|/index\.md$||' | xargs basename)
+
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+          echo "show=$SHOW" >> "$GITHUB_OUTPUT"
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+
       - name: Create PR with draft
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          ARTICLE_FILE=$(find src/content/episodes/ -name 'index.md' -newer package.json | head -1)
+          {
+            if [ -n "$ARTICLE_FILE" ]; then
+              awk '/^---$/{n++; next} n>=2' "$ARTICLE_FILE"
+            else
+              echo "No article file found."
+            fi
+          } > /tmp/pr-body.md
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          BRANCH="article/ep-${{ steps.episode.outputs.number }}"
+          BRANCH="article/${{ steps.meta.outputs.slug }}"
           git checkout -b "$BRANCH"
           git add src/content/episodes/
-          git commit -m "feat: add draft article for episode ${{ steps.episode.outputs.number }}"
+          git commit -m "feat: add draft article for ${{ steps.meta.outputs.title }}"
           git push -u origin "$BRANCH"
+
+          gh label create "show:${{ steps.meta.outputs.show }}" --color 0E8A16 --force 2>/dev/null || true
+
           gh pr create \
-            --title "Draft: Episode ${{ steps.episode.outputs.number }} article" \
-            --body "Auto-generated article and newsletter draft from podcast transcript. Review content and change status to Published when ready."
+            --title "${{ steps.meta.outputs.title }}" \
+            --body-file /tmp/pr-body.md \
+            --label "show:${{ steps.meta.outputs.show }}" \
+            --project "Episode Roadmap"
