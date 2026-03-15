@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
-import { useDialog } from './hooks/useDialog'
 import { $partyData } from '../../stores/party'
-import type { Denomination } from '../../utils/riches'
+import { getHiddenDenominations } from '../../utils/riches'
+import Modal from './Modal'
 import CoinInput, { emptyCoinValues, type CoinValues } from './CoinInput'
 import ItemAutocomplete from './ItemAutocomplete'
 
@@ -33,7 +33,6 @@ interface Props {
 }
 
 export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: Props) {
-  const { dialogProps } = useDialog(onClose)
   const party = useStore($partyData)
   const [gold, setGold] = useState<CoinValues>(emptyCoinValues())
   const [items, setItems] = useState<LootItem[]>([])
@@ -42,47 +41,47 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
   const [submitting, setSubmitting] = useState(false)
   const [splitCoins, setSplitCoins] = useState(true)
 
-  const hiddenDenoms: Denomination[] = []
-  if (party && !party.showEp) hiddenDenoms.push('ep')
-  if (party && !party.showPp) hiddenDenoms.push('pp')
+  const hiddenDenoms = party ? getHiddenDenominations(party) : []
 
   useEffect(() => { onLockLoot(playerName) }, [])
 
   const totalEntries = items.length + magicItems.length + Object.values(gold).filter((v) => v > 0).length
 
-  async function handleDone() {
+  const handleDone = async () => {
     setSubmitting(true)
+    try {
+      const goldEntries = Object.fromEntries(
+        Object.entries(gold).filter(([, v]) => v > 0),
+      )
 
-    const goldEntries = Object.fromEntries(
-      Object.entries(gold).filter(([, v]) => v > 0),
-    )
+      await onSubmit({
+        gold: Object.keys(goldEntries).length > 0 ? goldEntries : undefined,
+        items: items.length > 0 ? items : undefined,
+        magicItems: magicItems.length > 0 ? magicItems : undefined,
+        note: description || undefined,
+        autoConvert: splitCoins,
+      })
 
-    await onSubmit({
-      gold: Object.keys(goldEntries).length > 0 ? goldEntries : undefined,
-      items: items.length > 0 ? items : undefined,
-      magicItems: magicItems.length > 0 ? magicItems : undefined,
-      note: description || undefined,
-      autoConvert: splitCoins,
-    })
-
-    await onLockLoot(null)
-    setSubmitting(false)
-    onClose()
+      onClose()
+    } finally {
+      await onLockLoot(null)
+      setSubmitting(false)
+    }
   }
 
-  function handleCancel() {
+  const handleCancel = () => {
     onLockLoot(null)
     onClose()
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
-      onClick={(e) => { if (e.target === e.currentTarget) handleCancel() }}
-      {...dialogProps}
-      aria-labelledby="loot-mode-title"
+    <Modal
+      onClose={onClose}
+      onBackdropClick={handleCancel}
+      labelledBy="loot-mode-title"
+      className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]"
+      overlayClassName="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
     >
-      <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
         <h2 id="loot-mode-title" className="m-0 text-lg font-bold text-text">Loot Mode</h2>
@@ -217,7 +216,6 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
           {submitting ? 'Distributing...' : `Distribute Loot (${totalEntries} entries)`}
         </button>
       </div>
-      </div>
-    </div>
+    </Modal>
   )
 }

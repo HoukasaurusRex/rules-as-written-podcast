@@ -12,7 +12,7 @@
     "check": "astro check",
     "generate-article": "node --env-file-if-exists=.env scripts/generate-article.ts",
     "test:e2e": "yarn playwright test --config=e2e/playwright.config.ts",
-    "test:e2e:ci": "start-server-and-test 'serve dist -l 4173' http://localhost:4173 'yarn test:e2e'",
+    "test:e2e:ci": "BASE_URL=http://localhost:4173 yarn test:e2e",
     "prepare": "husky",
     "postinstall": "rm -rf node_modules/.vite",
     "db:up": "docker compose up -d",
@@ -56,7 +56,6 @@
     "husky": "^9.1.7",
     "netlify-cli": "^24.2.0",
     "serve": "^14.2.6",
-    "start-server-and-test": "^2.1.5",
     "typescript": "^5.9.3"
   },
   "resolutions": {

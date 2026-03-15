@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useStore } from '@nanostores/react'
-import { useDialog } from './hooks/useDialog'
 import { $partyData } from '../../stores/party'
 import type { PartyCharacter, PartyInventoryItem } from '../../stores/party'
-import type { Denomination } from '../../utils/riches'
+import { getHiddenDenominations, type Denomination } from '../../utils/riches'
+import Modal from './Modal'
 import CoinInput, { emptyCoinValues, type CoinValues } from './CoinInput'
 import ItemAutocomplete from './ItemAutocomplete'
 
@@ -16,7 +16,6 @@ interface Props {
 }
 
 export default function TransactionModal({ character, onSubmit, onClose }: Props) {
-  const { dialogProps } = useDialog(onClose)
   const party = useStore($partyData)
   const [txType, setTxType] = useState<TxType>('buy')
   const [itemName, setItemName] = useState('')
@@ -25,9 +24,7 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
   const [note, setNote] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  const hiddenDenoms: Denomination[] = []
-  if (party && !party.showEp) hiddenDenoms.push('ep')
-  if (party && !party.showPp) hiddenDenoms.push('pp')
+  const hiddenDenoms = party ? getHiddenDenominations(party) : []
 
   // For sell mode: show only inventory items as suggestions
   const inventoryItems: PartyInventoryItem[] = party
@@ -41,7 +38,7 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
 
   const hasCoins = Object.values(coins).some((v) => v > 0)
 
-  async function handleSubmit(e: React.SubmitEvent) {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
     if (submitting || !hasCoins) return
 
@@ -65,13 +62,12 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
-      {...dialogProps}
-      aria-labelledby="transaction-title"
+    <Modal
+      onClose={onClose}
+      labelledBy="transaction-title"
+      className="w-full max-w-md rounded-t-xl border border-bg-lighter bg-bg-light p-space-6 shadow-lg sm:rounded-[5px]"
+      overlayClassName="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
     >
-      <div className="w-full max-w-md rounded-t-xl border border-bg-lighter bg-bg-light p-space-6 shadow-lg sm:rounded-[5px]">
         <h3 id="transaction-title" className="m-0 mb-space-4 text-lg font-bold text-text">Transaction</h3>
 
         {/* Buy/Sell toggle */}
@@ -201,7 +197,6 @@ export default function TransactionModal({ character, onSubmit, onClose }: Props
             </button>
           </div>
         </form>
-      </div>
-    </div>
+    </Modal>
   )
 }

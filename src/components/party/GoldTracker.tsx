@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useStore } from '@nanostores/react'
 import { $editMode, $partyData, type PartyCharacter } from '../../stores/party'
-import type { Denomination } from '../../utils/riches'
+import { getHiddenDenominations, type Denomination } from '../../utils/riches'
 import CoinInput, { type CoinValues } from './CoinInput'
 
 interface Props {
@@ -21,9 +21,7 @@ export default function GoldTracker({ character, onUpdate }: Props) {
     cp: character.cp ?? 0,
   }
 
-  const hiddenDenoms: Denomination[] = []
-  if (party && !party.showEp) hiddenDenoms.push('ep')
-  if (party && !party.showPp) hiddenDenoms.push('pp')
+  const hiddenDenoms = party ? getHiddenDenominations(party) : []
 
   const handleChange = useCallback(
     (newValues: CoinValues) => {

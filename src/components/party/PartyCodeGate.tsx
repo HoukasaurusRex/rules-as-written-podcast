@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useEditMode } from './hooks/useEditMode'
-import { useDialog } from './hooks/useDialog'
+import Modal from './Modal'
 
 interface Props {
   partyId: string
@@ -15,7 +15,7 @@ export default function PartyCodeGate({ partyId }: Props) {
 
   if (editMode) return null
 
-  async function handleSubmit(e: React.SubmitEvent) {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
     if (!code.trim() || submitting) return
 
@@ -43,83 +43,58 @@ export default function PartyCodeGate({ partyId }: Props) {
       </button>
 
       {showModal && (
-        <PartyCodeModal
-          code={code}
-          setCode={setCode}
-          error={error}
-          submitting={submitting}
-          onSubmit={handleSubmit}
+        <Modal
           onClose={() => setShowModal(false)}
-        />
+          labelledBy="code-gate-title"
+          className="w-full max-w-sm rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light p-space-6 shadow-lg"
+        >
+          <h3 id="code-gate-title" className="m-0 mb-space-4 text-lg font-bold text-text">
+            Enter Party Code
+          </h3>
+
+          <form onSubmit={handleSubmit} className="space-y-space-4">
+            <div>
+              <label htmlFor="party-code-input" className="sr-only">Party code</label>
+              <input
+                id="party-code-input"
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value.toUpperCase())}
+                placeholder="ARCANE-OWLBEAR-42"
+                autoComplete="off"
+                className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 font-mono text-base tracking-wider text-text placeholder-text/30 outline-none transition-colors focus:border-primary"
+                style={{ fontSize: '16px' }}
+              />
+              <p className="m-0 mt-space-2 text-xs text-text/40">
+                Format: WORD-CREATURE-NUMBER
+              </p>
+            </div>
+
+            {error && (
+              <div role="alert" className="rounded-[5px] border border-error/30 bg-error/10 px-space-3 py-space-2 text-sm text-error">
+                {error}
+              </div>
+            )}
+
+            <div className="flex gap-space-3">
+              <button
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="flex-1 rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-sm text-text/60 transition-colors hover:bg-bg-light"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submitting || !code.trim()}
+                className="flex-1 rounded-[5px] bg-primary px-space-4 py-space-3 text-sm font-semibold text-white transition-colors hover:bg-primary-light disabled:opacity-50"
+              >
+                {submitting ? 'Checking...' : 'Unlock'}
+              </button>
+            </div>
+          </form>
+        </Modal>
       )}
     </>
-  )
-}
-
-function PartyCodeModal({ code, setCode, error, submitting, onSubmit, onClose }: {
-  code: string
-  setCode: (v: string) => void
-  error: string
-  submitting: boolean
-  onSubmit: (e: React.SubmitEvent) => void
-  onClose: () => void
-}) {
-  const { dialogProps } = useDialog(onClose)
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-space-4"
-      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
-      {...dialogProps}
-      aria-labelledby="code-gate-title"
-    >
-      <div className="w-full max-w-sm rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg-light p-space-6 shadow-lg">
-        <h3 id="code-gate-title" className="m-0 mb-space-4 text-lg font-bold text-text">
-          Enter Party Code
-        </h3>
-
-        <form onSubmit={onSubmit} className="space-y-space-4">
-          <div>
-            <label htmlFor="party-code-input" className="sr-only">Party code</label>
-            <input
-              id="party-code-input"
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value.toUpperCase())}
-              placeholder="ARCANE-OWLBEAR-42"
-              autoComplete="off"
-              className="w-full rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 font-mono text-base tracking-wider text-text placeholder-text/30 outline-none transition-colors focus:border-primary"
-              style={{ fontSize: '16px' }}
-            />
-            <p className="m-0 mt-space-2 text-xs text-text/40">
-              Format: WORD-CREATURE-NUMBER
-            </p>
-          </div>
-
-          {error && (
-            <div role="alert" className="rounded-[5px] border border-error/30 bg-error/10 px-space-3 py-space-2 text-sm text-error">
-              {error}
-            </div>
-          )}
-
-          <div className="flex gap-space-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 rounded-[5px] border border-[color:var(--color-bg-lighten-20)] bg-bg px-space-4 py-space-3 text-sm text-text/60 transition-colors hover:bg-bg-light"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={submitting || !code.trim()}
-              className="flex-1 rounded-[5px] bg-primary px-space-4 py-space-3 text-sm font-semibold text-white transition-colors hover:bg-primary-light disabled:opacity-50"
-            >
-              {submitting ? 'Checking...' : 'Unlock'}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
   )
 }

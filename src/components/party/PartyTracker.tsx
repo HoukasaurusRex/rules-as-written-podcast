@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 import { useStore } from '@nanostores/react'
 import { $activeTab, $editMode } from '../../stores/party'
-import { DENOMINATIONS, totalGpValue } from '../../utils/riches'
+import { DENOMINATIONS, totalGpValue, getHiddenDenominations } from '../../utils/riches'
 import { usePartyApi } from './hooks/usePartyApi'
 import { Toast } from '../Toast'
 import CoinInput from './CoinInput'
@@ -15,7 +15,6 @@ import MagicItemList from './MagicItemList'
 import TransactionModal from './TransactionModal'
 import Ledger from './Ledger'
 import LootMode from './LootMode'
-import type { Denomination } from '../../utils/riches'
 import type { CoinValues } from './CoinInput'
 
 interface Props {
@@ -195,9 +194,7 @@ export default function PartyTracker({ partyId }: Props) {
             for (const c of party.characters) {
               for (const d of DENOMINATIONS) totals[d] += c[d] ?? 0
             }
-            const hidden: Denomination[] = []
-            if (!party.showEp) hidden.push('ep')
-            if (!party.showPp) hidden.push('pp')
+            const hidden = getHiddenDenominations(party)
             return (
               <section>
                 <h2 className="m-0 mb-space-3 text-sm font-semibold uppercase tracking-wider text-text/50">

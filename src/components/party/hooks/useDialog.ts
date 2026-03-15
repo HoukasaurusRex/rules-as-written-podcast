@@ -6,7 +6,7 @@ import { useEffect, useRef, useCallback } from 'react'
  * - Escape key closes dialog
  * - Focus moves into dialog on mount, restores on unmount
  */
-export function useDialog(onClose: () => void) {
+export const useDialog = (onClose: () => void) => {
   const dialogRef = useRef<HTMLDivElement>(null)
   const previousFocusRef = useRef<HTMLElement | null>(null)
 

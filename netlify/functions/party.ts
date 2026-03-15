@@ -24,10 +24,10 @@ const error = (statusCode: number, message: string) =>
   json(statusCode, { error: message })
 
 // Parse path segments: /api/party/:id/characters/:cid etc.
-function matchRoute(
+const matchRoute = (
   path: string,
   method: string,
-): { handler: RouteHandler; params: Record<string, string> } | null {
+): { handler: RouteHandler; params: Record<string, string> } | null => {
   const segments = path.replace(/^\/api\/party\/?/, '').split('/').filter(Boolean)
 
   // POST /api/party — create party
@@ -115,7 +115,7 @@ function matchRoute(
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
-async function resolvePartyId(identifier: string): Promise<string | null> {
+const resolvePartyId = async (identifier: string): Promise<string | null> => {
   const db = getDb()
   if (UUID_REGEX.test(identifier)) return identifier
   // Look up by code (shortcode format like ARCANE-OWLBEAR-42)
@@ -126,7 +126,7 @@ async function resolvePartyId(identifier: string): Promise<string | null> {
   return party?.id ?? null
 }
 
-async function requireCode(event: HandlerEvent, partyId: string): Promise<string | null> {
+const requireCode = async (event: HandlerEvent, partyId: string): Promise<string | null> => {
   const code = event.headers['x-party-code']
   if (!code) return 'Party code required'
 
@@ -143,11 +143,18 @@ async function requireCode(event: HandlerEvent, partyId: string): Promise<string
   return null
 }
 
-function parseBody(event: HandlerEvent): Record<string, unknown> {
+class ParseError extends Error {
+  constructor() {
+    super('Invalid JSON in request body')
+    this.name = 'ParseError'
+  }
+}
+
+const parseBody = (event: HandlerEvent): Record<string, unknown> => {
   try {
     return JSON.parse(event.body ?? '{}')
   } catch {
-    return {}
+    throw new ParseError()
   }
 }
 
@@ -645,90 +652,94 @@ const addLoot: RouteHandler = async (event, { id }) => {
 
   const lootNote = typeof body.note === 'string' ? body.note : ''
 
-  const results: { transactions: unknown[]; items: unknown[]; magicItems: unknown[] } = {
-    transactions: [],
-    items: [],
-    magicItems: [],
-  }
+  const results = await db.transaction(async (txn) => {
+    const out: { transactions: unknown[]; items: unknown[]; magicItems: unknown[] } = {
+      transactions: [],
+      items: [],
+      magicItems: [],
+    }
 
-  // Split gold round-robin among characters
-  const gold = body.gold as Record<string, number> | undefined
-  if (gold) {
-    for (const denom of ['cp', 'sp', 'ep', 'gp', 'pp'] as const) {
-      const total = typeof gold[denom] === 'number' ? gold[denom] : 0
-      if (total <= 0) continue
+    // Split gold round-robin among characters
+    const gold = body.gold as Record<string, number> | undefined
+    if (gold) {
+      for (const denom of ['cp', 'sp', 'ep', 'gp', 'pp'] as const) {
+        const total = typeof gold[denom] === 'number' ? gold[denom] : 0
+        if (total <= 0) continue
 
-      const perChar = Math.floor(total / partyCharacters.length)
-      let remainder = total % partyCharacters.length
+        const perChar = Math.floor(total / partyCharacters.length)
+        let remainder = total % partyCharacters.length
 
-      for (const char of partyCharacters) {
-        const amount = perChar + (remainder > 0 ? 1 : 0)
-        if (remainder > 0) remainder--
-        if (amount <= 0) continue
+        for (const char of partyCharacters) {
+          const amount = perChar + (remainder > 0 ? 1 : 0)
+          if (remainder > 0) remainder--
+          if (amount <= 0) continue
 
-        const values = { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0, [denom]: amount }
+          const values = { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0, [denom]: amount }
 
-        const [tx] = await db
-          .insert(transactions)
-          .values({
-            partyId: id,
-            characterId: char.id,
-            type: 'loot',
-            ...values,
-            note: `Loot split: ${total} ${denom.toUpperCase()}${lootNote ? ` · ${lootNote}` : ''}`,
-          })
-          .returning()
-        results.transactions.push(tx)
+          const [txRow] = await txn
+            .insert(transactions)
+            .values({
+              partyId: id,
+              characterId: char.id,
+              type: 'loot',
+              ...values,
+              note: `Loot split: ${total} ${denom.toUpperCase()}${lootNote ? ` · ${lootNote}` : ''}`,
+            })
+            .returning()
+          out.transactions.push(txRow)
 
-        await db
-          .update(characters)
-          .set({ [denom]: sql`${characters[denom]} + ${amount}` })
-          .where(eq(characters.id, char.id))
+          await txn
+            .update(characters)
+            .set({ [denom]: sql`${characters[denom]} + ${amount}` })
+            .where(eq(characters.id, char.id))
+        }
       }
     }
-  }
 
-  // Add inventory items to loot pool (unassigned)
-  const items = body.items as Array<{ name: string; quantity?: number; srdIndex?: string }> | undefined
-  if (items?.length) {
-    for (const item of items) {
-      if (!item.name) continue
-      const [created] = await db
-        .insert(inventoryItems)
-        .values({
-          partyId: id,
-          name: item.name,
-          quantity: item.quantity ?? 1,
-          srdIndex: item.srdIndex ?? null,
-        })
-        .returning()
-      results.items.push(created)
+    // Add inventory items to loot pool (unassigned)
+    const items = body.items as Array<{ name: string; quantity?: number; srdIndex?: string }> | undefined
+    if (items?.length) {
+      for (const item of items) {
+        if (!item.name) continue
+        const [created] = await txn
+          .insert(inventoryItems)
+          .values({
+            partyId: id,
+            name: item.name,
+            quantity: item.quantity ?? 1,
+            srdIndex: item.srdIndex ?? null,
+          })
+          .returning()
+        out.items.push(created)
+      }
     }
-  }
 
-  // Add magic items to loot pool (unassigned)
-  const mItems = body.magicItems as Array<{
-    name: string
-    rarity?: string
-    requiresAttunement?: boolean
-    srdIndex?: string
-  }> | undefined
-  if (mItems?.length) {
-    for (const item of mItems) {
-      if (!item.name) continue
-      const [created] = await db
-        .insert(magicItems)
-        .values({
-          partyId: id,
-          name: item.name,
-          rarity: item.rarity ?? null,
-          requiresAttunement: item.requiresAttunement ?? false,
-          srdIndex: item.srdIndex ?? null,
-        })
-        .returning()
-      results.magicItems.push(created)
+    // Add magic items to loot pool (unassigned)
+    const mItems = body.magicItems as Array<{
+      name: string
+      rarity?: string
+      requiresAttunement?: boolean
+      srdIndex?: string
+    }> | undefined
+    if (mItems?.length) {
+      for (const item of mItems) {
+        if (!item.name) continue
+        const [created] = await txn
+          .insert(magicItems)
+          .values({
+            partyId: id,
+            name: item.name,
+            rarity: item.rarity ?? null,
+            requiresAttunement: item.requiresAttunement ?? false,
+            srdIndex: item.srdIndex ?? null,
+          })
+          .returning()
+        out.magicItems.push(created)
+      }
     }
-  }
+
+    return out
+  })
 
   return json(201, results)
 }
@@ -768,6 +779,9 @@ export const handler: Handler = async (event) => {
     const result = await route.handler(event, route.params)
     return { ...result, headers }
   } catch (err) {
+    if (err instanceof ParseError) {
+      return { statusCode: 400, headers, body: JSON.stringify({ error: err.message }) }
+    }
     if (err instanceof DatabaseUnavailableError) {
       console.error('Database unavailable:', err.cause)
       return {

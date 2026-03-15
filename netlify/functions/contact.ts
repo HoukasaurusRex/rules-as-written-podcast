@@ -20,23 +20,27 @@ export const handler: Handler = async (event) => {
 
   try {
     // Store as a contact with source "contact-form" for tracking
-    await fetch(KEILA_API_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${KEILA_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: {
-          email,
-          first_name: name ?? '',
-          data: { source: 'contact-form', message, contact_date: new Date().toISOString() },
+    try {
+      await fetch(KEILA_API_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${KEILA_API_KEY}`,
+          'Content-Type': 'application/json',
         },
-      }),
-    }).catch(() => {})
+        body: JSON.stringify({
+          data: {
+            email,
+            first_name: name ?? '',
+            data: { source: 'contact-form', message, contact_date: new Date().toISOString() },
+          },
+        }),
+      })
+    } catch (err) {
+      console.error('Keila API error:', err)
+    }
 
     // Log for Netlify function logs (viewable in dashboard)
-    console.log(`Contact form: ${name} <${email}> — ${message.slice(0, 200)}`)
+    console.log(`Contact form: ${name} <${email}> - ${message.slice(0, 200)}`)
 
     return {
       statusCode: 200,

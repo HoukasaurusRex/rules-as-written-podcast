@@ -17,9 +17,11 @@ export const DENOM_LABELS: Record<Denomination, string> = {
   cp: 'CP',
 }
 
-export function isDebitTransaction(type: string): boolean {
-  return ['spend', 'buy'].includes(type)
-}
+export const isDebitTransaction = (type: string): boolean =>
+  ['spend', 'buy'].includes(type)
+
+export const getHiddenDenominations = (party: { showEp?: boolean; showPp?: boolean }): Denomination[] =>
+  [!party.showEp && 'ep', !party.showPp && 'pp'].filter(Boolean) as Denomination[]
 
 const GP_RATES: Record<Denomination, number> = {
   pp: 10,
@@ -29,7 +31,7 @@ const GP_RATES: Record<Denomination, number> = {
   cp: 0.01,
 }
 
-export function totalGpValue(coins: { pp?: number; gp?: number; ep?: number; sp?: number; cp?: number }): number {
+export const totalGpValue = (coins: { pp?: number; gp?: number; ep?: number; sp?: number; cp?: number }): number => {
   let total = 0
   for (const d of DENOMINATIONS) {
     total += (coins[d] ?? 0) * GP_RATES[d]
