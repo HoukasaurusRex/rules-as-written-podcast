@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useDialog } from './hooks/useDialog'
 
 interface InventoryFields {
   type: 'inventory'
@@ -28,6 +29,7 @@ interface Props {
 const RARITIES = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Legendary', 'Artifact']
 
 export default function ItemEditModal({ item, onSave, onClose }: Props) {
+  const { dialogProps } = useDialog(onClose)
   const [name, setName] = useState(item.name)
   const [submitting, setSubmitting] = useState(false)
 
@@ -66,9 +68,11 @@ export default function ItemEditModal({ item, onSave, onClose }: Props) {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+      {...dialogProps}
+      aria-labelledby="item-edit-title"
     >
       <div className="w-full max-w-sm rounded-[5px] border border-bg-lighter bg-bg-light p-space-6 shadow-lg">
-        <h3 className="m-0 mb-space-4 text-base font-bold text-text">
+        <h3 id="item-edit-title" className="m-0 mb-space-4 text-base font-bold text-text">
           Edit {item.type === 'magic' ? 'Magic Item' : 'Item'}
         </h3>
 

@@ -8,7 +8,7 @@ interface ToastProps {
   autoClose?: number
 }
 
-export function Toast({ message, variant, onClose, autoClose = 5000 }: ToastProps) {
+export function Toast({ message, variant, onClose, autoClose = 8000 }: ToastProps) {
   const [exiting, setExiting] = useState(false)
 
   const dismiss = useCallback(() => {

@@ -201,6 +201,16 @@ figcaption {
   text-align: center;
 }
 
+/* Focus indicators */
+:focus-visible {
+  outline: 2px solid var(--color-primary-lighten-50);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Utility classes */
 .sr-only {
   border: 0;
@@ -325,6 +335,22 @@ li.now-playing a {
 @keyframes eqBounce {
   0% { transform: scaleY(0.3); }
   100% { transform: scaleY(1); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .bars > * {
+    animation: none !important;
+  }
+
+  .episode-card .eq-bars span {
+    animation: none !important;
+  }
+
+  .episode-card.now-playing {
+    animation: none !important;
+  }
 }
 
 /* Scrollbar */

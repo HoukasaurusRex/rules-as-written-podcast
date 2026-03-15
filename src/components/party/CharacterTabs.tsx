@@ -15,15 +15,37 @@ function setTab(tabId: string) {
 export default function CharacterTabs({ characters }: Props) {
   const activeTab = useStore($activeTab)
 
+  const allTabIds = ['party', ...characters.map((c) => c.id)]
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    const currentIndex = allTabIds.indexOf(activeTab)
+    if (currentIndex === -1) return
+
+    let nextIndex: number | null = null
+    if (e.key === 'ArrowRight') nextIndex = (currentIndex + 1) % allTabIds.length
+    else if (e.key === 'ArrowLeft') nextIndex = (currentIndex - 1 + allTabIds.length) % allTabIds.length
+    else if (e.key === 'Home') nextIndex = 0
+    else if (e.key === 'End') nextIndex = allTabIds.length - 1
+
+    if (nextIndex !== null) {
+      e.preventDefault()
+      setTab(allTabIds[nextIndex])
+      const tablist = (e.currentTarget as HTMLElement)
+      const buttons = tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+      buttons[nextIndex]?.focus()
+    }
+  }
+
   return (
     <div
       className="character-tabs fixed bottom-0 left-0 right-0 z-10 border-t border-bg-lighter bg-bg transition-[bottom] duration-200"
       style={{ bottom: 'var(--character-tabs-bottom, 0px)' }}
     >
-      <nav className="flex justify-center overflow-x-auto scrollbar-none" role="tablist">
+      <nav className="flex justify-center overflow-x-auto scrollbar-none" role="tablist" onKeyDown={handleKeyDown}>
         <button
           role="tab"
           aria-selected={activeTab === 'party'}
+          tabIndex={activeTab === 'party' ? 0 : -1}
           onClick={() => setTab('party')}
           className={`flex min-h-17 min-w-[72px] shrink-0 flex-col items-center gap-space-1 px-space-3 py-space-3 text-xs font-medium transition-colors ${
             activeTab === 'party'
@@ -45,6 +67,8 @@ export default function CharacterTabs({ characters }: Props) {
             key={char.id}
             role="tab"
             aria-selected={activeTab === char.id}
+            aria-label={char.name}
+            tabIndex={activeTab === char.id ? 0 : -1}
             onClick={() => setTab(char.id)}
             className={`flex min-w-[72px] shrink-0 flex-col items-center gap-space-1 px-space-3 py-space-3 text-xs font-medium transition-colors ${
               activeTab === char.id

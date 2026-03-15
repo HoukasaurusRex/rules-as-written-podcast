@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useStore } from '@nanostores/react'
+import { useDialog } from './hooks/useDialog'
 import { $partyData } from '../../stores/party'
 import type { Denomination } from '../../utils/riches'
 import CoinInput, { emptyCoinValues, type CoinValues } from './CoinInput'
@@ -32,6 +33,7 @@ interface Props {
 }
 
 export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: Props) {
+  const { dialogProps } = useDialog(onClose)
   const party = useStore($partyData)
   const [gold, setGold] = useState<CoinValues>(emptyCoinValues())
   const [items, setItems] = useState<LootItem[]>([])
@@ -77,11 +79,13 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-space-4"
       onClick={(e) => { if (e.target === e.currentTarget) handleCancel() }}
+      {...dialogProps}
+      aria-labelledby="loot-mode-title"
     >
       <div className="flex max-h-[90vh] w-full max-w-lg flex-col rounded-t-xl border border-bg-lighter bg-bg shadow-lg sm:rounded-[5px]">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-bg-lighter px-space-4 py-space-3">
-        <h2 className="m-0 text-lg font-bold text-text">Loot Mode</h2>
+        <h2 id="loot-mode-title" className="m-0 text-lg font-bold text-text">Loot Mode</h2>
         <div className="flex items-center gap-space-3">
           <span className="text-xs text-text/40">
             {totalEntries} item{totalEntries !== 1 ? 's' : ''} added
@@ -136,6 +140,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
                   <button
                     onClick={() => setItems(items.filter((_, j) => j !== i))}
                     className="text-xs text-error/50 hover:text-error"
+                    aria-label={`Remove ${item.name}`}
                   >
                     Remove
                   </button>
@@ -178,6 +183,7 @@ export default function LootMode({ onSubmit, onClose, playerName, onLockLoot }: 
                   <button
                     onClick={() => setMagicItems(magicItems.filter((_, j) => j !== i))}
                     className="text-xs text-error/50 hover:text-error"
+                    aria-label={`Remove ${item.name}`}
                   >
                     Remove
                   </button>

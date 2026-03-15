@@ -268,9 +268,26 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
     audio.currentTime = ratio * duration
   }
 
+  const handleProgressKeyDown = (e: React.KeyboardEvent) => {
+    if (!duration) return
+    const step = e.shiftKey ? 30 : 5
+    if (e.key === 'ArrowRight') { audio.currentTime = Math.min(duration, audio.currentTime + step); e.preventDefault() }
+    else if (e.key === 'ArrowLeft') { audio.currentTime = Math.max(0, audio.currentTime - step); e.preventDefault() }
+    else if (e.key === 'Home') { audio.currentTime = 0; e.preventDefault() }
+    else if (e.key === 'End') { audio.currentTime = duration; e.preventDefault() }
+  }
+
   const changeVolume = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
     audio.volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+  }
+
+  const handleVolumeKeyDown = (e: React.KeyboardEvent) => {
+    const step = 0.05
+    if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { audio.volume = Math.min(1, audio.volume + step); e.preventDefault() }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { audio.volume = Math.max(0, audio.volume - step); e.preventDefault() }
+    else if (e.key === 'Home') { audio.volume = 0; e.preventDefault() }
+    else if (e.key === 'End') { audio.volume = 1; e.preventDefault() }
   }
 
   const toggleCollapse = () => {
@@ -349,12 +366,24 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
 
           {/* Progress section */}
           <div className="player-progress-section">
-            <span className="player-time">{formatTime(currentTime)}</span>
-            <div className="player-progress-bar" ref={progressRef} onClick={scrub}>
+            <span className="player-time" aria-label="Current time">{formatTime(currentTime)}</span>
+            <div
+              className="player-progress-bar"
+              ref={progressRef}
+              onClick={scrub}
+              onKeyDown={handleProgressKeyDown}
+              role="slider"
+              aria-label="Playback position"
+              aria-valuenow={Math.round(currentTime)}
+              aria-valuemin={0}
+              aria-valuemax={Math.round(duration)}
+              aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
+              tabIndex={0}
+            >
               <div className="player-progress-filled" style={{ width: `${progress}%` }} />
               <div className="player-progress-indicator" style={{ left: `${progress}%` }} />
             </div>
-            <span className="player-time">{formatTime(duration)}</span>
+            <span className="player-time" aria-label="Duration">{formatTime(duration)}</span>
           </div>
 
           {/* Volume */}
@@ -367,7 +396,18 @@ export default function Player({ initialEpisode, allEpisodes = [] }: PlayerProps
                 }
               </svg>
             </button>
-            <div className="player-volume-bar" onClick={changeVolume}>
+            <div
+              className="player-volume-bar"
+              onClick={changeVolume}
+              onKeyDown={handleVolumeKeyDown}
+              role="slider"
+              aria-label="Volume"
+              aria-valuenow={Math.round(volume * 100)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuetext={`${Math.round(volume * 100)}%`}
+              tabIndex={0}
+            >
               <div className="player-volume-filled" style={{ width: `${volume * 100}%` }} />
               <div className="player-volume-indicator" style={{ left: `${volume * 100}%` }} />
             </div>

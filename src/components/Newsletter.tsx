@@ -59,16 +59,16 @@ export default function Newsletter() {
               required
               autoComplete="email"
               aria-describedby="newsletter-status"
+              aria-invalid={email.length > 0 && !isValid ? true : undefined}
               className="newsletter-input"
             />
             <button
               type="submit"
               disabled={isSubmitting || fireTriggered || !isValid}
-              aria-disabled={isSubmitting || fireTriggered || !isValid}
               className="newsletter-button"
             >
               {buttonText}
-              {showCursor && <span className="newsletter-cursor">|</span>}
+              {showCursor && <span className="newsletter-cursor" aria-hidden="true">|</span>}
             </button>
 
             <div className="newsletter-subtext-container" id="newsletter-status" aria-live="polite">
