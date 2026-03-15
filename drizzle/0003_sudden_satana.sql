@@ -1,0 +1,1 @@
+ALTER TABLE "item_catalog" ALTER COLUMN "speed_qty" SET DATA TYPE real;

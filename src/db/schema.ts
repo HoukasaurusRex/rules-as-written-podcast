@@ -76,7 +76,7 @@ export const itemCatalog = pgTable('item_catalog', {
   strMinimum: integer('str_minimum'),
   stealthDisadvantage: boolean('stealth_disadvantage'),
   // Mount/Vehicle fields
-  speedQty: integer('speed_qty'),
+  speedQty: real('speed_qty'),
   speedUnit: text('speed_unit'),
   capacity: text('capacity'),
   vehicleCategory: text('vehicle_category'),
