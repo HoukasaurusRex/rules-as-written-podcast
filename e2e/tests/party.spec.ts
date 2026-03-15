@@ -35,7 +35,7 @@ test.describe('Party Tracker - Create Page', { tag: '@ssr' }, () => {
     const input = page.getByLabel(/party name/i)
     await input.fill('Test Party')
     const submit = page.getByRole('button', { name: /create party/i })
-    await expect(submit).toBeEnabled()
+    await expect(submit).toBeEnabled({ timeout: 5000 })
   })
 
   test('creates a party and shows code', async ({ page }) => {
@@ -83,7 +83,7 @@ test.describe('Party Tracker - Party Page', { tag: '@ssr' }, () => {
 
     await page.getByText('Unlock Editing').click()
 
-    const codeInput = page.getByLabel(/party code/i)
+    const codeInput = page.getByRole('textbox', { name: /party code/i })
     await expect(codeInput).toBeVisible()
     await codeInput.fill(partyCode)
 
@@ -97,7 +97,7 @@ test.describe('Party Tracker - Party Page', { tag: '@ssr' }, () => {
 
     await page.getByText('Unlock Editing').click()
 
-    const codeInput = page.getByLabel(/party code/i)
+    const codeInput = page.getByRole('textbox', { name: /party code/i })
     await codeInput.fill('WRONG-CODE-999')
     await page.getByRole('button', { name: /^unlock$/i }).click()
 
@@ -110,8 +110,8 @@ test.describe('Party Tracker - Party Page', { tag: '@ssr' }, () => {
 
     await page.getByText('+ Add Character').click()
 
-    await page.getByLabel(/character name/i).fill('Gandalf')
-    await page.getByLabel(/class/i).selectOption('Wizard')
+    await page.getByLabel(/^name$/i).fill('Gandalf')
+    await page.getByLabel(/^class$/i).selectOption('Wizard')
     await page.getByRole('button', { name: /^add$/i }).click()
 
     await expect(page.getByRole('tab', { name: /gandalf/i })).toBeVisible({ timeout: 5000 })
