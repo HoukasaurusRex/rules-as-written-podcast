@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Modal from './Modal'
+import { EQUIPMENT_CATEGORIES, CATEGORY_LABELS, type EquipmentCategory } from '../../utils/inventory-categories'
 
 interface InventoryFields {
   type: 'inventory'
@@ -7,6 +8,7 @@ interface InventoryFields {
   name: string
   quantity: number
   weight: number | null
+  category: string
 }
 
 interface MagicItemFields {
@@ -35,6 +37,7 @@ export default function ItemEditModal({ item, onSave, onClose }: Props) {
   // Inventory-specific
   const [quantity, setQuantity] = useState(item.type === 'inventory' ? item.quantity : 1)
   const [weight, setWeight] = useState(item.type === 'inventory' ? item.weight ?? '' : '')
+  const [category, setCategory] = useState(item.type === 'inventory' ? item.category : '')
 
   // Magic-specific
   const [rarity, setRarity] = useState(item.type === 'magic' ? item.rarity ?? '' : '')
@@ -52,6 +55,7 @@ export default function ItemEditModal({ item, onSave, onClose }: Props) {
     if (item.type === 'inventory') {
       updates.quantity = quantity
       updates.weight = weight === '' ? null : Number(weight)
+      if (category) updates.category = category
     } else {
       updates.rarity = rarity || null
       updates.description = description || null
@@ -83,6 +87,19 @@ export default function ItemEditModal({ item, onSave, onClose }: Props) {
 
         {item.type === 'inventory' && (
           <>
+            <div>
+              <label className="mb-space-1 block text-xs uppercase tracking-wider text-text/50">Category</label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full rounded-[5px] border border-bg-lighter bg-bg px-space-3 py-space-2 text-sm text-text outline-none focus:border-primary"
+                style={{ fontSize: '16px' }}
+              >
+                {EQUIPMENT_CATEGORIES.map((c) => (
+                  <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>
+                ))}
+              </select>
+            </div>
             <div>
               <label className="mb-space-1 block text-xs uppercase tracking-wider text-text/50">Quantity</label>
               <input

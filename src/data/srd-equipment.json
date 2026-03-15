@@ -17,7 +17,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "As an action, you can splash the contents of this vial onto a creature within 5 feet of you or throw the vial up to 20 feet, shattering it on impact. In either case, make a ranged attack against a creature or object, treating the acid as an improvised weapon.\nOn a hit, the target takes 2d6 acid damage."
   },
   {
     "index": "alchemists-fire-flask",
@@ -27,7 +28,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This sticky, adhesive fluid ignites when exposed to air.\nAs an action, you can throw this flask up to 20 feet, shattering it on impact. Make a ranged attack against a creature or object, treating the alchemist's fire as an improvised weapon.\nOn a hit, the target takes 1d4 fire damage at the start of each of its turns. A creature can end this damage by using its action to make a DC 10 Dexterity check to extinguish the flames."
   },
   {
     "index": "alchemists-supplies",
@@ -37,7 +39,9 @@
       "unit": "gp"
     },
     "weight": 8,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "alms-box",
@@ -47,7 +51,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A small box for alms, typically found in a priest's pack."
   },
   {
     "index": "amulet",
@@ -57,7 +62,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.\nAppendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield."
   },
   {
     "index": "animal-feed-1-day",
@@ -67,7 +73,8 @@
       "unit": "cp"
     },
     "weight": 10,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "antitoxin-vial",
@@ -77,7 +84,8 @@
       "unit": "gp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A creature that drinks this vial of liquid gains advantage on saving throws against poison for 1 hour. It confers no benefit to undead or constructs."
   },
   {
     "index": "arrow",
@@ -107,7 +115,9 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "ball-bearings-bag-of-1000",
@@ -117,7 +127,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "As an action, you can spill these tiny metal balls from their pouch to cover a level, square area that is 10 feet on a side.\nA creature moving across the covered area must succeed on a DC 10 Dexterity saving throw or fall prone.\nA creature moving through the area at half speed doesn't need to make the save."
   },
   {
     "index": "barding-breastplate",
@@ -127,7 +138,9 @@
       "unit": "gp"
     },
     "weight": 40,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-chain-mail",
@@ -137,7 +150,9 @@
       "unit": "gp"
     },
     "weight": 110,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-chain-shirt",
@@ -147,7 +162,9 @@
       "unit": "gp"
     },
     "weight": 40,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-half-plate",
@@ -157,7 +174,9 @@
       "unit": "gp"
     },
     "weight": 80,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-hide",
@@ -167,7 +186,9 @@
       "unit": "gp"
     },
     "weight": 24,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-leather",
@@ -177,7 +198,9 @@
       "unit": "gp"
     },
     "weight": 20,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-padded",
@@ -187,7 +210,9 @@
       "unit": "gp"
     },
     "weight": 16,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-plate",
@@ -197,7 +222,9 @@
       "unit": "gp"
     },
     "weight": 130,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-ring-mail",
@@ -207,7 +234,9 @@
       "unit": "gp"
     },
     "weight": 80,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-scale-mail",
@@ -217,7 +246,9 @@
       "unit": "gp"
     },
     "weight": 90,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-splint",
@@ -227,7 +258,9 @@
       "unit": "gp"
     },
     "weight": 120,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barding-studded-leather",
@@ -237,7 +270,9 @@
       "unit": "gp"
     },
     "weight": 26,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "Barding is armor designed to protect an animal's head, neck, chest, and body. Any type of armor shown on the Armor table can be purchased as barding. The cost is four times the equivalent armor made for humanoids, and it weighs twice as much."
   },
   {
     "index": "barrel",
@@ -267,7 +302,23 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Slashing"
+    },
+    "twoHandedDamage": {
+      "dice": "1d10",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Versatile"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "bedroll",
@@ -297,7 +348,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "blanket",
@@ -317,7 +369,8 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A set of pulleys with a cable threaded through them and a hook to attach to objects, a block and tackle allows you to hoist up to four times the weight you can normally lift."
   },
   {
     "index": "block-of-incense",
@@ -327,7 +380,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A block of incense, typically found in a priest's pack."
   },
   {
     "index": "blowgun",
@@ -337,7 +391,21 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition",
+      "Loading"
+    ],
+    "range": {
+      "normal": 25,
+      "long": 100
+    }
   },
   {
     "index": "blowgun-needle",
@@ -357,7 +425,8 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A book might contain poetry, historical accounts, information pertaining to a particular field of lore, diagrams and notes on gnomish contraptions, or just about anything else that can be represented using text or pictures. A book of spells is a spellbook (described later in this section)."
   },
   {
     "index": "bottle-glass",
@@ -377,7 +446,12 @@
       "unit": "gp"
     },
     "weight": 20,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 14,
+      "dexBonus": true
+    },
+    "armorCategory": "Medium"
   },
   {
     "index": "brewers-supplies",
@@ -387,7 +461,9 @@
       "unit": "gp"
     },
     "weight": 9,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "bucket",
@@ -417,7 +493,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "caltrops",
@@ -427,7 +505,8 @@
       "unit": "cp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "As an action, you can spread a bag of caltrops to cover a square area that is 5 feet on a side.\nAny creature that enters the area must succeed on a DC 15 Dexterity saving throw or stop moving this turn and take 1 piercing damage.\nTaking this damage reduces the creature's walking speed by 10 feet until the creature regains at least 1 hit point.\nA creature moving through the area at half speed doesn't need to make the save."
   },
   {
     "index": "camel",
@@ -437,7 +516,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 50,
+      "unit": "ft/round"
+    },
+    "capacity": "480 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "candle",
@@ -447,7 +532,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet."
   },
   {
     "index": "carpenters-tools",
@@ -457,7 +543,9 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "carriage",
@@ -467,7 +555,8 @@
       "unit": "gp"
     },
     "weight": 600,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "cart",
@@ -477,7 +566,8 @@
       "unit": "gp"
     },
     "weight": 200,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "cartographers-tools",
@@ -487,7 +577,9 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "case-crossbow-bolt",
@@ -497,7 +589,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This wooden case can hold up to twenty crossbow bolts."
   },
   {
     "index": "case-map-or-scroll",
@@ -507,7 +600,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This cylindrical leather case can hold up to ten rolled-up sheets of paper or five rolled-up sheets of parchment."
   },
   {
     "index": "censer",
@@ -517,7 +611,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A censer, typically found in a priest's pack."
   },
   {
     "index": "chain-10-feet",
@@ -527,7 +622,8 @@
       "unit": "gp"
     },
     "weight": 10,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A chain has 10 hit points. It can be burst with a successful DC 20 Strength check."
   },
   {
     "index": "chain-mail",
@@ -537,7 +633,14 @@
       "unit": "gp"
     },
     "weight": 55,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 16,
+      "dexBonus": false
+    },
+    "armorCategory": "Heavy",
+    "strMinimum": 13,
+    "stealthDisadvantage": true
   },
   {
     "index": "chain-shirt",
@@ -547,7 +650,12 @@
       "unit": "gp"
     },
     "weight": 20,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 13,
+      "dexBonus": true
+    },
+    "armorCategory": "Medium"
   },
   {
     "index": "chalk-1-piece",
@@ -567,7 +675,8 @@
       "unit": "gp"
     },
     "weight": 100,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "chest",
@@ -587,7 +696,8 @@
       "unit": "gp"
     },
     "weight": 12,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A climber's kit includes special pitons, boot tips, gloves, and a harness. You can use the climber's kit as an action to anchor yourself; when you do, you can't fall more than 25 feet from the point where you anchored yourself, and you can't climb more than 25 feet away from that point without undoing the anchor."
   },
   {
     "index": "clothes-common",
@@ -637,7 +747,20 @@
       "unit": "sp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Light",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "cobblers-tools",
@@ -647,7 +770,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "component-pouch",
@@ -657,7 +782,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A component pouch is a small, watertight leather belt pouch that has compartments to hold all the material components and other special items you need to cast your spells, except for those components that have a specific cost (as indicated in a spell's description)."
   },
   {
     "index": "cooks-utensils",
@@ -667,7 +793,9 @@
       "unit": "gp"
     },
     "weight": 8,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "crossbow-bolt",
@@ -687,7 +815,22 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition",
+      "Light",
+      "Loading"
+    ],
+    "range": {
+      "normal": 30,
+      "long": 120
+    }
   },
   {
     "index": "crossbow-heavy",
@@ -697,7 +840,23 @@
       "unit": "gp"
     },
     "weight": 18,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d10",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition",
+      "Heavy",
+      "Loading",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 100,
+      "long": 400
+    }
   },
   {
     "index": "crossbow-light",
@@ -707,7 +866,22 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition",
+      "Loading",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 80,
+      "long": 320
+    }
   },
   {
     "index": "crowbar",
@@ -717,7 +891,8 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Using a crowbar grants advantage to Strength checks where the crowbar's leverage can be applied."
   },
   {
     "index": "crystal",
@@ -727,7 +902,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus."
   },
   {
     "index": "dagger",
@@ -737,7 +913,22 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Finesse",
+      "Light",
+      "Thrown",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "dart",
@@ -747,7 +938,21 @@
       "unit": "cp"
     },
     "weight": 0.25,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Finesse",
+      "Thrown"
+    ],
+    "range": {
+      "normal": 20,
+      "long": 60
+    }
   },
   {
     "index": "dice-set",
@@ -757,7 +962,9 @@
       "unit": "sp"
     },
     "weight": 0,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "This item encompasses a wide range of game pieces, including dice and decks of cards (for games such as Three-Dragon Ante). A few common examples appear on the Tools table, but other kinds of gaming sets exist. If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency.",
+    "toolCategory": "Gaming Sets"
   },
   {
     "index": "diplomats-pack",
@@ -777,7 +984,8 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This pouch of cosmetics, hair dye, and small props lets you create disguises that change your physical appearance. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a visual disguise."
   },
   {
     "index": "donkey",
@@ -787,7 +995,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 40,
+      "unit": "ft/round"
+    },
+    "capacity": "420 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "drum",
@@ -797,7 +1011,9 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "dulcimer",
@@ -807,7 +1023,9 @@
       "unit": "gp"
     },
     "weight": 10,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "dungeoneers-pack",
@@ -827,7 +1045,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 40,
+      "unit": "ft/round"
+    },
+    "capacity": "1,320 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "emblem",
@@ -837,7 +1061,8 @@
       "unit": "gp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.\nAppendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield."
   },
   {
     "index": "entertainers-pack",
@@ -867,7 +1092,8 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This kit includes a wooden rod, silken line, corkwood bobbers, steel hooks, lead sinkers, velvet lures, and narrow netting."
   },
   {
     "index": "flail",
@@ -877,7 +1103,16 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "flask-or-tankard",
@@ -897,7 +1132,9 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "forgery-kit",
@@ -907,7 +1144,8 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This small box contains a variety of papers and parchments, pens and inks, seals and sealing wax, gold and silver leaf, and other supplies necessary to create convincing forgeries of physical documents. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to create a physical forgery of a document."
   },
   {
     "index": "galley",
@@ -917,7 +1155,12 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 4,
+      "unit": "mph"
+    },
+    "vehicleCategory": "Waterborne Vehicles"
   },
   {
     "index": "glaive",
@@ -927,7 +1170,21 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d10",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Heavy",
+      "Reach",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "glassblowers-tools",
@@ -937,7 +1194,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "grappling-hook",
@@ -957,7 +1216,20 @@
       "unit": "gp"
     },
     "weight": 7,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d12",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Heavy",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "greatclub",
@@ -967,7 +1239,19 @@
       "unit": "sp"
     },
     "weight": 10,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "greatsword",
@@ -977,7 +1261,20 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "2d6",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Heavy",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "halberd",
@@ -987,7 +1284,21 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d10",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Heavy",
+      "Reach",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "half-plate-armor",
@@ -997,7 +1308,13 @@
       "unit": "gp"
     },
     "weight": 40,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 15,
+      "dexBonus": true
+    },
+    "armorCategory": "Medium",
+    "stealthDisadvantage": true
   },
   {
     "index": "hammer",
@@ -1027,7 +1344,21 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Light",
+      "Thrown",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "healers-kit",
@@ -1037,7 +1368,8 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This kit is a leather pouch containing bandages, salves, and splints. The kit has ten uses. As an action, you can expend one use of the kit to stabilize a creature that has 0 hit points, without needing to make a Wisdom (Medicine) check."
   },
   {
     "index": "herbalism-kit",
@@ -1047,7 +1379,8 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This kit contains a variety of instruments such as clippers, mortar and pestle, and pouches and vials used by herbalists to create remedies and potions. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to identify or apply herbs. Also, proficiency with this kit is required to create antitoxin and potions of healing."
   },
   {
     "index": "hide-armor",
@@ -1057,7 +1390,12 @@
       "unit": "gp"
     },
     "weight": 12,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 12,
+      "dexBonus": true
+    },
+    "armorCategory": "Medium"
   },
   {
     "index": "holy-water-flask",
@@ -1067,7 +1405,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "As an action, you can splash the contents of this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. In either case, make a ranged attack against a target creature, treating the holy water as an improvised weapon.\nIf the target is a fiend or undead, it takes 2d6 radiant damage.\nA cleric or paladin may create holy water by performing a special ritual.\nThe ritual takes 1 hour to perform, uses 25 gp worth of powdered silver, and requires the caster to exp"
   },
   {
     "index": "horn",
@@ -1077,7 +1416,9 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "horse-draft",
@@ -1087,7 +1428,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 40,
+      "unit": "ft/round"
+    },
+    "capacity": "540 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "horse-riding",
@@ -1097,7 +1444,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 60,
+      "unit": "ft/round"
+    },
+    "capacity": "480 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "hourglass",
@@ -1117,7 +1470,8 @@
       "unit": "gp"
     },
     "weight": 25,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "When you use your action to set it, this trap forms a saw-toothed steel ring that snaps shut when a creature steps on a pressure plate in the center. The trap is affixed by a heavy chain to an immobile object, such as a tree or a spike driven into the ground.\nA creature that steps on the plate must succeed on a DC 13 Dexterity saving throw or take 1d4 piercing damage and stop moving. Thereafter, until the creature breaks free of the trap, its movement is limited by the length of the chain (typic"
   },
   {
     "index": "ink-1-ounce-bottle",
@@ -1147,7 +1501,20 @@
       "unit": "sp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Thrown",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "jewelers-tools",
@@ -1157,7 +1524,9 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "jug-or-pitcher",
@@ -1177,7 +1546,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 1,
+      "unit": "mph"
+    },
+    "vehicleCategory": "Waterborne Vehicles",
+    "description": "Keelboats and rowboats are used on lakes and rivers. If going downstream, add the speed of the current (typically 3 miles per hour) to the speed of the vehicle. These vehicles can't be rowed against any significant current, but they can be pulled upstream by draft animals on the shores. A rowboat weighs 100 pounds, in case adventurers carry it over land."
   },
   {
     "index": "ladder-10-foot",
@@ -1197,7 +1572,8 @@
       "unit": "sp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A lamp casts bright light in a 15-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil."
   },
   {
     "index": "lance",
@@ -1207,7 +1583,20 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d12",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Reach",
+      "Special"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "lantern-bullseye",
@@ -1217,7 +1606,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A bullseye lantern casts bright light in a 60-foot cone and dim light for an additional 60 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil."
   },
   {
     "index": "lantern-hooded",
@@ -1227,7 +1617,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A hooded lantern casts bright light in a 30-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius."
   },
   {
     "index": "leather-armor",
@@ -1237,7 +1628,12 @@
       "unit": "gp"
     },
     "weight": 10,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 11,
+      "dexBonus": true
+    },
+    "armorCategory": "Light"
   },
   {
     "index": "leatherworkers-tools",
@@ -1247,7 +1643,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "light-hammer",
@@ -1257,7 +1655,21 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Light",
+      "Thrown",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "little-bag-of-sand",
@@ -1267,7 +1679,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A small bag of sand, typically found in a scholar's pack."
   },
   {
     "index": "lock",
@@ -1277,7 +1690,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A key is provided with the lock. Without the key, a creature proficient with thieves' tools can pick this lock with a successful DC 15 Dexterity check. Your GM may decide that better locks are available for higher prices."
   },
   {
     "index": "longbow",
@@ -1287,7 +1701,22 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition",
+      "Heavy",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 150,
+      "long": 600
+    }
   },
   {
     "index": "longship",
@@ -1297,7 +1726,12 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 3,
+      "unit": "mph"
+    },
+    "vehicleCategory": "Waterborne Vehicles"
   },
   {
     "index": "longsword",
@@ -1307,7 +1741,23 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Slashing"
+    },
+    "twoHandedDamage": {
+      "dice": "1d10",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Versatile"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "lute",
@@ -1317,7 +1767,9 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "lyre",
@@ -1327,7 +1779,9 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "mace",
@@ -1337,7 +1791,19 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "magnifying-glass",
@@ -1347,7 +1813,8 @@
       "unit": "gp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This lens allows a closer look at small objects. It is also useful as a substitute for flint and steel when starting fires. Lighting a fire with a magnifying glass requires light as bright as sunlight to focus, tinder to ignite, and about 5 minutes for the fire to ignite.\nA magnifying glass grants advantage on any ability check made to appraise or inspect an item that is small or highly detailed."
   },
   {
     "index": "manacles",
@@ -1357,7 +1824,8 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "These metal restraints can bind a Small or Medium creature. Escaping the manacles requires a successful DC 20 Dexterity check. Breaking them requires a successful DC 20 Strength check.\nEach set of manacles comes with one key. Without the key, a creature proficient with thieves' tools can pick the manacles' lock with a successful DC 15 Dexterity check. Manacles have 15 hit points."
   },
   {
     "index": "masons-tools",
@@ -1367,7 +1835,9 @@
       "unit": "gp"
     },
     "weight": 8,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "mastiff",
@@ -1377,7 +1847,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 40,
+      "unit": "ft/round"
+    },
+    "capacity": "195 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "maul",
@@ -1387,7 +1863,20 @@
       "unit": "gp"
     },
     "weight": 10,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "2d6",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Heavy",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "mess-kit",
@@ -1397,7 +1886,8 @@
       "unit": "sp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This tin box contains a cup and simple cutlery. The box clamps together, and one side can be used as a cooking pan and the other as a plate or shallow bowl."
   },
   {
     "index": "mirror-steel",
@@ -1417,7 +1907,16 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "mule",
@@ -1427,7 +1926,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 40,
+      "unit": "ft/round"
+    },
+    "capacity": "420 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "navigators-tools",
@@ -1437,7 +1942,9 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "This set of instruments is used for navigation at sea. Proficiency with navigator's tools lets you chart a ship's course and follow navigation charts. In addition, these tools allow you to add your proficiency bonus to any ability check you make to avoid getting lost at sea.",
+    "toolCategory": "Other Tools"
   },
   {
     "index": "net",
@@ -1447,7 +1954,17 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Weapon"
+    "category": "Weapon",
+    "weaponCategory": "Martial",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Thrown",
+      "Special"
+    ],
+    "range": {
+      "normal": 5,
+      "long": 15
+    }
   },
   {
     "index": "oil-flask",
@@ -1457,7 +1974,8 @@
       "unit": "sp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Oil usually comes in a clay flask that holds 1 pint.\nAs an action, you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon.\nOn a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (after 1 minute), the target takes an additional 5 fire damage from the burning oil.\nYou can also pour a flask"
   },
   {
     "index": "orb",
@@ -1467,7 +1985,8 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus."
   },
   {
     "index": "padded-armor",
@@ -1477,7 +1996,13 @@
       "unit": "gp"
     },
     "weight": 8,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 11,
+      "dexBonus": true
+    },
+    "armorCategory": "Light",
+    "stealthDisadvantage": true
   },
   {
     "index": "painters-supplies",
@@ -1487,7 +2012,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "pan-flute",
@@ -1497,7 +2024,9 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "paper-one-sheet",
@@ -1547,7 +2076,21 @@
       "unit": "gp"
     },
     "weight": 18,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d10",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Heavy",
+      "Reach",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "piton",
@@ -1567,7 +2110,14 @@
       "unit": "gp"
     },
     "weight": 65,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 18,
+      "dexBonus": false
+    },
+    "armorCategory": "Heavy",
+    "strMinimum": 15,
+    "stealthDisadvantage": true
   },
   {
     "index": "playing-card-set",
@@ -1577,7 +2127,9 @@
       "unit": "sp"
     },
     "weight": 0,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "This item encompasses a wide range of game pieces, including dice and decks of cards (for games such as Three-Dragon Ante). A few common examples appear on the Tools table, but other kinds of gaming sets exist. If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency.",
+    "toolCategory": "Gaming Sets"
   },
   {
     "index": "poison-basic-vial",
@@ -1587,7 +2139,8 @@
       "unit": "gp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "You can use the poison in this vial to coat one slashing or piercing weapon or up to three pieces of ammunition. Applying the poison takes an action. A creature hit by the poisoned weapon or ammunition must make a DC 10 Constitution saving throw or take 1d4 poison damage. Once applied, the poison retains potency for 1 minute before drying."
   },
   {
     "index": "poisoners-kit",
@@ -1597,7 +2150,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A poisoner's kit includes the vials, chemicals, and other equipment necessary for the creation of poisons. Proficiency with this kit lets you add your proficiency bonus to any ability checks you make to craft or use poisons."
   },
   {
     "index": "pole-10-foot",
@@ -1617,7 +2171,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 40,
+      "unit": "ft/round"
+    },
+    "capacity": "225 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "pot-iron",
@@ -1637,7 +2197,9 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "pouch",
@@ -1647,7 +2209,8 @@
       "unit": "sp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A cloth or leather pouch can hold up to 20 sling bullets or 50 blowgun needles, among other things. A compartmentalized pouch for holding spell components is called a component pouch (described earlier in this section)."
   },
   {
     "index": "priests-pack",
@@ -1667,7 +2230,24 @@
       "unit": "sp"
     },
     "weight": 4,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Bludgeoning"
+    },
+    "twoHandedDamage": {
+      "dice": "1d8",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Versatile",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "quiver",
@@ -1677,7 +2257,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A quiver can hold up to 20 arrows."
   },
   {
     "index": "ram-portable",
@@ -1687,7 +2268,8 @@
       "unit": "gp"
     },
     "weight": 35,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "You can use a portable ram to break down doors. When doing so, you gain a +4 bonus on the Strength check. One other character can help you use the ram, giving you advantage on this check."
   },
   {
     "index": "rapier",
@@ -1697,7 +2279,19 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Finesse"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "rations-1-day",
@@ -1707,7 +2301,8 @@
       "unit": "sp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Rations consist of dry foods suitable for extended travel, including jerky, dried fruit, hardtack, and nuts."
   },
   {
     "index": "reliquary",
@@ -1717,7 +2312,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A holy symbol is a representation of a god or pantheon. It might be an amulet depicting a symbol representing a deity, the same symbol carefully engraved or inlaid as an emblem on a shield, or a tiny box holding a fragment of a sacred relic.\nAppendix B lists the symbols commonly associated with many gods in the multiverse. A cleric or paladin can use a holy symbol as a spellcasting focus. To use the symbol in this way, the caster must hold it in hand, wear it visibly, or bear it on a shield."
   },
   {
     "index": "ring-mail",
@@ -1727,7 +2323,13 @@
       "unit": "gp"
     },
     "weight": 40,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 14,
+      "dexBonus": false
+    },
+    "armorCategory": "Heavy",
+    "stealthDisadvantage": true
   },
   {
     "index": "robes",
@@ -1747,7 +2349,8 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus."
   },
   {
     "index": "rope-hempen-50-feet",
@@ -1757,7 +2360,8 @@
       "unit": "gp"
     },
     "weight": 10,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check."
   },
   {
     "index": "rope-silk-50-feet",
@@ -1767,7 +2371,8 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Rope, whether made of hemp or silk, has 2 hit points and can be burst with a DC 17 Strength check."
   },
   {
     "index": "rowboat",
@@ -1777,7 +2382,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 1.5,
+      "unit": "mph"
+    },
+    "vehicleCategory": "Waterborne Vehicles",
+    "description": "Keelboats and rowboats are used on lakes and rivers. If going downstream, add the speed of the current (typically 3 miles per hour) to the speed of the vehicle. These vehicles can't be rowed against any significant current, but they can be pulled upstream by draft animals on the shores. A rowboat weighs 100 pounds, in case adventurers carry it over land."
   },
   {
     "index": "sack",
@@ -1797,7 +2408,9 @@
       "unit": "gp"
     },
     "weight": 50,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "An exotic saddle is required for riding any aquatic or flying mount."
   },
   {
     "index": "saddle-military",
@@ -1807,7 +2420,9 @@
       "unit": "gp"
     },
     "weight": 30,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles",
+    "description": "A military saddle braces the rider, helping you keep your seat on an active mount in battle. It gives you advantage on any check you make to remain mounted."
   },
   {
     "index": "saddle-pack",
@@ -1817,7 +2432,8 @@
       "unit": "gp"
     },
     "weight": 15,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "saddle-riding",
@@ -1827,7 +2443,8 @@
       "unit": "gp"
     },
     "weight": 25,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "saddlebags",
@@ -1837,7 +2454,8 @@
       "unit": "gp"
     },
     "weight": 8,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "sailing-ship",
@@ -1847,7 +2465,12 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 2,
+      "unit": "mph"
+    },
+    "vehicleCategory": "Waterborne Vehicles"
   },
   {
     "index": "scale-mail",
@@ -1857,7 +2480,13 @@
       "unit": "gp"
     },
     "weight": 45,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 14,
+      "dexBonus": true
+    },
+    "armorCategory": "Medium",
+    "stealthDisadvantage": true
   },
   {
     "index": "scale-merchants",
@@ -1867,7 +2496,8 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A scale includes a small balance, pans, and a suitable assortment of weights up to 2 pounds. With it, you can measure the exact weight of small objects, such as raw precious metals or trade goods, to help determine their worth."
   },
   {
     "index": "scholars-pack",
@@ -1887,7 +2517,20 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Finesse",
+      "Light"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "sealing-wax",
@@ -1907,7 +2550,9 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "shield",
@@ -1917,7 +2562,12 @@
       "unit": "gp"
     },
     "weight": 6,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 2,
+      "dexBonus": false
+    },
+    "armorCategory": "Shield"
   },
   {
     "index": "shortbow",
@@ -1927,7 +2577,21 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition",
+      "Two-Handed"
+    ],
+    "range": {
+      "normal": 80,
+      "long": 320
+    }
   },
   {
     "index": "shortsword",
@@ -1937,7 +2601,21 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Finesse",
+      "Light",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "shovel",
@@ -1957,7 +2635,20 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Light",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "signal-whistle",
@@ -1987,7 +2678,8 @@
       "unit": "gp"
     },
     "weight": 300,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "sling",
@@ -1997,7 +2689,20 @@
       "unit": "sp"
     },
     "weight": 0,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Ranged",
+    "properties": [
+      "Ammunition"
+    ],
+    "range": {
+      "normal": 30,
+      "long": 120
+    }
   },
   {
     "index": "sling-bullet",
@@ -2017,7 +2722,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A small knife, typically found in a scholar's pack."
   },
   {
     "index": "smiths-tools",
@@ -2027,7 +2733,9 @@
       "unit": "gp"
     },
     "weight": 8,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "soap",
@@ -2047,7 +2755,25 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Piercing"
+    },
+    "twoHandedDamage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Simple",
+    "weaponRange": "Melee",
+    "properties": [
+      "Thrown",
+      "Versatile",
+      "Monk"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "spellbook",
@@ -2057,7 +2783,8 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Essential for wizards, a spellbook is a leather-bound tome with 100 blank vellum pages suitable for recording spells."
   },
   {
     "index": "spike-iron",
@@ -2077,7 +2804,14 @@
       "unit": "gp"
     },
     "weight": 60,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 17,
+      "dexBonus": false
+    },
+    "armorCategory": "Heavy",
+    "strMinimum": 15,
+    "stealthDisadvantage": true
   },
   {
     "index": "sprig-of-mistletoe",
@@ -2087,7 +2821,8 @@
       "unit": "gp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus."
   },
   {
     "index": "spyglass",
@@ -2097,7 +2832,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Objects viewed through a spyglass are magnified to twice their size."
   },
   {
     "index": "stabling-1-day",
@@ -2107,7 +2843,8 @@
       "unit": "sp"
     },
     "weight": 0,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "staff",
@@ -2117,7 +2854,8 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus."
   },
   {
     "index": "string-10-feet",
@@ -2127,7 +2865,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A 10-foot length of string, typically found in a burglar's pack."
   },
   {
     "index": "studded-leather-armor",
@@ -2137,7 +2876,12 @@
       "unit": "gp"
     },
     "weight": 13,
-    "category": "Armor"
+    "category": "Armor",
+    "armorClass": {
+      "base": 12,
+      "dexBonus": true
+    },
+    "armorCategory": "Light"
   },
   {
     "index": "tent-two-person",
@@ -2147,7 +2891,8 @@
       "unit": "gp"
     },
     "weight": 20,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A simple and portable canvas shelter, a tent sleeps two."
   },
   {
     "index": "thieves-tools",
@@ -2157,7 +2902,9 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "This set of tools includes a small file, a set of lock picks, a small mirror mounted on a metal handle, a set of narrow-bladed scissors, and a pair of pliers. Proficiency with these tools lets you add your proficiency bonus to any ability checks you make to disarm traps or open locks.",
+    "toolCategory": "Other Tools"
   },
   {
     "index": "tinderbox",
@@ -2167,7 +2914,8 @@
       "unit": "sp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "This small container holds flint, fire steel, and tinder (usually dry cloth soaked in light oil) used to kindle a fire. Using it to light a torch--or anything else with abundant, exposed fuel--takes an action.\nLighting any other fire takes 1 minute."
   },
   {
     "index": "tinkers-tools",
@@ -2177,7 +2925,9 @@
       "unit": "gp"
     },
     "weight": 10,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "torch",
@@ -2187,7 +2937,8 @@
       "unit": "cp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage."
   },
   {
     "index": "totem",
@@ -2197,7 +2948,8 @@
       "unit": "gp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus."
   },
   {
     "index": "trident",
@@ -2207,7 +2959,24 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d6",
+      "type": "Piercing"
+    },
+    "twoHandedDamage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Thrown",
+      "Versatile"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "vestments",
@@ -2217,7 +2986,8 @@
       "unit": "cp"
     },
     "weight": 0,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "Religious clothing, typically found in a priest's pack."
   },
   {
     "index": "vial",
@@ -2237,7 +3007,9 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "Several of the most common types of musical instruments are shown on the table as examples. If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency.",
+    "toolCategory": "Musical Instrument"
   },
   {
     "index": "wagon",
@@ -2247,7 +3019,8 @@
       "unit": "gp"
     },
     "weight": 400,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "vehicleCategory": "Tack, Harness, and Drawn Vehicles"
   },
   {
     "index": "wand",
@@ -2257,7 +3030,8 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "An arcane focus is a special item--an orb, a crystal, a rod, a specially constructed staff, a wand-like length of wood, or some similar item--designed to channel the power of arcane spells. A sorcerer, warlock, or wizard can use such an item as a spellcasting focus."
   },
   {
     "index": "war-pick",
@@ -2267,7 +3041,16 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Piercing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "warhammer",
@@ -2277,7 +3060,23 @@
       "unit": "gp"
     },
     "weight": 2,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d8",
+      "type": "Bludgeoning"
+    },
+    "twoHandedDamage": {
+      "dice": "1d10",
+      "type": "Bludgeoning"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Versatile"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "warhorse",
@@ -2287,7 +3086,13 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 60,
+      "unit": "ft/round"
+    },
+    "capacity": "540 lb.",
+    "vehicleCategory": "Mounts and Other Animals"
   },
   {
     "index": "warship",
@@ -2297,7 +3102,12 @@
       "unit": "gp"
     },
     "weight": null,
-    "category": "Mounts and Vehicles"
+    "category": "Mounts and Vehicles",
+    "speed": {
+      "quantity": 2.5,
+      "unit": "mph"
+    },
+    "vehicleCategory": "Waterborne Vehicles"
   },
   {
     "index": "waterskin",
@@ -2317,7 +3127,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "whetstone",
@@ -2337,7 +3149,20 @@
       "unit": "gp"
     },
     "weight": 3,
-    "category": "Weapon"
+    "category": "Weapon",
+    "damage": {
+      "dice": "1d4",
+      "type": "Slashing"
+    },
+    "weaponCategory": "Martial",
+    "weaponRange": "Melee",
+    "properties": [
+      "Finesse",
+      "Reach"
+    ],
+    "range": {
+      "normal": 5
+    }
   },
   {
     "index": "woodcarvers-tools",
@@ -2347,7 +3172,9 @@
       "unit": "gp"
     },
     "weight": 5,
-    "category": "Tools"
+    "category": "Tools",
+    "description": "These special tools include the items needed to pursue a craft or trade. The table shows examples of the most common types of tools, each providing items related to a single craft. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency.",
+    "toolCategory": "Artisan's Tools"
   },
   {
     "index": "wooden-staff",
@@ -2357,7 +3184,8 @@
       "unit": "gp"
     },
     "weight": 4,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus."
   },
   {
     "index": "yew-wand",
@@ -2367,6 +3195,7 @@
       "unit": "gp"
     },
     "weight": 1,
-    "category": "Adventuring Gear"
+    "category": "Adventuring Gear",
+    "description": "A druidic focus might be a sprig of mistletoe or holly, a wand or scepter made of yew or another special wood, a staff drawn whole out of a living tree, or a totem object incorporating feathers, fur, bones, and teeth from sacred animals. A druid can use such an object as a spellcasting focus."
   }
 ]

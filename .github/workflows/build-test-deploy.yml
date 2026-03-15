@@ -107,6 +107,11 @@ jobs:
         env:
           NETLIFY_DATABASE_URL_UNPOOLED: ${{ secrets.NETLIFY_DATABASE_URL_UNPOOLED }}
 
+      - name: Seed item catalog
+        run: yarn db:seed-catalog
+        env:
+          NETLIFY_DATABASE_URL_UNPOOLED: ${{ secrets.NETLIFY_DATABASE_URL_UNPOOLED }}
+
       - name: Deploy to Netlify
         run: yarn netlify deploy --no-build --prod
         env:
@@ -160,6 +165,11 @@ jobs:
 
       - name: Run Drizzle migrations
         run: yarn drizzle-kit migrate
+        env:
+          NETLIFY_DATABASE_URL_UNPOOLED: ${{ steps.create-branch.outputs.db_url }}
+
+      - name: Seed item catalog
+        run: yarn db:seed-catalog
         env:
           NETLIFY_DATABASE_URL_UNPOOLED: ${{ steps.create-branch.outputs.db_url }}
 

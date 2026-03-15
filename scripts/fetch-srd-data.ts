@@ -14,6 +14,25 @@ interface SrdEquipmentItem {
   cost: { quantity: number; unit: string } | null
   weight: number | null
   category: string
+  // Weapon fields
+  damage?: { dice: string; type: string }
+  twoHandedDamage?: { dice: string; type: string }
+  range?: { normal: number; long?: number }
+  weaponCategory?: string
+  weaponRange?: string
+  properties?: string[]
+  // Armor fields
+  armorClass?: { base: number; dexBonus: boolean }
+  armorCategory?: string
+  strMinimum?: number
+  stealthDisadvantage?: boolean
+  // Mount/Vehicle fields
+  speed?: { quantity: number; unit: string }
+  capacity?: string
+  vehicleCategory?: string
+  // Shared
+  description?: string
+  toolCategory?: string
 }
 
 interface SrdMagicItem {
@@ -71,24 +90,76 @@ const fetchEquipment = async (): Promise<SrdEquipmentItem[]> => {
     `Found ${list.results.length} equipment items, fetching details...`,
   )
 
+  interface ApiEquipmentDetail {
+    index: string
+    name: string
+    cost?: { quantity: number; unit: string }
+    weight?: number
+    equipment_category?: { name: string }
+    desc?: string[]
+    // Weapon
+    damage?: { damage_dice: string; damage_type: { name: string } }
+    two_handed_damage?: { damage_dice: string; damage_type: { name: string } }
+    range?: { normal: number; long?: number }
+    weapon_category?: string
+    weapon_range?: string
+    properties?: { name: string }[]
+    // Armor
+    armor_class?: { base: number; dex_bonus: boolean }
+    armor_category?: string
+    str_minimum?: number
+    stealth_disadvantage?: boolean
+    // Mount/Vehicle
+    speed?: { quantity: number; unit: string }
+    capacity?: string
+    vehicle_category?: string
+    // Tools
+    tool_category?: string
+  }
+
   const details = await fetchInBatches(list.results, (item) =>
-    fetchJson<{
-      index: string
-      name: string
-      cost?: { quantity: number; unit: string }
-      weight?: number
-      equipment_category?: { name: string }
-    }>(`${API_HOST}${item.url}`),
+    fetchJson<ApiEquipmentDetail>(`${API_HOST}${item.url}`),
   )
 
   return details
-    .map((d) => ({
-      index: d.index,
-      name: d.name,
-      cost: d.cost ?? null,
-      weight: d.weight ?? null,
-      category: d.equipment_category?.name ?? 'Other',
-    }))
+    .map((d) => {
+      const item: SrdEquipmentItem = {
+        index: d.index,
+        name: d.name,
+        cost: d.cost ?? null,
+        weight: d.weight ?? null,
+        category: d.equipment_category?.name ?? 'Other',
+      }
+
+      // Weapon fields
+      if (d.damage) {
+        item.damage = { dice: d.damage.damage_dice, type: d.damage.damage_type.name }
+      }
+      if (d.two_handed_damage) {
+        item.twoHandedDamage = { dice: d.two_handed_damage.damage_dice, type: d.two_handed_damage.damage_type.name }
+      }
+      if (d.weapon_category) item.weaponCategory = d.weapon_category
+      if (d.weapon_range) item.weaponRange = d.weapon_range
+      if (d.properties?.length) item.properties = d.properties.map((p) => p.name)
+      if (d.range && d.weapon_range) item.range = { normal: d.range.normal, ...(d.range.long ? { long: d.range.long } : {}) }
+
+      // Armor fields
+      if (d.armor_class) item.armorClass = { base: d.armor_class.base, dexBonus: d.armor_class.dex_bonus }
+      if (d.armor_category) item.armorCategory = d.armor_category
+      if (d.str_minimum) item.strMinimum = d.str_minimum
+      if (d.stealth_disadvantage) item.stealthDisadvantage = true
+
+      // Mount/Vehicle fields
+      if (d.speed) item.speed = d.speed
+      if (d.capacity) item.capacity = d.capacity
+      if (d.vehicle_category) item.vehicleCategory = d.vehicle_category
+
+      // Shared
+      if (d.desc?.length) item.description = d.desc.join('\n').slice(0, 500)
+      if (d.tool_category) item.toolCategory = d.tool_category
+
+      return item
+    })
     .sort((a, b) => a.name.localeCompare(b.name))
 }
 

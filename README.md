@@ -40,7 +40,7 @@ The site features episode pages with an integrated audio player, a newsletter, G
 
 A collaborative D&D party management tool for tracking gold, inventory, and magic items in real-time.
 
-**Features**: Per-denomination gold tracking (CP/SP/EP/GP/PP) with auto-split, inventory management with SRD autocomplete, magic item registry with attunement tracking, Loot Mode for post-encounter distribution, transaction ledger with undo, collaborative editing via D&D-themed party codes (ADJECTIVE-CREATURE-NUMBER), real-time sync, and mobile-first design.
+**Features**: Per-denomination gold tracking (CP/SP/EP/GP/PP) with auto-split, inventory management with SRD autocomplete and category filtering (Weapons, Gear, Tools, Armor, Mounts), enriched item details (damage, AC, speed), magic item registry with attunement tracking, Loot Mode for post-encounter distribution, transaction ledger with undo, collaborative editing via D&D-themed party codes (ADJECTIVE-CREATURE-NUMBER), real-time sync, and mobile-first design. Item definitions backed by an `item_catalog` table ready for homebrew content.
 
 **Tracked in**: [GitHub Project #17](https://github.com/users/HoukasaurusRex/projects/17) | v2 ideas in [Project #18](https://github.com/users/HoukasaurusRex/projects/18)
 
@@ -95,10 +95,11 @@ yarn dev
 ### Local Database (Party Tracker)
 
 ```sh
-yarn db:up     # Start PostgreSQL in Docker
-yarn db:push   # Apply schema
-yarn db:seed   # Seed sample data
-yarn db:studio # Browse data in Drizzle Studio
+yarn db:up           # Start PostgreSQL in Docker
+yarn db:push         # Apply schema
+yarn db:seed-catalog # Seed item catalog with SRD equipment
+yarn db:seed         # Seed sample party data
+yarn db:studio       # Browse data in Drizzle Studio
 ```
 
 ### Build
@@ -123,7 +124,8 @@ yarn check     # TypeScript type checking
 ├── e2e/                   Playwright test specs
 ├── netlify/functions/     Serverless API (subscribe, contact, party)
 ├── public/                Static assets (images, service worker, manifest)
-├── scripts/               Build scripts (fetch Notion content, fetch SRD data)
+├── docs/                  Architecture docs (schema diagrams)
+├── scripts/               Build scripts (fetch Notion/SRD, seed catalog, backfill)
 ├── src/
 │   ├── components/        Astro + React components
 │   │   └── party/         Party Tracker islands

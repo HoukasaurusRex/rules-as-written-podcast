@@ -14,6 +14,31 @@ export interface PartyCharacter {
   sortOrder: number
 }
 
+export interface CatalogItem {
+  id: string
+  category: string
+  damageDice: string | null
+  damageType: string | null
+  twoHandedDice: string | null
+  twoHandedType: string | null
+  weaponCategory: string | null
+  weaponRange: string | null
+  rangeNormal: number | null
+  rangeLong: number | null
+  properties: string[] | null
+  acBase: number | null
+  acDexBonus: boolean | null
+  armorCategory: string | null
+  strMinimum: number | null
+  stealthDisadvantage: boolean | null
+  speedQty: number | null
+  speedUnit: string | null
+  capacity: string | null
+  vehicleCategory: string | null
+  description: string | null
+  toolCategory: string | null
+}
+
 export interface PartyInventoryItem {
   id: string
   partyId: string
@@ -22,6 +47,8 @@ export interface PartyInventoryItem {
   quantity: number
   weight: number | null
   srdIndex: string | null
+  catalogItemId: string | null
+  catalogItem?: CatalogItem
   createdAt: string
 }
 
