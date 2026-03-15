@@ -13,7 +13,7 @@ const res = await fetch(`${Astro.url.origin}/api/party/${encodeURIComponent(id)}
 if (!res.ok) return Astro.redirect('/404', 302)
 ---
 
-<BaseLayout title="Party Tracker | Rules As Written" description="Track your D&D party's gold, inventory, and magic items in real-time." image="/images/raw-logo-fancy.webp">
+<BaseLayout title="Party Tracker | Rules As Written" description="Track your D&D party's gold, inventory, and magic items in real-time.">
   <SiteNav />
   <main id="main">
     <PartyTracker client:load partyId={id} />
