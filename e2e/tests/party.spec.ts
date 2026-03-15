@@ -33,21 +33,18 @@ test.describe('Party Tracker - Create Page', { tag: '@ssr' }, () => {
 
   test('submit button enabled when name entered', async ({ page }) => {
     const input = page.getByLabel(/party name/i)
-    // Wait for React hydration before interacting
-    await expect(input).toBeEditable()
-    await input.fill('Test Party')
-    // Trigger React's onChange by pressing a key
-    await input.press('Space')
-    await input.press('Backspace')
+    // Use pressSequentially to ensure React hydration handles each keystroke
+    await input.pressSequentially('Test Party', { delay: 50 })
     const submit = page.getByRole('button', { name: /create party/i })
     await expect(submit).toBeEnabled({ timeout: 10000 })
   })
 
   test('creates a party and shows code', async ({ page }) => {
     const input = page.getByLabel(/party name/i)
-    await input.fill('E2E Test Party')
+    await input.pressSequentially('E2E Test Party', { delay: 50 })
 
     const submit = page.getByRole('button', { name: /create party/i })
+    await expect(submit).toBeEnabled({ timeout: 10000 })
     await submit.click()
 
     await expect(page.getByText('Party Created')).toBeVisible({ timeout: 10000 })
