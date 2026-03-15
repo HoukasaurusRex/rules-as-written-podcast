@@ -28,7 +28,7 @@ jobs:
           branch: preview/pr-${{ github.event.number }}-${{ github.event.pull_request.head.ref }}
 
       - name: Unset preview DB URL
-        run: yarn netlify env:unset PREVIEW_DATABASE_URL
+        run: yarn netlify env:unset PREVIEW_DATABASE_URL --context deploy-preview branch-deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

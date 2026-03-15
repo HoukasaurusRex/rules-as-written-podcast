@@ -167,7 +167,7 @@ jobs:
           NETLIFY_DATABASE_URL_UNPOOLED: ${{ steps.create-branch.outputs.db_url }}
 
       - name: Set preview DB URL on Netlify
-        run: yarn netlify env:set PREVIEW_DATABASE_URL "$DB_URL"
+        run: yarn netlify env:set PREVIEW_DATABASE_URL "$DB_URL" --context deploy-preview branch-deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
