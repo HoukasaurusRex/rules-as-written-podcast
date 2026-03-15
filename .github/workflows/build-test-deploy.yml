@@ -177,12 +177,12 @@ jobs:
 
       - name: Create Neon database branch
         id: create-branch
-        uses: neondatabase/create-branch-action@v5
+        uses: neondatabase/create-branch-action@v6
         with:
           api_key: ${{ secrets.NEON_API_KEY }}
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           database: neondb
-          username: ${{ secrets.NEON_DATABASE_USERNAME }}
+          role: ${{ secrets.NEON_DATABASE_USERNAME }}
           branch_name: preview/pr-${{ github.event.number }}-${{ steps.branch-name.outputs.current_branch }}
 
       - name: Run Drizzle migrations
