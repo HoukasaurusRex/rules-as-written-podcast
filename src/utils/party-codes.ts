@@ -1,4 +1,4 @@
-import { scrypt, randomBytes, timingSafeEqual } from 'node:crypto'
+import { scrypt, randomBytes, randomInt, timingSafeEqual } from 'node:crypto'
 import { promisify } from 'node:util'
 
 const scryptAsync = promisify(scrypt)
@@ -30,32 +30,27 @@ const CREATURES = [
   'WEREWOLF', 'VAMPIRE', 'SPECTER',
 ] as const
 
-function randomElement<T>(arr: readonly T[]): T {
-  const index = randomBytes(4).readUInt32BE(0) % arr.length
-  return arr[index]
-}
+const randomElement = <T>(arr: readonly T[]): T => arr[randomInt(arr.length)]
 
-function randomNumber(max: number): number {
-  return (randomBytes(4).readUInt32BE(0) % max) + 1
-}
+const randomNumber = (max: number): number => randomInt(1, max + 1)
 
-export function generateCode(): string {
+export const generateCode = (): string => {
   const adjective = randomElement(ADJECTIVES)
   const creature = randomElement(CREATURES)
   const number = randomNumber(1000)
   return `${adjective}-${creature}-${number}`
 }
 
-export async function hashCode(code: string): Promise<string> {
+export const hashCode = async (code: string): Promise<string> => {
   const salt = randomBytes(16)
   const derived = (await scryptAsync(code.toUpperCase(), salt, 64)) as Buffer
   return `${salt.toString('hex')}:${derived.toString('hex')}`
 }
 
-export async function verifyCode(
+export const verifyCode = async (
   code: string,
   storedHash: string,
-): Promise<boolean> {
+): Promise<boolean> => {
   const [saltHex, hashHex] = storedHash.split(':')
   const salt = Buffer.from(saltHex, 'hex')
   const storedDerived = Buffer.from(hashHex, 'hex')

@@ -1,4 +1,4 @@
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFile, mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 
 const API_HOST = 'https://www.dnd5eapi.co'
@@ -26,7 +26,7 @@ interface SrdMagicItem {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-async function fetchJson<T>(url: string, retries = MAX_RETRIES): Promise<T> {
+const fetchJson = async <T>(url: string, retries = MAX_RETRIES): Promise<T> => {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       const res = await fetch(url)
@@ -48,10 +48,10 @@ async function fetchJson<T>(url: string, retries = MAX_RETRIES): Promise<T> {
   throw new Error(`Failed after ${retries} attempts`)
 }
 
-async function fetchInBatches<TInput, TOutput>(
+const fetchInBatches = async <TInput, TOutput>(
   items: TInput[],
   fetchFn: (item: TInput) => Promise<TOutput>,
-): Promise<TOutput[]> {
+): Promise<TOutput[]> => {
   const results: TOutput[] = []
   for (let i = 0; i < items.length; i += BATCH_SIZE) {
     const batch = items.slice(i, i + BATCH_SIZE)
@@ -62,7 +62,7 @@ async function fetchInBatches<TInput, TOutput>(
   return results
 }
 
-async function fetchEquipment(): Promise<SrdEquipmentItem[]> {
+const fetchEquipment = async (): Promise<SrdEquipmentItem[]> => {
   console.log('Fetching SRD equipment list...')
   const list = await fetchJson<{ results: { index: string; url: string }[] }>(
     `${API_BASE}/equipment`,
@@ -92,7 +92,7 @@ async function fetchEquipment(): Promise<SrdEquipmentItem[]> {
     .sort((a, b) => a.name.localeCompare(b.name))
 }
 
-async function fetchMagicItems(): Promise<SrdMagicItem[]> {
+const fetchMagicItems = async (): Promise<SrdMagicItem[]> => {
   console.log('Fetching SRD magic items list...')
   const list = await fetchJson<{ results: { index: string; url: string }[] }>(
     `${API_BASE}/magic-items`,
@@ -122,13 +122,13 @@ async function fetchMagicItems(): Promise<SrdMagicItem[]> {
     .sort((a, b) => a.name.localeCompare(b.name))
 }
 
-async function main() {
-  mkdirSync(DATA_DIR, { recursive: true })
+const main = async () => {
+  await mkdir(DATA_DIR, { recursive: true })
 
   try {
     const equipment = await fetchEquipment()
     const equipmentPath = join(DATA_DIR, 'srd-equipment.json')
-    writeFileSync(equipmentPath, JSON.stringify(equipment, null, 2))
+    await writeFile(equipmentPath, JSON.stringify(equipment, null, 2))
     console.log(`Wrote ${equipment.length} equipment items to ${equipmentPath}`)
   } catch (err) {
     console.error('Failed to fetch SRD equipment data:', err)
@@ -138,7 +138,7 @@ async function main() {
   try {
     const magicItems = await fetchMagicItems()
     const magicPath = join(DATA_DIR, 'srd-magic-items.json')
-    writeFileSync(magicPath, JSON.stringify(magicItems, null, 2))
+    await writeFile(magicPath, JSON.stringify(magicItems, null, 2))
     console.log(`Wrote ${magicItems.length} magic items to ${magicPath}`)
   } catch (err) {
     console.error('Failed to fetch SRD magic items data:', err)

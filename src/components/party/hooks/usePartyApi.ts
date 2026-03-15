@@ -4,6 +4,7 @@ import { $partyData, $editMode, $recentTransactions, type PartyData } from '../.
 import { randomErrorMessage } from '../../../utils/error-messages'
 
 const POLL_INTERVAL = 5000
+const DEBOUNCE_MS = 1500
 
 export type ToastState = { message: string; variant: 'success' | 'error' } | null
 
@@ -19,7 +20,7 @@ class ApiError extends Error {
   }
 }
 
-function getStoredCode(partyId: string): string | null {
+const getStoredCode = (partyId: string): string | null => {
   try {
     return localStorage.getItem(`party-code-${partyId}`)
   } catch {
@@ -27,11 +28,12 @@ function getStoredCode(partyId: string): string | null {
   }
 }
 
-async function apiFetch(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const apiFetch = async <T = any>(
   path: string,
   options: RequestInit = {},
   partyId?: string,
-) {
+): Promise<T> => {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
@@ -43,27 +45,31 @@ async function apiFetch(
   }
 
   const res = await fetch(`/api/party${path}`, { ...options, headers })
-  const data = await res.json()
+
+  let data: T
+  try {
+    data = await res.json()
+  } catch {
+    throw new ApiError(res.status, `Server returned non-JSON response (${res.status})`)
+  }
 
   if (!res.ok) {
-    throw new ApiError(res.status, data.error ?? 'Unknown error')
+    throw new ApiError(res.status, ((data as Record<string, unknown>).error as string) ?? 'Unknown error')
   }
   return data
 }
 
-function toastForError(err: unknown): ToastState {
+const toastForError = (err: unknown): ToastState => {
   if (err instanceof ApiError) {
-    // 4xx: pass server's specific message through to user
     if (err.status >= 400 && err.status < 500) {
       return { message: err.serverMessage, variant: 'error' }
     }
   }
-  // 5xx / network / unknown: show D&D-themed message, log real error
   console.error('Party API error:', err)
   return { message: randomErrorMessage(), variant: 'error' }
 }
 
-export function usePartyApi(partyId: string | undefined) {
+export const usePartyApi = (partyId: string | undefined) => {
   const party = useStore($partyData)
   const editMode = useStore($editMode)
   const pollRef = useRef<ReturnType<typeof setInterval>>(undefined)
@@ -84,7 +90,6 @@ export function usePartyApi(partyId: string | undefined) {
       const data: PartyData = await apiFetch(`/${partyId}`)
       $partyData.set(data)
     } catch (err) {
-      // Don't toast on polling failures — just log
       console.error('Failed to fetch party:', err)
     }
   }, [partyId])
@@ -105,25 +110,32 @@ export function usePartyApi(partyId: string | undefined) {
     }
   }, [partyId, fetchParty])
 
-  const addCharacter = useCallback(
-    async (name: string, charClass?: string, level?: number) => {
-      if (!partyId) return
+  // Factory for simple API actions: try/catch + toast + refetch
+  const apiAction = <TArgs extends unknown[], TResult = unknown>(
+    fn: (...args: TArgs) => Promise<TResult>,
+    deps: unknown[] = [],
+  ) =>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useCallback(async (...args: TArgs): Promise<TResult | undefined> => {
+      if (!partyId) return undefined
       try {
-        const character = await apiFetch(
-          `/${partyId}/characters`,
-          { method: 'POST', body: JSON.stringify({ name, class: charClass, level }) },
-          partyId,
-        )
+        const result = await fn(...args)
         await fetchParty()
-        return character
+        return result
       } catch (err) {
         setToast(toastForError(err))
+        return undefined
       }
-    },
-    [partyId, fetchParty],
-  )
+    }, [partyId, fetchParty, ...deps])
 
-  const DEBOUNCE_MS = 1500
+  const addCharacter = apiAction(
+    async (name: string, charClass?: string, level?: number) =>
+      apiFetch(
+        `/${partyId}/characters`,
+        { method: 'POST', body: JSON.stringify({ name, class: charClass, level }) },
+        partyId,
+      ),
+  )
 
   const updateCharacter = useCallback(
     (characterId: string, updates: Record<string, unknown>) => {
@@ -143,7 +155,6 @@ export function usePartyApi(partyId: string | undefined) {
       const pending = pendingUpdatesRef.current
       const existing = pending.get(characterId)
 
-      // Clear previous timer, merge updates, keep original rollback state
       if (existing) {
         clearTimeout(existing.timer)
         Object.assign(existing.updates, updates)
@@ -174,64 +185,38 @@ export function usePartyApi(partyId: string | undefined) {
     [partyId],
   )
 
-  const deleteCharacter = useCallback(
+  const deleteCharacter = apiAction(
     async (characterId: string) => {
-      if (!partyId) return
-      try {
-        await apiFetch(
-          `/${partyId}/characters/${characterId}`,
-          { method: 'DELETE' },
-          partyId,
-        )
-        await fetchParty()
-      } catch (err) {
-        setToast(toastForError(err))
-      }
+      await apiFetch(`/${partyId}/characters/${characterId}`, { method: 'DELETE' }, partyId)
     },
-    [partyId, fetchParty],
   )
 
-  const addTransaction = useCallback(
+  const addTransaction = apiAction(
     async (tx: Record<string, unknown>) => {
-      if (!partyId) return
-      try {
-        const result = await apiFetch(
-          `/${partyId}/transaction`,
-          { method: 'POST', body: JSON.stringify(tx) },
-          partyId,
-        )
-        // Inject into recent transactions for immediate UI update
-        if (result?.id) {
-          $recentTransactions.set([result, ...$recentTransactions.get()])
-        }
-        await fetchParty()
-        return result
-      } catch (err) {
-        setToast(toastForError(err))
+      const result = await apiFetch(
+        `/${partyId}/transaction`,
+        { method: 'POST', body: JSON.stringify(tx) },
+        partyId,
+      )
+      if (result?.id) {
+        $recentTransactions.set([result, ...$recentTransactions.get()])
       }
+      return result
     },
-    [partyId, fetchParty],
   )
 
-  const undoTransaction = useCallback(
+  const undoTransaction = apiAction(
     async (txId: string) => {
-      if (!partyId) return
-      try {
-        const result = await apiFetch(
-          `/${partyId}/transaction/${txId}/undo`,
-          { method: 'POST' },
-          partyId,
-        )
-        if (result?.id) {
-          $recentTransactions.set([result, ...$recentTransactions.get()])
-        }
-        await fetchParty()
-        return result
-      } catch (err) {
-        setToast(toastForError(err))
+      const result = await apiFetch(
+        `/${partyId}/transaction/${txId}/undo`,
+        { method: 'POST' },
+        partyId,
+      )
+      if (result?.id) {
+        $recentTransactions.set([result, ...$recentTransactions.get()])
       }
+      return result
     },
-    [partyId, fetchParty],
   )
 
   const listTransactions = useCallback(
@@ -249,105 +234,46 @@ export function usePartyApi(partyId: string | undefined) {
     [partyId],
   )
 
-  const upsertItem = useCallback(
-    async (item: Record<string, unknown>) => {
-      if (!partyId) return
-      try {
-        const result = await apiFetch(
-          `/${partyId}/item`,
-          { method: 'POST', body: JSON.stringify(item) },
-          partyId,
-        )
-        await fetchParty()
-        return result
-      } catch (err) {
-        setToast(toastForError(err))
-      }
-    },
-    [partyId, fetchParty],
+  const upsertItem = apiAction(
+    async (item: Record<string, unknown>) =>
+      apiFetch(`/${partyId}/item`, { method: 'POST', body: JSON.stringify(item) }, partyId),
   )
 
-  const deleteItem = useCallback(
+  const deleteItem = apiAction(
     async (itemId: string) => {
-      if (!partyId) return
-      try {
-        await apiFetch(`/${partyId}/item/${itemId}`, { method: 'DELETE' }, partyId)
-        await fetchParty()
-      } catch (err) {
-        setToast(toastForError(err))
-      }
+      await apiFetch(`/${partyId}/item/${itemId}`, { method: 'DELETE' }, partyId)
     },
-    [partyId, fetchParty],
   )
 
-  const upsertMagicItem = useCallback(
-    async (item: Record<string, unknown>) => {
-      if (!partyId) return
-      try {
-        const result = await apiFetch(
-          `/${partyId}/magic-item`,
-          { method: 'POST', body: JSON.stringify(item) },
-          partyId,
-        )
-        await fetchParty()
-        return result
-      } catch (err) {
-        setToast(toastForError(err))
-      }
-    },
-    [partyId, fetchParty],
+  const upsertMagicItem = apiAction(
+    async (item: Record<string, unknown>) =>
+      apiFetch(`/${partyId}/magic-item`, { method: 'POST', body: JSON.stringify(item) }, partyId),
   )
 
-  const deleteMagicItem = useCallback(
+  const deleteMagicItem = apiAction(
     async (itemId: string) => {
-      if (!partyId) return
-      try {
-        await apiFetch(`/${partyId}/magic-item/${itemId}`, { method: 'DELETE' }, partyId)
-        await fetchParty()
-      } catch (err) {
-        setToast(toastForError(err))
-      }
+      await apiFetch(`/${partyId}/magic-item/${itemId}`, { method: 'DELETE' }, partyId)
     },
-    [partyId, fetchParty],
   )
 
-  const addLoot = useCallback(
+  const addLoot = apiAction(
     async (loot: { gold?: Record<string, number>; items?: unknown[]; magicItems?: unknown[]; note?: string; autoConvert?: boolean }) => {
-      if (!partyId) return
-      try {
-        const result = await apiFetch(
-          `/${partyId}/loot`,
-          { method: 'POST', body: JSON.stringify(loot) },
-          partyId,
-        )
-        // Inject loot transactions for immediate history update
-        if (result?.transactions?.length) {
-          $recentTransactions.set([...result.transactions, ...$recentTransactions.get()])
-        }
-        await fetchParty()
-        return result
-      } catch (err) {
-        setToast(toastForError(err))
+      const result = await apiFetch(
+        `/${partyId}/loot`,
+        { method: 'POST', body: JSON.stringify(loot) },
+        partyId,
+      )
+      if (result?.transactions && Array.isArray(result.transactions) && result.transactions.length) {
+        $recentTransactions.set([...result.transactions, ...$recentTransactions.get()])
       }
+      return result
     },
-    [partyId, fetchParty],
   )
 
-  const updateParty = useCallback(
+  const updateParty = apiAction(
     async (updates: Record<string, unknown>) => {
-      if (!partyId) return
-      try {
-        await apiFetch(
-          `/${partyId}`,
-          { method: 'PATCH', body: JSON.stringify(updates) },
-          partyId,
-        )
-        await fetchParty()
-      } catch (err) {
-        setToast(toastForError(err))
-      }
+      await apiFetch(`/${partyId}`, { method: 'PATCH', body: JSON.stringify(updates) }, partyId)
     },
-    [partyId, fetchParty],
   )
 
   return {
