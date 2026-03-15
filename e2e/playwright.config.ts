@@ -22,6 +22,7 @@ export default defineConfig({
       command: `yarn serve dist -l ${new URL(baseURL).port}`,
       url: baseURL,
       reuseExistingServer: true,
+      timeout: 30_000,
     },
   }),
 })
