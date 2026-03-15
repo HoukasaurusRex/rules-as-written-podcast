@@ -127,9 +127,10 @@ const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12
 const resolvePartyId = async (identifier: string): Promise<string | null> => {
   const db = getDb()
   if (UUID_REGEX.test(identifier)) return identifier
-  // Look up by code (shortcode format like ARCANE-OWLBEAR-42)
+  // Normalize code: trim, uppercase, replace underscores/spaces with hyphens
+  const normalized = identifier.trim().toUpperCase().replace(/[\s_]+/g, '-')
   const party = await db.query.parties.findFirst({
-    where: eq(parties.code, identifier.toUpperCase()),
+    where: eq(parties.code, normalized),
     columns: { id: true },
   })
   return party?.id ?? null
