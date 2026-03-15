@@ -19,10 +19,10 @@ export default defineConfig({
   ],
   ...(isLocalServer && {
     webServer: {
-      command: `yarn serve dist -l ${new URL(baseURL).port}`,
+      command: `node_modules/.bin/serve dist -l ${new URL(baseURL).port}`,
       url: baseURL,
       reuseExistingServer: true,
-      timeout: 30_000,
+      timeout: 60_000,
     },
   }),
 })
