@@ -160,7 +160,7 @@ const healthCheck: RouteHandler = async () => {
   }
   try {
     const db = getDb()
-    await db.execute(sql`SELECT 1`)
+    await db.execute(sql`SELECT 1 FROM parties LIMIT 1`)
     return json(200, { status: 'ok', env: envStatus })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error'
@@ -777,10 +777,11 @@ export const handler: Handler = async (event) => {
       }
     }
     console.error('Party API error:', err)
+    const message = err instanceof Error ? err.message : 'Unknown error'
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: 'Internal server error' }),
+      body: JSON.stringify({ error: 'Internal server error', detail: message }),
     }
   }
 }

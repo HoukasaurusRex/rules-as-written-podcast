@@ -97,6 +97,11 @@ jobs:
         with:
           name: build-output
 
+      - name: Run production migrations
+        run: yarn drizzle-kit migrate
+        env:
+          NETLIFY_DATABASE_URL_UNPOOLED: ${{ secrets.NETLIFY_DATABASE_URL_UNPOOLED }}
+
       - name: Deploy to Netlify
         run: yarn netlify deploy --no-build --prod
         env:
